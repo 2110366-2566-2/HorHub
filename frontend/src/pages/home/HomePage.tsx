@@ -1,7 +1,7 @@
 function HomePage() {
     return (
         <div>
-            Yo edit here homepage
+            Homepage is here
         </div>
     )
 }
