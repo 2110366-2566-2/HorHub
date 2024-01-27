@@ -14,10 +14,6 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello, this is Express + TypeScript server");
 });
 
-app.get('/api/email',(req : Request, res : Response) => {
-  res.send("Email sender");
-});
-
 app.post("/api/email",send_mail);
 
 app.listen(port, () => {

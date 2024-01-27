@@ -9,6 +9,8 @@ const Schema_DataSender = z.object({
     "text" : z.string().optional().or(z.literal('')),
 });
 
+const MAIL_PORT = Number(process.env.MAIL_PORT || 465);
+
 type DataSender = z.infer<typeof Schema_DataSender>;
 
 const send_mail =async (req : Request,res : Response) => {
@@ -38,7 +40,7 @@ const send_mail =async (req : Request,res : Response) => {
 const sender = async (data : DataSender) =>{
     const transporter = nodemailer.createTransport({
       service:"gmail",
-      port: 465,               // true for 465, false for other ports
+      port: MAIL_PORT,               // true for 465, false for other ports
       host: "smtp.gmail.com",
          auth: {
               user: 'horhub48@gmail.com',
