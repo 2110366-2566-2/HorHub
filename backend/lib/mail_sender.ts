@@ -5,7 +5,7 @@ import z from 'zod';
 const Schema_DataSender = z.object({
     "from" : z.string().email("Invalid email in section from"),
     "to" : z.string().email("Invalid email in section to"),
-    "subject" : z.coerce.string().min(1,{message : "There is no subject in this form"}),
+    "subject" : z.string().min(1,{message : "There is no subject in this form"}),
     "text" : z.string().optional().or(z.literal('')),
 });
 
