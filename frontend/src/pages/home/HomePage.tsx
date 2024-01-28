@@ -1,7 +1,7 @@
 function HomePage() {
     return (
-        <div>
-            Homepage is here
+        <div className="page">
+            Welcome to HorHub!
         </div>
     )
 }
