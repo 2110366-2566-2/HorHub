@@ -8,6 +8,25 @@ datasource db {
 }
 
 model User {
-  id    Int    @id @default(autoincrement())
-  email String @unique
+  id          Int    @id @default(autoincrement())
+  email       String @unique
+  password    String
+  role        Role
+  firstName   String
+  lastName    String
+  displayName String
+  gender      Gender
+  birthdate   DateTime
+  phoneNumber String
+}
+
+enum Gender {
+  Male
+  Female
+  Other
+}
+
+enum Role {
+  Customer
+  Provider
 }
