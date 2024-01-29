@@ -43,8 +43,8 @@ const sender = async (data : DataSender) =>{
       port: MAIL_PORT,               // true for 465, false for other ports
       host: "smtp.gmail.com",
          auth: {
-              user: 'horhub48@gmail.com',
-              pass: 'vvlcdqxirywwcbch',
+              user: process.env.HOST_USER,
+              pass: process.env.HOST_PASSWORD,
            },
       secure: true,
     });
