@@ -1,17 +1,24 @@
 import express, { Express, Request, Response } from "express";
-import send_mail from "./lib/mail_sender";
+import cors from 'cors';
 import dotenv from "dotenv";
+
+import testRouter from "./routes/test.routes"
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3001;
 
+app.use(cors())
+app.use(express.json())
+
+app.use('/', testRouter)
+
 app.use(express.json());
 //app.use(express.urlencoded());
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Hello, this is Express + TypeScript server");
+  res.send("Hello, this is backend!");
 });
 
 app.post("/api/email",send_mail);
