@@ -27,7 +27,7 @@ export default function Footbar() {
                 <li>
                     <button className="white-button">Contact us</button>
                 </li>
-                <li>
+                <li className="md:block hidden">
                     HorHub Co.Ltd.
                 </li>
             </ul>
