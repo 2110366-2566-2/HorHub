@@ -16,7 +16,7 @@ const NavigationBar = () => {
           </ul>
           <div className="flex items-center gap-5 w-[30%] h-full justify-end">
               <button className="primary-button">Sign In</button>
-              <button className="danger-button">Sign Out</button>
+              {/* <button className="danger-button">Sign Out</button> */}
           </div>
       
     </nav>
