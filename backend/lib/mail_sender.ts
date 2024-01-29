@@ -44,7 +44,7 @@ const sender = async (data : DataSender) =>{
       host: "smtp.gmail.com",
          auth: {
               user: 'horhub48@gmail.com',
-              pass: 'vvlcdqxirywwcbch',
+              pass: process.env.MAIL_PASSWORD,
            },
       secure: true,
     });
