@@ -18,7 +18,18 @@ model User {
   gender      Gender
   birthdate   DateTime
   phoneNumber String
-  imageURL    String
+  imageURL    String  @default("https://utfs.io/f/4a65c7f9-7bb1-4498-99bb-4148be482108-t9vzc5.png")
+  dorms       Dorm[]  @relation("DormOwn")
+}
+
+model Dorm {
+  id          Int     @id @default(autoincrement())
+  name        String
+  address     String
+  latitude    Decimal
+  longitude   Decimal
+  owner       User     @relation("DormOwn", fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId     Int
 }
 
 enum Gender {
