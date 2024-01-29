@@ -17,9 +17,17 @@ code {
 }
 
 .page {
-  @apply w-screen min-h-[calc(100vh-4rem)] flex flex-col items-center px-5 py-5
+  @apply w-full min-h-[calc(100vh-4rem)] flex flex-col items-center px-5 py-5 bg-indigo-50
 }
 
 .primary-button {
   @apply py-2 px-3 rounded-md bg-indigo-500 hover:bg-indigo-600 text-white text-sm transition-colors
+}
+
+.danger-button {
+  @apply py-2 px-3 rounded-md bg-red-500 hover:bg-red-600 text-white text-sm transition-colors
+}
+
+.white-button{
+  @apply py-2 px-3 rounded-md bg-slate-100 hover:bg-slate-200 text-black text-sm transition-colors
 }
