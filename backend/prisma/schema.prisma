@@ -18,6 +18,7 @@ model User {
   gender      Gender
   birthdate   DateTime
   phoneNumber String
+  imageURL    String
 }
 
 enum Gender {
