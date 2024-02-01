@@ -31,7 +31,11 @@ const LoginButton = () => {
                         onChange={(e) => setPassword(e.target.value)}/>
                 </div>
                 <span>Don't have an account? <a href="#">Sign up</a> now!</span>
-                <button className="primary-button">Sign In</button>
+                {
+                    (email && password) 
+                    ? <button className="primary-button">Sign In</button>
+                    : <button className="disabled-button" disabled>Sign In</button>
+                }
             </div>
         </div>
     </div>
