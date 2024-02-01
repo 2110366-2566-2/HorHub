@@ -1,4 +1,5 @@
 import React from 'react'
+import LoginButton from './LoginButton'
 
 const NavigationBar = () => {
   return (
@@ -15,8 +16,7 @@ const NavigationBar = () => {
             </li>
           </ul>
           <div className="flex items-center gap-5 w-[30%] h-full justify-end">
-              <button className="primary-button">Sign In</button>
-              {/* <button className="danger-button">Sign Out</button> */}
+              <LoginButton />
           </div>
       
     </nav>

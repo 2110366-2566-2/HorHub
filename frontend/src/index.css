@@ -16,6 +16,10 @@ code {
     monospace;
 }
 
+a {
+  @apply text-indigo-600
+}
+
 .page {
   @apply w-full min-h-[calc(100vh-4rem)] flex flex-col items-center px-5 py-5
 }
