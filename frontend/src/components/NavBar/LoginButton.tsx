@@ -9,7 +9,7 @@ const LoginButton = () => {
     return (
     <div className="dropdown dropdown-end">
         <div tabIndex={0} role="button" className="primary-button">Sign In</div>
-        <div tabIndex={0} className="dropdown-content z-[20] menu py-2 px-4 shadow bg-white rounded-box w-80 -bottom-2 translate-y-full border border-slate-100">
+        <div tabIndex={0} className="dropdown-content z-[20] menu py-4 px-4 shadow bg-white rounded-box w-80 -bottom-2 translate-y-full border border-slate-100">
             <div className="w-full flex flex-col items-center gap-3">
                 <span className="font-semibold text-base">Sign In</span>
                 <div className="w-full flex flex-col gap-2">
