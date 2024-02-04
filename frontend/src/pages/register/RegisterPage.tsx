@@ -78,6 +78,7 @@ export default function RegisterPage() {
                   <input 
                     type="radio"
                     name="gender"
+                    value="Male"
                     id="Male"  
                     className="accent-blue-500 h-4 w-4 hover:cursor-pointer"/>
                   <label htmlFor="Male" className="text-sm font-medium ml-2 hover:cursor-pointer">Male</label> 
@@ -86,6 +87,7 @@ export default function RegisterPage() {
                   <input 
                     type="radio"
                     name="gender"
+                    value="Female"
                     id="Female" 
                     className="accent-blue-500 h-4 w-4 hover:cursor-pointer"/>
                   <label htmlFor="Female" className="text-sm font-medium ml-2 hover:cursor-pointer">Female</label>
@@ -94,6 +96,7 @@ export default function RegisterPage() {
                   <input 
                     type="radio"
                     name="gender"
+                    value="Other"
                     id="Other" 
                     className="accent-blue-500 h-4 w-4"/>
                   <label htmlFor="Other" className="text-sm font-medium ml-2 hover:cursor-pointer">Other</label>
