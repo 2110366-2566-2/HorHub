@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Link } from "react-router-dom"
 
 const LoginButton = () => {
 
@@ -30,7 +31,7 @@ const LoginButton = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}/>
                 </div>
-                <span>Don't have an account? <a href="#">Sign up</a> now!</span>
+                <span>Don't have an account? <Link to="/register">Sign up</Link> now!</span>
                 {
                     (email && password) 
                     ? <button className="primary-button">Sign In</button>

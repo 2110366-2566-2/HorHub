@@ -34,6 +34,10 @@ a {
   @apply py-2 px-3 rounded-md bg-indigo-500 hover:bg-indigo-600 text-white text-sm transition-colors
 }
 
+.secondary-button {
+  @apply py-2 px-3 rounded-md hover:bg-slate-100 text-slate-900 text-sm transition-colors
+}
+
 .disabled-button {
   @apply py-2 px-3 rounded-md bg-slate-200 text-slate-700 text-sm transition-colors
 }

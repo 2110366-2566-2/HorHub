@@ -30,7 +30,7 @@ export default function RegisterPage() {
   
   return(
     <div className="flex flex-col items-center h-screen mb-3">
-      <div className="mt-8 text-4xl font-bold">Register</div>
+      <div className="mt-8 text-2xl font-bold">Register</div>
       <div className="rounded-xl border border-blue-500 mt-8 h-fit bg-white w-3/5 pb-8">
         <form onSubmit={(e) => { e.preventDefault(); toRegister(new FormData(e.target as HTMLFormElement)); }} className="mx-10 mt-8 flex flex-col items-center">
           <div className="grid grid-cols-2 w-full gap-6 gap-y-10">

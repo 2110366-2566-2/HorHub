@@ -1,5 +1,6 @@
 import React from 'react'
 import LoginButton from './LoginButton'
+import { Link } from 'react-router-dom'
 
 const NavigationBar = () => {
   return (
@@ -16,6 +17,9 @@ const NavigationBar = () => {
             </li>
           </ul>
           <div className="flex items-center gap-5 w-[30%] h-full justify-end">
+              <Link to="/register" className="secondary-button">
+                Sign Up
+              </Link>
               <LoginButton />
           </div>
       
