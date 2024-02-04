@@ -74,7 +74,7 @@ export default function RegisterPage() {
             <div className="flex flex-row">
               <FaTransgenderAlt className='h-6 w-6 place-self-center text-blue-500' />
               <div className="ml-4 w-full flex gap-4">
-                <div className="hover:cursor-pointer">
+                <div className="hover:cursor-pointer flex items-center">
                   <input 
                     type="radio"
                     name="gender"
@@ -82,7 +82,7 @@ export default function RegisterPage() {
                     className="accent-blue-500 h-4 w-4 hover:cursor-pointer"/>
                   <label htmlFor="Male" className="text-sm font-medium ml-2 hover:cursor-pointer">Male</label> 
                 </div>
-                <div className="hover:cursor-pointer">
+                <div className="hover:cursor-pointer flex items-center">
                   <input 
                     type="radio"
                     name="gender"
@@ -90,7 +90,7 @@ export default function RegisterPage() {
                     className="accent-blue-500 h-4 w-4 hover:cursor-pointer"/>
                   <label htmlFor="Female" className="text-sm font-medium ml-2 hover:cursor-pointer">Female</label>
                 </div>
-                <div className="hover:cursor-pointer">
+                <div className="hover:cursor-pointer flex items-center">
                   <input 
                     type="radio"
                     name="gender"
@@ -119,7 +119,7 @@ export default function RegisterPage() {
             <div className="flex flex-row">
               <MdManageAccounts className='h-6 w-6 place-self-center text-blue-500' />
               <div className="ml-4 w-full flex gap-4">
-                <div className="hover:cursor-pointer">
+                <div className="hover:cursor-pointer flex items-center">
                   <input 
                     type="radio"
                     name="role"
@@ -128,7 +128,7 @@ export default function RegisterPage() {
                     className="accent-blue-500 h-4 w-4 hover:cursor-pointer"/>
                   <label htmlFor="customer" className="text-sm font-medium ml-2 hover:cursor-pointer">Customer</label> 
                 </div>
-                <div className="hover:cursor-pointer">
+                <div className="hover:cursor-pointer flex items-center">
                   <input 
                     type="radio"
                     name="role"
