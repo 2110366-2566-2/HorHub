@@ -140,7 +140,7 @@ export default function RegisterPage() {
               </div>
             </div>
           </div>
-          <button type="submit" className="mt-10 text-white bg-blue-400 py-2 px-4 hover:bg-blue-600 active:bg-blue-700 rounded-full">
+          <button type="submit" className="primary-button">
             Register
           </button>
         </form>
