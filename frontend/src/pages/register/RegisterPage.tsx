@@ -111,7 +111,7 @@ export default function RegisterPage() {
             <div className="flex flex-row">
               <MdLock className='h-6 w-6 place-self-center text-blue-500' />
               <input 
-              type="text"
+              type="password"
               name="password" 
               placeholder="Password" 
               className="ml-2 border-0 border-b border-black outline-0 w-full"/>
