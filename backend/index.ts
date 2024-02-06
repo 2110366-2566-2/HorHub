@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from "dotenv";
 import send_mail from "./lib/mail_sender";
 import testRouter from "./routes/test.routes"
+import authRouter from "./routes/auth.routes"
 
 dotenv.config();
 
@@ -12,11 +13,10 @@ const port = process.env.PORT || 3001;
 app.use(cors())
 app.use(express.json())
 
-app.use('/', testRouter)
-
-app.use(express.json());
 //app.use(express.urlencoded());
 
+app.use('/', testRouter)
+app.use('/auth', authRouter)
 
 
 /*
