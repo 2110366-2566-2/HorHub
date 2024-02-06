@@ -1,25 +1,82 @@
 import express, { Express, Request, Response } from "express";
 import { Router } from "express";
-import { generateJWT } from "../lib/jwtGenerator";
-import { authenticateToken } from "../middlewares/authToken";
+import { z } from "zod";
+import { db } from "../lib/db";
+import bcrypt from 'bcrypt';
 
-const router = Router()
+const Schema_User = z.object({
+    "email" : z.string().email(),
+    "password" : z.string(),
+});
 
-router.get('/register', async (req, res) => {
-    const user = req.body;
-    const { name, email, password } = user;
+const router = Router();
 
-    const token = generateJWT("1234", name, "hi")
+router.use(express.json());
+
+const login = async (req : Request, res : Response) => {
+    const {email, password} = req.body;
+    const user = await db.user.findUnique({
+        where : {
+            email : email
+        }
+    });
+    if (!user){
+        return res.status(400).send("Invalid User");
+    }
+
+    const isMatch = await bcrypt.compare(password,user.password);
+    if (!isMatch){
+        return res.status(400).send("Invalid User");
+    }
+
+    console.log("Matched");
+
+    
+    return res.status(200).send("Logged in");
 
 
-    res.send({
-        name: name,
-        token: token
+}
+
+
+const register = async (req : Request,res : Response) => {
+    const data = req.body;
+    const user = Schema_User.safeParse(data);
+    if (!user.success){
+        res.status(400).send("Fail parsing");
+        return;
+    }
+    const {email,password} = user.data;
+
+    //check whether user existed or not
+    const user_finder = await db.user.count({
+        where : {
+            email : email
+        }
     })
-})
+    if(user_finder != 0) {
+        res.status(204).send("User is already existed!");
+        return;
+    }
 
-router.get('/token', authenticateToken, async (req, res) => {
-    res.send("Success")
-})
+    //hash password 
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password,salt);
 
-export default router
+    
+    console.log(hashedPassword);
+    
+    const result = await db.user.create({data : {
+        email : email,
+        password : hashedPassword,
+    }});
+    console.log(result);
+    res.send("success");
+    
+
+};
+
+router.post('/auth/register',register);
+
+router.post('/auth/login',login);
+
+export default router;

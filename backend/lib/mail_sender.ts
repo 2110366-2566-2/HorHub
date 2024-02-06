@@ -13,30 +13,6 @@ const MAIL_PORT = Number(process.env.MAIL_PORT || 465);
 
 type DataSender = z.infer<typeof Schema_DataSender>;
 
-const send_mail =async (req : Request,res : Response) => {
-    const {from,to,subject,text} = req.body;
-
-    const data = {
-        "from" : from,
-        "to" : to,
-        "subject" : subject,
-        "text" : text
-    }
-    const data_parse = Schema_DataSender.safeParse(data);
-    if(!data_parse.success) {
-        const my_message : string[] = [];
-        for (const mes of data_parse.error.errors){
-            const message = mes.message;
-            my_message.push(message);    
-        } 
-        return res.status(400).send({message : my_message.join("\nAnd ")});
-    }
-    const mail : DataSender = data_parse.data;
-    const result = await sender(mail);
-    res.send(result);
-    
-}
-
 const sender = async (data : DataSender) =>{
     const transporter = nodemailer.createTransport({
       service:"gmail",
@@ -58,4 +34,4 @@ const sender = async (data : DataSender) =>{
     });};
 
 
-export default send_mail;
+export {sender , DataSender, Schema_DataSender};
