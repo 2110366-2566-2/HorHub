@@ -54,7 +54,7 @@ const register = async (req : Request,res : Response) => {
         }
     })
     if(user_finder != 0) {
-        res.status(204).send("User is already existed!");
+        res.status(400).send("User is already existed!");
         return;
     }
 
