@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import mailRouter from "./routes/mail.routes";
 import testRouter from "./routes/test.routes";
 import authRouter from "./routes/auth.routes";
+import userRouter from "./routes/user.routes";
 
 import { db } from "./lib/db";
 
@@ -14,14 +15,11 @@ const port = process.env.PORT || 3001;
 
 app.use(cors())
 app.use(express.json())
-
-app.use('/', testRouter)
-
-app.use(express.json());
 //app.use(express.urlencoded());
 
 app.use('/', testRouter)
 app.use('/auth', authRouter)
+app.use('/users', userRouter)
 
 
 /*
