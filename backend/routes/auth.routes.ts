@@ -75,8 +75,8 @@ const register = async (req : Request,res : Response) => {
 
 };
 
-router.post('/auth/register',register);
+router.post('/register',register);
 
-router.post('/auth/login',login);
+router.post('/login',login);
 
 export default router;

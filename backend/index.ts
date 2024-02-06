@@ -36,8 +36,6 @@ const loginMiddleware = (req : Request,res : Response,next : NextFunction) => {
 }
 
 app.get("/", async (req: Request, res: Response) => {
-  const tmp = await db.$queryRaw`SELECT * FROM "User"`;
-  console.log(tmp);
   res.send("Hello, this is backend!");
 });
 
