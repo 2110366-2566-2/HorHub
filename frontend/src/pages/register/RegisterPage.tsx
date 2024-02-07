@@ -25,7 +25,9 @@ export default function RegisterPage() {
     displayName: z.string().trim().min(1, {message: 'Fill display name'}),
     phoneNumber: z.string().trim().length(10, {message: 'Please fill valid phone number'})
                   .refine((value) => /[0-9]{10}/.test(value), {message: 'Please fill valid phone number'}),
-    birthDate: z.date()
+    birthDate: z.coerce.date(),
+    gender: z.string().trim().min(1, {message: 'Please select gender'}),
+    role: z.string().trim().min(1, {message: 'Please select role'})
     
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -49,43 +51,11 @@ export default function RegisterPage() {
       <div className="rounded-xl border border-blue-500 mt-8 h-fit bg-white w-full md:w-4/5 lg:w-3/5 pb-8 text-sm">
         <form onSubmit={handleSubmit(onSubmit)} className="mx-10 mt-8 flex flex-col items-center gap-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 w-full gap-6 gap-y-10">
-            {/* 
             
             
 
             
-            <div className="flex flex-row">
-              <FaTransgenderAlt className='h-6 w-6 place-self-center text-blue-500' />
-              <div className="ml-4 w-full flex gap-4">
-                <div className="hover:cursor-pointer flex items-center">
-                  <input 
-                    type="radio"
-                    name="gender"
-                    value="Male"
-                    id="Male"  
-                    className="accent-blue-500 h-4 w-4 hover:cursor-pointer"/>
-                  <label htmlFor="Male" className="text-sm font-medium ml-2 hover:cursor-pointer">Male</label> 
-                </div>
-                <div className="hover:cursor-pointer flex items-center">
-                  <input 
-                    type="radio"
-                    name="gender"
-                    value="Female"
-                    id="Female" 
-                    className="accent-blue-500 h-4 w-4 hover:cursor-pointer"/>
-                  <label htmlFor="Female" className="text-sm font-medium ml-2 hover:cursor-pointer">Female</label>
-                </div>
-                <div className="hover:cursor-pointer flex items-center">
-                  <input 
-                    type="radio"
-                    name="gender"
-                    value="Other"
-                    id="Other" 
-                    className="accent-blue-500 h-4 w-4"/>
-                  <label htmlFor="Other" className="text-sm font-medium ml-2 hover:cursor-pointer">Other</label>
-                </div>
-              </div>
-            </div> */}
+            
             <div className="w-full lg:col-span-2">
               <span className="font-bold text-base">Authentication Information</span>
             </div>
@@ -162,32 +132,62 @@ export default function RegisterPage() {
               {...register('birthDate')} />
             </div> 
 
-            <div>
-              {errors.birthDate?.message}
+            <div className="flex flex-row">
+              <FaTransgenderAlt className='h-6 w-6 place-self-center text-blue-500' />
+              <div className="ml-4 w-full flex gap-4">
+                <div className="hover:cursor-pointer flex items-center">
+                  <input 
+                    type="radio"
+                    value="Male"
+                    id="Male"  
+                    className="accent-blue-500 h-4 w-4 hover:cursor-pointer"
+                    {...register('gender')} />
+                  <label htmlFor="Male" className="text-sm font-medium ml-2 hover:cursor-pointer">Male</label> 
+                </div>
+                <div className="hover:cursor-pointer flex items-center">
+                  <input 
+                    type="radio"
+                    value="Female"
+                    id="Female" 
+                    className="accent-blue-500 h-4 w-4 hover:cursor-pointer"
+                    {...register('gender')} />
+                  <label htmlFor="Female" className="text-sm font-medium ml-2 hover:cursor-pointer">Female</label>
+                </div>
+                <div className="hover:cursor-pointer flex items-center">
+                  <input 
+                    type="radio"
+                    value="Other"
+                    id="Other" 
+                    className="accent-blue-500 h-4 w-4"
+                    {...register('gender')} />
+                  <label htmlFor="Other" className="text-sm font-medium ml-2 hover:cursor-pointer">Other</label>
+                </div>
+              </div>
             </div>
-            {/* <div className="flex flex-row">
+
+            <div className="flex flex-row">
               <MdManageAccounts className='h-6 w-6 place-self-center text-blue-500' />
               <div className="ml-4 w-full flex gap-4">
                 <div className="hover:cursor-pointer flex items-center">
                   <input 
                     type="radio"
-                    name="role"
                     id="customer"
                     value="Customer" 
-                    className="accent-blue-500 h-4 w-4 hover:cursor-pointer"/>
+                    className="accent-blue-500 h-4 w-4 hover:cursor-pointer"
+                    {...register('role')} />
                   <label htmlFor="customer" className="text-sm font-medium ml-2 hover:cursor-pointer">Customer</label> 
                 </div>
                 <div className="hover:cursor-pointer flex items-center">
                   <input 
                     type="radio"
-                    name="role"
                     id="provider"
                     value="Provider" 
-                    className="accent-blue-500 h-4 w-4 hover:cursor-pointer"/>
+                    className="accent-blue-500 h-4 w-4 hover:cursor-pointer"
+                    {...register('role')} />
                   <label htmlFor="provider" className="text-sm font-medium ml-2 hover:cursor-pointer">Provider</label>
                 </div>
               </div>
-            </div> */}
+            </div>
           </div>
           <button type="submit" className="primary-button">
             Register
