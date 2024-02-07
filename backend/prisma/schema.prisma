@@ -19,7 +19,8 @@ model User {
   // gender      Gender
   // birthdate   DateTime
   // phoneNumber String
-  imageURL    String  @default("https://utfs.io/f/4a65c7f9-7bb1-4498-99bb-4148be482108-t9vzc5.png")
+  isVerified  Boolean   @default(false)
+  imageURL    String    @default("https://utfs.io/f/4a65c7f9-7bb1-4498-99bb-4148be482108-t9vzc5.png")
 }
 
 enum Gender {
