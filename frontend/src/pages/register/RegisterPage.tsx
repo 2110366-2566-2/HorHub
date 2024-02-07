@@ -10,10 +10,6 @@ import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 
-
-
-
-
 export default function RegisterPage() {
 
   const schema = z.object({
@@ -26,8 +22,8 @@ export default function RegisterPage() {
     phoneNumber: z.string().trim().length(10, {message: 'Please fill valid phone number'})
                   .refine((value) => /[0-9]{10}/.test(value), {message: 'Please fill valid phone number'}),
     birthDate: z.coerce.date(),
-    gender: z.string().trim().min(1, {message: 'Please select gender'}),
-    role: z.string().trim().min(1, {message: 'Please select role'})
+    gender: z.string({invalid_type_error: 'Please select gender'}).trim().min(1, {message: 'Please select gender'}),
+    role: z.string({invalid_type_error: 'Please select role'}).trim().min(1, {message: 'Please select role'})
     
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -51,88 +47,105 @@ export default function RegisterPage() {
       <div className="rounded-xl border border-blue-500 mt-8 h-fit bg-white w-full md:w-4/5 lg:w-3/5 pb-8 text-sm">
         <form onSubmit={handleSubmit(onSubmit)} className="mx-10 mt-8 flex flex-col items-center gap-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 w-full gap-6 gap-y-10">
-            
-            
 
-            
-            
             <div className="w-full lg:col-span-2">
               <span className="font-bold text-base">Authentication Information</span>
             </div>
 
-            <div className="flex flex-row lg:col-span-2">
+            <div className="relative flex flex-row lg:col-span-2">
               <IoIosMail className='h-6 w-6 place-self-center text-blue-500' />
               <input 
               type="text"
               placeholder="Email address" 
-              className="ml-2 border-0 border-b border-black outline-0 w-full"
+              className={`ml-2 border-0 border-b outline-0 w-full ${errors.email ? "border-red-700" : "border-black"}`}
               {...register('email')} />
+              {
+                errors.email && <div className="absolute pl-8 -bottom-1 translate-y-full text-red-700">{errors.email.message}</div>
+              }
             </div>
 
-            <div className="flex flex-row">
+            <div className="relative flex flex-row">
               <MdLock className='h-6 w-6 place-self-center text-blue-500' />
               <input 
               type="password"
               placeholder="Password" 
-              className="ml-2 border-0 border-b border-black outline-0 w-full"
+              className={`ml-2 border-0 border-b outline-0 w-full ${errors.password ? "border-red-700" : "border-black"}`}
               {...register('password')} />
+              {
+                errors.password && <div className="absolute pl-8 -bottom-1 translate-y-full text-red-700">{errors.password.message}</div>
+              }
             </div>
 
-            <div className="flex flex-row">
+            <div className="relative flex flex-row">
               <MdLock className='h-6 w-6 place-self-center text-blue-500' />
               <input 
               type="password"
               placeholder="Confirm Password" 
-              className="ml-2 border-0 border-b border-black outline-0 w-full"
+              className={`ml-2 border-0 border-b outline-0 w-full ${errors.confirmPassword ? "border-red-700" : "border-black"}`}
               {...register('confirmPassword')} />
+              {
+                errors.confirmPassword && <div className="absolute pl-8 -bottom-1 translate-y-full text-red-700">{errors.confirmPassword.message}</div>
+              }
             </div>
 
             <div className="w-full lg:col-span-2">
               <span className="font-bold text-base">Account Information</span>
             </div>
 
-            <div className="flex flex-row lg:col-span-2">
+            <div className="relative flex flex-row lg:col-span-2">
               <VscAccount className='h-6 w-6 place-self-center text-blue-500' />
               <input 
               type="text"
               placeholder="First Name" 
-              className="ml-2 border-0 border-b border-black outline-0 w-1/2"
+              className={`ml-2 border-0 border-b outline-0 w-1/2 ${(errors.firstName || errors.lastName) ? "border-red-700" : "border-black"}`}
               {...register('firstName')} />
               <input 
               type="text"
               placeholder="Last Name" 
-              className="ml-4 border-0 border-b border-black outline-0 w-1/2"
+              className={`ml-2 border-0 border-b outline-0 w-1/2 ${(errors.firstName || errors.lastName) ? "border-red-700" : "border-black"}`}
               {...register('lastName')} />
+              {
+                (errors.firstName || errors.lastName) && <div className="absolute pl-8 -bottom-1 translate-y-full text-red-700">Please fill both first and last name</div>
+              }
             </div> 
 
-            <div className="flex flex-row">
+            <div className="relative flex flex-row">
               <MdOutlineSupervisorAccount className='h-6 w-6 place-self-center text-blue-500' />
               <input 
               type="text"
               placeholder="Display Name" 
-              className="ml-2 border-0 border-b border-black outline-0 w-full"
+              className={`ml-2 border-0 border-b outline-0 w-full ${errors.displayName ? "border-red-700" : "border-black"}`}
               {...register('displayName')} />
+              {
+                errors.displayName && <div className="absolute pl-8 -bottom-1 translate-y-full text-red-700">{errors.displayName.message}</div>
+              }
             </div> 
 
-            <div className="flex flex-row">
+            <div className="relative flex flex-row">
               <IoPhonePortraitSharp className='h-6 w-6 place-self-center text-blue-500' />
               <input 
               type="tel"
               placeholder="Phone Number" 
-              className="ml-2 border-0 border-b border-black outline-0 w-full"
+              className={`ml-2 border-0 border-b outline-0 w-full ${errors.phoneNumber ? "border-red-700" : "border-black"}`}
               {...register('phoneNumber')} />
+              {
+                errors.phoneNumber && <div className="absolute pl-8 -bottom-1 translate-y-full text-red-700">{errors.phoneNumber.message}</div>
+              }
             </div>
             
-            <div className="flex flex-row">
+            <div className="relative flex flex-row">
               <RiCake2Line className='h-6 w-6 place-self-center text-blue-500' />
               <input 
               type="date"
               placeholder="Birthdate"
-              className="ml-2 border-0 border-b border-black outline-0 w-full"
+              className={`ml-2 border-0 border-b outline-0 w-full ${errors.birthDate ? "border-red-700" : "border-black"}`}
               {...register('birthDate')} />
+              {
+                errors.birthDate && <div className="absolute pl-8 -bottom-1 translate-y-full text-red-700">{errors.birthDate.message}</div>
+              }
             </div> 
 
-            <div className="flex flex-row">
+            <div className="relative flex flex-row">
               <FaTransgenderAlt className='h-6 w-6 place-self-center text-blue-500' />
               <div className="ml-4 w-full flex gap-4">
                 <div className="hover:cursor-pointer flex items-center">
@@ -163,9 +176,12 @@ export default function RegisterPage() {
                   <label htmlFor="Other" className="text-sm font-medium ml-2 hover:cursor-pointer">Other</label>
                 </div>
               </div>
+              {
+                errors.gender && <div className="absolute pl-8 -bottom-1 translate-y-full text-red-700">Please select gender</div>
+              }
             </div>
 
-            <div className="flex flex-row">
+            <div className="relative flex flex-row">
               <MdManageAccounts className='h-6 w-6 place-self-center text-blue-500' />
               <div className="ml-4 w-full flex gap-4">
                 <div className="hover:cursor-pointer flex items-center">
@@ -187,7 +203,11 @@ export default function RegisterPage() {
                   <label htmlFor="provider" className="text-sm font-medium ml-2 hover:cursor-pointer">Provider</label>
                 </div>
               </div>
+              {
+                errors.role && <div className="absolute pl-8 -bottom-1 translate-y-full text-red-700">Please select your account role</div>
+              }
             </div>
+            
           </div>
           <button type="submit" className="primary-button">
             Register
