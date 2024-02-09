@@ -22,11 +22,8 @@ export default function RegisterPage() {
     phoneNumber: z.string().trim().length(10, {message: 'Please fill valid phone number'})
                   .refine((value) => /[0-9]{10}/.test(value), {message: 'Please fill valid phone number'}),
     birthDate: z.coerce.date().refine((data) => data < new Date(), { message: "Future date is not accepted" }),
-    gender: z.string({invalid_type_error: 'Please select gender'}).trim().min(1, {message: 'Please select gender'})
-                  .refine((data) => ["Male", "Female", "Other"].includes(data), {message: "This gender is not available"}),
-    role: z.string({invalid_type_error: 'Please select role'}).trim().min(1, {message: 'Please select role'})
-                  .refine((data) => ["Customer", "Provider"].includes(data), {message: "This role is not available"})
-    
+    gender: z.enum(["Male", "Female", "Other"], {invalid_type_error: 'Gender is not valid, gender must be "Male", "Female", or "Other"'}),
+    role: z.enum(["Customer", "Provider"], {invalid_type_error: 'Role is not valid, role must be "Customer" or "Provider"'})
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ['confirmPassword'],
@@ -41,6 +38,8 @@ export default function RegisterPage() {
 
   const onSubmit: SubmitHandler<ValidationSchemaType> = (data) => {
     console.log(data)
+    
+    
   }
   
   return(
