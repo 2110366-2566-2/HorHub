@@ -21,9 +21,11 @@ export default function RegisterPage() {
     displayName: z.string().trim().min(1, {message: 'Fill display name'}),
     phoneNumber: z.string().trim().length(10, {message: 'Please fill valid phone number'})
                   .refine((value) => /[0-9]{10}/.test(value), {message: 'Please fill valid phone number'}),
-    birthDate: z.coerce.date(),
-    gender: z.string({invalid_type_error: 'Please select gender'}).trim().min(1, {message: 'Please select gender'}),
+    birthDate: z.coerce.date().refine((data) => data < new Date(), { message: "Future date is not accepted" }),
+    gender: z.string({invalid_type_error: 'Please select gender'}).trim().min(1, {message: 'Please select gender'})
+                  .refine((data) => ["Male", "Female", "Other"].includes(data), {message: "This gender is not available"}),
     role: z.string({invalid_type_error: 'Please select role'}).trim().min(1, {message: 'Please select role'})
+                  .refine((data) => ["Customer", "Provider"].includes(data), {message: "This role is not available"})
     
   })
   .refine((data) => data.password === data.confirmPassword, {

@@ -5,8 +5,18 @@ import { db } from "../lib/db";
 import bcrypt from 'bcrypt';
 
 const Schema_User = z.object({
-    "email" : z.string().email(),
-    "password" : z.string(),
+    email: z.string().trim().email(),
+    password: z.string().trim().min(8, {message: 'Password must be at least 8 characters'}),
+    firstName: z.string().trim().min(1, {message: 'Fill your first name'}),
+    lastName: z.string().trim().min(1, {message: 'Fill your last name'}),
+    displayName: z.string().trim().min(1, {message: 'Fill display name'}),
+    phoneNumber: z.string().trim().length(10, {message: 'Please fill valid phone number'})
+                  .refine((value) => /[0-9]{10}/.test(value), {message: 'Please fill valid phone number'}),
+    birthDate: z.coerce.date().refine((data) => data < new Date(), { message: "Future date is not accepted" }),
+    gender: z.string({invalid_type_error: 'Please select gender'}).trim().min(1, {message: 'Please select gender'})
+                .refine((data) => ["Male", "Female", "Other"].includes(data), {message: "This gender is not available"}),
+    role: z.string({invalid_type_error: 'Please select role'}).trim().min(1, {message: 'Please select role'})
+                .refine((data) => ["Customer", "Provider"].includes(data), {message: "This role is not available"})
 });
 
 const router = Router();
