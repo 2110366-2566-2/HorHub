@@ -102,8 +102,14 @@ const register = async (req : Request,res : Response) => {
     
 };
 
+const getUserFromToken = async (req: Request, res: Response) => {
+    
+}
+
 router.post('/register',register);
 
 router.post('/login',login);
+
+router.get('/user', getUserFromToken);
 
 export default router;
