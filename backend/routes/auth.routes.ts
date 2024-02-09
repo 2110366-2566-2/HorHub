@@ -37,8 +37,13 @@ const login = async (req : Request, res : Response) => {
     if (!isMatch){
         return res.status(400).send("Email or password is wrong");
     }
+
+    const token = generateJWT(user.id, user.displayName, user.firstName);
    
-    return res.status(200).send(user);
+    return res.status(200).send({
+        ...user,
+        token: token
+    });
 
 
 }
