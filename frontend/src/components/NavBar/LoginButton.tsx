@@ -1,10 +1,33 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 const LoginButton = () => {
 
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
+    
+    const navigate = useNavigate();
+
+    const onClick = async() => {
+        const result = await fetch(process.env.REACT_APP_BACKEND_URL + '/auth/login',{
+            method : "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body : JSON.stringify({
+                email : email,
+                password : password
+            }),
+            credentials : 'include',
+        });
+        if (result.status === 200){
+            const res = await result.json();
+            console.log(res.token);
+            setEmail("");
+            setPassword("");
+            navigate("../",{replace : true});
+        }
+    }
 
 
     return (
@@ -34,7 +57,7 @@ const LoginButton = () => {
                 <span>Don't have an account? <Link to="/register">Sign up</Link> now!</span>
                 {
                     (email && password) 
-                    ? <button className="primary-button">Sign In</button>
+                    ? <button className="primary-button" onClick = {onClick}>Sign In</button>
                     : <button className="disabled-button" disabled>Sign In</button>
                 }
             </div>

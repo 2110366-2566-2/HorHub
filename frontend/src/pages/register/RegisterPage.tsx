@@ -9,35 +9,51 @@ import { MdManageAccounts } from "react-icons/md";
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useNavigate } from 'react-router-dom';
+
+const schema = z.object({
+  email: z.string().trim().email(),
+  password: z.string().trim().min(8, {message: 'Password must be at least 8 characters'}),
+  confirmPassword: z.string().trim().min(8, {message: 'Password must be at least 8 characters'}),
+  firstName: z.string().trim().min(1, {message: 'Fill your first name'}),
+  lastName: z.string().trim().min(1, {message: 'Fill your last name'}),
+  displayName: z.string().trim().min(1, {message: 'Fill display name'}),
+  phoneNumber: z.string().trim().length(10, {message: 'Please fill valid phone number'})
+                .refine((value) => /[0-9]{10}/.test(value), {message: 'Please fill valid phone number'}),
+  birthDate: z.coerce.date().refine((data) => data < new Date(), { message: "Future date is not accepted" }),
+  gender: z.enum(["Male", "Female", "Other"], {invalid_type_error: 'Gender is not valid, gender must be "Male", "Female", or "Other"'}),
+  role: z.enum(["Customer", "Provider"], {invalid_type_error: 'Role is not valid, role must be "Customer" or "Provider"'})
+})
+.refine((data) => data.password === data.confirmPassword, {
+  path: ['confirmPassword'],
+  message: 'Password and confirm password does not match'
+})
+
+type ValidationSchemaType = z.infer<typeof schema>;
 
 export default function RegisterPage() {
 
-  const schema = z.object({
-    email: z.string().trim().email(),
-    password: z.string().trim().min(8, {message: 'Password must be at least 8 characters'}),
-    confirmPassword: z.string().trim().min(8, {message: 'Password must be at least 8 characters'}),
-    firstName: z.string().trim().min(1, {message: 'Fill your first name'}),
-    lastName: z.string().trim().min(1, {message: 'Fill your last name'}),
-    displayName: z.string().trim().min(1, {message: 'Fill display name'}),
-    phoneNumber: z.string().trim().length(10, {message: 'Please fill valid phone number'})
-                  .refine((value) => /[0-9]{10}/.test(value), {message: 'Please fill valid phone number'}),
-    birthDate: z.coerce.date().refine((data) => data < new Date(), { message: "Future date is not accepted" }),
-    gender: z.enum(["Male", "Female", "Other"], {invalid_type_error: 'Gender is not valid, gender must be "Male", "Female", or "Other"'}),
-    role: z.enum(["Customer", "Provider"], {invalid_type_error: 'Role is not valid, role must be "Customer" or "Provider"'})
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ['confirmPassword'],
-    message: 'Password and confirm password does not match'
-  })
 
-  type ValidationSchemaType = z.infer<typeof schema>
+  const navigate = useNavigate();
 
   const { register, handleSubmit, formState: { errors } } = useForm<ValidationSchemaType>({
     resolver: zodResolver(schema),
   });
-
-  const onSubmit: SubmitHandler<ValidationSchemaType> = (data) => {
+  const onSubmit: SubmitHandler<ValidationSchemaType> = async (data) => {
     console.log(data)
+    const result = await fetch(process.env.REACT_APP_BACKEND_URL + "/auth/register",{
+      method : "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body : JSON.stringify(data),
+      credentials : 'include',
+    });
+    if (result.status === 201){
+      const res = await result.json();
+      console.log(res.token);
+      navigate("../",{replace : true});
+    }
     
     
   }

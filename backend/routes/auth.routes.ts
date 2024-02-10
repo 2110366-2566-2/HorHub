@@ -4,6 +4,8 @@ import { z } from "zod";
 import { db } from "../lib/db";
 import bcrypt from 'bcrypt';
 import { generateJWT } from "../lib/jwtGenerator";
+import { authenticateToken } from "../middlewares/authToken";
+import { User } from "@prisma/client";
 
 const Schema_User = z.object({
     email: z.string().trim().email(),
@@ -20,7 +22,12 @@ const Schema_User = z.object({
 
 const router = Router();
 
+
+
 router.use(express.json());
+
+const max_age = 3 * 24 * 60 * 60;
+
 
 const login = async (req : Request, res : Response) => {
     const {email, password} = req.body;
@@ -39,7 +46,8 @@ const login = async (req : Request, res : Response) => {
     }
 
     const token = generateJWT(user.id, user.displayName, user.firstName);
-   
+    res.cookie('auth', token, {httpOnly : true,maxAge :max_age * 1000});
+    
     return res.status(200).send({
         ...user,
         token: token
@@ -89,9 +97,9 @@ const register = async (req : Request,res : Response) => {
             gender: gender
         }});
 
-        const token = generateJWT(result.id, displayName, firstName)
-
-        res.send({
+        const token = generateJWT(result.id, displayName, firstName);
+        res.cookie('auth', token, {httpOnly : true,maxAge :max_age * 1000});
+        res.status(201).send({
             ...result,
             token: token
         });
@@ -103,13 +111,21 @@ const register = async (req : Request,res : Response) => {
 };
 
 const getUserFromToken = async (req: Request, res: Response) => {
-    
+    const user = req.body.user;
+    const query = await db.user.findUnique({where : {
+        id : user.id as string
+    }})
+    if (!query) return res.status(400).send("Not Found"); 
+
+    const {id,password,...data} = query;
+
+    res.status(200).send(data);
 }
 
 router.post('/register',register);
 
 router.post('/login',login);
 
-router.get('/user', getUserFromToken);
+router.get('/user',authenticateToken, getUserFromToken);
 
 export default router;

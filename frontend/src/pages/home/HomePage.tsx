@@ -1,6 +1,12 @@
+import { useEffect } from "react";
+import getUser from "../../lib/getUser";
 import buildingSVG from "../../res/svg/homebuilding.svg"
 
 function HomePage() {
+    useEffect(() => {
+        (async () => {await getUser();} )()
+        return;
+    },[]);
     return (
         <div className="unpadding-page">
             <div className="flex w-full h-[calc(100vh-4rem)] bg-indigo-50">
