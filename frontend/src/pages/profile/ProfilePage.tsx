@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import UserPanel from "../../components/Profile/UserPanel";
 import { useUser } from "../../lib/context/UserContext";
 import { useEffect } from "react";
+import { UserInfo } from "../../lib/type/UserHidden";
 
 
 
@@ -24,9 +25,12 @@ export default function ProfilePage(){
     },[]);
 
     
-    
+    if(!currentUser) return <div className="flex justify-center">Loading..</div>
 
-    return (<div>
-        <UserPanel />
+    
+    return (
+    <div className="flex w-full flex-col">
+        <UserPanel currentUser={currentUser} />
+        <button className="primary-button">Setting</button>
     </div>);
-}
+} /**/
