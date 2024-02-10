@@ -13,4 +13,4 @@ export const UserInfoSchema = z.object({
     role: z.enum(["Customer", "Provider"], {invalid_type_error: 'Role is not valid, role must be "Customer" or "Provider"'})
 });
 
-export type UserInfo = z.infer<typeof UserInfoSchema>;
+export type UserInfo = z.infer<typeof UserInfoSchema> | null;
