@@ -110,6 +110,10 @@ const register = async (req : Request,res : Response) => {
     
 };
 
+const logout = async (req: Request,res : Response) => {
+    return res.status(200).clearCookie("auth").send("logout");
+}
+
 const getUserFromToken = async (req: Request, res: Response) => {
     const user = req.body.user;
     const query = await db.user.findUnique({where : {
@@ -127,5 +131,7 @@ router.post('/register',register);
 router.post('/login',login);
 
 router.get('/user',authenticateToken, getUserFromToken);
+
+router.post('/logout',authenticateToken,logout);
 
 export default router;

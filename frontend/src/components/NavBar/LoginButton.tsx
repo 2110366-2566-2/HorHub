@@ -1,11 +1,12 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { useUser } from "../../lib/context/UserContext"
 
 const LoginButton = () => {
 
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
-    
+    const {currentUser,fetchUser} = useUser();
     const navigate = useNavigate();
 
     const onClick = async() => {
@@ -23,6 +24,7 @@ const LoginButton = () => {
         if (result.status === 200){
             const res = await result.json();
             console.log(res.token);
+            fetchUser();
             setEmail("");
             setPassword("");
             navigate("../",{replace : true});

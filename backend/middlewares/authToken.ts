@@ -10,7 +10,11 @@ export function authenticateToken(req: Request, res: Response, next: NextFunctio
 
     jwt.verify(token, process.env.JWT_SECRET_KEY as string, (err: any, user: any) => {
         console.log(err)
-
+        if(err && token) {
+            
+            console.log("Called!");
+            res.clearCookie("auth");
+        }
         if (err) return res.sendStatus(403)
     
         req.body.user = user
