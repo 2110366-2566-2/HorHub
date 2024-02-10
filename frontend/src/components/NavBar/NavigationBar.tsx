@@ -3,6 +3,7 @@ import LoginButton from './LoginButton'
 import { Link } from 'react-router-dom'
 import { useUser } from '../../lib/context/UserContext';
 import Cookies from 'js-cookie';
+import { Avatar } from '@mui/material';
 
 const NavigationBar = () => {
   const {currentUser,fetchUser} = useUser();
@@ -15,11 +16,15 @@ const NavigationBar = () => {
       console.log(result);
       await fetchUser();
   };
+
+  console.log(currentUser?.imageURL)
   return (
     <nav className="sticky top-0 h-16 backdrop-blur-md flex items-center justify-between px-4 bg-base-100/50 z-20 border-b-2 border-slate-900/10">
           <ul className='flex gap-5 items-center w-[70%] h-full'>
             <li>
-              HorHub
+              <Link to = "/">
+                HorHub
+              </Link>
             </li>
             <li>
               About
@@ -36,10 +41,13 @@ const NavigationBar = () => {
                                 <LoginButton />
                               </>)}
               {currentUser && (<>
-                                <button onClick = {async () => {await logOutHandle();}}>
+                                <Link to = "/profile">
+                                  <Avatar src = {currentUser.imageURL} />
+                                </Link>
+                                <button className = "danger-button" onClick = {async () => {await logOutHandle();}}>
                                   Logout
                                 </button>
-              
+                                
                               </>
               )}
                 
