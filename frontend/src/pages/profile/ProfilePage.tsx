@@ -14,6 +14,7 @@ export default function ProfilePage(){
     
 
     useEffect(() => {
+        //called if user is not login  
         const redirect = async ()=> {
             const res = await fetchUser();
             if (!res)
