@@ -10,7 +10,9 @@ export const UserInfoSchema = z.object({
                     .refine((value) => /[0-9]{10}/.test(value), {message: 'Please fill valid phone number'}),
     birthdate: z.coerce.date(),
     gender: z.enum(["Male", "Female", "Other"], {invalid_type_error: 'Gender is not valid, gender must be "Male", "Female", or "Other"'}),
-    role: z.enum(["Customer", "Provider"], {invalid_type_error: 'Role is not valid, role must be "Customer" or "Provider"'})
+    role: z.enum(["Customer", "Provider"], {invalid_type_error: 'Role is not valid, role must be "Customer" or "Provider"'}),
+    imageURL : z.string().url(),
+    isVerified : z.boolean(),
 });
 
-export type UserInfo = z.infer<typeof UserInfoSchema> | null;
+export type UserInfo = z.infer<typeof UserInfoSchema>;

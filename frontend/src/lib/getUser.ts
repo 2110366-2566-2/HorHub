@@ -8,8 +8,10 @@ export default async function getUser() : Promise<UserInfo | null>{
     })
     if (jwt.status === 200){
         const data = await jwt.json();
+        
         const user_data = UserInfoSchema.safeParse(data);
         if(!user_data.success) return null;
+
         return user_data.data;
     }
     return null;
