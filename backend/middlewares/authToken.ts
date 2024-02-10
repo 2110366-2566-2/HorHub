@@ -6,7 +6,7 @@ export function authenticateToken(req: Request, res: Response, next: NextFunctio
     const {auth} = req.cookies
     const token = auth;
 
-    if (token == null) return res.sendStatus(401)
+    if (token == null) return res.redirect(401,"/login");
 
     jwt.verify(token, process.env.JWT_SECRET_KEY as string, (err: any, user: any) => {
         console.log(err)
@@ -15,7 +15,7 @@ export function authenticateToken(req: Request, res: Response, next: NextFunctio
             console.log("Called!");
             res.clearCookie("auth");
         }
-        if (err) return res.sendStatus(403)
+        if (err) return res.redirect(403,'/login');
     
         req.body.user = user
 

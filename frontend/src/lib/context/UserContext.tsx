@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { UserInfo } from "../type/UserHidden";
 import getUser from "../getUser";
 
-export const UserContext = createContext<{currentUser : UserInfo | null ,fetchUser : () => Promise<void>}>({currentUser : null , fetchUser : async () => {}});
+export const UserContext = createContext<{currentUser : UserInfo | null ,fetchUser : () => Promise<boolean>}>({currentUser : null , fetchUser : async () => {return false;}});
 
 export const UserProvider = ({children} : {children : React.ReactNode}) => {
     const [currentUser,setCurrentUser] = useState<UserInfo | null>(null);
@@ -10,6 +10,8 @@ export const UserProvider = ({children} : {children : React.ReactNode}) => {
     const fetchUser = async() => {
         const user : UserInfo | null = await getUser();
         setCurrentUser(user);
+        if (!user) return false;
+        return true;
     };
     
     useEffect(() => {
