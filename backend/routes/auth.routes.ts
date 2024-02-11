@@ -156,9 +156,23 @@ const getUserFromToken = async (req: Request, res: Response) => {
         return res.status(400).clearCookie("auth").send("Not Found");
     }
 
-    const {id,password,...data} = query;
+    const {password,...data} = query;
 
     res.status(200).send(data);
+}
+
+const verifyAccount = async (req: Request, res: Response) => {
+    const user = req.body.user
+    const updateResponse = await db.user.update({
+        where: {
+            id: user.id
+        },
+        data: {
+            isVerified: true
+        }
+    })
+
+    res.status(200).send(updateResponse)
 }
 
 router.post('/register',register);
@@ -169,6 +183,8 @@ router.get('/user',authenticateToken, getUserFromToken);
 
 router.post('/logout',authenticateToken,logout);
 
-router.put('/user',authenticateToken,update);
+router.put('/user',authenticateToken, update);
+
+router.post('/verify', authenticateToken, verifyAccount)
 
 export default router;

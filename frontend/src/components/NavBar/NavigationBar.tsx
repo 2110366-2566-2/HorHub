@@ -2,11 +2,10 @@ import React from 'react'
 import LoginButton from './LoginButton'
 import { Link } from 'react-router-dom'
 import { useUser } from '../../lib/context/UserContext';
-import Cookies from 'js-cookie';
 import { Avatar } from '@mui/material';
 
 const NavigationBar = () => {
-  const {currentUser,fetchUser} = useUser();
+  const {currentUser, isLoading, fetchUser} = useUser();
   const logOutHandle = async () => {
 
       const result = await fetch(process.env.REACT_APP_BACKEND_URL + '/auth/logout',{
@@ -33,13 +32,13 @@ const NavigationBar = () => {
             </li>
           </ul>
           <div className="flex items-center gap-5 w-[30%] h-full justify-end">
-              {!currentUser &&(<>
+              {!isLoading && !currentUser &&(<>
                                 <Link to="/register" className="secondary-button">
                                   Sign Up
                                 </Link>
                                 <LoginButton />
                               </>)}
-              {currentUser && (<>
+              {!isLoading && currentUser && (<>
                                 <Link to = "/profile">
                                   <Avatar src = {currentUser.imageURL} />
                                 </Link>

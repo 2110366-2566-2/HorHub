@@ -7,6 +7,7 @@ import FormPanel from "../../components/Profile/FormPanel";
 
 
 const initUser : UserInfo = {
+    id: "Fallback",
     displayName : "Fallback",
     firstName : "Fallback",
     lastName : "Fallback",
