@@ -7,6 +7,7 @@ const Schema_DataSender = z.object({
     "to" : z.string().email("Invalid email in section to"),
     "subject" : z.string().min(1,{message : "There is no subject in this form"}),
     "text" : z.string().optional().or(z.literal('')),
+    "html" : z.string().optional().or(z.literal(''))
 });
 
 const MAIL_PORT = Number(process.env.MAIL_PORT || 465);
