@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UserPanel from "../../components/Profile/UserPanel";
 import { useUser } from "../../lib/context/UserContext";
 import { useEffect, useState } from "react";
@@ -53,7 +53,11 @@ export default function ProfilePage(){
             {(!isEdit) && <button className="danger-button" onClick = {() => {setEdit(true); console.log(currentUser)}}>Edit Profile</button>}
             
             {(isEdit) && <button className="danger-button" onClick = {() => {setEdit(false);}}>Cancel Change</button>}
-            <button className="primary-button ">Setting</button>
+            <Link to ="setting">
+                <button className="primary-button w-full">
+                    Setting
+                </button>
+            </Link>
         </div>
     </div>);
 } /**/

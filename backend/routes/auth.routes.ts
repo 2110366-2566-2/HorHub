@@ -77,7 +77,17 @@ const update = async (req : Request,res : Response) => {
 
     const update_data = Schema_Update_User.safeParse(data);
     if (!update_data.success) return res.status(403).send("Invalid Data");
-    console.log(update_data.data)
+    if (update_data.data.email !== query.email) {
+        const user_finder = await db.user.count({
+            where : {
+                email : update_data.data.email
+            }
+        })
+        if(user_finder != 0) {
+            return res.status(400).send("User is already existed!");
+        }
+    }
+
     const result = await db.user.update({where : {
             id : user.id as string
         },  data : update_data.data

@@ -4,7 +4,7 @@ import LabelProfile from "./LabelProfile";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const schema = z.object({
     email: z.string().trim().email(),
@@ -24,8 +24,11 @@ export default function FormPanel({currentUser,fetchUser,setEdit} : {currentUser
         resolver: zodResolver(schema),
 
     });
+
+    const [duplicateEmail,setEmailDuplicate] = useState(false);
+    console.log(errors);
     const onSubmit : SubmitHandler<Omit<ValidationSchemaType,"birthdate">> = async (data) => {
-        console.log(data);
+        setEmailDuplicate(false);
         const result = await fetch(process.env.REACT_APP_BACKEND_URL + "/auth/user",{
             method : "PUT",
             credentials : 'include',
@@ -40,44 +43,74 @@ export default function FormPanel({currentUser,fetchUser,setEdit} : {currentUser
         if(result.ok) {
             const data = await result.json();
             console.log(data);
+            await fetchUser();
+            setEdit(false);
+        } else if (result.status === 400) {
+            console.log("Email is already existed!");
+            setEmailDuplicate(true);
+            
         }
 
-        await fetchUser();
-        setEdit(false);
+        
     };
 
     useEffect(() => {
         const {birthdate} = currentUser;
         console.log(birthdate.toISOString());
+        console.log(errors);
         reset({...currentUser, birthdate : birthdate.toISOString().split('T')[0]})
     },[reset,currentUser]);
-    
+    console.log(errors.email)
     
     return (
                 <form className="flex flex-col items-center" onSubmit = {handleSubmit(onSubmit)} > 
-    
-                            <div className="font-bold text-lg">
-                                    Display Name : <input {...register("displayName")}></input>
+                             
+                            <div className="font-bold text-lg flex flex-wrap text-center justify-center sm:justify-start sm:flex-nowrap">
+                                    <div> Display Name : </div>
+                                    <input className = "w-100%"{...register("displayName")}></input>
+                                    {
+                                        errors.displayName && (<div className="text-red-700">{errors.displayName.message}</div>)
+                                    }
                             </div>
     
                             <Avatar className = " block justify-center" src = {currentUser.imageURL} sx = {{width : 100, height : 100}}/>
                             <div className="w-full">
                                 <LabelProfile header={"Email Address"} >
-                                    <input {...register("email")}></input>
+                                    <input {...register("email")} className = {"border-6 border-b outline-0 w-full" + ((errors.email) ? "border-red-700" : "border-blue-700")}></input>
+                                    {
+                                            errors.email && (<div className="text-red-700">{errors.email.message}</div>)
+                                    }
+
+                                    {
+                                            duplicateEmail && (<div className="text-red-700">You are using duplicate email</div>)
+                                    }
                                 </LabelProfile>
+                                
                                 <LabelProfile header={"Full Name"} >
                                     <input {...register("firstName")}></input>
+                                    {
+                                            errors.firstName && (<div className="text-red-700">{errors.firstName.message}</div>)
+                                    }
                                     <input {...register("lastName")}></input>
+                                    {
+                                            errors.lastName && (<div className="text-red-700">{errors.lastName.message}</div>)
+                                    }
                                 </LabelProfile>
                                 <LabelProfile header={"Phone Number"} >
                                     <input type = "tel" {...register("phoneNumber")}></input>
+                                    {
+                                            errors.phoneNumber && (<div className="text-red-700">{errors.phoneNumber.message}</div>)
+                                    }
                                 </LabelProfile>
                                 <LabelProfile header={"Birth Date"} >
                                     <input type="date" {...register("birthdate")}></input>
+                                    {
+                                            errors.birthdate && (<div className="text-red-700">{errors.birthdate.message}</div>)
+                                    }
                                 </LabelProfile>
                                 <LabelProfile header={"Gender"} >
                                 <div className="inline-block">
-                                    <div className="flex">
+                                    <div className="flex ">
                                         <div className="hover:cursor-pointer flex items-center">
                                             <input 
                                                 type="radio"
