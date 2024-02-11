@@ -35,6 +35,7 @@ type ValidationSchemaType = z.infer<typeof schema>;
 export default function RegisterPage() {
 
   const [isEmailDuplicate, setEmailDuplicate] = useState<boolean>(false)
+  const [enableButton, setEnableButton] = useState<boolean>(true)
 
 
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ export default function RegisterPage() {
     resolver: zodResolver(schema),
   });
   const onSubmit: SubmitHandler<ValidationSchemaType> = async (data) => {
+    setEnableButton(false)
     setEmailDuplicate(false)
     console.log(data)
     try {
@@ -57,15 +59,26 @@ export default function RegisterPage() {
       if (result.ok){
         const res = await result.json();
         console.log(res.token);
+
+        // Send verify mail
+        const mailRes = await fetch(process.env.REACT_APP_BACKEND_URL + "/mails/verification", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials : 'include',
+        })
         
         document.location.href = "/verify"
       }
       if (result.status === 400) {
         // User already existed
+        setEnableButton(true)
         setEmailDuplicate(true)
       }
     }
     catch (err) {
+      setEnableButton(true)
     }
     
     
@@ -244,9 +257,9 @@ export default function RegisterPage() {
             </div>
             
           </div>
-          <button type="submit" className="primary-button">
-            Register
-          </button>
+          {
+            enableButton ? <button type="submit" className="primary-button">Register</button> : <button type="submit" className="disabled-button" disabled>Register</button>
+          }
         </form>
       </div>
     </div>

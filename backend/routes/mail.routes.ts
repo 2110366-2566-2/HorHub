@@ -16,7 +16,7 @@ router.post("/verification", authenticateToken, async (req: Request, res: Respon
         "from" : process.env.HOST_USER,
         "to" : user.email,
         "subject" : "HorHub - Verifying Account",
-        "html" : `<h1>Welcome to HorHub, ${user.displayName}!</h1><p>Please verify your account by click <a href="http://localhost:3000/">this link</a></p>`
+        "html" : `<h1>Welcome to HorHub, ${user.displayName}!</h1><span>Please verify your account by click <a href="${process.env.FRONTEND_URL}/verify/${user.id}">this link</a></span>`
     }
     const data_parse = Schema_DataSender.safeParse(data);
     console.log(data)

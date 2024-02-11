@@ -26,11 +26,11 @@ a {
 }
 
 .page {
-  @apply w-full min-h-[calc(100vh-4rem)] flex flex-col items-center px-5 py-5
+  @apply w-full min-h-[calc(100vh-7rem)] flex flex-col items-center px-5 py-5
 }
 
 .unpadding-page {
-  @apply w-full min-h-[calc(100vh-4rem)] flex flex-col items-center 
+  @apply w-full min-h-[calc(100vh-7rem)] flex flex-col items-center 
 }
 
 .primary-button {
