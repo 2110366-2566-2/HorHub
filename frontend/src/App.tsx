@@ -7,7 +7,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { UserProvider } from './lib/context/UserContext';
 import ProfilePage from './pages/profile/ProfilePage';
 import MailVerifyPage from './pages/register/MailVerifyPage';
-import AccVerifyTempPage from './pages/register/AccVerifyTempPage';
+import SettingPage from './pages/profile/setting/SettingPage';
 
 function App() {
   return (
@@ -15,12 +15,14 @@ function App() {
       <BrowserRouter>
         <UserProvider>
           <NavigationBar />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/register" element={<RegisterPage/>} />
-            <Route path="/profile" element = {<ProfilePage/>} />
-            <Route path="/verify" element={<MailVerifyPage/>} />
-            <Route path="/verify/:id" element={<AccVerifyTempPage/>} />
+          <Routes >
+            <Route path = "/" element={<HomePage />} />
+            <Route path="register" element={<RegisterPage/>} />
+            <Route path="profile" >
+              <Route index element = {<ProfilePage />} />
+              <Route path = "setting" element = {<SettingPage />}></Route>
+            </Route>
+            <Route path="verify" element={<MailVerifyPage/>} />
           </Routes>
           <Footbar />
         </UserProvider>

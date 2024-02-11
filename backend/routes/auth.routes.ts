@@ -20,7 +20,6 @@ const Schema_User = z.object({
 });
 
 const Schema_Update_User = z.object({
-    email: z.string().trim().email(),
     firstName: z.string().trim().min(1, {message: 'Fill your first name'}),
     lastName: z.string().trim().min(1, {message: 'Fill your last name'}),
     displayName: z.string().trim().min(1, {message: 'Fill display name'}),
@@ -77,7 +76,7 @@ const update = async (req : Request,res : Response) => {
 
     const update_data = Schema_Update_User.safeParse(data);
     if (!update_data.success) return res.status(403).send("Invalid Data");
-    console.log(update_data.data)
+
     const result = await db.user.update({where : {
             id : user.id as string
         },  data : update_data.data

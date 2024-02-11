@@ -4,10 +4,9 @@ import LabelProfile from "./LabelProfile";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const schema = z.object({
-    email: z.string().trim().email(),
     firstName: z.string().trim().min(1, {message: 'Fill your first name'}),
     lastName: z.string().trim().min(1, {message: 'Fill your last name'}),
     displayName: z.string().trim().min(1, {message: 'Fill display name'}),
@@ -24,8 +23,8 @@ export default function FormPanel({currentUser,fetchUser,setEdit} : {currentUser
         resolver: zodResolver(schema),
 
     });
+
     const onSubmit : SubmitHandler<Omit<ValidationSchemaType,"birthdate">> = async (data) => {
-        console.log(data);
         const result = await fetch(process.env.REACT_APP_BACKEND_URL + "/auth/user",{
             method : "PUT",
             credentials : 'include',
@@ -40,44 +39,62 @@ export default function FormPanel({currentUser,fetchUser,setEdit} : {currentUser
         if(result.ok) {
             const data = await result.json();
             console.log(data);
+            await fetchUser();
+            setEdit(false);
         }
 
-        await fetchUser();
-        setEdit(false);
+        
     };
 
     useEffect(() => {
         const {birthdate} = currentUser;
         console.log(birthdate.toISOString());
+        console.log(errors);
         reset({...currentUser, birthdate : birthdate.toISOString().split('T')[0]})
     },[reset,currentUser]);
     
-    
     return (
-                <form className="flex flex-col items-center" onSubmit = {handleSubmit(onSubmit)} > 
-    
-                            <div className="font-bold text-lg">
-                                    Display Name : <input {...register("displayName")}></input>
+                <form className="flex flex-col items-center " onSubmit = {handleSubmit(onSubmit)} > 
+                             
+                            <div className="font-bold text-lg flex flex-wrap text-center justify-center sm:justify-start sm:flex-nowrap">
+                                    <div> Display Name : </div>
+                                    <input className = {"w-100% bg-transparent outline outline-2 rounded " + ((errors.displayName) ? "outline-red-400"  : "outline-blue-400")}{...register("displayName")}></input>
+                                    {
+                                        errors.displayName && (<div className="text-red-700">{errors.displayName.message}</div>)
+                                    }
                             </div>
     
                             <Avatar className = " block justify-center" src = {currentUser.imageURL} sx = {{width : 100, height : 100}}/>
-                            <div className="w-full">
+                            <div className="w-full flex flex-col gap-y-2">
                                 <LabelProfile header={"Email Address"} >
-                                    <input {...register("email")}></input>
+                                    {currentUser.email}
                                 </LabelProfile>
+                                
                                 <LabelProfile header={"Full Name"} >
-                                    <input {...register("firstName")}></input>
-                                    <input {...register("lastName")}></input>
+                                    <input className = {"w-100% bg-transparent outline outline-2 rounded " + ((errors.firstName) ? "outline-red-400"  : "outline-blue-400")} {...register("firstName")}></input>
+                                    {
+                                            errors.firstName && (<div className="text-red-700">{errors.firstName.message}</div>)
+                                    }
+                                    <input className = {"w-100% bg-transparent outline outline-2 rounded " + ((errors.lastName) ? "outline-red-400"  : "outline-blue-400")} {...register("lastName")}></input>
+                                    {
+                                            errors.lastName && (<div className="text-red-700">{errors.lastName.message}</div>)
+                                    }
                                 </LabelProfile>
                                 <LabelProfile header={"Phone Number"} >
-                                    <input type = "tel" {...register("phoneNumber")}></input>
+                                    <input className = {"w-100% bg-transparent outline outline-2 rounded " + ((errors.phoneNumber) ? "outline-red-400"  : "outline-blue-400")} type = "tel" {...register("phoneNumber")}></input>
+                                    {
+                                            errors.phoneNumber && (<div className="text-red-700">{errors.phoneNumber.message}</div>)
+                                    }
                                 </LabelProfile>
                                 <LabelProfile header={"Birth Date"} >
-                                    <input type="date" {...register("birthdate")}></input>
+                                    <input className = {"w-100% bg-transparent outline outline-2 rounded " + ((errors.birthdate) ? "outline-red-400"  : "outline-blue-400")} type="date" {...register("birthdate")}></input>
+                                    {
+                                            errors.birthdate && (<div className="text-red-700">{errors.birthdate.message}</div>)
+                                    }
                                 </LabelProfile>
                                 <LabelProfile header={"Gender"} >
                                 <div className="inline-block">
-                                    <div className="flex">
+                                    <div className="flex ">
                                         <div className="hover:cursor-pointer flex items-center">
                                             <input 
                                                 type="radio"

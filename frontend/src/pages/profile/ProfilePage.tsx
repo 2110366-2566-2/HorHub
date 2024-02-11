@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UserPanel from "../../components/Profile/UserPanel";
 import { useUser } from "../../lib/context/UserContext";
 import { useEffect, useState } from "react";
@@ -46,14 +46,18 @@ export default function ProfilePage(){
 
     
     return (
-    <div className="page justify-center">
-        <div className="border-2 border-blue-200 rounded-lg flex flex-col w-3/4">
+    <div className="page justify-center bg-indigo-50">
+        <div className="border-2 border-blue-200 rounded-lg flex flex-col w-3/4 from-sky-300 to-red-300 bg-gradient-to-b">
             {(!isEdit) && <UserPanel currentUser = {currentUser}/>}
             {(isEdit) && <FormPanel currentUser = {currentUser} fetchUser = {fetchUser} setEdit={setEdit}/>}
             {(!isEdit) && <button className="danger-button" onClick = {() => {setEdit(true); console.log(currentUser)}}>Edit Profile</button>}
             
             {(isEdit) && <button className="danger-button" onClick = {() => {setEdit(false);}}>Cancel Change</button>}
-            <button className="primary-button ">Setting</button>
+            <Link to ="setting">
+                <button className="primary-button w-full">
+                    Setting
+                </button>
+            </Link>
         </div>
     </div>);
 } /**/
