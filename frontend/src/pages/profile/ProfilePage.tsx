@@ -46,8 +46,8 @@ export default function ProfilePage(){
 
     
     return (
-    <div className="page justify-center">
-        <div className="border-2 border-blue-200 rounded-lg flex flex-col w-3/4">
+    <div className="page justify-center bg-indigo-50">
+        <div className="border-2 border-blue-200 rounded-lg flex flex-col w-3/4 from-sky-300 to-red-300 bg-gradient-to-b">
             {(!isEdit) && <UserPanel currentUser = {currentUser}/>}
             {(isEdit) && <FormPanel currentUser = {currentUser} fetchUser = {fetchUser} setEdit={setEdit}/>}
             {(!isEdit) && <button className="danger-button" onClick = {() => {setEdit(true); console.log(currentUser)}}>Edit Profile</button>}

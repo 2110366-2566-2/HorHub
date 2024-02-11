@@ -54,40 +54,40 @@ export default function FormPanel({currentUser,fetchUser,setEdit} : {currentUser
     },[reset,currentUser]);
     
     return (
-                <form className="flex flex-col items-center" onSubmit = {handleSubmit(onSubmit)} > 
+                <form className="flex flex-col items-center " onSubmit = {handleSubmit(onSubmit)} > 
                              
                             <div className="font-bold text-lg flex flex-wrap text-center justify-center sm:justify-start sm:flex-nowrap">
                                     <div> Display Name : </div>
-                                    <input className = "w-100%"{...register("displayName")}></input>
+                                    <input className = {"w-100% bg-transparent outline outline-2 rounded " + ((errors.displayName) ? "outline-red-400"  : "outline-blue-400")}{...register("displayName")}></input>
                                     {
                                         errors.displayName && (<div className="text-red-700">{errors.displayName.message}</div>)
                                     }
                             </div>
     
                             <Avatar className = " block justify-center" src = {currentUser.imageURL} sx = {{width : 100, height : 100}}/>
-                            <div className="w-full">
+                            <div className="w-full flex flex-col gap-y-2">
                                 <LabelProfile header={"Email Address"} >
                                     {currentUser.email}
                                 </LabelProfile>
                                 
                                 <LabelProfile header={"Full Name"} >
-                                    <input {...register("firstName")}></input>
+                                    <input className = {"w-100% bg-transparent outline outline-2 rounded " + ((errors.firstName) ? "outline-red-400"  : "outline-blue-400")} {...register("firstName")}></input>
                                     {
                                             errors.firstName && (<div className="text-red-700">{errors.firstName.message}</div>)
                                     }
-                                    <input {...register("lastName")}></input>
+                                    <input className = {"w-100% bg-transparent outline outline-2 rounded " + ((errors.lastName) ? "outline-red-400"  : "outline-blue-400")} {...register("lastName")}></input>
                                     {
                                             errors.lastName && (<div className="text-red-700">{errors.lastName.message}</div>)
                                     }
                                 </LabelProfile>
                                 <LabelProfile header={"Phone Number"} >
-                                    <input type = "tel" {...register("phoneNumber")}></input>
+                                    <input className = {"w-100% bg-transparent outline outline-2 rounded " + ((errors.phoneNumber) ? "outline-red-400"  : "outline-blue-400")} type = "tel" {...register("phoneNumber")}></input>
                                     {
                                             errors.phoneNumber && (<div className="text-red-700">{errors.phoneNumber.message}</div>)
                                     }
                                 </LabelProfile>
                                 <LabelProfile header={"Birth Date"} >
-                                    <input type="date" {...register("birthdate")}></input>
+                                    <input className = {"w-100% bg-transparent outline outline-2 rounded " + ((errors.birthdate) ? "outline-red-400"  : "outline-blue-400")} type="date" {...register("birthdate")}></input>
                                     {
                                             errors.birthdate && (<div className="text-red-700">{errors.birthdate.message}</div>)
                                     }
