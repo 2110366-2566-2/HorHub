@@ -1,8 +1,27 @@
+import { useNavigate } from "react-router-dom";
 import { useUser } from "../../lib/context/UserContext"
 
 function MailVerifyPage() {
 
-    const {currentUser} = useUser()
+    const navigate = useNavigate();
+
+    const {currentUser, isLoading} = useUser()
+
+    if (isLoading) {
+        return (
+            <div className="page justify-center">
+                Loading...
+            </div>
+        )
+    }
+
+    if (!currentUser) {
+        navigate('/')
+    }
+
+    if (currentUser?.isVerified) {
+        navigate('/')
+    }
 
     return (
         <div className="page justify-center">
