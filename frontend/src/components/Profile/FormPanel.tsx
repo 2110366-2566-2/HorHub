@@ -7,7 +7,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 
 const schema = z.object({
-    email: z.string().trim().email(),
     firstName: z.string().trim().min(1, {message: 'Fill your first name'}),
     lastName: z.string().trim().min(1, {message: 'Fill your last name'}),
     displayName: z.string().trim().min(1, {message: 'Fill display name'}),
@@ -25,10 +24,7 @@ export default function FormPanel({currentUser,fetchUser,setEdit} : {currentUser
 
     });
 
-    const [duplicateEmail,setEmailDuplicate] = useState(false);
-    console.log(errors);
     const onSubmit : SubmitHandler<Omit<ValidationSchemaType,"birthdate">> = async (data) => {
-        setEmailDuplicate(false);
         const result = await fetch(process.env.REACT_APP_BACKEND_URL + "/auth/user",{
             method : "PUT",
             credentials : 'include',
@@ -45,10 +41,6 @@ export default function FormPanel({currentUser,fetchUser,setEdit} : {currentUser
             console.log(data);
             await fetchUser();
             setEdit(false);
-        } else if (result.status === 400) {
-            console.log("Email is already existed!");
-            setEmailDuplicate(true);
-            
         }
 
         
@@ -60,7 +52,6 @@ export default function FormPanel({currentUser,fetchUser,setEdit} : {currentUser
         console.log(errors);
         reset({...currentUser, birthdate : birthdate.toISOString().split('T')[0]})
     },[reset,currentUser]);
-    console.log(errors.email)
     
     return (
                 <form className="flex flex-col items-center" onSubmit = {handleSubmit(onSubmit)} > 
@@ -76,14 +67,7 @@ export default function FormPanel({currentUser,fetchUser,setEdit} : {currentUser
                             <Avatar className = " block justify-center" src = {currentUser.imageURL} sx = {{width : 100, height : 100}}/>
                             <div className="w-full">
                                 <LabelProfile header={"Email Address"} >
-                                    <input {...register("email")} className = {"border-6 border-b outline-0 w-full" + ((errors.email) ? "border-red-700" : "border-blue-700")}></input>
-                                    {
-                                            errors.email && (<div className="text-red-700">{errors.email.message}</div>)
-                                    }
-
-                                    {
-                                            duplicateEmail && (<div className="text-red-700">You are using duplicate email</div>)
-                                    }
+                                    {currentUser.email}
                                 </LabelProfile>
                                 
                                 <LabelProfile header={"Full Name"} >
