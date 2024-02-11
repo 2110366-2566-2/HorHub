@@ -53,7 +53,7 @@ export default function ProfilePage(){
             {(!isEdit) && <button className="danger-button" onClick = {() => {setEdit(true); console.log(currentUser)}}>Edit Profile</button>}
             
             {(isEdit) && <button className="danger-button" onClick = {() => {setEdit(false);}}>Cancel Change</button>}
-            <Link to ="setting">
+            <Link to ="setting/profile">
                 <button className="primary-button w-full">
                     Setting
                 </button>
