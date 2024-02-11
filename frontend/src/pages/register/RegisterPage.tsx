@@ -10,6 +10,7 @@ import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
 
 const schema = z.object({
   email: z.string().trim().email(),
@@ -33,6 +34,8 @@ type ValidationSchemaType = z.infer<typeof schema>;
 
 export default function RegisterPage() {
 
+  const [isEmailDuplicate, setEmailDuplicate] = useState<boolean>(false)
+
 
   const navigate = useNavigate();
 
@@ -41,20 +44,30 @@ export default function RegisterPage() {
   });
   const onSubmit: SubmitHandler<ValidationSchemaType> = async (data) => {
     console.log(data)
-    const result = await fetch(process.env.REACT_APP_BACKEND_URL + "/auth/register",{
-      method : "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body : JSON.stringify(data),
-      credentials : 'include',
-    });
-    if (result.status === 201){
-      const res = await result.json();
-      console.log(res.token);
-      
-      navigate("/verify");
+    try {
+      const result = await fetch(process.env.REACT_APP_BACKEND_URL + "/auth/register",{
+        method : "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body : JSON.stringify(data),
+        credentials : 'include',
+      });
+      if (result.ok){
+        const res = await result.json();
+        console.log(res.token);
+        
+        document.location.href = "/verify"
+      }
+      else if (result.status === 400) {
+        // User already existed
+        setEmailDuplicate(true)
+      }
     }
+    catch (err) {
+      console.log("Wow error")
+    }
+    
     
     
   }
@@ -68,6 +81,9 @@ export default function RegisterPage() {
 
             <div className="w-full lg:col-span-2">
               <span className="font-bold text-base">Authentication Information</span>
+              {
+                isEmailDuplicate && <div className="w-full align-center absolute pl-8 -bottom-1 translate-y-full text-red-700">This email is already used!</div>
+              }
             </div>
 
             <div className="relative flex flex-row lg:col-span-2">
@@ -80,6 +96,7 @@ export default function RegisterPage() {
               {
                 errors.email && <div className="absolute pl-8 -bottom-1 translate-y-full text-red-700">{errors.email.message}</div>
               }
+              
             </div>
 
             <div className="relative flex flex-row">
