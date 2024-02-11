@@ -5,7 +5,7 @@ import { DataSender, Schema_DataSender, sender } from "../lib/mail_sender";
 
 const router = Router()
 
-router.post("/emails/send",async (req : Request,res : Response) => {
+router.post("/send",async (req : Request,res : Response) => {
     const {from,to,subject,text} = req.body;
 
     const data = {

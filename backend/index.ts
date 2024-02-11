@@ -25,6 +25,7 @@ app.use(express.json())
 app.use('/', testRouter)
 app.use('/auth', authRouter)
 app.use('/users', userRouter)
+app.use('/mails', mailRouter)
 
 
 /*

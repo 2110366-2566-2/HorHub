@@ -118,7 +118,9 @@ const getUserFromToken = async (req: Request, res: Response) => {
     const query = await db.user.findUnique({where : {
         id : user.id as string
     }})
-    if (!query) return res.status(400).send("Not Found"); 
+    if (!query) {
+        return res.status(400).clearCookie("auth").send("Not Found");
+    }
 
     const {id,password,...data} = query;
 
