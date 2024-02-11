@@ -14,6 +14,11 @@ export default async function getUser() : Promise<UserInfo | null>{
 
         return user_data.data;
     }
+    if (jwt.status === 401){
+        console.log(jwt);
+        console.log("NOT OK");
+    }
+    
     return null;
     
 }
