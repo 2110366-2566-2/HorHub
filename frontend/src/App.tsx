@@ -6,6 +6,7 @@ import RegisterPage from './pages/register/RegisterPage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { UserProvider } from './lib/context/UserContext';
 import ProfilePage from './pages/profile/ProfilePage';
+import MailVerifyPage from './pages/register/MailVerifyPage';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/register" element={<RegisterPage/>} />
             <Route path="/profile" element = {<ProfilePage/>} />
+            <Route path="/verify" element={<MailVerifyPage/>} />
           </Routes>
           <Footbar />
         </UserProvider>
