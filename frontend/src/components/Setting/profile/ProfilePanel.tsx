@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import LabelProfile from "../../Profile/LabelProfile";
 import { UserInfo } from "../../../lib/type/UserHidden";
+import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
     firstName: z.string().trim().min(1, {message: 'Fill your first name'}),
@@ -24,6 +25,8 @@ export default function ProfilePanel({currentUser,fetchUser} : {currentUser : Us
 
     });
 
+    const navigate = useNavigate();
+
     const onSubmit : SubmitHandler<Omit<ValidationSchemaType,"birthdate">> = async (data) => {
         const result = await fetch(process.env.REACT_APP_BACKEND_URL + "/auth/user",{
             method : "PUT",
@@ -40,6 +43,7 @@ export default function ProfilePanel({currentUser,fetchUser} : {currentUser : Us
             const data = await result.json();
             console.log(data);
             await fetchUser();
+            navigate('/profile');
         }
 
         

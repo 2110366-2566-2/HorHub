@@ -3,6 +3,7 @@ import ListSettingItem from "./ListSettingItem";
 import { GoGear } from "react-icons/go";
 import { Link, useLocation } from "react-router-dom";
 import { RiLockPasswordFill } from "react-icons/ri";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 export default function SettingSidebar(){
     //inside li should be link 
@@ -29,9 +30,12 @@ export default function SettingSidebar(){
                     <div>Change Password</div>
                 </ListSettingItem>
             </Link>
-            <ListSettingItem >
-                <div>Public Profile</div>
-            </ListSettingItem>
+            <Link to = "delete">
+                <ListSettingItem active = {currentPath === "delete"}>
+                    <FaRegTrashAlt />
+                    <div>Delete Account</div>
+                </ListSettingItem>
+            </Link>
             <ListSettingItem >
                 <div>Public Profile</div>
             </ListSettingItem>

@@ -31,6 +31,7 @@ function App() {
                   <Route path = "profile" element = {<ProfileSettingPage />} />
                   <Route path = "account" element = {<AccountPage />} />
                   <Route path = "password" element = {<PasswordChangePage />} />
+                  <Route path = "delete" element = {<></>} />
                 </Route>
                 
 
