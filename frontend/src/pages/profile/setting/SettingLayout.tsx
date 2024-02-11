@@ -4,6 +4,11 @@ import SettingSidebar from "../../../components/Setting/SettingSidebar"
 import LoadingPage from "../../etc/LoadingPage";
 import { useUser } from "../../../lib/context/UserContext";
 import { useEffect } from "react";
+import { UserInfo } from "../../../lib/type/UserHidden";
+
+export type SettingContextType = {currentUser : UserInfo,
+                           isLoading : boolean,
+                           fetchUser : () => Promise<boolean>};
 
 export default function SettingLayout(){
     const {currentUser,isLoading,fetchUser} = useUser();
@@ -24,8 +29,8 @@ export default function SettingLayout(){
         <Header currentUser={currentUser}/>
         <div className= "flex-row flex w-3/4">
             <SettingSidebar></SettingSidebar>
-            <div className="text-center text-lg font-bold">
-                <Outlet />
+            <div className="text-center text-lg w-full">
+                <Outlet context = {{currentUser,isLoading,fetchUser}}/>
             </div>
             
         </div>

@@ -1,3 +1,8 @@
+import { useOutletContext } from "react-router-dom";
+import ProfilePanel from "../../../../components/Setting/profile/ProfilePanel";
+import { SettingContextType } from "../SettingLayout";
+
 export default function ProfileSettingPage(){
-    return (<div>Profile Page </div>);
+    const {currentUser,isLoading,fetchUser} = useOutletContext<SettingContextType>();
+    return (<ProfilePanel currentUser={currentUser} fetchUser={fetchUser}/>);
 }

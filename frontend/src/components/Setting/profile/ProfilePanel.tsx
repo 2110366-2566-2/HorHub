@@ -1,10 +1,10 @@
 import { Avatar } from "@mui/material";
-import { UserInfo } from "../../lib/type/UserHidden";
-import LabelProfile from "./LabelProfile";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
+import LabelProfile from "../../Profile/LabelProfile";
+import { UserInfo } from "../../../lib/type/UserHidden";
 
 const schema = z.object({
     firstName: z.string().trim().min(1, {message: 'Fill your first name'}),
@@ -18,7 +18,7 @@ const schema = z.object({
 
 type ValidationSchemaType = z.infer<typeof schema>;
 
-export default function FormPanel({currentUser,fetchUser,setEdit} : {currentUser : UserInfo,fetchUser : () => Promise<boolean>,setEdit : (value : boolean) => void}){
+export default function ProfilePanel({currentUser,fetchUser} : {currentUser : UserInfo,fetchUser : () => Promise<boolean>}){
     const { register, handleSubmit,reset, formState: { errors } } = useForm<Omit<ValidationSchemaType,"birthdate"> & {birthdate : string}>({
         resolver: zodResolver(schema),
 
@@ -40,7 +40,6 @@ export default function FormPanel({currentUser,fetchUser,setEdit} : {currentUser
             const data = await result.json();
             console.log(data);
             await fetchUser();
-            setEdit(false);
         }
 
         
@@ -53,24 +52,23 @@ export default function FormPanel({currentUser,fetchUser,setEdit} : {currentUser
         reset({...currentUser, birthdate : birthdate.toISOString().split('T')[0]})
     },[reset,currentUser]);
     
-    return (
-                <form className="flex flex-col items-center " onSubmit = {handleSubmit(onSubmit)} > 
-                             
-                            <div className="font-bold text-lg flex flex-wrap text-center justify-center sm:justify-start sm:flex-nowrap">
-                                    <div> Display Name : </div>
-                                    <input className = {"w-100% bg-transparent border-2 rounded " + ((errors.displayName) ? "border-red-400"  : "border-blue-400")}{...register("displayName")}></input>
-                                    {
-                                        errors.displayName && (<div className="text-red-700">{errors.displayName.message}</div>)
-                                    }
-                            </div>
-    
+    return (    <div className="flex flex-col w-full">
+                    <div className="border-b border-slate-500 my-2 font-bold">Public Profile</div>
+                    <form className="flex flex-row items-center  " onSubmit = {handleSubmit(onSubmit)} >  
+                            <div className="w-auto">
                             <Avatar className = " block justify-center" src = {currentUser.imageURL} sx = {{width : 100, height : 100}}/>
-                            <div className="w-full flex flex-col ">
-                                <LabelProfile header={"Email Address"} >
-                                    {currentUser.email}
+                            </div>
+                            <div className="flex flex-col gap-y-2 w-3/4">
+                                <LabelProfile header={"Displayed Name"} deactiveHover = {true}>
+                                    <input className = {"w-100% bg-transparent border-2 rounded " + ((errors.displayName) ? "border-red-400"  : "border-blue-400")} {...register("displayName")}></input>
+                                    {
+                                            errors.displayName && (<div className="text-red-700">{errors.displayName.message}</div>)
+                                    }
                                 </LabelProfile>
-                                
-                                <LabelProfile header={"Full Name"} >
+                                <LabelProfile header={"Email Address"} deactiveHover = {true}>
+                                    {currentUser.email}
+                                </LabelProfile >
+                                <LabelProfile header={"Full Name"} deactiveHover = {true}>
                                     <input className = {"w-100% bg-transparent  border-2 rounded " + ((errors.firstName) ? "border-red-400"  : "border-blue-400")} {...register("firstName")}></input>
                                     {
                                             errors.firstName && (<div className="text-red-700">{errors.firstName.message}</div>)
@@ -80,19 +78,19 @@ export default function FormPanel({currentUser,fetchUser,setEdit} : {currentUser
                                             errors.lastName && (<div className="text-red-700">{errors.lastName.message}</div>)
                                     }
                                 </LabelProfile>
-                                <LabelProfile header={"Phone Number"} >
+                                <LabelProfile header={"Phone Number"} deactiveHover = {true}>
                                     <input className = {"w-100% bg-transparent  border-2 rounded " + ((errors.phoneNumber) ? "border-red-400"  : "border-blue-400")} type = "tel" {...register("phoneNumber")}></input>
                                     {
                                             errors.phoneNumber && (<div className="text-red-700">{errors.phoneNumber.message}</div>)
                                     }
                                 </LabelProfile>
-                                <LabelProfile header={"Birth Date"} >
+                                <LabelProfile header={"Birth Date"} deactiveHover = {true}>
                                     <input className = {"w-100% bg-transparent  border-2 rounded " + ((errors.birthdate) ? "border-red-400"  : "border-blue-400")} type="date" {...register("birthdate")}></input>
                                     {
                                             errors.birthdate && (<div className="text-red-700">{errors.birthdate.message}</div>)
                                     }
                                 </LabelProfile>
-                                <LabelProfile header={"Gender"} >
+                                <LabelProfile header={"Gender"} deactiveHover = {true}>
                                 <div className="inline-block">
                                     <div className="flex ">
                                         <div className="hover:cursor-pointer flex items-center">
@@ -125,14 +123,16 @@ export default function FormPanel({currentUser,fetchUser,setEdit} : {currentUser
                                     </div>
                                 </div>
                                 </LabelProfile>
-                                <LabelProfile header={"Role"} >
+                                <LabelProfile header={"Role"} deactiveHover = {true}>
                                     {currentUser.role}
                                 </LabelProfile>
-                                <LabelProfile header={"Verified"} >
+                                <LabelProfile header={"Verified"} deactiveHover = {true} >
                                     {(currentUser.isVerified) ? "✅" : "❎"}
                                 </LabelProfile>
+                                <button className="primary-button w-full" type = "submit">Save Profile</button>
                             </div>
-                            {<button className="primary-button w-full" type = "submit">Save Profile</button>}
-                        </form>
+                        
+                    </form>
+                </div>
                 );
 }
