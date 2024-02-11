@@ -11,7 +11,9 @@ import AccVerifyTempPage from './pages/register/AccVerifyTempPage';
 import SuccessVerifyPage from './pages/register/SuccessVerifyPage';
 import SettingSidebar from './components/Setting/SettingSidebar';
 import SettingLayout from './pages/profile/setting/SettingLayout';
-import AccountPage from './pages/profile/setting/account/AccountPage';
+import AccountPage from './pages/profile/setting/setting-page/AccountPage';
+import ProfileSettingPage from './pages/profile/setting/setting-page/ProfileSettingPage';
+import PasswordChangePage from './pages/profile/setting/setting-page/PasswordChangePage';
 
 function App() {
   return (
@@ -26,8 +28,9 @@ function App() {
               <Route index element = {<ProfilePage />} />
               <Route path = "setting">
                 <Route element = {<SettingLayout />}>
-                  <Route path = "profile" element = {<AccountPage />}>
-                  </Route>
+                  <Route path = "profile" element = {<ProfileSettingPage />} />
+                  <Route path = "account" element = {<AccountPage />} />
+                  <Route path = "password" element = {<PasswordChangePage />} />
                 </Route>
                 
 
