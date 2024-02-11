@@ -8,6 +8,7 @@ import { UserProvider } from './lib/context/UserContext';
 import ProfilePage from './pages/profile/ProfilePage';
 import MailVerifyPage from './pages/register/MailVerifyPage';
 import SettingPage from './pages/profile/setting/SettingPage';
+import AccVerifyTempPage from './pages/register/AccVerifyTempPage';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
               <Route path = "setting" element = {<SettingPage />}></Route>
             </Route>
             <Route path="verify" element={<MailVerifyPage/>} />
+            <Route path="verify/:id" element={<AccVerifyTempPage/>} />
           </Routes>
           <Footbar />
         </UserProvider>

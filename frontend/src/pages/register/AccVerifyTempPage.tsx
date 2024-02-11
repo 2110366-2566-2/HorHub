@@ -3,6 +3,8 @@ import LoadingPage from "../etc/LoadingPage"
 
 function AccVerifyTempPage() {
 
+
+
     const {currentUser, isLoading} = useUser()
 
     if (isLoading) {
