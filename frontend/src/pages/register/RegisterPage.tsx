@@ -52,7 +52,8 @@ export default function RegisterPage() {
     if (result.status === 201){
       const res = await result.json();
       console.log(res.token);
-      navigate("../",{replace : true});
+      
+      navigate("/verify");
     }
     
     
