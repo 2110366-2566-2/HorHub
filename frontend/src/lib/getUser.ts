@@ -2,8 +2,7 @@ import { UserInfo, UserInfoSchema } from "./type/UserHidden";
 
 
 export default async function getUser() : Promise<UserInfo | null>{
-    try{
-        const jwt = await fetch(process.env.REACT_APP_BACKEND_URL + "/auth/user",{
+    const jwt = await fetch(process.env.REACT_APP_BACKEND_URL + "/auth/user",{
             method : "GET",
             credentials : "include"
         })
@@ -15,11 +14,12 @@ export default async function getUser() : Promise<UserInfo | null>{
     
             return user_data.data;
         }
-    }
-    if (jwt.status === 401){
-        console.log(jwt);
-        console.log("NOT OK");
-    }
+        if (jwt.status === 401){
+            console.log(jwt);
+            console.log("NOT OK");
+        }
+    
+    
     
     return null;
     
