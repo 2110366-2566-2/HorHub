@@ -43,6 +43,7 @@ export default function RegisterPage() {
     resolver: zodResolver(schema),
   });
   const onSubmit: SubmitHandler<ValidationSchemaType> = async (data) => {
+    setEmailDuplicate(false)
     console.log(data)
     try {
       const result = await fetch(process.env.REACT_APP_BACKEND_URL + "/auth/register",{
@@ -59,13 +60,12 @@ export default function RegisterPage() {
         
         document.location.href = "/verify"
       }
-      else if (result.status === 400) {
+      if (result.status === 400) {
         // User already existed
         setEmailDuplicate(true)
       }
     }
     catch (err) {
-      console.log("Wow error")
     }
     
     
@@ -79,10 +79,10 @@ export default function RegisterPage() {
         <form onSubmit={handleSubmit(onSubmit)} className="mx-10 mt-8 flex flex-col items-center gap-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 w-full gap-6 gap-y-10">
 
-            <div className="w-full lg:col-span-2">
+            <div className="relative w-full lg:col-span-2">
               <span className="font-bold text-base">Authentication Information</span>
               {
-                isEmailDuplicate && <div className="w-full align-center absolute pl-8 -bottom-1 translate-y-full text-red-700">This email is already used!</div>
+                isEmailDuplicate && <div className="flex w-full justify-center absolute -bottom-1 translate-y-full text-red-700">This email is already used!</div>
               }
             </div>
 
