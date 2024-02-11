@@ -19,6 +19,10 @@ function AccVerifyTempPage() {
         return <LoadingPage />
     }
 
+    if (currentUser.isVerified) {
+        navigate('/verify/success')
+    }
+
     
     fetch(process.env.REACT_APP_BACKEND_URL + "/auth/verify", {
         method: "POST",
@@ -26,7 +30,7 @@ function AccVerifyTempPage() {
           "Content-Type": "application/json",
         },
         credentials : 'include',
-    }).then(() => navigate('/register'))
+    }).then(() => navigate('/verify/success'))
     
 
     return <LoadingPage />

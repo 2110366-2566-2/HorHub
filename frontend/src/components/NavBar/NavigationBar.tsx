@@ -2,7 +2,6 @@ import React from 'react'
 import LoginButton from './LoginButton'
 import { Link } from 'react-router-dom'
 import { useUser } from '../../lib/context/UserContext';
-import Cookies from 'js-cookie';
 import { Avatar } from '@mui/material';
 
 const NavigationBar = () => {
