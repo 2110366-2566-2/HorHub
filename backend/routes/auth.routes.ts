@@ -19,6 +19,17 @@ const Schema_User = z.object({
     role: z.enum(["Customer", "Provider"], {invalid_type_error: 'Role is not valid, role must be "Customer" or "Provider"'})
 });
 
+const Schema_Update_User = z.object({
+    email: z.string().trim().email(),
+    firstName: z.string().trim().min(1, {message: 'Fill your first name'}),
+    lastName: z.string().trim().min(1, {message: 'Fill your last name'}),
+    displayName: z.string().trim().min(1, {message: 'Fill display name'}),
+    phoneNumber: z.string().trim().length(10, {message: 'Please fill valid phone number'})
+                  .refine((value) => /[0-9]{10}/.test(value), {message: 'Please fill valid phone number'}),
+    gender: z.enum(["Male", "Female", "Other"], {invalid_type_error: 'Gender is not valid, gender must be "Male", "Female", or "Other"'}),
+    birthdate: z.coerce.date().refine((data) => data < new Date(), { message: "Future date is not accepted" }),
+});
+
 const router = Router();
 
 
@@ -55,6 +66,30 @@ const login = async (req : Request, res : Response) => {
 
 }
 
+const update = async (req : Request,res : Response) => {
+    const {user,...data} = req.body;
+    const query = await db.user.findUnique({where : {
+        id : user.id as string
+    }})
+    if (!query) {
+        return res.status(400).clearCookie("auth").send("Not Found");
+    }
+
+    const update_data = Schema_Update_User.safeParse(data);
+    if (!update_data.success) return res.status(403).send("Invalid Data");
+    console.log(update_data.data)
+    const result = await db.user.update({where : {
+            id : user.id as string
+        },  data : update_data.data
+    });
+    const token = generateJWT(result.id, result.displayName, result.firstName);
+    res.cookie('auth', token, {httpOnly : true,maxAge :max_age * 1000});
+    res.status(201).send({
+            ...result,
+            token: token
+    });
+
+}
 
 const register = async (req : Request,res : Response) => {
     const data = req.body;
@@ -134,5 +169,7 @@ router.post('/login',login);
 router.get('/user',authenticateToken, getUserFromToken);
 
 router.post('/logout',authenticateToken,logout);
+
+router.put('/user',authenticateToken,update);
 
 export default router;

@@ -3,7 +3,7 @@ import { UserInfo } from "../../lib/type/UserHidden";
 import LabelProfile from "./LabelProfile";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useEffect } from "react";
 
 const schema = z.object({
@@ -19,11 +19,32 @@ const schema = z.object({
 
 type ValidationSchemaType = z.infer<typeof schema>;
 
-export default function FormPanel({currentUser,setEdit} : {currentUser : UserInfo,setEdit : (value : boolean) => void}){
+export default function FormPanel({currentUser,fetchUser,setEdit} : {currentUser : UserInfo,fetchUser : () => Promise<boolean>,setEdit : (value : boolean) => void}){
     const { register, handleSubmit,reset, formState: { errors } } = useForm<Omit<ValidationSchemaType,"birthdate"> & {birthdate : string}>({
         resolver: zodResolver(schema),
 
     });
+    const onSubmit : SubmitHandler<Omit<ValidationSchemaType,"birthdate">> = async (data) => {
+        console.log(data);
+        const result = await fetch(process.env.REACT_APP_BACKEND_URL + "/auth/user",{
+            method : "PUT",
+            credentials : 'include',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body : JSON.stringify(data)
+        })
+
+        console.log(result);
+
+        if(result.ok) {
+            const data = await result.json();
+            console.log(data);
+        }
+
+        await fetchUser();
+        setEdit(false);
+    };
 
     useEffect(() => {
         const {birthdate} = currentUser;
@@ -31,9 +52,9 @@ export default function FormPanel({currentUser,setEdit} : {currentUser : UserInf
         reset({...currentUser, birthdate : birthdate.toISOString().split('T')[0]})
     },[reset,currentUser]);
     
-    console.log(register("birthdate"));
+    
     return (
-                        <form className="flex flex-col items-center">
+                <form className="flex flex-col items-center" onSubmit = {handleSubmit(onSubmit)} > 
     
                             <div className="font-bold text-lg">
                                     Display Name : <input {...register("displayName")}></input>
@@ -94,7 +115,7 @@ export default function FormPanel({currentUser,setEdit} : {currentUser : UserInf
                                     {(currentUser.isVerified) ? "✅" : "❎"}
                                 </LabelProfile>
                             </div>
-                            {<button className="primary-button w-full" onClick = {() => {setEdit(false);}}>Save Profile</button>}
+                            {<button className="primary-button w-full" type = "submit">Save Profile</button>}
                         </form>
                 );
 }
