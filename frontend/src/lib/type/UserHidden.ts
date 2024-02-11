@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const UserInfoSchema = z.object({
+    id: z.string(),
     email: z.string().trim().email(),
     
     firstName: z.string().trim().min(1, {message: 'Fill your first name'}),

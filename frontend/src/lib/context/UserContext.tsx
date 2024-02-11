@@ -14,6 +14,7 @@ export const UserProvider = ({children} : {children : React.ReactNode}) => {
     const fetchUser = async() => {
         try {
             const user : UserInfo | null = await getUser();
+            console.log(user)
             setCurrentUser(user);
             setLoading(false)
             if (!user) return false;
