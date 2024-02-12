@@ -14,6 +14,7 @@ export default function SettingLayout(){
     const {currentUser,isLoading,fetchUser} = useUser();
     const navigate = useNavigate();
     useEffect( ()=> {
+        document.title = 'Settings | HorHub'
         const redirect = async ()=> {
             const res = await fetchUser();
             if (!res)
@@ -25,12 +26,12 @@ export default function SettingLayout(){
     if (isLoading || !currentUser) return (<LoadingPage/>);
 
     return (
-    <div className="page">
+    <div className="page gap-3">
         <Header currentUser={currentUser}/>
-        <div className= "flex-row flex w-full lg:w-3/4">
+        <div className= "flex-row flex w-full gap-2">
             <SettingSidebar></SettingSidebar>
             <div className="text-center text-lg w-full">
-                <Outlet context = {{currentUser,isLoading,fetchUser}}/>
+                <Outlet context = {{currentUser, isLoading, fetchUser}}/>
             </div>
             
         </div>

@@ -9,14 +9,14 @@ export default function Header({currentUser} : {currentUser : UserInfo}){
     
 
     return (
-    <div className="flex flex-row justify-between w-3/4">
+    <div className="flex flex-row justify-between w-full">
         <div className="flex flex-row gap-4">
             <div>
                 <Avatar src = {currentUser.imageURL}/>
             </div>
             <div>
-                <div>{currentUser.firstName + " " + currentUser.lastName} <span className="font-bold">({currentUser.displayName})</span></div>
-                <div>Your personal Account</div>
+                <div><span className="font-bold">{currentUser.displayName}</span></div>
+                <div>{currentUser.firstName + " " + currentUser.lastName} </div>
             </div>
         </div>
         <div>

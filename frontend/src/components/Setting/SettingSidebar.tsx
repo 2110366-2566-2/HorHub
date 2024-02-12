@@ -4,17 +4,18 @@ import { GoGear } from "react-icons/go";
 import { Link, useLocation } from "react-router-dom";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { LuUser2 } from "react-icons/lu";
 
 export default function SettingSidebar(){
     //inside li should be link 
     const location = useLocation();
     const currentPath = location.pathname.split('settings/')[1];
     return (
-    <nav className="w-2/4 md:w-1/4 h-[75vh] text-sm">
+    <nav className="w-2/4 md:w-1/4 h-full text-sm">
         <ul className="grid grid-cols-1">
             <Link to = "profile">   
                 <ListSettingItem active = {currentPath === "profile"}>
-                    <IoPersonCircleOutline />
+                    <LuUser2 />
                     <div>Public Profile</div>
                 </ListSettingItem>
             </Link>
