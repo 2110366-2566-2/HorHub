@@ -25,21 +25,17 @@ function App() {
           <Routes >
             <Route path = "/" element={<HomePage />} />
             <Route path="register" element={<RegisterPage/>} />
-            <Route path="profile" >
-              <Route index element = {<ProfilePage />} />
-              <Route path = "setting">
-                <Route element = {<SettingLayout />}>
-                  <Route path = "profile" element = {<ProfileSettingPage />} />
-                  <Route path = "account" element = {<AccountPage />} />
-                  <Route path = "password" element = {<PasswordChangePage />} />
-                  <Route path = "delete" element = {<></>} />
-                </Route>
-                
-
-                
-                
+            <Route path="profile" element={<ProfilePage />} />
+              
+            <Route path = "settings">
+              <Route element = {<SettingLayout />}>
+                <Route path = "profile" element = {<ProfileSettingPage />} />
+                <Route path = "account" element = {<AccountPage />} />
+                <Route path = "password" element = {<PasswordChangePage />} />
+                <Route path = "delete" element = {<></>} />
               </Route>
             </Route>
+           
             <Route path="verify" element={<MailVerifyPage/>} />
             <Route path="verify/success" element={<SuccessVerifyPage/>} />
             <Route path="verify/:id" element={<AccVerifyTempPage/>} />

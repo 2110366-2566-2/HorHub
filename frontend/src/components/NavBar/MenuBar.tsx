@@ -17,7 +17,7 @@ function MenuBar() {
         {
             name: "Settings",
             icon: <MdOutlineSettings className={iconClassName} />,
-            onClick: () => {navigate('/profile/setting/profile')}
+            onClick: () => {navigate('/settings/profile')}
         },
         {
             name: "Log Out",

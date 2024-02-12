@@ -4,6 +4,7 @@ import { useUser } from "../../lib/context/UserContext";
 import { useEffect, useState } from "react";
 import { UserInfo } from "../../lib/type/UserHidden";
 import FormPanel from "../../components/Profile/FormPanel";
+import LoadingPage from "../etc/LoadingPage";
 
 
 const initUser : UserInfo = {
@@ -43,22 +44,31 @@ export default function ProfilePage(){
     },[isLoading]);
     */
     
-    if(!currentUser) return <div className="page justify-center">Loading..</div>
+    if(!currentUser) return <LoadingPage />
 
     
     return (
-    <div className="page justify-center bg-indigo-50">
-        <div className="border-2 border-blue-200 rounded-lg flex flex-col w-3/4 from-sky-300 to-red-300 bg-gradient-to-b">
+    <div className="page">
+        <div className="flex flex-col w-full">
+
+
+            
+
+
+
+
+
+
             {(!isEdit) && <UserPanel currentUser = {currentUser}/>}
             {(isEdit) && <FormPanel currentUser = {currentUser} fetchUser = {fetchUser} setEdit={setEdit}/>}
-            {(!isEdit) && <button className="danger-button" onClick = {() => {setEdit(true); console.log(currentUser)}}>Edit Profile</button>}
+            {/* {(!isEdit) && <button className="danger-button" onClick = {() => {setEdit(true); console.log(currentUser)}}>Edit Profile</button>} */}
             
-            {(isEdit) && <button className="danger-button" onClick = {() => {setEdit(false);}}>Cancel Change</button>}
-            <Link to ="setting/profile">
+            {/* {(isEdit) && <button className="danger-button" onClick = {() => {setEdit(false);}}>Cancel Change</button>} */}
+            {/* <Link to ="setting/profile">
                 <button className="primary-button w-full">
                     Setting
                 </button>
-            </Link>
+            </Link> */}
         </div>
     </div>);
 } /**/
