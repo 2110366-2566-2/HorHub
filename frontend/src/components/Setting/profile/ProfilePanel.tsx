@@ -58,10 +58,15 @@ export default function ProfilePanel({currentUser,fetchUser} : {currentUser : Us
     
     return (    <div className="flex flex-col w-full">
                     <div className="border-b border-slate-500 my-2 font-bold">Public Profile</div>
-                        <form className="flex flex-col md:flex-row  " onSubmit = {handleSubmit(onSubmit)} >  
-                            {/* <div className="w-1/4 flex  justify-center">
-                            <Avatar className = " block justify-center " src = {currentUser.imageURL} sx = {{width : 100, height : 100}}/>
-                            </div> */}
+                        <form className="flex flex-col " onSubmit = {handleSubmit(onSubmit)} >  
+                            <div className="flex flex-col gap-y-2 w-full items-start gap-3 pb-3">
+                                <span className="font-semibold text-sm">Avatar</span>
+                                <div className="w-full flex flex-col md:flex-row md:pl-5 justify-start items-center gap-5">
+                                    <Avatar className = "block justify-center " src = {currentUser.imageURL} sx = {{width : 100, height : 100}}/>
+                                    <button className="primary-button w-fit h-fit" type="button">Upload Avatar</button>
+                                </div>
+                                
+                            </div>
                             <div className="flex flex-col gap-y-2 w-full">
                                 <TextInput 
                                     type="text" 
@@ -139,7 +144,7 @@ export default function ProfilePanel({currentUser,fetchUser} : {currentUser : Us
                                 <LabelProfile header={"Role"} deactiveHover = {true}>
                                     {currentUser.role}
                                 </LabelProfile>
-                                <button className="primary-button w-fit" type = "submit">Save Profile</button>
+                                <button className="primary-button w-fit" type="submit">Save Profile</button>
                             </div>
                         
                     </form>
