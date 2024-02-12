@@ -1,11 +1,16 @@
 import { useEffect } from "react"
 import Graph404 from "../../res/img/404-img.png"
+import { useNavigate } from "react-router-dom"
 
 function NotFoundPage() {
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         document.title = "Page not found | HorHub"
     }, [])
+
+
 
     return (
         <div className="page justify-center">
@@ -15,7 +20,7 @@ function NotFoundPage() {
                 <img src={Graph404} />
                 <button 
                     className="primary-button"
-                    onClick={() => document.location.href = "/"}>
+                    onClick={() => {navigate('/');}}>
                     Go to homepage
                 </button>
             </div>

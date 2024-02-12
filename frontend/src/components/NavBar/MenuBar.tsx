@@ -1,20 +1,23 @@
 import { LuUser2 } from "react-icons/lu";
 import { MdLogout, MdOutlineSettings } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../../lib/context/UserContext";
 
 function MenuBar() {
 
     const iconClassName = "h-4 w-4"
-
+    const navigate = useNavigate();
+    const {fetchUser} = useUser();
     const menuList = [
         {
             name: "My Profile",
             icon: <LuUser2 className={iconClassName} />,
-            onClick: () => {document.location.href = "/profile"}
+            onClick: () => {navigate('/profile')}
         },
         {
             name: "Settings",
             icon: <MdOutlineSettings className={iconClassName} />,
-            onClick: () => {document.location.href = "/profile/setting/profile"}
+            onClick: () => {navigate('/profile/setting/profile')}
         },
         {
             name: "Log Out",
@@ -24,7 +27,8 @@ function MenuBar() {
                 method : "POST",
                 credentials : "include",
                 });
-                document.location.href = "/"
+                fetchUser();
+                navigate('/');
             }
         }
     ]
