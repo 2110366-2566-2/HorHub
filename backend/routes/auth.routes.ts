@@ -27,6 +27,7 @@ const Schema_Update_User = z.object({
                   .refine((value) => /[0-9]{10}/.test(value), {message: 'Please fill valid phone number'}),
     gender: z.enum(["Male", "Female", "Other"], {invalid_type_error: 'Gender is not valid, gender must be "Male", "Female", or "Other"'}),
     birthdate: z.coerce.date().refine((data) => data < new Date(), { message: "Future date is not accepted" }),
+    imageURL: z.string().optional(),
 });
 
 const router = Router();
