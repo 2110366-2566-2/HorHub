@@ -1,18 +1,24 @@
 import { LuUser2 } from "react-icons/lu";
-import { IoIosLogOut } from "react-icons/io";
-import { IoLogOutOutline } from "react-icons/io5";
+import { MdLogout, MdOutlineSettings } from "react-icons/md";
 
 function MenuBar() {
+
+    const iconClassName = "h-4 w-4"
 
     const menuList = [
         {
             name: "My Profile",
-            icon: <LuUser2 className="h-5 w-5" />,
+            icon: <LuUser2 className={iconClassName} />,
             onClick: () => {document.location.href = "/profile"}
         },
         {
+            name: "Settings",
+            icon: <MdOutlineSettings className={iconClassName} />,
+            onClick: () => {document.location.href = "/profile/setting/profile"}
+        },
+        {
             name: "Log Out",
-            icon: <IoLogOutOutline className="h-5 w-5" />,
+            icon: <MdLogout className={iconClassName} />,
             onClick: async () => {
                 const result = await fetch(process.env.REACT_APP_BACKEND_URL + '/auth/logout',{
                 method : "POST",
@@ -30,12 +36,12 @@ function MenuBar() {
                 {
                     menuList.map((data, idx) => {
                         return (
-                            <li>
+                            <li key={idx}>
                                 <button 
                                     className="w-full flex items-center hover:bg-slate-100"
                                     onClick={data.onClick}>
                                     {data.icon}
-                                    {data.name}
+                                    <span className="text-sm">{data.name}</span>
                                 </button>
                             </li>
                         )
