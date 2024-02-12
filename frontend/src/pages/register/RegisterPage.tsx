@@ -10,7 +10,7 @@ import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const schema = z.object({
   email: z.string().trim().email(),
@@ -84,9 +84,13 @@ export default function RegisterPage() {
     
     
   }
+
+  useEffect(() => {
+    document.title = 'Registration | HorHub'
+  }, [])
   
   return(
-    <div className="page bg-indigo-50">
+    <div className="page">
       <div className="text-2xl font-bold">Register</div>
       <div className="rounded-xl border border-blue-500 mt-8 h-fit bg-white w-full md:w-4/5 lg:w-3/5 pb-8 text-sm">
         <form onSubmit={handleSubmit(onSubmit)} className="mx-10 mt-8 flex flex-col items-center gap-8">

@@ -58,7 +58,7 @@ export default function ProfilePanel({currentUser,fetchUser} : {currentUser : Us
     
     return (    <div className="flex flex-col w-full">
                     <div className="border-b border-slate-500 my-2 font-bold">Public Profile</div>
-                    <form className="flex flex-col md:flex-row items-center  " onSubmit = {handleSubmit(onSubmit)} >  
+                    <form className="flex flex-col md:flex-row  " onSubmit = {handleSubmit(onSubmit)} >  
                             {/* <div className="w-1/4 flex  justify-center">
                             <Avatar className = " block justify-center " src = {currentUser.imageURL} sx = {{width : 100, height : 100}}/>
                             </div> */}
@@ -94,6 +94,15 @@ export default function ProfilePanel({currentUser,fetchUser} : {currentUser : Us
                                     error={errors.lastName} 
                                 />
 
+                                <TextInput 
+                                    type="date" 
+                                    name="birthdate" 
+                                    fieldName="Birthdate" 
+                                    placeholder="Birthdate..." 
+                                    register={register} 
+                                    error={errors.birthdate} 
+                                />
+
                                 
                                 {/* <LabelProfile header={"Displayed Name"} deactiveHover = {true}>
                                     <input className = {"w-100% bg-transparent border-2 rounded " + ((errors.displayName) ? "border-red-400"  : "border-blue-400")} {...register("displayName")}></input>
@@ -119,12 +128,12 @@ export default function ProfilePanel({currentUser,fetchUser} : {currentUser : Us
                                             errors.phoneNumber && (<div className="text-red-700">{errors.phoneNumber.message}</div>)
                                     }
                                 </LabelProfile> */}
-                                <LabelProfile header={"Birth Date"} deactiveHover = {true}>
+                                {/* <LabelProfile header={"Birth Date"} deactiveHover = {true}>
                                     <input className = {"w-100% bg-transparent  border-2 rounded " + ((errors.birthdate) ? "border-red-400"  : "border-blue-400")} type="date" {...register("birthdate")}></input>
                                     {
                                             errors.birthdate && (<div className="text-red-700">{errors.birthdate.message}</div>)
                                     }
-                                </LabelProfile>
+                                </LabelProfile> */}
                                 <LabelProfile header={"Gender"} deactiveHover = {true}>
                                 <div className="inline-block">
                                     <div className="flex ">

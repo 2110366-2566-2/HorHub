@@ -50,15 +50,6 @@ export default function ProfilePage(){
     return (
     <div className="page">
         <div className="flex flex-col w-full">
-
-
-            
-
-
-
-
-
-
             {(!isEdit) && <UserPanel currentUser = {currentUser}/>}
             {(isEdit) && <FormPanel currentUser = {currentUser} fetchUser = {fetchUser} setEdit={setEdit}/>}
             {/* {(!isEdit) && <button className="danger-button" onClick = {() => {setEdit(true); console.log(currentUser)}}>Edit Profile</button>} */}
