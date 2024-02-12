@@ -37,7 +37,6 @@ export default function ProfilePanel({currentUser,fetchUser} : {currentUser : Us
             body : JSON.stringify(data)
         })
 
-        console.log(result);
 
         if(result.ok) {
             const data = await result.json();

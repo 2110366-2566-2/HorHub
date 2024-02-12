@@ -27,7 +27,7 @@ export default function SettingLayout(){
     return (
     <div className="page  bg-indigo-50">
         <Header currentUser={currentUser}/>
-        <div className= "flex-row flex w-3/4">
+        <div className= "flex-row flex w-full lg:w-3/4">
             <SettingSidebar></SettingSidebar>
             <div className="text-center text-lg w-full">
                 <Outlet context = {{currentUser,isLoading,fetchUser}}/>
