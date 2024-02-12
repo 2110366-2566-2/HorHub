@@ -12,12 +12,12 @@ function MenuBar() {
         {
             name: "My Profile",
             icon: <LuUser2 className={iconClassName} />,
-            onClick: () => {document.location.href = "/profile"}
+            onClick: () => {navigate('/profile')}
         },
         {
             name: "Settings",
             icon: <MdOutlineSettings className={iconClassName} />,
-            onClick: () => {document.location.href = "/profile/setting/profile"}
+            onClick: () => {navigate('/profile/setting/profile')}
         },
         {
             name: "Log Out",
