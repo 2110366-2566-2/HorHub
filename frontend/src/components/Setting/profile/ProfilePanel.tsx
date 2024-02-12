@@ -57,9 +57,9 @@ export default function ProfilePanel({currentUser,fetchUser} : {currentUser : Us
     
     return (    <div className="flex flex-col w-full">
                     <div className="border-b border-slate-500 my-2 font-bold">Public Profile</div>
-                    <form className="flex flex-row items-center  " onSubmit = {handleSubmit(onSubmit)} >  
-                            <div className="w-auto">
-                            <Avatar className = " block justify-center" src = {currentUser.imageURL} sx = {{width : 100, height : 100}}/>
+                    <form className="flex flex-col md:flex-row items-center  " onSubmit = {handleSubmit(onSubmit)} >  
+                            <div className="w-1/4 flex  justify-center">
+                            <Avatar className = " block justify-center " src = {currentUser.imageURL} sx = {{width : 100, height : 100}}/>
                             </div>
                             <div className="flex flex-col gap-y-2 w-3/4">
                                 <LabelProfile header={"Displayed Name"} deactiveHover = {true}>
@@ -72,7 +72,7 @@ export default function ProfilePanel({currentUser,fetchUser} : {currentUser : Us
                                     {currentUser.email}
                                 </LabelProfile >
                                 <LabelProfile header={"Full Name"} deactiveHover = {true}>
-                                    <input className = {"w-100% bg-transparent  border-2 rounded " + ((errors.firstName) ? "border-red-400"  : "border-blue-400")} {...register("firstName")}></input>
+                                <input className = {"w-100% bg-transparent  border-2 rounded " + ((errors.firstName) ? "border-red-400"  : "border-blue-400")} {...register("firstName")}></input>
                                     {
                                             errors.firstName && (<div className="text-red-700">{errors.firstName.message}</div>)
                                     }
