@@ -14,6 +14,7 @@ import SettingLayout from './pages/profile/setting/SettingLayout';
 import AccountPage from './pages/profile/setting/setting-page/AccountPage';
 import ProfileSettingPage from './pages/profile/setting/setting-page/ProfileSettingPage';
 import PasswordChangePage from './pages/profile/setting/setting-page/PasswordChangePage';
+import NotFoundPage from './pages/etc/NotFoundPage';
 
 function App() {
   return (
@@ -42,6 +43,9 @@ function App() {
             <Route path="verify" element={<MailVerifyPage/>} />
             <Route path="verify/success" element={<SuccessVerifyPage/>} />
             <Route path="verify/:id" element={<AccVerifyTempPage/>} />
+
+            
+            <Route path="/*" element={<NotFoundPage />} />
           </Routes>
           <Footbar />
         </UserProvider>
