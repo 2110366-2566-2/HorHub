@@ -3,18 +3,20 @@ import LoginButton from './LoginButton'
 import { Link } from 'react-router-dom'
 import { useUser } from '../../lib/context/UserContext';
 import { Avatar } from '@mui/material';
+import MenuBar from './MenuBar';
 
 const NavigationBar = () => {
   const {currentUser, isLoading, fetchUser} = useUser();
-  const logOutHandle = async () => {
 
-      const result = await fetch(process.env.REACT_APP_BACKEND_URL + '/auth/logout',{
-        method : "POST",
-        credentials : "include",
-      });
-      console.log(result);
-      await fetchUser();
-  };
+  // const logOutHandle = async () => {
+
+  //     const result = await fetch(process.env.REACT_APP_BACKEND_URL + '/auth/logout',{
+  //       method : "POST",
+  //       credentials : "include",
+  //     });
+  //     console.log(result);
+  //     await fetchUser();
+  // };
 
   return (
     <nav className="sticky top-0 h-16 backdrop-blur-md flex items-center justify-between px-4 bg-base-100/50 z-20 border-b-2 border-slate-900/10">
@@ -39,12 +41,12 @@ const NavigationBar = () => {
                                 <LoginButton />
                               </>)}
               {!isLoading && currentUser && (<>
-                                <Link to = "/profile">
-                                  <Avatar src = {currentUser.imageURL} />
-                                </Link>
-                                <button className = "danger-button" onClick = {async () => {await logOutHandle();}}>
-                                  Logout
-                                </button>
+                                <div className="dropdown dropdown-end">
+                                  <div tabIndex={0} role="button" className="w-fit h-fit rounded-full"><Avatar src = {currentUser.imageURL} /></div>
+                                  <div tabIndex={0} className="dropdown-content z-[20] menu shadow bg-white rounded-box -bottom-2 translate-y-full border border-slate-100">
+                                    <MenuBar />
+                                  </div>
+                                </div>
                                 
                               </>
               )}
