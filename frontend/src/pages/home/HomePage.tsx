@@ -5,6 +5,10 @@ import { useUser } from "../../lib/context/UserContext";
 
 function HomePage() {
     const {currentUser, fetchUser} = useUser();
+
+    useEffect(() => {
+        document.title = 'Home | HorHub'
+    }, [])
     
     return (
         <div className="unpadding-page">
