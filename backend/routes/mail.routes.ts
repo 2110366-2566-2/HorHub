@@ -10,7 +10,7 @@ const router = Router()
 router.post("/verification", authenticateToken, async (req: Request, res: Response) => {
     const user: User = req.body.user
 
-    console.log(user)
+    // console.log(user)
 
     const data = {
         "from" : process.env.HOST_USER,
@@ -19,7 +19,7 @@ router.post("/verification", authenticateToken, async (req: Request, res: Respon
         "html" : `<h1>Welcome to HorHub, ${user.displayName}!</h1><span>Please verify your account by click <a href="${process.env.FRONTEND_URL}/verify/${user.id}">this link</a></span>`
     }
     const data_parse = Schema_DataSender.safeParse(data);
-    console.log(data)
+    // console.log(data)
     if(!data_parse.success) {
         const my_message : string[] = [];
         for (const mes of data_parse.error.errors){

@@ -67,7 +67,7 @@ app.get("/", async (req: Request, res: Response) => {
 });
 
 app.get("/temp",async (req: Request, res: Response) => {
-  console.log(req.cookies);
+  // console.log(req.cookies);
   res.send("Hello, this is backend!");
 })
 
