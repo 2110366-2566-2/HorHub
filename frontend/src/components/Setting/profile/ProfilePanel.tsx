@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import LabelProfile from "../../Profile/LabelProfile";
 import { UserInfo } from "../../../lib/type/UserHidden";
 import { useNavigate } from "react-router-dom";
+import TextInput from "../../Form/TextInput";
 
 const schema = z.object({
     firstName: z.string().trim().min(1, {message: 'Fill your first name'}),
@@ -58,20 +59,51 @@ export default function ProfilePanel({currentUser,fetchUser} : {currentUser : Us
     return (    <div className="flex flex-col w-full">
                     <div className="border-b border-slate-500 my-2 font-bold">Public Profile</div>
                     <form className="flex flex-col md:flex-row items-center  " onSubmit = {handleSubmit(onSubmit)} >  
-                            <div className="w-1/4 flex  justify-center">
+                            {/* <div className="w-1/4 flex  justify-center">
                             <Avatar className = " block justify-center " src = {currentUser.imageURL} sx = {{width : 100, height : 100}}/>
-                            </div>
-                            <div className="flex flex-col gap-y-2 w-3/4">
-                                <LabelProfile header={"Displayed Name"} deactiveHover = {true}>
+                            </div> */}
+                            <div className="flex flex-col gap-y-2 w-full">
+                                <TextInput 
+                                    type="text" 
+                                    name="displayName" 
+                                    fieldName="Display Name" 
+                                    placeholder="Display Name..." 
+                                    register={register} 
+                                    error={errors.displayName} 
+                                />
+
+                                <LabelProfile header={"Email Address"} deactiveHover = {true}>
+                                    {currentUser.email}
+                                </LabelProfile >
+
+                                <TextInput 
+                                    type="text" 
+                                    name="firstName" 
+                                    fieldName="First Name" 
+                                    placeholder="First Name..." 
+                                    register={register} 
+                                    error={errors.firstName} 
+                                />
+
+                                <TextInput 
+                                    type="text" 
+                                    name="lastName" 
+                                    fieldName="Last Name" 
+                                    placeholder="Last Name..." 
+                                    register={register} 
+                                    error={errors.lastName} 
+                                />
+
+                                
+                                {/* <LabelProfile header={"Displayed Name"} deactiveHover = {true}>
                                     <input className = {"w-100% bg-transparent border-2 rounded " + ((errors.displayName) ? "border-red-400"  : "border-blue-400")} {...register("displayName")}></input>
                                     {
                                             errors.displayName && (<div className="text-red-700">{errors.displayName.message}</div>)
                                     }
-                                </LabelProfile>
-                                <LabelProfile header={"Email Address"} deactiveHover = {true}>
-                                    {currentUser.email}
-                                </LabelProfile >
-                                <LabelProfile header={"Full Name"} deactiveHover = {true}>
+                                </LabelProfile> */}
+                                
+                                
+                                {/* <LabelProfile header={"Full Name"} deactiveHover = {true}>
                                 <input className = {"w-100% bg-transparent  border-2 rounded " + ((errors.firstName) ? "border-red-400"  : "border-blue-400")} {...register("firstName")}></input>
                                     {
                                             errors.firstName && (<div className="text-red-700">{errors.firstName.message}</div>)
@@ -86,7 +118,7 @@ export default function ProfilePanel({currentUser,fetchUser} : {currentUser : Us
                                     {
                                             errors.phoneNumber && (<div className="text-red-700">{errors.phoneNumber.message}</div>)
                                     }
-                                </LabelProfile>
+                                </LabelProfile> */}
                                 <LabelProfile header={"Birth Date"} deactiveHover = {true}>
                                     <input className = {"w-100% bg-transparent  border-2 rounded " + ((errors.birthdate) ? "border-red-400"  : "border-blue-400")} type="date" {...register("birthdate")}></input>
                                     {

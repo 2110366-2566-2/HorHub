@@ -6,10 +6,14 @@ const LoginButton = () => {
 
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
+    const [isError, setError] = useState<boolean>(false)
+
     const {currentUser,fetchUser} = useUser();
+    
     const navigate = useNavigate();
 
     const onClick = async() => {
+        setError(false)
         const result = await fetch(process.env.REACT_APP_BACKEND_URL + '/auth/login',{
             method : "POST",
             headers: {
@@ -29,6 +33,9 @@ const LoginButton = () => {
             setPassword("");
             navigate("../",{replace : true});
         }
+        else {
+            setError(true)
+        }
     }
 
 
@@ -38,6 +45,9 @@ const LoginButton = () => {
         <div tabIndex={0} className="dropdown-content z-[20] menu py-4 px-4 shadow bg-white rounded-box w-80 -bottom-2 translate-y-full border border-slate-100">
             <div className="w-full flex flex-col items-center gap-3">
                 <span className="font-semibold text-base">Sign In</span>
+                {
+                    isError && <div className="flex w-full justify-center text-red-700">Email or password is wrong!</div>
+                }
                 <div className="w-full flex flex-col gap-2">
                     <label className="text-base">Email</label>
                     <input 
