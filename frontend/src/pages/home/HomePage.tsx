@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import getUser from "../../lib/getUser";
 import buildingSVG from "../../res/svg/homebuilding.svg"
 import { useUser } from "../../lib/context/UserContext";
+import { UploadButton } from "../../lib/uploadthing";
 
 function HomePage() {
     const {currentUser, fetchUser} = useUser();

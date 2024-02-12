@@ -1,12 +1,13 @@
 import express, { Express, NextFunction, Request, Response } from "express";
 import cors from 'cors';
 import dotenv from "dotenv";
+import { createRouteHandler } from "uploadthing/express";
+import { uploadRouter } from "./lib/uploadthing";
 import mailRouter from "./routes/mail.routes";
 import testRouter from "./routes/test.routes";
 import authRouter from "./routes/auth.routes";
 import userRouter from "./routes/user.routes";
 import cookieParser from "cookie-parser";
-import { db } from "./lib/db";
 
 dotenv.config();
 
@@ -26,6 +27,28 @@ app.use('/', testRouter)
 app.use('/auth', authRouter)
 app.use('/users', userRouter)
 app.use('/mails', mailRouter)
+
+
+
+
+
+
+
+
+
+
+app.use("/api/uploadthing", createRouteHandler({
+  router: uploadRouter,
+}));
+
+
+
+
+
+
+
+
+
 
 
 /*
