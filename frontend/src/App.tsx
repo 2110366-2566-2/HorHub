@@ -13,7 +13,6 @@ import SettingSidebar from './components/Setting/SettingSidebar';
 import SettingLayout from './pages/profile/setting/SettingLayout';
 import AccountPage from './pages/profile/setting/setting-page/AccountPage';
 import ProfileSettingPage from './pages/profile/setting/setting-page/ProfileSettingPage';
-import PasswordChangePage from './pages/profile/setting/setting-page/PasswordChangePage';
 import NotFoundPage from './pages/etc/NotFoundPage';
 
 function App() {
@@ -31,7 +30,6 @@ function App() {
               <Route element = {<SettingLayout />}>
                 <Route path = "profile" element = {<ProfileSettingPage />} />
                 <Route path = "account" element = {<AccountPage />} />
-                <Route path = "password" element = {<PasswordChangePage />} />
                 <Route path = "delete" element = {<></>} />
               </Route>
             </Route>

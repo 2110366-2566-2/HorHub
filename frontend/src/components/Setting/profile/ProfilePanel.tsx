@@ -50,7 +50,8 @@ export default function ProfilePanel({currentUser,fetchUser} : {currentUser : Us
             const data = await result.json();
             console.log(data);
             await fetchUser();
-            navigate('/profile');
+            document.location = '/settings/profile'
+            // navigate('/profile');
         }
 
         
@@ -109,9 +110,9 @@ export default function ProfilePanel({currentUser,fetchUser} : {currentUser : Us
     },[reset,currentUser]);
     
     return (    <div className="flex flex-col w-full">
-                    <div className="border-b border-slate-500 my-2 font-bold">Public Profile</div>
+                    <div className="border-b border-slate-300 my-2 font-bold text-left">Public Profile</div>
                         <form className="flex flex-col " onSubmit = {handleSubmit(onSubmit)} >  
-                            <div className="flex flex-col gap-y-2 w-full items-start gap-3 pb-3">
+                            <div className="flex flex-col gap-y-2 w-full items-start gap-3 pb-3 pt-3">
                                 <span className="font-semibold text-sm">Avatar</span>
                                 <div className="w-full flex flex-col md:flex-row md:pl-5 justify-start items-center gap-5">
                                     <Avatar className = "block justify-center " src={avatarLink} sx={{width : 100, height : 100}}/>
