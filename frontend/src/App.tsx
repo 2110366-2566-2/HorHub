@@ -15,7 +15,8 @@ import AccountPage from './pages/profile/setting/setting-page/AccountPage';
 import ProfileSettingPage from './pages/profile/setting/setting-page/ProfileSettingPage';
 import PasswordChangePage from './pages/profile/setting/setting-page/PasswordChangePage';
 import NotFoundPage from './pages/etc/NotFoundPage';
-
+import EmailChangePage from './pages/profile/setting/setting-page/EmailChangePage';
+import DeleteAccountPage from './pages/profile/setting/setting-page/DeleteAccountPage';
 function App() {
   return (
     <>
@@ -32,7 +33,8 @@ function App() {
                 <Route path = "profile" element = {<ProfileSettingPage />} />
                 <Route path = "account" element = {<AccountPage />} />
                 <Route path = "password" element = {<PasswordChangePage />} />
-                <Route path = "delete" element = {<></>} />
+                <Route path = "email" element = {<EmailChangePage />} />
+                <Route path = "delete" element = {<DeleteAccountPage/>} />
               </Route>
             </Route>
            

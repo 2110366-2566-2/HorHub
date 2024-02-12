@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { LuUser2 } from "react-icons/lu";
+import { MdOutlineMail } from "react-icons/md";
 
 export default function SettingSidebar(){
     //inside li should be link 
@@ -25,10 +26,16 @@ export default function SettingSidebar(){
                     <div>Account</div>
                 </ListSettingItem>
             </Link>
-            {/* <Link to = "password">
+            <Link to = "password">
                 <ListSettingItem active = {currentPath === "password"}>
                     <RiLockPasswordFill />
                     <div>Change Password</div>
+                </ListSettingItem>
+            </Link>
+            <Link to = "email">
+                <ListSettingItem active = {currentPath === "email"}>
+                    <MdOutlineMail />
+                    <div>Change Email</div>
                 </ListSettingItem>
             </Link>
             <Link to = "delete">
@@ -37,7 +44,7 @@ export default function SettingSidebar(){
                     <div>Delete Account</div>
                 </ListSettingItem>
             </Link>
-            <ListSettingItem >
+            {/*<ListSettingItem >
                 <div>Public Profile</div>
             </ListSettingItem>
             <ListSettingItem >

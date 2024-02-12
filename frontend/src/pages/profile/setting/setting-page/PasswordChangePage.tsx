@@ -1,3 +1,4 @@
+import PasswordPanel from "../../../../components/Setting/password/PasswordPanel";
 export default function PasswordChangePage(){
-    return (<div>Password Change Page</div>);
+    return (<PasswordPanel/>);
 }
