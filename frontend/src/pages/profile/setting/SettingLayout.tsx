@@ -25,7 +25,7 @@ export default function SettingLayout(){
     if (isLoading || !currentUser) return (<LoadingPage/>);
 
     return (
-    <div className="page  bg-indigo-50">
+    <div className="page">
         <Header currentUser={currentUser}/>
         <div className= "flex-row flex w-full lg:w-3/4">
             <SettingSidebar></SettingSidebar>

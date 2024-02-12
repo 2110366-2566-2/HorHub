@@ -8,9 +8,9 @@ import { FaRegTrashAlt } from "react-icons/fa";
 export default function SettingSidebar(){
     //inside li should be link 
     const location = useLocation();
-    const currentPath = location.pathname.split('profile/setting/')[1];
+    const currentPath = location.pathname.split('settings/')[1];
     return (
-    <nav className="bg-gradient-to-b from-sky-50 to-blue-300 w-2/4 md:w-1/4 h-[75vh]">
+    <nav className="w-2/4 md:w-1/4 h-[75vh] text-sm">
         <ul className="grid grid-cols-1">
             <Link to = "profile">   
                 <ListSettingItem active = {currentPath === "profile"}>
@@ -24,7 +24,7 @@ export default function SettingSidebar(){
                     <div>Account</div>
                 </ListSettingItem>
             </Link>
-            <Link to = "password">
+            {/* <Link to = "password">
                 <ListSettingItem active = {currentPath === "password"}>
                     <RiLockPasswordFill />
                     <div>Change Password</div>
@@ -41,7 +41,7 @@ export default function SettingSidebar(){
             </ListSettingItem>
             <ListSettingItem >
                 <div>Public Profile</div>
-            </ListSettingItem>
+            </ListSettingItem> */}
         </ul>
     </nav>);
 }   
