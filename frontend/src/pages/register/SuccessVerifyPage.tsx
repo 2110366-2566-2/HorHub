@@ -1,6 +1,12 @@
+import { useEffect } from "react"
 import { Link } from "react-router-dom"
 
 function SuccessVerifyPage() {
+
+    useEffect(() => {
+        document.title = 'Verifying Account | HorHub'
+    }, [])
+
     return (
         <div className="page justify-center">
             <div className="w-4/5 flex flex-col rounded-xl border border-blue-500 p-5 gap-3">

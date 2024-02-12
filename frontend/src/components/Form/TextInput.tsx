@@ -14,12 +14,12 @@ function TextInput({type, fieldName, placeholder, name, register, error, valueAs
     return (
         <label className="form-control w-full max-w-xs">
             <div className="label">
-                <span className="label-text">{fieldName}</span>
+                <span className="label-text font-semibold">{fieldName}</span>
             </div>
             <input 
                 type={type}
                 placeholder={placeholder}
-                className="input input-bordered input-sm w-full max-w-xs bg-white" 
+                className={"input input-bordered input-sm w-full max-w-xs bg-white " + (error && "border-red-700")}
                 {...register(name, { valueAsNumber })}/>
             <div className="label">
             {

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../lib/context/UserContext"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoadingPage from "../etc/LoadingPage";
 
 function MailVerifyPage() {
@@ -11,6 +11,10 @@ function MailVerifyPage() {
 
     const [enableButton, setEnableButton] = useState<boolean>(true)
     const [showResendMessage, setShowResendMessage] = useState<boolean>(false)
+
+    useEffect(() => {
+        document.title = 'Verifying Account | HorHub'
+    }, [])
 
     async function resendMail() {
         setEnableButton(false)

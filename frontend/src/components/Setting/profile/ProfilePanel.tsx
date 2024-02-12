@@ -58,7 +58,7 @@ export default function ProfilePanel({currentUser,fetchUser} : {currentUser : Us
     
     return (    <div className="flex flex-col w-full">
                     <div className="border-b border-slate-500 my-2 font-bold">Public Profile</div>
-                    <form className="flex flex-col md:flex-row  " onSubmit = {handleSubmit(onSubmit)} >  
+                        <form className="flex flex-col md:flex-row  " onSubmit = {handleSubmit(onSubmit)} >  
                             {/* <div className="w-1/4 flex  justify-center">
                             <Avatar className = " block justify-center " src = {currentUser.imageURL} sx = {{width : 100, height : 100}}/>
                             </div> */}
@@ -103,40 +103,9 @@ export default function ProfilePanel({currentUser,fetchUser} : {currentUser : Us
                                     error={errors.birthdate} 
                                 />
 
-                                
-                                {/* <LabelProfile header={"Displayed Name"} deactiveHover = {true}>
-                                    <input className = {"w-100% bg-transparent border-2 rounded " + ((errors.displayName) ? "border-red-400"  : "border-blue-400")} {...register("displayName")}></input>
-                                    {
-                                            errors.displayName && (<div className="text-red-700">{errors.displayName.message}</div>)
-                                    }
-                                </LabelProfile> */}
-                                
-                                
-                                {/* <LabelProfile header={"Full Name"} deactiveHover = {true}>
-                                <input className = {"w-100% bg-transparent  border-2 rounded " + ((errors.firstName) ? "border-red-400"  : "border-blue-400")} {...register("firstName")}></input>
-                                    {
-                                            errors.firstName && (<div className="text-red-700">{errors.firstName.message}</div>)
-                                    }
-                                    <input className = {"w-100% bg-transparent  border-2 rounded " + ((errors.lastName) ? "border-red-400"  : "border-blue-400")} {...register("lastName")}></input>
-                                    {
-                                            errors.lastName && (<div className="text-red-700">{errors.lastName.message}</div>)
-                                    }
-                                </LabelProfile>
-                                <LabelProfile header={"Phone Number"} deactiveHover = {true}>
-                                    <input className = {"w-100% bg-transparent  border-2 rounded " + ((errors.phoneNumber) ? "border-red-400"  : "border-blue-400")} type = "tel" {...register("phoneNumber")}></input>
-                                    {
-                                            errors.phoneNumber && (<div className="text-red-700">{errors.phoneNumber.message}</div>)
-                                    }
-                                </LabelProfile> */}
-                                {/* <LabelProfile header={"Birth Date"} deactiveHover = {true}>
-                                    <input className = {"w-100% bg-transparent  border-2 rounded " + ((errors.birthdate) ? "border-red-400"  : "border-blue-400")} type="date" {...register("birthdate")}></input>
-                                    {
-                                            errors.birthdate && (<div className="text-red-700">{errors.birthdate.message}</div>)
-                                    }
-                                </LabelProfile> */}
                                 <LabelProfile header={"Gender"} deactiveHover = {true}>
                                 <div className="inline-block">
-                                    <div className="flex ">
+                                    <div className="flex gap-3">
                                         <div className="hover:cursor-pointer flex items-center">
                                             <input 
                                                 type="radio"
@@ -170,10 +139,7 @@ export default function ProfilePanel({currentUser,fetchUser} : {currentUser : Us
                                 <LabelProfile header={"Role"} deactiveHover = {true}>
                                     {currentUser.role}
                                 </LabelProfile>
-                                <LabelProfile header={"Verified"} deactiveHover = {true} >
-                                    {(currentUser.isVerified) ? "✅" : "❎"}
-                                </LabelProfile>
-                                <button className="primary-button w-full" type = "submit">Save Profile</button>
+                                <button className="primary-button w-fit" type = "submit">Save Profile</button>
                             </div>
                         
                     </form>
