@@ -31,7 +31,8 @@ const ProviderPaymentMethod = () => {
             return
         }
         const paymentRes = await fetch(process.env.REACT_APP_BACKEND_URL + "/users/" + currentUser.id + "/paymentMethods", {
-            method: "GET"
+            method: "GET",
+            credentials: "include"
         })
         const paymentData = await paymentRes.json()
 
@@ -41,7 +42,8 @@ const ProviderPaymentMethod = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body : JSON.stringify({type: "Bank", info: `${data.bankName}-${data.bankAccountNumber}`})
+                body : JSON.stringify({type: "Bank", info: `${data.bankName}-${data.bankAccountNumber}`}),
+                credentials: "include"
             })
 
             if (!createPaymentRes.ok) {
@@ -58,6 +60,7 @@ const ProviderPaymentMethod = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
+                credentials: "include",
                 body : JSON.stringify({type: "Bank", info: `${data.bankName}-${data.bankAccountNumber}`})
             })
 
@@ -75,7 +78,8 @@ const ProviderPaymentMethod = () => {
             return
         }
         const res = await fetch(process.env.REACT_APP_BACKEND_URL + "/users/" + currentUser.id + "/paymentMethods", {
-            method: "GET"
+            method: "GET",
+            credentials: "include"
         })
         const data = await res.json()
         console.log(data)

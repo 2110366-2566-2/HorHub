@@ -28,6 +28,11 @@ const createPaymentMethodSchema = z.object({
         }
         
     }
+    else if (type === "Card") {
+        if (info.length !== 16) {
+            return false
+        }
+    }
     return true
 })
 
@@ -96,8 +101,8 @@ router.get("/:id/paymentMethods", async (req, res) => {
     return res.send(results)
 })
 
-router.post("/paymentMethods", authenticateToken, async (req, res) => {
-    const { id } = req.body.id
+router.post("/:id/paymentMethods", authenticateToken, async (req, res) => {
+    const { id } = req.params
 
     const body = req.body
 
@@ -106,6 +111,7 @@ router.post("/paymentMethods", authenticateToken, async (req, res) => {
     }
 
     const parseStatus = createPaymentMethodSchema.safeParse(req.body)
+    if(!parseStatus.success) console.log(parseStatus.error);
     if (!parseStatus.success) return res.status(403).send("Invalid Data")
 
     const data = parseStatus.data
@@ -118,6 +124,17 @@ router.post("/paymentMethods", authenticateToken, async (req, res) => {
 
     if (!userQuery) {
         return res.status(400).send("No user found")
+    }
+
+    const countMethod = await db.paymentMethod.count({
+        where: {
+            type: data.type,
+            info: data.info
+        }
+    })
+
+    if (countMethod !== 0) {
+        return res.status(400).send("Duplicate method")
     }
 
     const paymentResponse = await db.paymentMethod.create({

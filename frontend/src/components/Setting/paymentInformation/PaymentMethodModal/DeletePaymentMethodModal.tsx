@@ -1,14 +1,14 @@
 import React from 'react'
 
-const DeletePaymentMethodModal = ({deleteFunction}: {deleteFunction: () => void}) => {
+const DeletePaymentMethodModal = ({id, deleteFunction}: {id: string, deleteFunction: () => void}) => {
   return (
     <>
         <button className="secondary-button" onClick={()=>{
             if (document) {
-                (document.getElementById('add_payment_modal') as HTMLFormElement).showModal();
+                (document.getElementById('delete_payment_modal_' + id) as HTMLFormElement).showModal();
             }
-        }}>Delete</button>
-        <dialog id="add_payment_modal" className="modal">
+        }}>X</button>
+        <dialog id={"delete_payment_modal_" + id} className="modal">
           <div className="modal-box bg-white">
             <h3 className="font-bold text-lg">Deleting Method</h3>
             <p className="py-4">Are you sure to delete this method?</p>

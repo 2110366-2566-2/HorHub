@@ -1,24 +1,67 @@
 import React, { useEffect, useState } from 'react'
 import { useUser } from '../../../../lib/context/UserContext'
-import AddPaymentMethodModal from '../PaymentMethodModal/DeletePaymentMethodModal'
 import DeletePaymentMethodModal from '../PaymentMethodModal/DeletePaymentMethodModal'
+import AddPaymentMethodBankModal from '../PaymentMethodModal/AddPaymentMethodBankModal'
+import AddPaymentMethodCardModal from '../PaymentMethodModal/AddPaymentMethodCardModal'
 
 const CustomerPaymentMethod = () => {
 
     const {currentUser} = useUser()
 
     const [methodData, setMethodData] = useState<{id: string, type: string, info: string}[]>([])
-
     
     async function deleteMethod(methodId: string) {
         if (!currentUser) {
             return
         }
+        console.log(methodId)
         const res = await fetch(process.env.REACT_APP_BACKEND_URL + "/users/" + currentUser.id + "/paymentMethods/" + methodId, {
-            method: "DELETE"
+            method: "DELETE",
+            credentials: "include"
         })
         document.location = "/settings/payment_information"
     }
+
+    async function addBankMethod(bankName: string, bankAccountNumber: string) {
+        if (!currentUser) {
+            return false
+        }
+        const res = await fetch(process.env.REACT_APP_BACKEND_URL + "/users/" + currentUser.id + "/paymentMethods", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({type: "Bank", info: `${bankName}-${bankAccountNumber}`}),
+        })
+
+        if (res.ok) {
+            document.location = "/settings/payment_information"
+            return true
+        }
+        return false
+    }
+
+    async function addCardMethod(cardNumber: string) {
+        if (!currentUser) {
+            return false
+        }
+        const res = await fetch(process.env.REACT_APP_BACKEND_URL + "/users/" + currentUser.id + "/paymentMethods", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({type: "Card", info: cardNumber}),
+        })
+
+        if (res.ok) {
+            document.location = "/settings/payment_information"
+            return true
+        }
+        return false
+    }
+
 
     useEffect(() => {
         if (!currentUser) {
@@ -27,7 +70,7 @@ const CustomerPaymentMethod = () => {
         fetch(process.env.REACT_APP_BACKEND_URL + "/users/" + currentUser.id + "/paymentMethods", {
             method: "GET"
         }).then((res) => res.json())
-        .then((data: {id: string, type: string, info: string}[]) => {setMethodData(data)})
+        .then((data: {id: string, type: string, info: string}[]) => {console.log(data); setMethodData(data)})
     }, [currentUser])
 
 
@@ -35,7 +78,7 @@ const CustomerPaymentMethod = () => {
   return (
     <div className="w-full flex-col space-y-8">
         <div className="w-full flex-col gap-3">
-            <div className="text-base w-full font-bold text-left">Bank Accounts</div>
+            <div className="text-base w-full font-bold text-left pb-4 pt-4">Bank Accounts</div>
             <table className="table">
                 <thead>
                     <tr>
@@ -53,7 +96,7 @@ const CustomerPaymentMethod = () => {
                                     <th>{idx+1}</th>
                                     <td>{data.info.split('-')[0]}</td>
                                     <td>{data.info.split('-')[1]}</td>
-                                    <td><DeletePaymentMethodModal deleteFunction={() => deleteMethod(data.id)}/></td>
+                                    <td className="flex justify-end"><DeletePaymentMethodModal id={data.id} deleteFunction={() => deleteMethod(data.id)}/></td>
                                 </tr>
                             )
                         })
@@ -61,10 +104,14 @@ const CustomerPaymentMethod = () => {
                     
                 </tbody>
             </table>
+            <div className="w-full flex justify-center pt-4">
+                <AddPaymentMethodBankModal addFunction={addBankMethod} />
+            </div>
+            
         </div>
 
         <div className="w-full flex-col gap-3">
-            <div className="text-base w-full font-bold text-left">Credit or Debit Cards</div>
+            <div className="text-base w-full font-bold text-left pb-4 pt-4">Credit or Debit Cards</div>
             <table className="table">
                 <thead>
                     <tr>
@@ -80,13 +127,16 @@ const CustomerPaymentMethod = () => {
                                 <tr className="hover:bg-slate-100 transition-colors">
                                     <th>{idx+1}</th>
                                     <td>{data.info}</td>
-                                    <td>Delete?</td>
+                                    <td className="flex justify-end"><DeletePaymentMethodModal id={data.id} deleteFunction={() => deleteMethod(data.id)}/></td>
                                 </tr>
                             )
                         })
                     }
                 </tbody>
             </table>
+            <div className="w-full flex justify-center pt-4">
+                <AddPaymentMethodCardModal addFunction={addCardMethod} />
+            </div>
         </div>
 
     </div>
