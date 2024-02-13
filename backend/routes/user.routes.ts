@@ -54,6 +54,37 @@ router.get("/:id", async (req, res) => {
     res.send(user)
 })
 
+router.delete("/:id", authenticateToken, async (req, res) => {
+    const { id } = req.params
+
+    const body = req.body
+
+    if (id != body.user.id) {
+        return res.status(401).send("Unauthorized")
+    }
+
+    const isMatch = await bcrypt.compare(body.password,body.user.password);
+
+    if (!isMatch) {
+        return res.status(400).send("Password is wrong")
+    }
+
+    const deleteRes = await db.user.delete({
+        where: {
+            id: id
+        }
+    })
+
+    if (deleteRes) {
+        return res.send("Success")
+    }
+    else {
+        return res.status(400).send("Something went wrong")
+    }
+    
+
+})
+
 router.put("/:id/password", authenticateToken, async (req, res) => {
     const { id } = req.params
 

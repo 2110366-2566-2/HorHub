@@ -18,6 +18,7 @@ import EmailChangePage from './pages/profile/setting/setting-page/EmailChangePag
 import DeleteAccountPage from './pages/profile/setting/setting-page/DeleteAccountPage';
 import PaymentInformationPage from './pages/profile/setting/setting-page/PaymentInformationPage';
 import PasswordChangePage from './pages/profile/setting/setting-page/PasswordChangePage';
+import FailVerifyPopup from './pages/register/FailVerifyPopup';
 
 function App() {
   return (

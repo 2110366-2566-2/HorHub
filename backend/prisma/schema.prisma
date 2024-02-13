@@ -25,7 +25,7 @@ model User {
 
 model PaymentMethod {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  user        User      @relation("ownPaymentMethod", fields: [userId], references: [id])
+  user        User      @relation("ownPaymentMethod", fields: [userId], references: [id], onDelete: Cascade)
   userId      String    @db.ObjectId
   type        PaymentMethodType
   info        String

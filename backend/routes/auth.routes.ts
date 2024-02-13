@@ -163,10 +163,21 @@ const getUserFromToken = async (req: Request, res: Response) => {
 }
 
 const verifyAccount = async (req: Request, res: Response) => {
-    const user = req.body.user
+    const body = req.body
+    const userQuery = await db.user.findUnique({
+        where: {
+            id: body.id
+        }
+    })
+
+    if (!userQuery) {
+        return res.status(400).send("User not found")
+    }
+
+
     const updateResponse = await db.user.update({
         where: {
-            id: user.id
+            id: body.id
         },
         data: {
             isVerified: true
@@ -174,6 +185,22 @@ const verifyAccount = async (req: Request, res: Response) => {
     })
 
     res.status(200).send(updateResponse)
+}
+
+const verifyAccountFail = async (req: Request, res: Response) => {
+    const user = req.body.user
+
+    if (user.isVerified) {
+        return res.send({message: "Verify Successful"})
+    }
+
+    const deleteUser = await db.user.delete({
+        where: {
+            id: user.id
+        }
+    })
+
+    res.send({message: "Delete Successful"})
 }
 
 router.post('/register',register);
@@ -187,5 +214,7 @@ router.post('/logout',authenticateToken,logout);
 router.put('/user',authenticateToken, update);
 
 router.post('/verify', verifyAccount)
+
+router.post('/verify/fail', authenticateToken, verifyAccountFail)
 
 export default router;

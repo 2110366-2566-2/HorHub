@@ -19,8 +19,17 @@ function AccVerifyTempPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+        },
+        body: JSON.stringify({id: id})
+    }).then((res) => {
+        if (res.ok) {
+            navigate('/verify/success')
         }
-    }).then(() => navigate('/verify/success'))
+        else {
+            navigate('/')
+        }
+       
+    })
     
 
     return <LoadingPage />
