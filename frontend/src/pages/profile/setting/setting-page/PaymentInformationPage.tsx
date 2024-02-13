@@ -1,4 +1,4 @@
-import PaymentMethodPanel from "../../../../components/Setting/paymentInformation/ChangeEmailPanel";
+import PaymentMethodPanel from "../../../../components/Setting/paymentInformation/PaymentMethodPanel";
 
 export default function PaymentInformationPage(){
     return (
