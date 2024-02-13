@@ -13,7 +13,7 @@ function HomePage() {
     
     return (
         <div className="unpadding-page">
-            <div className="flex w-full h-[calc(100vh-4rem)] bg-indigo-50">
+            <div className="flex w-full h-[calc(100vh-7rem)] bg-indigo-50">
                 <div className="flex flex-col w-full md:w-[50%] h-full justify-center items-center gap-5">
                     <span className="font-bold text-3xl">Welcome to <span className="bg-gradient-to-r from-sky-600 to-indigo-700 bg-clip-text text-transparent">HorHub!</span></span>
                     <span className="font-semibold text-2xl">The best hub to find hor</span>
