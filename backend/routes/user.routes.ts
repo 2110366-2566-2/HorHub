@@ -4,6 +4,7 @@ import { db } from "../lib/db";
 import { authenticateToken } from "../middlewares/authToken";
 import { z } from "zod";
 import bcrypt from 'bcrypt';
+import { supportBankName } from "../lib/constant";
 
 const router = Router();
 
@@ -15,6 +16,19 @@ const userChangePasswordSchema = z.object({
 const createPaymentMethodSchema = z.object({
     type: z.enum(["Bank", "Card"], {invalid_type_error: 'Method type is not valid'}),
     info: z.string().trim().min(1)
+}).refine(({type, info}) => {
+    const bankName = info.split("-")[0]
+    const bankNumber = info.split("-")[1]
+    if (type === "Bank") {
+        if (!supportBankName.includes(bankName)) {
+            return false
+        }
+        if (!(/[0-9]{10}/.test(bankNumber))) {
+            return false
+        }
+        
+    }
+    return true
 })
 
 

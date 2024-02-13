@@ -13,15 +13,11 @@ type FormFieldProps = {
 const options = [
     {
         value: "KBANK",
-        children: <div className="flex items-center">
-            KBANK
-        </div>
+        children: "KBANK"
     },
     {
         value: "SCB",
-        children: <div className="flex items-center">
-            SCB
-        </div>
+        children: "SCB"
     }
 ]
 
