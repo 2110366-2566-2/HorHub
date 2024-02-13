@@ -96,8 +96,14 @@ router.get("/:id/paymentMethods", async (req, res) => {
     return res.send(results)
 })
 
-router.post("/:id/paymentMethods", async (req, res) => {
-    const { id } = req.params
+router.post("/paymentMethods", authenticateToken, async (req, res) => {
+    const { id } = req.body.id
+
+    const body = req.body
+
+    if (id != body.user.id) {
+        return res.status(401).send("Unauthorized")
+    }
 
     const parseStatus = createPaymentMethodSchema.safeParse(req.body)
     if (!parseStatus.success) return res.status(403).send("Invalid Data")
@@ -125,8 +131,14 @@ router.post("/:id/paymentMethods", async (req, res) => {
     return res.send(paymentResponse)
 })
 
-router.put("/:id/paymentMethods/:methodId", async (req, res) => {
+router.put("/:id/paymentMethods/:methodId",authenticateToken, async (req, res) => {
     const { id, methodId } = req.params
+
+    const body = req.body
+
+    if (id != body.user.id) {
+        return res.status(401).send("Unauthorized")
+    }
 
     const parseStatus = createPaymentMethodSchema.safeParse(req.body)
     if (!parseStatus.success) return res.status(403).send("Invalid Data")
