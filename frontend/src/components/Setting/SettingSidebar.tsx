@@ -2,9 +2,8 @@ import { IoPersonCircleOutline } from "react-icons/io5";
 import ListSettingItem from "./ListSettingItem";
 import { GoGear } from "react-icons/go";
 import { Link, useLocation } from "react-router-dom";
-import { RiLockPasswordFill } from "react-icons/ri";
-import { FaRegTrashAlt } from "react-icons/fa";
 import { LuUser2 } from "react-icons/lu";
+import { FaRegCreditCard } from "react-icons/fa6";
 
 export default function SettingSidebar(){
     //inside li should be link 
@@ -23,6 +22,12 @@ export default function SettingSidebar(){
                 <ListSettingItem active = {currentPath === "account"}>
                     <GoGear />
                     <div>Account</div>
+                </ListSettingItem>
+            </Link>
+            <Link to = "payment_information">
+                <ListSettingItem active = {currentPath === "payment_information"}>
+                    <FaRegCreditCard />
+                    <div>Payment Information</div>
                 </ListSettingItem>
             </Link>
             {/* <Link to = "password">

@@ -14,6 +14,7 @@ import SettingLayout from './pages/profile/setting/SettingLayout';
 import AccountPage from './pages/profile/setting/setting-page/AccountPage';
 import ProfileSettingPage from './pages/profile/setting/setting-page/ProfileSettingPage';
 import NotFoundPage from './pages/etc/NotFoundPage';
+import PaymentInformationPage from './pages/profile/setting/setting-page/PaymentInformationPage';
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
               <Route element = {<SettingLayout />}>
                 <Route path = "profile" element = {<ProfileSettingPage />} />
                 <Route path = "account" element = {<AccountPage />} />
-                <Route path = "delete" element = {<></>} />
+                <Route path = "payment_information" element = {<PaymentInformationPage />} />
               </Route>
             </Route>
            
