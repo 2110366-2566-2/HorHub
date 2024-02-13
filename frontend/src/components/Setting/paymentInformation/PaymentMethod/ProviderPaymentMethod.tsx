@@ -79,6 +79,10 @@ const ProviderPaymentMethod = () => {
         })
         const data = await res.json()
         console.log(data)
+        if (!data[0]) {
+            setEnableButton(true)
+            return
+        }
         reset({bankName: data[0].info.split('-')[0], bankAccountNumber: data[0].info.split('-')[1]})
         setEnableButton(true)
     }

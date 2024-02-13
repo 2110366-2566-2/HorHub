@@ -7,6 +7,8 @@ const CustomerPaymentMethod = () => {
 
     const [methodData, setMethodData] = useState<{id: String, type: string, info: string}[]>([])
 
+    
+
 
     useEffect(() => {
         if (!currentUser) {
