@@ -36,13 +36,19 @@ export default function SettingSidebar(){
                     <div>Change Password</div>
                 </ListSettingItem>
             </Link>
+            <Link to = "email">
+                <ListSettingItem active = {currentPath === "email"}>
+                    <MdOutlineMail />
+                    <div>Change Email</div>
+                </ListSettingItem>
+            </Link>
             <Link to = "delete">
                 <ListSettingItem active = {currentPath === "delete"}>
                     <FaRegTrashAlt />
                     <div>Delete Account</div>
                 </ListSettingItem>
             </Link>
-            <ListSettingItem >
+            {/*<ListSettingItem >
                 <div>Public Profile</div>
             </ListSettingItem>
             <ListSettingItem >
