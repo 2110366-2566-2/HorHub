@@ -12,6 +12,11 @@ const userChangePasswordSchema = z.object({
     newPassword: z.string().trim().min(8, {message: 'Password must be at least 8 characters'}),
 })
 
+const createPaymentMethodSchema = z.object({
+    type: z.enum(["Bank", "Card"], {invalid_type_error: 'Method type is not valid'}),
+    info: z.string().trim().min(1)
+})
+
 
 router.get("/:id", async (req, res) => {
     const { id } = req.params
@@ -63,14 +68,88 @@ router.put("/:id/password", authenticateToken, async (req, res) => {
     catch (err) {
         return res.status(400).send(err)
     }
+})
 
-    
+router.get("/:id/paymentMethods", async (req, res) => {
+    const { id } = req.params
 
+    const results = await db.paymentMethod.findMany({
+        where: {
+            userId: id
+        }
+    })
 
+    return res.send(results)
+})
 
-    
+router.post("/:id/paymentMethods", async (req, res) => {
+    const { id } = req.params
 
-    
+    const parseStatus = createPaymentMethodSchema.safeParse(req.body)
+    if (!parseStatus.success) return res.status(403).send("Invalid Data")
+
+    const data = parseStatus.data
+
+    const userQuery = await db.user.findUnique({
+        where: {
+            id: id
+        }
+    })
+
+    if (!userQuery) {
+        return res.status(400).send("No user found")
+    }
+
+    const paymentResponse = await db.paymentMethod.create({
+        data: {
+            userId: id,
+            type: data.type,
+            info: data.info
+        }
+    })
+
+    return res.send(paymentResponse)
+})
+
+router.put("/:id/paymentMethods/:methodId", async (req, res) => {
+    const { id, methodId } = req.params
+
+    const parseStatus = createPaymentMethodSchema.safeParse(req.body)
+    if (!parseStatus.success) return res.status(403).send("Invalid Data")
+
+    const data = parseStatus.data
+
+    const userQuery = await db.user.findUnique({
+        where: {
+            id: id
+        }
+    })
+
+    if (!userQuery) {
+        return res.status(400).send("No user found")
+    }
+
+    const countMethod = await db.paymentMethod.count({
+        where: {
+            id: methodId
+        }
+    })
+
+    if (countMethod === 0) {
+        return res.status(400).send("No payment method found")
+    }
+
+    const methodResponse = await db.paymentMethod.update({
+        where: {
+            id: methodId
+        },
+        data: {
+            type: data.type,
+            info: data.info
+        }
+    })
+
+    return res.send(methodResponse)
 })
 
 
