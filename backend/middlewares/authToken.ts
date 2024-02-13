@@ -10,10 +10,10 @@ export function authenticateToken(req: Request, res: Response, next: NextFunctio
     if (token == null) return res.redirect(401,"/login");
 
     jwt.verify(token, process.env.JWT_SECRET_KEY as string, async (err: any, user: any) => {
-        console.log(err)
+        // console.log(err)
         if(err && token) {
             
-            console.log("Called!");
+            // console.log("Called!");
             res.clearCookie("auth");
         }
         if (err) return res.redirect(403,'/login');

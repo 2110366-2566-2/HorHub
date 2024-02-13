@@ -116,7 +116,7 @@ const register = async (req : Request,res : Response) => {
     const hashedPassword = await bcrypt.hash(password,salt);
 
     
-    console.log(hashedPassword);
+    // console.log(hashedPassword);
     
     try {
         const result = await db.user.create({data : {

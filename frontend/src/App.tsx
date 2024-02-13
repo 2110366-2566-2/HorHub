@@ -13,10 +13,12 @@ import SettingSidebar from './components/Setting/SettingSidebar';
 import SettingLayout from './pages/profile/setting/SettingLayout';
 import AccountPage from './pages/profile/setting/setting-page/AccountPage';
 import ProfileSettingPage from './pages/profile/setting/setting-page/ProfileSettingPage';
-import PasswordChangePage from './pages/profile/setting/setting-page/PasswordChangePage';
 import NotFoundPage from './pages/etc/NotFoundPage';
 import EmailChangePage from './pages/profile/setting/setting-page/EmailChangePage';
 import DeleteAccountPage from './pages/profile/setting/setting-page/DeleteAccountPage';
+import PaymentInformationPage from './pages/profile/setting/setting-page/PaymentInformationPage';
+import PasswordChangePage from './pages/profile/setting/setting-page/PasswordChangePage';
+
 function App() {
   return (
     <>
@@ -35,6 +37,7 @@ function App() {
                 <Route path = "password" element = {<PasswordChangePage />} />
                 <Route path = "email" element = {<EmailChangePage />} />
                 <Route path = "delete" element = {<DeleteAccountPage/>} />
+                <Route path = "payment_information" element = {<PaymentInformationPage />} />
               </Route>
             </Route>
            
