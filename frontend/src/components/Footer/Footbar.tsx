@@ -7,7 +7,7 @@ export default function Footbar() {
 
 
     return (
-        <footer className = 'bg-blue-400 h-12 flex px-4'>
+        <footer className = 'sticky bottom-0 bg-blue-400 h-12 flex px-4'>
             <ul className="flex gap-5 items-center w-[70%] h-full">
                 <li>
                     <button className = "white-button">About us</button>

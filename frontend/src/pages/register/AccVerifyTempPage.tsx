@@ -14,22 +14,12 @@ function AccVerifyTempPage() {
         return <LoadingPage />
     }
 
-    if (!currentUser || currentUser.id != id) {
-        navigate('/')
-        return <LoadingPage />
-    }
-
-    if (currentUser.isVerified) {
-        navigate('/verify/success')
-    }
-
     
     fetch(process.env.REACT_APP_BACKEND_URL + "/auth/verify", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-        },
-        credentials : 'include',
+        }
     }).then(() => navigate('/verify/success'))
     
 

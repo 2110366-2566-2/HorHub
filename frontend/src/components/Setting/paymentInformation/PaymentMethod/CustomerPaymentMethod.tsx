@@ -8,7 +8,15 @@ const CustomerPaymentMethod = () => {
     const [methodData, setMethodData] = useState<{id: String, type: string, info: string}[]>([])
 
     
-
+    async function deleteMethod(methodId: string) {
+        if (!currentUser) {
+            return
+        }
+        const res = await fetch(process.env.REACT_APP_BACKEND_URL + "/users/" + currentUser.id + "/paymentMethods" + methodId, {
+            method: "DELETE"
+        })
+        document.location = "/settings/payment_information"
+    }
 
     useEffect(() => {
         if (!currentUser) {
@@ -64,11 +72,17 @@ const CustomerPaymentMethod = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr className="hover">
-                        <th>1</th>
-                        <td>1234567891234567</td>
-                        <td>Delete bro?</td>
-                    </tr>
+                    {
+                        methodData.filter((value) => {return value.type === "Card"}).map((data, idx) => {
+                            return (
+                                <tr className="hover:bg-slate-100 transition-colors">
+                                    <th>{idx+1}</th>
+                                    <td>{data.info}</td>
+                                    <td>Delete?</td>
+                                </tr>
+                            )
+                        })
+                    }
                 </tbody>
             </table>
         </div>

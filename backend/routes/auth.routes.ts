@@ -186,6 +186,6 @@ router.post('/logout',authenticateToken,logout);
 
 router.put('/user',authenticateToken, update);
 
-router.post('/verify', authenticateToken, verifyAccount)
+router.post('/verify', verifyAccount)
 
 export default router;

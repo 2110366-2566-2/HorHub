@@ -178,5 +178,37 @@ router.put("/:id/paymentMethods/:methodId",authenticateToken, async (req, res) =
     return res.send(methodResponse)
 })
 
+router.delete("/:id/paymentMethods/:methodId", async (req, res) => {
+    const { id, methodId } = req.params
+
+    const userQuery = await db.user.findUnique({
+        where: {
+            id: id
+        }
+    })
+
+    if (!userQuery) {
+        return res.status(400).send("No user found")
+    }
+
+    const countMethod = await db.paymentMethod.count({
+        where: {
+            id: methodId
+        }
+    })
+
+    if (countMethod === 0) {
+        return res.status(400).send("No payment method found")
+    }
+
+    const deleteRes = await db.paymentMethod.delete({
+        where: {
+            id: methodId
+        }
+    })
+
+    return res.send(deleteRes)
+})
+
 
 export default router
