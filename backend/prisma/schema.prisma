@@ -22,6 +22,8 @@ model User {
   imageURL    String    @default("https://utfs.io/f/4a65c7f9-7bb1-4498-99bb-4148be482108-t9vzc5.png")
   paymentMethods  PaymentMethod[]   @relation("ownPaymentMethod")
   dorms       Dorm[]   @relation("ownDorm")
+  payments    Payment[]   @relation("makePayment")
+  bookings    Booking[]   @relation("makeReserve")
 }
 
 model PaymentMethod {
@@ -51,12 +53,31 @@ model Room {
   cost        Float
   dorm        Dorm      @relation("roomInDorm", fields: [dormId], references: [id], onDelete: Cascade)
   dormId      String    @db.ObjectId
+  bookings    Booking[] @relation("reserveAt")
 }
 
 model Booking {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  
+  customer    User      @relation("makeReserve", fields: [customerId], references: [id], onDelete: Cascade)
+  customerId  String    @db.ObjectId
+  room        Room      @relation("reserveAt", fields: [roomId], references: [id], onDelete: Cascade)
+  roomId      String    @db.ObjectId
+  payment     Payment?  @relation("bookingPayment", fields: [paymentId], references: [id])
+  paymentId   String?   @db.ObjectId @unique
+  status      String
+  bookAt      DateTime  @default(now())
 }
+
+model Payment {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  user        User      @relation("makePayment", fields: [userId], references: [id], onDelete: Cascade)
+  userId      String    @db.ObjectId
+  booking     Booking?  @relation("bookingPayment")
+  cost        Float
+  payAt       DateTime  @default(now())
+}
+
+
 
 
 
