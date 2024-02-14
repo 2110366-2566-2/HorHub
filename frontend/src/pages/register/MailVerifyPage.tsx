@@ -15,7 +15,7 @@ function MailVerifyPage() {
     const [showResendMessage, setShowResendMessage] = useState<boolean>(false)
 
     // 10 minutes countdown
-    const countdownTime = 1 * 60 * 1000; 
+    const countdownTime = 10 * 60 * 1000; 
     const [timeRemaining, setTimeRemaining] = useState<number>(countdownTime);
   
     const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
@@ -23,6 +23,7 @@ function MailVerifyPage() {
 
     //timeout 
     const [isTimeout, setIsTimeout] = useState(false);
+
 
     useEffect(() => {
         document.title = 'Verifying Account | HorHub'
@@ -51,9 +52,10 @@ function MailVerifyPage() {
                   "Content-Type": "application/json",
                 },
                 credentials : 'include',
-            }).then((res) => res.json())
+            }).then(async (res) => {return res.json()})
             .then((data) => {
                 if (data.message === "Verify Successful") {
+                    
                     document.location = '/verify/success'
                 }
             })

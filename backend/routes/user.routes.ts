@@ -164,6 +164,8 @@ router.post("/:id/paymentMethods", authenticateToken, async (req, res) => {
         }
     })
 
+    console.log(countMethod)
+
     if (countMethod !== 0) {
         return res.status(400).send("Duplicate method")
     }

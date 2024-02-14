@@ -1,13 +1,14 @@
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
 import { ImCross } from "react-icons/im";
+import { useUser } from "../../lib/context/UserContext";
 
 function FailVerifyPopup(){
     
     useEffect(() => {
         document.title = 'Verifying Account | HorHub'
     }, [])
-
+    const {fetchUserNoRedirect} = useUser();
     return (
         <div className="page w-screen items-center h-screen justify-center fixed top-0 bg-gray-800 bg-opacity-70 z-50">
             <div className="max-w-3xl mx-auto flex flex-col rounded-xl border border-blue-500 p-5 gap-5 bg-white">
@@ -23,9 +24,9 @@ function FailVerifyPopup(){
                     We're sorry, but we couldn't verify your email.
                 </div>
                 <div className="flex">
-                    <Link to="/register" className="flex primary-button ml-2">Return to Register Page</Link>
+                    <Link to="/register" className="flex primary-button ml-2" onClick = {async ()=> {await fetchUserNoRedirect();}}>Return to Register Page</Link>
                     <div className="flex ml-auto">
-                        <Link to="/" className="flex primary-button ml-2">Return to Homepage</Link>
+                        <Link to="/" className="flex primary-button ml-2" onClick = {async ()=> {await fetchUserNoRedirect();}}>Return to Homepage</Link>
                     </div>                      
                 </div>
             </div>
