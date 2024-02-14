@@ -6,9 +6,7 @@ export function authenticateToken(req: Request, res: Response, next: NextFunctio
     //const authHeader = req.headers['authorization']
     const {auth} = req.cookies
     const token = auth;
-
     if (token == null) return res.redirect(401,"/login");
-
     jwt.verify(token, process.env.JWT_SECRET_KEY as string, async (err: any, user: any) => {
         // console.log(err)
         if(err && token) {

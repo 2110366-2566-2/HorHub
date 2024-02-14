@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import BankAccountInput from '../../../Form/BankAccountInput';
 import TextInput from '../../../Form/TextInput';
+import { useUser } from '../../../../lib/context/UserContext';
 
 const schema = z.object({
   cardNumber: z.string().length(16, {message: 'Please fill valid number'}).refine((value) => /[0-9]{16}/.test(value), {message: 'Please fill valid number'}),
@@ -16,13 +17,14 @@ type ValidationSchemaType = z.infer<typeof schema>;
 const AddPaymentMethodCardModal = ({addFunction}: {addFunction: (cardNumber: string) => Promise<boolean>}) => {
 
   const [isError, setError] = useState<boolean>(false)
-
+  const {fetchUser} = useUser();
 
   const { register, handleSubmit,reset, formState: { errors } } = useForm<Omit<ValidationSchemaType,"birthdate"> & {birthdate : string}>({
     resolver: zodResolver(schema),
   });
 
   const onSubmit : SubmitHandler<Omit<ValidationSchemaType,"birthdate">> = async (data) => {
+    await fetchUser();
     setError(false)
       const boolRes: boolean = await addFunction(data.cardNumber)
     if (!boolRes) {

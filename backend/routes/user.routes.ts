@@ -228,9 +228,13 @@ router.put("/:id/paymentMethods/:methodId",authenticateToken, async (req, res) =
     return res.send(methodResponse)
 })
 
-router.delete("/:id/paymentMethods/:methodId", async (req, res) => {
+router.delete("/:id/paymentMethods/:methodId", authenticateToken, async (req, res) => {
     const { id, methodId } = req.params
+    const body = req.body
 
+    if (id != body.user.id) {
+        return res.status(401).send("Unauthorized")
+    }
     const userQuery = await db.user.findUnique({
         where: {
             id: id

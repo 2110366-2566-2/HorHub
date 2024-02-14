@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { UserInfo } from "../../lib/type/UserHidden";
 import FormPanel from "../../components/Profile/FormPanel";
 import LoadingPage from "../etc/LoadingPage";
+import useAuthRedirect from "../../lib/authRedirect";
 
 
 const initUser : UserInfo = {
@@ -26,23 +27,8 @@ export default function ProfilePage(){
     const {currentUser,isLoading,fetchUser} = useUser();
     const navigate = useNavigate();
     const [isEdit,setEdit] = useState(false);
-   // const [userInterface,setUserInterface] = useState(initUser);
-
-    useEffect(() => {
-        //called if user is not login  
-        const redirect = async ()=> {
-            const res = await fetchUser();
-            if (!res)
-                navigate("/",{replace : true});
-        }
-        redirect();
-    },[]);
-    /*
-    useEffect(() => {
-        if (!isLoading && currentUser !== null)
-            setUserInterface(currentUser);
-    },[isLoading]);
-    */
+    useAuthRedirect();
+   
     
     if(!currentUser) return <LoadingPage />
 

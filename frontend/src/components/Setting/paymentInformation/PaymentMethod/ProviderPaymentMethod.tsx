@@ -14,7 +14,7 @@ const schema = z.object({
  type ValidationSchemaType = z.infer<typeof schema>;
 
 const ProviderPaymentMethod = () => {
-    const {currentUser} = useUser()
+    const {currentUser,fetchUser} = useUser()
 
     const [enableButton, setEnableButton] = useState<boolean>(false)
 
@@ -26,6 +26,7 @@ const ProviderPaymentMethod = () => {
     const onSubmit : SubmitHandler<Omit<ValidationSchemaType,"birthdate">> = async (data) => {
         setEnableButton(false)
         console.log(data)
+        await fetchUser();
         if (!currentUser) {
             setEnableButton(true)
             return
@@ -74,6 +75,7 @@ const ProviderPaymentMethod = () => {
     }
 
     async function initData() {
+        await fetchUser();
         if (!currentUser) {
             return
         }

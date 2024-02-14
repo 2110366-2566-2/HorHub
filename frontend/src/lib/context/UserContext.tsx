@@ -58,6 +58,12 @@ export const UserProvider = ({children} : {children : React.ReactNode}) => {
         {children}
     </UserContext.Provider>);
 };
-
+/**
+ * get data from UserContext
+ * @returns {UserInfo | null} currentUser - current user data
+ * @returns {() => Promise<boolean>} fetchUser - query your user data from server given cookie authentication and will redirect automatically if user is not verified
+ * @returns {boolean} isLoading - if it true that mean your user data is still don't ready from fetchUser if it false it mean your user data is ready from fetchUser
+ * @returns {() => Promise<boolean>} fetchUserNoRedirect - query your user data from server given cookie authentication but won't redirect automatically if user is not verified
+ */
 export const useUser = () => {return useContext(UserContext)};
 

@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import BankAccountInput from '../../../Form/BankAccountInput';
 import TextInput from '../../../Form/TextInput';
+import { useUser } from '../../../../lib/context/UserContext';
 
 const schema = z.object({
   bankName: z.string().min(1, {message: "Select bank"}),
@@ -16,12 +17,14 @@ const AddPaymentMethodBankModal = ({addFunction}: {addFunction: (bankName: strin
 
   const [isError, setError] = useState<boolean>(false)
 
+  const {fetchUser} = useUser();
 
   const { register, handleSubmit,reset, formState: { errors } } = useForm<Omit<ValidationSchemaType,"birthdate"> & {birthdate : string}>({
     resolver: zodResolver(schema),
   });
 
   const onSubmit : SubmitHandler<Omit<ValidationSchemaType,"birthdate">> = async (data) => {
+    await fetchUser();
     setError(false)
       const boolRes: boolean = await addFunction(data.bankName, data.bankAccountNumber)
     if (!boolRes) {

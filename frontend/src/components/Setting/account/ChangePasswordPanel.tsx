@@ -22,7 +22,7 @@ type ValidationSchemaType = z.infer<typeof schema>;
 
 const ChangePasswordPanel = () => {
 
-  const {currentUser, isLoading} = useUser()
+  const {currentUser, isLoading,fetchUser} = useUser()
   const [enableButton, setEnableButton] = useState<boolean>(true)
   const [isOldPassWrong, setOldPassWrong] = useState<boolean>(false)
 
@@ -31,6 +31,10 @@ const ChangePasswordPanel = () => {
   });
 
   const onSubmit: SubmitHandler<ValidationSchemaType> = async (data) => {
+    await fetchUser();
+    if (!currentUser) {
+        return;
+    }
     setEnableButton(false)
     setOldPassWrong(false)
     try {

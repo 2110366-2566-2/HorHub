@@ -5,6 +5,7 @@ import LoadingPage from "../../etc/LoadingPage";
 import { useUser } from "../../../lib/context/UserContext";
 import { useEffect } from "react";
 import { UserInfo } from "../../../lib/type/UserHidden";
+import useAuthRedirect from "../../../lib/authRedirect";
 
 export type SettingContextType = {currentUser : UserInfo,
                            isLoading : boolean,
@@ -13,15 +14,15 @@ export type SettingContextType = {currentUser : UserInfo,
 export default function SettingLayout(){
     const {currentUser,isLoading,fetchUser} = useUser();
     const navigate = useNavigate();
+
+    
+    useAuthRedirect();
+    
     useEffect( ()=> {
         document.title = 'Settings | HorHub'
-        const redirect = async ()=> {
-            const res = await fetchUser();
-            if (!res)
-                navigate("/",{replace : true});
-        }
-        redirect();
-    },[]);
+    } ,[])
+
+    
 
     if (isLoading || !currentUser) return (<LoadingPage/>);
 

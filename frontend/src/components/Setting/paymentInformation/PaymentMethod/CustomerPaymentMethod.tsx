@@ -6,23 +6,26 @@ import AddPaymentMethodCardModal from '../PaymentMethodModal/AddPaymentMethodCar
 
 const CustomerPaymentMethod = () => {
 
-    const {currentUser} = useUser()
+    const {currentUser,fetchUser} = useUser()
 
     const [methodData, setMethodData] = useState<{id: string, type: string, info: string}[]>([])
     
     async function deleteMethod(methodId: string) {
+        await fetchUser();
         if (!currentUser) {
-            return
+            return;
         }
-        console.log(methodId)
+        
         const res = await fetch(process.env.REACT_APP_BACKEND_URL + "/users/" + currentUser.id + "/paymentMethods/" + methodId, {
             method: "DELETE",
             credentials: "include"
-        })
-        document.location = "/settings/payment_information"
+        });
+        document.location = "/settings/payment_information";
+        
     }
 
     async function addBankMethod(bankName: string, bankAccountNumber: string) {
+        await fetchUser();
         if (!currentUser) {
             return false
         }
@@ -43,6 +46,7 @@ const CustomerPaymentMethod = () => {
     }
 
     async function addCardMethod(cardNumber: string) {
+        await fetchUser();
         if (!currentUser) {
             return false
         }

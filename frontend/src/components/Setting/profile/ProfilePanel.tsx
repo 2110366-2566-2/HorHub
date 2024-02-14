@@ -36,6 +36,10 @@ export default function ProfilePanel({currentUser,fetchUser} : {currentUser : Us
     const [disableUpload, setDisableUpload] = useState<boolean>(false)
 
     const onSubmit : SubmitHandler<Omit<ValidationSchemaType,"birthdate">> = async (data) => {
+        await fetchUser();
+        if (!currentUser){
+            return;
+        }
         const result = await fetch(process.env.REACT_APP_BACKEND_URL + "/auth/user",{
             method : "PUT",
             credentials : 'include',

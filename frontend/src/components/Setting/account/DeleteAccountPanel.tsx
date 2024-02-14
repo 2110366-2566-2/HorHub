@@ -16,7 +16,7 @@ type ValidationSchemaType = z.infer<typeof schema>;
 
 const DeleteAccountPanel = () => {
 
-  const {currentUser, isLoading} = useUser()
+  const {currentUser, isLoading,fetchUser} = useUser()
 
   const [enableButton, setEnableButton] = useState<boolean>(true)
   const [isPassWrong, setPassWrong] = useState<boolean>(false)
@@ -26,6 +26,10 @@ const DeleteAccountPanel = () => {
   });
 
   const onSubmit: SubmitHandler<ValidationSchemaType> = async (data) => {
+    await fetchUser();
+    if (!currentUser) {
+      return;
+    }
     setEnableButton(false)
     setPassWrong(false)
     try {
