@@ -21,6 +21,7 @@ model User {
   isVerified  Boolean   @default(false)
   imageURL    String    @default("https://utfs.io/f/4a65c7f9-7bb1-4498-99bb-4148be482108-t9vzc5.png")
   paymentMethods  PaymentMethod[]   @relation("ownPaymentMethod")
+  dorms       Dorm[]   @relation("ownDorm")
 }
 
 model PaymentMethod {
@@ -30,6 +31,34 @@ model PaymentMethod {
   type        PaymentMethodType
   info        String
 }
+
+model Dorm {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  provider    User      @relation("ownDorm", fields: [providerId], references: [id], onDelete: Cascade)
+  providerId  String    @db.ObjectId
+  address     String
+  latitude    Float
+  longitude   Float
+  phoneNumber String
+  rooms       Room[]    @relation("roomInDorm")
+}
+
+model Room {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  size        String
+  cost        Float
+  dorm        Dorm      @relation("roomInDorm", fields: [dormId], references: [id], onDelete: Cascade)
+  dormId      String    @db.ObjectId
+}
+
+model Booking {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  
+}
+
+
 
 enum PaymentMethodType {
   Bank
