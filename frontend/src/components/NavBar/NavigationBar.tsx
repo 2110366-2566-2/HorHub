@@ -23,15 +23,15 @@ const NavigationBar = () => {
           <ul className='flex gap-5 items-center w-[70%] h-full'>
             <li>
               <Link to = "/">
-                HorHub
+              <span className="bg-gradient-to-r from-sky-600 to-indigo-700 bg-clip-text text-transparent font-bold">HorHub</span>
               </Link>
             </li>
-            <li>
+            {/* <li>
               About
             </li>
             <li>
               Dorm
-            </li>
+            </li> */}
           </ul>
           <div className="flex items-center gap-5 w-[30%] h-full justify-end">
               {!isLoading && !currentUser &&(<>
