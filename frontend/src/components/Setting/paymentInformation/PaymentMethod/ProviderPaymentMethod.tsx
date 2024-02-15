@@ -8,7 +8,7 @@ import { useUser } from '../../../../lib/context/UserContext';
 
 const schema = z.object({
     bankName: z.string().min(1, {message: "Select bank"}),
-    bankAccountNumber: z.string().refine((value) => /[0-9]{10}/.test(value), {message: 'Please fill valid number'})
+    bankAccountNumber: z.string().length(10, {message: 'Please fill valid number'}).refine((value) => /[0-9]{10}/.test(value), {message: 'Please fill valid number'})
  })
 
  type ValidationSchemaType = z.infer<typeof schema>;
@@ -95,7 +95,7 @@ const ProviderPaymentMethod = () => {
 
     useEffect(() => {
         initData()
-    }, [currentUser])
+    }, [])
     
     return (
         <form className="flex flex-col" onSubmit = {handleSubmit(onSubmit)} >
