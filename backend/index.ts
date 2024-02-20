@@ -9,6 +9,8 @@ import authRouter from "./routes/auth.routes";
 import userRouter from "./routes/user.routes";
 import cookieParser from "cookie-parser";
 
+// dotenv.config();
+
 dotenv.config();
 
 const app: Express = express();
