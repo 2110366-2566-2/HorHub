@@ -37,22 +37,32 @@ model PaymentMethod {
 model Dorm {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   name        String
+  description String
   provider    User      @relation("ownDorm", fields: [providerId], references: [id], onDelete: Cascade)
   providerId  String    @db.ObjectId
   address     String
   latitude    Float
   longitude   Float
-  phoneNumber String
-  rooms       Room[]    @relation("roomInDorm")
+  dormFacilities  String[]
+  contractNumber String
+  isPetFriendly   Boolean   @default(false)
+  images      String[]
+  roomTypes       RoomType[]    @relation("roomInDorm")
 }
 
-model Room {
+model RoomType {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  size        String
-  cost        Float
   dorm        Dorm      @relation("roomInDorm", fields: [dormId], references: [id], onDelete: Cascade)
   dormId      String    @db.ObjectId
+  name        String
+  description String
+  size        Int
+  cost        Float
+  capacity    Int
+  roomFacilities          String[]
+  numberOfRoom            Int
+  numberOfAvailableRoom   Int
+  images      String[]
   bookings    Booking[] @relation("reserveAt")
 }
 
@@ -60,8 +70,9 @@ model Booking {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   customer    User      @relation("makeReserve", fields: [customerId], references: [id], onDelete: Cascade)
   customerId  String    @db.ObjectId
-  room        Room      @relation("reserveAt", fields: [roomId], references: [id], onDelete: Cascade)
-  roomId      String    @db.ObjectId
+  roomType    RoomType      @relation("reserveAt", fields: [roomTypeId], references: [id], onDelete: Cascade)
+  roomTypeId  String    @db.ObjectId
+  roomName    String
   payment     Payment?  @relation("bookingPayment", fields: [paymentId], references: [id])
   paymentId   String?   @db.ObjectId @unique
   status      String
