@@ -19,6 +19,7 @@ import DeleteAccountPage from './pages/profile/setting/setting-page/DeleteAccoun
 import PaymentInformationPage from './pages/profile/setting/setting-page/PaymentInformationPage';
 import PasswordChangePage from './pages/profile/setting/setting-page/PasswordChangePage';
 import FailVerifyPopup from './pages/register/FailVerifyPopup';
+import CreateDormPage from './pages/dorm/provider/CreateDormPage';
 
 function App() {
   return (
@@ -41,6 +42,8 @@ function App() {
                 <Route path = "payment_information" element = {<PaymentInformationPage />} />
               </Route>
             </Route>
+
+            <Route path="dorms/create" element={<CreateDormPage />} />
            
             <Route path="verify" element={<MailVerifyPage/>} />
             <Route path="verify/success" element={<SuccessVerifyPage/>} />
