@@ -306,12 +306,12 @@ router.put("/:id/email",async (req : Request,res : Response) =>{
         // TODO check if the mail's already exist in DB
         const userEmailCount = await db.user.count({
             where: {
-                email : req.params.email
+                email : newmail
             }
         });
 
         if(userEmailCount > 0){
-            return res.status(400).send("The new email is already been uesd.");
+            return res.status(400).send("The new email has already been used.");
         }
 
         // TO DO change Email
