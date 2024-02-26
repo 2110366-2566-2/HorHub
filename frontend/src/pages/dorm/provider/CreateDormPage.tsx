@@ -6,6 +6,7 @@ import TextInput from '../../../components/Form/TextInput';
 import TextAreaInput from '../../../components/Form/TextAreaInput';
 import { useUser } from '../../../lib/context/UserContext';
 import LoadingPage from '../../etc/LoadingPage';
+import NumberInput from '../../../components/Form/NumberInput';
 
 const schema = z.object({
     name: z.string().trim().min(1, {message: "Fill dorm name"}).max(100, {message: "Your dorm name must not exceed 100 characters"}),
@@ -71,28 +72,29 @@ const CreateDormPage = () => {
 
             <div className="flex gap-3">
                 <div className="w-40">
-                    <TextInput 
-                        type="number" 
+                    <NumberInput 
                         name="latitude" 
                         fieldName="Latitude" 
                         placeholder="0.00000" 
+                        step={0.00001}
                         register={register} 
                         error={errors.latitude} 
                     />
                 </div>
                 <div className="w-40">
-                    <TextInput 
-                        type="number" 
+                    <NumberInput
                         name="longitude" 
                         fieldName="Longitude" 
                         placeholder="0.00000" 
+                        step={0.00001}
                         register={register} 
                         error={errors.longitude} 
                     />
                 </div>
             </div>
+            <div className="text-sm w-full text-left">In case you are not familiar with geolocation, please see <a href="https://support.google.com/maps/answer/18539" target="_blank">this guide</a></div>
 
-            <div className="w-full flex justify-start">
+            <div className="w-full flex justify-start pt-5">
               <button 
                 type="submit"
                 className="primary-button" 
