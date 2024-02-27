@@ -8,6 +8,8 @@ import { useUser } from '../../../lib/context/UserContext';
 import LoadingPage from '../../etc/LoadingPage';
 import NumberInput from '../../../components/Form/NumberInput';
 import ImagesInput from '../../../components/Form/ImagesInput';
+import CheckboxesInput from '../../../components/Form/CheckboxesInput';
+import { dormFacilities } from '../../../lib/constants/dormFacilities';
 
 const schema = z.object({
     name: z.string().trim().min(1, {message: "Fill dorm name"}).max(100, {message: "Your dorm name must not exceed 100 characters"}),
@@ -16,6 +18,7 @@ const schema = z.object({
     address: z.string().trim().min(1, {message: "Fill dorm address"}).max(300, {message: "Address must not exceed 300 characters"}),
     latitude: z.coerce.number().min(-90.00000, {message: "The value must be between -90.00000 to 90.00000"}).max(90.00000, {message: "The value must be between -90.00000 to 90.00000"}),
     longitude: z.coerce.number().min(-180.00000, {message: "The value must be between -180.00000 to 180.00000"}).max(180.00000, {message: "The value must be between -180.00000 to 180.00000"}),
+    facilities: z.string().array()
 })
 
 type ValidationSchemaType = z.infer<typeof schema>;
@@ -28,7 +31,10 @@ const CreateDormPage = () => {
     
     const { register, handleSubmit, formState: { errors } } = useForm<ValidationSchemaType>({
         resolver: zodResolver(schema),
-        mode: 'all'
+        mode: 'all',
+        defaultValues: {
+            facilities: []
+        }
     });
     
     const onSubmit: SubmitHandler<ValidationSchemaType> = async (data) => {
@@ -43,7 +49,7 @@ const CreateDormPage = () => {
     return (
     <div className="page">
         <div className="w-full flex flex-col">
-        <div className="border-b border-slate-300 my-2 font-bold text-left">Creating Dorm</div>
+        <div className="border-b border-slate-300 my-2 font-bold text-left pt-2">Creating Dorm</div>
         <div className="text-sm w-full text-left">Please fill the following information to create dorm in the platform</div>
         <form className="flex flex-col " onSubmit = {handleSubmit(onSubmit)} >
             <TextInput 
@@ -79,7 +85,7 @@ const CreateDormPage = () => {
                 setImages={setDormImages}
             />
 
-            <div className="border-b border-slate-300 my-2 font-bold text-left">Location</div>
+            <div className="border-b border-slate-300 my-2 font-bold text-left pt-2">Location</div>
 
             <TextInput 
                 type="text" 
@@ -113,6 +119,13 @@ const CreateDormPage = () => {
                 </div>
             </div>
             <div className="text-sm w-full text-left">In case you are not familiar with geolocation, please see <a href="https://support.google.com/maps/answer/18539" target="_blank">this guide</a></div>
+
+
+            <div className="border-b border-slate-300 my-2 font-bold text-left pt-2">Facilities</div>
+            
+            
+            <CheckboxesInput fieldName='Please select all facilities in your dorm' name='facilities' choices={dormFacilities} register={register} />
+
 
             <div className="w-full flex justify-start pt-5">
               <button 
