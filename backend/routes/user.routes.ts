@@ -329,13 +329,13 @@ router.put("/:id/email",async (req : Request,res : Response) =>{
         //  "from" : process.env.HOST_USER,
         //const fromSys = process.env.HOST_USER
         const subjectOldMail:string = "Horhub Account's Email Changes";
-        const messageOldMail: string = "This email is no longer a current email for your Horhub account.";
+        const messageOldMail: string = `<h1>Hello, ${body.user.displayName}!</h1><span>The email for logging in this account has been changed to ${newmail}. If you does not proceed this, please contract admin immediately.</span>`
          
         const resultOldMail = await sendMail(process.env.HOST_USER as string , oldmail , subjectOldMail , messageOldMail);
 
         // TO DO send email to new email
         const subjectNewMail:string = "Horhub Account's Email Changes";
-        const messageNewMail: string = "This email is now a new email for your Horhub account.";
+        const messageNewMail: string = `<h1>Hello, ${body.user.displayName}!</h1><span>This email will be used for logging in ${body.user.displayName}'s account. If you does not proceed this, please contract admin immediately.</span>`
          
         const resultNewMail = await sendMail(process.env.HOST_USER as string , newmail , subjectNewMail , messageNewMail);
 
