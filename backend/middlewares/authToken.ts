@@ -28,8 +28,8 @@ export function authenticateToken(req: Request, res: Response, next: NextFunctio
         }
     
         req.body.user = {
-            ...userQuery,
-            ...user
+            ...user,
+            ...userQuery
         }
 
         next()
