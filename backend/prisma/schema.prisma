@@ -45,7 +45,6 @@ model Dorm {
   longitude   Float
   dormFacilities  String[]
   contractNumber String
-  isPetFriendly   Boolean   @default(false)
   images      String[]
   roomTypes       RoomType[]    @relation("roomInDorm")
 }
@@ -59,7 +58,7 @@ model RoomType {
   size        Int
   cost        Float
   capacity    Int
-  roomFacilities          String[]
+  roomFacilities          DormFacilities[]
   numberOfRoom            Int
   numberOfAvailableRoom   Int
   images      String[]
@@ -106,4 +105,25 @@ enum Gender {
 enum Role {
   Customer
   Provider
+}
+
+enum DormFacilities {
+  pet
+  wifi
+  parking
+  elevator
+  fitness
+  swimming
+  shuttle
+  laundry
+  guard
+  keycard
+  fingerprint
+  cctv
+  coworking
+  kitchen
+  smoking
+  vending
+  dispenser
+  frontdesk
 }

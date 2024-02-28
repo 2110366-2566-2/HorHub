@@ -15,8 +15,16 @@ import { FaSmoking } from "react-icons/fa6";
 import { GiVendingMachine } from "react-icons/gi";
 import { FaGlassWaterDroplet } from "react-icons/fa6";
 import { Tb24Hours } from "react-icons/tb";
+import { PiDogDuotone } from "react-icons/pi";
 
 export const dormFacilities = [
+    {
+        value: "pet",
+        label: <div className="checkbox-text-container">
+            <PiDogDuotone className="checkbox-icon" />
+            <span className="checkbox-label">Pet Friendly</span>
+        </div>
+    },
     {
         value: "wifi",
         label: <div className="checkbox-text-container">
