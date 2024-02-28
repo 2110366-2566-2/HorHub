@@ -8,9 +8,10 @@ type FormFieldProps = {
     register: any;
     error: FieldError | undefined;
     valueAsNumber?: boolean;
+    onChange?: Function;
   };
 
-function TextInput({type, fieldName, placeholder, name, register, error, valueAsNumber}: FormFieldProps) {
+function TextInput({type, fieldName, placeholder, name, register, error, valueAsNumber, onChange}: FormFieldProps ) {
     return (
         <label className="form-control w-full max-w-xs">
             <div className="label">
@@ -20,6 +21,7 @@ function TextInput({type, fieldName, placeholder, name, register, error, valueAs
                 type={type}
                 placeholder={placeholder}
                 className={"input input-bordered input-sm w-full max-w-xs bg-white " + (error && "border-red-700")}
+                onChange={onChange? onChange() : null}
                 {...register(name, { valueAsNumber })}/>
             <div className="label">
             {

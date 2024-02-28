@@ -10,6 +10,8 @@ import userRouter from "./routes/user.routes";
 import dormRouter from "./routes/dorm.routes";
 import cookieParser from "cookie-parser";
 
+// dotenv.config();
+
 dotenv.config();
 
 const app: Express = express();

@@ -14,7 +14,7 @@ export default function AccountPage(){
 
     return (
         <div className="w-full flex flex-col gap-5">
-            {/* <ChangeEmailPanel /> */}
+            <ChangeEmailPanel />
             <ChangePasswordPanel />
             <DeleteAccountPanel />
         </div>

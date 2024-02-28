@@ -6,12 +6,16 @@ import { z } from "zod";
 import bcrypt from 'bcrypt';
 import { supportBankName } from "../lib/constant";
 
+import { DataSender, Schema_DataSender, sender } from "../lib/mail_sender";
+
 const router = Router();
 
 const userChangePasswordSchema = z.object({
     oldPassword: z.string().trim().min(1, {message: 'Please fill this field'}),
     newPassword: z.string().trim().min(8, {message: 'Password must be at least 8 characters'}),
 })
+
+
 
 const createPaymentMethodSchema = z.object({
     type: z.enum(["Bank", "Card"], {invalid_type_error: 'Method type is not valid'}),
@@ -264,5 +268,82 @@ router.delete("/:id/paymentMethods/:methodId", authenticateToken, async (req, re
     return res.send(deleteRes)
 })
 
+// ===================================== NINE will try his best
+const sendMail = async (fromWho : string , toWho: string , subject: string , massage: string )=>{
+    const mailToSend = {
+       "from" : fromWho,
+       "to" : toWho,
+       "subject" : subject,
+       "html" : massage,
+    }
+    const data_parse = Schema_DataSender.safeParse(mailToSend);
+    if (!data_parse.success) {
+        return null;
+    }
+    const mail : DataSender = data_parse.data;
+    const result = await sender(mail);
+    return result;
+
+}
+router.put("/:id/email",async (req : Request,res : Response) =>{
+    const { id } = req.params;
+    
+    const body = req.body;
+    
+    if (id != body.user.id) {
+        return res.status(401).send("Unauthorized")
+    }
+    try {
+        // New email is in a parameter call "newEmail"
+        const newmail =  body.newEmail;
+
+        const oldmail = body.user.email;
+        
+        // TODO check if it is the same email as the old one
+        if(newmail === oldmail){
+            return res.status(400).send("The new email cannot be the same as the old one.");
+        }
+        // TODO check if the mail's already exist in DB
+        const userEmailCount = await db.user.count({
+            where: {
+                email : newmail
+            }
+        });
+
+        if(userEmailCount > 0){
+            return res.status(400).send("The new email has already been used.");
+        }
+
+        // TO DO change Email
+        const changeEmail = await db.user.update({
+            where: {
+                id: id
+            },
+            data: {
+                email: newmail
+            }
+        });
+
+        // TO DO send email to old email
+        
+        //  "from" : process.env.HOST_USER,
+        //const fromSys = process.env.HOST_USER
+        const subjectOldMail:string = "Horhub Account's Email Changes";
+        const messageOldMail: string = `<h1>Hello, ${body.user.displayName}!</h1><span>The email for logging in this account has been changed to ${newmail}. If you does not proceed this, please contract admin immediately.</span>`
+         
+        const resultOldMail = await sendMail(process.env.HOST_USER as string , oldmail , subjectOldMail , messageOldMail);
+
+        // TO DO send email to new email
+        const subjectNewMail:string = "Horhub Account's Email Changes";
+        const messageNewMail: string = `<h1>Hello, ${body.user.displayName}!</h1><span>This email will be used for logging in ${body.user.displayName}'s account. If you does not proceed this, please contract admin immediately.</span>`
+         
+        const resultNewMail = await sendMail(process.env.HOST_USER as string , newmail , subjectNewMail , messageNewMail);
+
+        return res.send("Success")
+    }
+    catch (err) {
+        return res.status(400).send(err)
+    }
+});
 
 export default router
