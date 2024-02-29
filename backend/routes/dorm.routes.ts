@@ -53,7 +53,7 @@ router.get("/:id", async (req, res) => {
   try {
     const result = await db.dorm.findUnique({
       where: { id: id },
-      include: { roomTypes: true },
+      include: { provider: { select: { displayName: true } }, roomTypes: true },
     });
     return res.send(result);
   } catch (err) {
