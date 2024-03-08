@@ -5,11 +5,11 @@ import DeleteButton from './Button/DeleteButton';
 type FormFieldProps = {
     fieldName: string;
     maxNumber: number;
-    imagesURL: string[];
-    setImages: React.Dispatch<React.SetStateAction<string[]>>;
+    images: File[];
+    setImages: React.Dispatch<React.SetStateAction<File[]>>;
 };
 
-const ImagesInput = ({fieldName, maxNumber, imagesURL, setImages}: FormFieldProps) => {
+const ImagesInput = ({fieldName, maxNumber, images, setImages}: FormFieldProps) => {
     // const [images, setImages] = React.useState([]);
   
     const onChange = (
@@ -25,11 +25,11 @@ const ImagesInput = ({fieldName, maxNumber, imagesURL, setImages}: FormFieldProp
       <div className="App">
         <div className="label">
             <span className="label-text font-semibold">{fieldName}</span>
-            <span className="label-text-alt">{imagesURL.length}/{maxNumber}</span>
+            <span className="label-text-alt">{images.length}/{maxNumber}</span>
         </div>
         <ImageUploading
           multiple
-          value={imagesURL}
+          value={images}
           onChange={onChange}
           maxNumber={maxNumber}
         >
