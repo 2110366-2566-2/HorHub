@@ -33,6 +33,13 @@ const optionalDormSchema = z.object({
 type UpdateDormType = z.infer<typeof optionalDormSchema>
 
 
+// Without pagination and filtering/sorting
+router.get("/", async (req, res) => {
+    const allDormsRes = await db.dorm.findMany()
+
+    return res.send(allDormsRes)
+})
+
 
 router.get("/:dormId", async (req, res) => {
     const { dormId } = req.params
