@@ -30,6 +30,29 @@ const optionalDormSchema = z.object({
     dormFacilities: z.enum(dormFacilities).array().optional()
 })
 
+type UpdateDormType = z.infer<typeof optionalDormSchema>
+
+
+
+router.get("/:dormId", async (req, res) => {
+    const { dormId } = req.params
+
+    const findDormRes = await db.dorm.findUnique({
+        where: {
+            id: dormId
+        }
+    })
+
+    if (!findDormRes) {
+        return res.status(404).send("No dorm found")
+    }
+
+    return res.send(findDormRes)
+})
+
+
+
+
 router.post("/", authenticateToken, authenticateProvider, async (req, res) => {
     const body = req.body
     
@@ -65,8 +88,10 @@ router.post("/", authenticateToken, authenticateProvider, async (req, res) => {
 router.put("/:dormId", authenticateToken, authenticateProvider, async (req, res) => {
     const { dormId } = req.params
 
-    const body = req.body
-    const user: User = body.user
+    const user: User = req.body.user
+    delete req.body.user
+    const body: UpdateDormType = req.body
+
     
     const parseStatus = optionalDormSchema.safeParse(body)
     if (!parseStatus.success) console.log(parseStatus.error.issues);
@@ -94,12 +119,13 @@ router.put("/:dormId", authenticateToken, authenticateProvider, async (req, res)
             where: {
                 id: dormId
             },
-            data: (body as Dorm)
+            data: body
         })
     
         return res.send(updateRes)
     }
     catch (err) {
+        console.log(err)
         return res.status(400).send(err)
     }
 })
@@ -109,8 +135,8 @@ router.put("/:dormId", authenticateToken, authenticateProvider, async (req, res)
 router.delete("/:dormId", authenticateToken, authenticateProvider, async (req, res) => {
     const { dormId } = req.params
 
-    const body = req.body
-    const user: User = body.user
+    const user: User = req.body.user
+    delete req.body.user
 
     // Find this dorm
     const findDormRes = await db.dorm.findUnique({
