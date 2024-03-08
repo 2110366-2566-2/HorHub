@@ -7,7 +7,7 @@ import TextAreaInput from '../../../components/Form/TextAreaInput';
 import { useUser } from '../../../lib/context/UserContext';
 import LoadingPage from '../../etc/LoadingPage';
 import NumberInput from '../../../components/Form/NumberInput';
-import ImagesInput from '../../../components/Form/ImagesInput';
+import ImagesInput from '../../../components/Form/OldImagesInput';
 import CheckboxesInput from '../../../components/Form/CheckboxesInput';
 import { dormFacilities } from '../../../lib/constants/dormFacilities';
 
