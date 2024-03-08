@@ -18,3 +18,7 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app);
 
+
+export function uploadFiles(files: Array<File | String>, path: string) {
+  
+}
