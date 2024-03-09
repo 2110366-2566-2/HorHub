@@ -1,12 +1,12 @@
 import React from 'react'
-import ImageUploading, { ImageListType } from "react-images-uploading";
+import ImageUploading, { ImageListType, ImageType } from "react-images-uploading";
 import DeleteButton from './Button/DeleteButton';
 
 type FormFieldProps = {
     fieldName: string;
     maxNumber: number;
-    images: File[];
-    setImages: React.Dispatch<React.SetStateAction<File[]>>;
+    images: ImageType[];
+    setImages: React.Dispatch<React.SetStateAction<ImageType[]>>;
 };
 
 const ImagesInput = ({fieldName, maxNumber, images, setImages}: FormFieldProps) => {

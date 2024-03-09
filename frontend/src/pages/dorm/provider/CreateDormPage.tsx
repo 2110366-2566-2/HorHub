@@ -7,9 +7,11 @@ import TextAreaInput from '../../../components/Form/TextAreaInput';
 import { useUser } from '../../../lib/context/UserContext';
 import LoadingPage from '../../etc/LoadingPage';
 import NumberInput from '../../../components/Form/NumberInput';
-import ImagesInput from '../../../components/Form/OldImagesInput';
+import ImagesInput from '../../../components/Form/ImagesInput';
 import CheckboxesInput from '../../../components/Form/CheckboxesInput';
-import { dormFacilities } from '../../../lib/constants/dormFacilities';
+import { availableDormFacilities } from '../../../lib/constants/dormFacilities';
+import { uploadImages } from '../../../lib/firebase';
+import { ImageType } from 'react-images-uploading';
 
 const schema = z.object({
     name: z.string().trim().min(1, {message: "Fill dorm name"}).max(100, {message: "Your dorm name must not exceed 100 characters"}),
@@ -18,27 +20,55 @@ const schema = z.object({
     address: z.string().trim().min(1, {message: "Fill dorm address"}).max(300, {message: "Address must not exceed 300 characters"}),
     latitude: z.coerce.number().min(-90.00000, {message: "The value must be between -90.00000 to 90.00000"}).max(90.00000, {message: "The value must be between -90.00000 to 90.00000"}),
     longitude: z.coerce.number().min(-180.00000, {message: "The value must be between -180.00000 to 180.00000"}).max(180.00000, {message: "The value must be between -180.00000 to 180.00000"}),
-    facilities: z.string().array()
+    dormFacilities: z.string().array()
 })
 
 type ValidationSchemaType = z.infer<typeof schema>;
 
 const CreateDormPage = () => {
 
-    const {currentUser, isLoading} = useUser()
+    const {currentUser, isLoading, fetchUser} = useUser()
 
-    const [dormImages, setDormImages] = useState<File[]>([])
+    const [dormImages, setDormImages] = useState<ImageType[]>([])
+
+    const [allowSubmit, setAllowSubmit] = useState<boolean>(true)
     
     const { register, handleSubmit, formState: { errors } } = useForm<ValidationSchemaType>({
         resolver: zodResolver(schema),
         mode: 'all',
         defaultValues: {
-            facilities: []
+            dormFacilities: []
         }
     });
     
     const onSubmit: SubmitHandler<ValidationSchemaType> = async (data) => {
-        console.log(data)
+        setAllowSubmit(false)
+
+        await fetchUser();
+        if (!currentUser){
+            return;
+        }
+
+        const imagesURL = await uploadImages(dormImages, 'dorms/images')
+        console.log(imagesURL)
+        const result = await fetch(process.env.REACT_APP_BACKEND_URL + "/dorms",{
+            method : "POST",
+            credentials : 'include',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body : JSON.stringify({...data, images: imagesURL})
+        })
+
+        if (result.ok) {
+            // Done
+            alert("Done")
+        }
+        else {
+            setAllowSubmit(true)
+        }
+
+        
     }
 
     if (isLoading) {
@@ -124,16 +154,16 @@ const CreateDormPage = () => {
             <div className="border-b border-slate-300 my-2 font-bold text-left pt-2">Facilities</div>
             
             
-            <CheckboxesInput fieldName='Please select all facilities in your dorm' name='facilities' choices={dormFacilities} register={register} />
+            <CheckboxesInput fieldName='Please select all facilities in your dorm' name='dormFacilities' choices={availableDormFacilities} register={register} />
 
 
             <div className="w-full flex justify-start pt-5">
-              <button 
-                type="submit"
-                className="primary-button" 
-                >
-                Create Dorm
-              </button>
+                {
+                    allowSubmit ? <button type="submit" className="primary-button" >Create Dorm</button>
+                    : <button className="disabled-button" disabled >Create Dorm</button>
+                    
+                }
+              
             </div>
         </form>
         </div>
