@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import TextInput from '../../../components/Form/TextInput';
@@ -12,6 +12,9 @@ import CheckboxesInput from '../../../components/Form/CheckboxesInput';
 import { availableDormFacilities } from '../../../lib/constants/dormFacilities';
 import { uploadImages } from '../../../lib/firebase';
 import { ImageType } from 'react-images-uploading';
+import { Bounce, toast } from 'react-toastify';
+import { useNavigate, useParams } from 'react-router-dom';
+import NotFoundPage from '../../etc/NotFoundPage';
 
 const schema = z.object({
     name: z.string().trim().min(1, {message: "Fill dorm name"}).max(100, {message: "Your dorm name must not exceed 100 characters"}),
@@ -25,15 +28,21 @@ const schema = z.object({
 
 type ValidationSchemaType = z.infer<typeof schema>;
 
-const CreateDormPage = () => {
+const EditDormPage = () => {
+    const navigate = useNavigate()
+
+    let { dormId } = useParams();
 
     const {currentUser, isLoading, fetchUser} = useUser()
 
     const [dormImages, setDormImages] = useState<ImageType[]>([])
 
     const [allowSubmit, setAllowSubmit] = useState<boolean>(true)
+    const [isFetching, setFetching] = useState<boolean>(true)
+    const [isInvalid, setInvalid] = useState<boolean>(false)
+    const [ownerId, setOwnerId] = useState<string>("")
     
-    const { register, handleSubmit, formState: { errors } } = useForm<ValidationSchemaType>({
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<ValidationSchemaType>({
         resolver: zodResolver(schema),
         mode: 'all',
         defaultValues: {
@@ -51,8 +60,8 @@ const CreateDormPage = () => {
 
         const imagesURL = await uploadImages(dormImages, 'dorms/images')
         console.log(imagesURL)
-        const result = await fetch(process.env.REACT_APP_BACKEND_URL + "/dorms",{
-            method : "POST",
+        const result = await fetch(process.env.REACT_APP_BACKEND_URL + "/dorms/" + dormId,{
+            method : "PUT",
             credentials : 'include',
             headers: {
                 "Content-Type": "application/json",
@@ -62,7 +71,22 @@ const CreateDormPage = () => {
 
         if (result.ok) {
             // Done
-            alert("Done")
+
+            toast.success('Editing dorm successfully!', {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+            const data = await result.json()
+            setTimeout(() => {
+                navigate('/provider/dorms/' + data.id)
+            }, 1000)
         }
         else {
             setAllowSubmit(true)
@@ -71,16 +95,64 @@ const CreateDormPage = () => {
         
     }
 
-    if (isLoading) {
+    async function initData() {
+        setFetching(true)
+        // await fetchUser();
+        // if (!currentUser) {
+        //     return
+        // }
+        try {
+            const res = await fetch(process.env.REACT_APP_BACKEND_URL + "/dorms/" + dormId, {
+                method: "GET",
+                credentials: "include"
+            })
+            console.log("Hi")
+            if (res.ok) {
+                const data = await res.json()
+                
+                setOwnerId(data.providerId)
+
+                const imagesURL = data.images
+                const imagesMockFiles: ImageType[] = imagesURL.map((url: string) => {return {dataURL: url}})
+
+                setDormImages(imagesMockFiles)
+                reset(data)
+                setFetching(false)
+            }
+            else {
+                setInvalid(true)
+                setFetching(false)
+            }
+        }
+        catch (err) {
+            setInvalid(true)
+            setFetching(false)
+        }        
+    }
+
+    useEffect(() => {
+        initData()
+    }, [])
+
+    if (isLoading || isFetching) {
         return <LoadingPage />
     }
+
+    if (!currentUser || isInvalid) {
+        return <NotFoundPage />
+    }
+
+    if (currentUser && (currentUser.role === "Customer" || ownerId != currentUser.id)) {
+        return <NotFoundPage />
+    }
+    
 
 
     return (
     <div className="page">
         <div className="w-full flex flex-col">
-        <div className="border-b border-slate-300 my-2 font-bold text-left pt-2">Creating Dorm</div>
-        <div className="text-sm w-full text-left">Please fill the following information to create dorm in the platform</div>
+        <div className="border-b border-slate-300 my-2 font-bold text-left pt-2">Editing Dorm</div>
+        <div className="text-sm w-full text-left">You can edit the following information</div>
         <form className="flex flex-col " onSubmit = {handleSubmit(onSubmit)} >
             <TextInput 
                 type="text" 
@@ -159,8 +231,8 @@ const CreateDormPage = () => {
 
             <div className="w-full flex justify-start pt-5">
                 {
-                    allowSubmit ? <button type="submit" className="primary-button" >Create Dorm</button>
-                    : <button className="disabled-button" disabled >Create Dorm</button>
+                    allowSubmit ? <button type="submit" className="primary-button" >Update Dorm</button>
+                    : <button className="disabled-button" disabled >Update Dorm</button>
                     
                 }
               
@@ -172,4 +244,4 @@ const CreateDormPage = () => {
     )
 }
 
-export default CreateDormPage
+export default EditDormPage

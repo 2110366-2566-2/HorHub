@@ -19,7 +19,11 @@ import DeleteAccountPage from './pages/profile/setting/setting-page/DeleteAccoun
 import PaymentInformationPage from './pages/profile/setting/setting-page/PaymentInformationPage';
 import PasswordChangePage from './pages/profile/setting/setting-page/PasswordChangePage';
 import FailVerifyPopup from './pages/register/FailVerifyPopup';
-import CreateDormPage from './pages/dorm/provider/CreateDormPage';
+import ProviderDormPage from './pages/provider/dorm/ProviderDormListPage';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import CreateDormPage from './pages/provider/dorm/CreateDormPage';
+import EditDormPage from './pages/provider/dorm/EditDormPage';
 
 function App() {
   return (
@@ -43,7 +47,9 @@ function App() {
               </Route>
             </Route>
 
-            <Route path="dorms/create" element={<CreateDormPage />} />
+            <Route path="provider/dorms" element={<ProviderDormPage />} />
+            <Route path="provider/dorms/create" element={<CreateDormPage />} />
+            <Route path="provider/dorms/:dormId/edit" element={<EditDormPage />} />
            
             <Route path="verify" element={<MailVerifyPage/>} />
             <Route path="verify/success" element={<SuccessVerifyPage/>} />
@@ -53,6 +59,7 @@ function App() {
             <Route path="/*" element={<NotFoundPage />} />
           </Routes>
           <Footbar />
+          <ToastContainer />
         </UserProvider>
       </BrowserRouter>
     </>

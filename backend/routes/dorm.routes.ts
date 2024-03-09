@@ -44,6 +44,10 @@ router.get("/", async (req, res) => {
 router.get("/:dormId", async (req, res) => {
     const { dormId } = req.params
 
+    if (dormId.length != 24 || /[0-9A-Fa-f]{24}/g.test(dormId) === false) {
+        return res.status(404).send("No dorm found")
+    }
+
     const findDormRes = await db.dorm.findUnique({
         where: {
             id: dormId
@@ -104,6 +108,10 @@ router.put("/:dormId", authenticateToken, authenticateProvider, async (req, res)
     if (!parseStatus.success) console.log(parseStatus.error.issues);
     if (!parseStatus.success) return res.status(400).send("Invalid Data")
 
+    if (dormId.length != 24 || /[0-9A-Fa-f]{24}/g.test(dormId) === false) {
+        return res.status(404).send("No dorm found")
+    }
+
     // Find this dorm
     const findDormRes = await db.dorm.findUnique({
         where: {
@@ -145,6 +153,10 @@ router.delete("/:dormId", authenticateToken, authenticateProvider, async (req, r
     const user: User = req.body.user
     delete req.body.user
 
+    if (dormId.length != 24 || /[0-9A-Fa-f]{24}/g.test(dormId) === false) {
+        return res.status(404).send("No dorm found")
+    }
+    
     // Find this dorm
     const findDormRes = await db.dorm.findUnique({
         where: {
