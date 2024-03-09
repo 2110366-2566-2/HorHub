@@ -23,3 +23,22 @@ export const dormFacilities = [
     "dispenser",
     "frontdesk"
 ] as const
+
+export const roomFacilities = [
+    "singlebed",
+    "bunkbed",
+    "table",
+    "closet",
+    "drawer",
+    "bedsidetable",
+    "curtain",
+    "bin",
+    "airconditioner",
+    "waterheater",
+    "fan",
+    "television",
+    "refrig",
+    "kettle",
+    "microwave",
+    "toilet"
+] as const
