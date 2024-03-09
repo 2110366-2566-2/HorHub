@@ -215,6 +215,42 @@ router.delete("/:dormId", authenticateToken, authenticateProvider, async (req, r
     }
 })
 
+router.get("/:dormId/roomtypes/:roomtypeId", async (req, res) => {
+    const { dormId, roomtypeId } = req.params
+
+    if (dormId.length != 24 || /[0-9A-Fa-f]{24}/g.test(dormId) === false) {
+        return res.status(404).send("No dorm found")
+    }
+
+    const findDormRes = await db.dorm.findUnique({
+        where: {
+            id: dormId
+        },
+        include: {
+            roomTypes: true
+        }
+    })
+
+    if (!findDormRes) {
+        return res.status(404).send("No dorm found")
+    }
+
+    if (roomtypeId.length != 24 || /[0-9A-Fa-f]{24}/g.test(roomtypeId) === false) {
+        return res.status(404).send("No room found")
+    }
+
+    const findRoomRes = await db.roomType.findUnique({
+        where: {
+            id: roomtypeId
+        }
+    })
+
+    if (!findRoomRes) {
+        return res.status(404).send("No room found")
+    }
+
+    return res.send(findRoomRes)
+})
 
 router.post("/:dormId/roomtypes", authenticateToken, authenticateProvider, async (req, res) => {
     const { dormId } = req.params

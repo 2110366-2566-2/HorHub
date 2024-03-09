@@ -24,6 +24,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CreateDormPage from './pages/provider/dorm/CreateDormPage';
 import EditDormPage from './pages/provider/dorm/EditDormPage';
+import CreateRoomTypePage from './pages/provider/dorm/roomtype/CreateRoomTypePage';
+import EditRoomTypePage from './pages/provider/dorm/roomtype/EditRoomTypePage';
 
 function App() {
   return (
@@ -50,6 +52,8 @@ function App() {
             <Route path="provider/dorms" element={<ProviderDormPage />} />
             <Route path="provider/dorms/create" element={<CreateDormPage />} />
             <Route path="provider/dorms/:dormId/edit" element={<EditDormPage />} />
+            <Route path="provider/dorms/:dormId/rooms/create" element={<CreateRoomTypePage />} />
+            <Route path="provider/dorms/:dormId/rooms/:roomtypeId/edit" element={<EditRoomTypePage />} />
            
             <Route path="verify" element={<MailVerifyPage/>} />
             <Route path="verify/success" element={<SuccessVerifyPage/>} />

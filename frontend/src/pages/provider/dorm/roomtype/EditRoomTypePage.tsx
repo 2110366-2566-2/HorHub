@@ -28,10 +28,10 @@ const schema = z.object({
 
 type ValidationSchemaType = z.infer<typeof schema>;
 
-const CreateRoomTypePage = () => {
+const EditRoomTypePage = () => {
   const navigate = useNavigate()
 
-  let { dormId } = useParams();
+  let { dormId, roomtypeId } = useParams();
 
   const {currentUser, isLoading, fetchUser} = useUser()
 
@@ -42,7 +42,7 @@ const CreateRoomTypePage = () => {
   const [isInvalid, setInvalid] = useState<boolean>(false)
   const [ownerId, setOwnerId] = useState<string>("")
 
-  const { register, handleSubmit, formState: { errors } } = useForm<ValidationSchemaType>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<ValidationSchemaType>({
       resolver: zodResolver(schema),
       mode: 'all',
       defaultValues: {
@@ -60,8 +60,8 @@ const CreateRoomTypePage = () => {
 
       const imagesURL = await uploadImages(roomImages, 'rooms/images')
       console.log(imagesURL)
-      const result = await fetch(process.env.REACT_APP_BACKEND_URL + "/dorms/" + dormId + "/roomtypes",{
-          method : "POST",
+      const result = await fetch(process.env.REACT_APP_BACKEND_URL + "/dorms/" + dormId + "/roomtypes/" + roomtypeId,{
+          method : "PUT",
           credentials : 'include',
           headers: {
               "Content-Type": "application/json",
@@ -72,7 +72,7 @@ const CreateRoomTypePage = () => {
       if (result.ok) {
           // Done
 
-          toast.success('Creating room successfully!', {
+          toast.success('Updating room successfully!', {
               position: "top-center",
               autoClose: 2000,
               hideProgressBar: true,
@@ -83,7 +83,7 @@ const CreateRoomTypePage = () => {
               theme: "light",
               transition: Bounce,
           });
-          const data = await result.json()
+       
           setTimeout(() => {
               navigate('/provider/dorms/' + dormId)
           }, 1000)
@@ -93,7 +93,7 @@ const CreateRoomTypePage = () => {
       }
   }
 
-  async function checkData() {
+  async function initData() {
     setFetching(true)
     // await fetchUser();
     // if (!currentUser) {
@@ -109,7 +109,27 @@ const CreateRoomTypePage = () => {
             const data = await res.json()
             
             setOwnerId(data.providerId)
-            setFetching(false)
+            
+            const roomRes = await fetch(process.env.REACT_APP_BACKEND_URL + "/dorms/" + dormId + "/roomtypes/" + roomtypeId, {
+                method: "GET",
+                credentials: "include"
+            })
+
+            if (roomRes.ok) {
+                const roomData = await roomRes.json()
+
+                const imagesURL = roomData.images
+                const imagesMockFiles: ImageType[] = imagesURL.map((url: string) => {return {dataURL: url}})
+
+                setRoomImages(imagesMockFiles)
+                reset(roomData)
+                setFetching(false)
+
+            } else {
+                setInvalid(true)
+                setFetching(false)
+            }
+      
         }
         else {
             setInvalid(true)
@@ -123,7 +143,7 @@ const CreateRoomTypePage = () => {
   }
 
   useEffect(() => {
-    checkData()
+    initData()
   }, [])
 
   if (isLoading || isFetching) {
@@ -142,8 +162,8 @@ const CreateRoomTypePage = () => {
   return (
   <div className="page">
       <div className="w-full flex flex-col">
-      <div className="border-b border-slate-300 my-2 font-bold text-left pt-2">Creating Room</div>
-      <div className="text-sm w-full text-left">Please fill the following information to create a type of room</div>
+      <div className="border-b border-slate-300 my-2 font-bold text-left pt-2">Editing Room</div>
+      <div className="text-sm w-full text-left">Please update the following information to update the room</div>
       <form className="flex flex-col " onSubmit = {handleSubmit(onSubmit)} >
           <TextInput
               type="text" 
@@ -208,8 +228,8 @@ const CreateRoomTypePage = () => {
 
           <div className="w-full flex justify-start pt-5">
               {
-                  allowSubmit ? <button type="submit" className="primary-button" >Create Room</button>
-                  : <button className="disabled-button" disabled >Create Room</button>
+                  allowSubmit ? <button type="submit" className="primary-button" >Update Room</button>
+                  : <button className="disabled-button" disabled >Update Room</button>
                   
               }
             
@@ -221,4 +241,4 @@ const CreateRoomTypePage = () => {
   )
 }
 
-export default CreateRoomTypePage
+export default EditRoomTypePage
