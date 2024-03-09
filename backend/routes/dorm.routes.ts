@@ -30,7 +30,12 @@ const optionalDormSchema = z.object({
     dormFacilities: z.enum(dormFacilities).array().optional()
 })
 
+const roomTypeSchema = z.object({
+    
+})
+
 type UpdateDormType = z.infer<typeof optionalDormSchema>
+
 
 
 // Without pagination and filtering/sorting
@@ -189,6 +194,10 @@ router.delete("/:dormId", authenticateToken, authenticateProvider, async (req, r
     }
 })
 
+
+router.post("/:dormId/roomtypes", authenticateToken, authenticateProvider, async (req, res) => {
+
+})
 
 
 export default router
