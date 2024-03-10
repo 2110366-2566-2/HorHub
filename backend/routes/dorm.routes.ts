@@ -56,9 +56,10 @@ router.get("/:id", async (req, res) => {
       where: { id: id },
       include: { provider: { select: { displayName: true } }, roomTypes: true },
     });
+    console.log(result);
     return res.send(result);
   } catch (err) {
-    //console.log(err);
+    console.log(err);
     return res.status(404).send("Not FOUND");
   }
 });
@@ -119,15 +120,16 @@ router.get("/", async (req, res) => {
 
   return res.send(allDormsRes);
 });
-
+/*
 router.get("/:dormId", async (req, res) => {
   const { dormId } = req.params;
-
+  console.log(dormId);
   const findDormRes = await db.dorm.findUnique({
     where: {
       id: dormId,
     },
   });
+  console.log(findDormRes);
 
   if (!findDormRes) {
     return res.status(404).send("No dorm found");
@@ -135,6 +137,7 @@ router.get("/:dormId", async (req, res) => {
 
   return res.send(findDormRes);
 });
+*/
 
 router.post("/", authenticateToken, authenticateProvider, async (req, res) => {
   const body = req.body;

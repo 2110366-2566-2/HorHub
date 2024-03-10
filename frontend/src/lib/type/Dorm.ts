@@ -19,6 +19,7 @@ const dormFacilities = [
   "vending",
   "dispenser",
   "frontdesk",
+  "television",
 ] as const;
 
 export const dormSchema = z.object({

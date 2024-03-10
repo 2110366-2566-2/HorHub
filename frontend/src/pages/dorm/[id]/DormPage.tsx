@@ -6,6 +6,8 @@ import z from "zod";
 import { Dorm, dormSchema } from "../../../lib/type/Dorm";
 import DormBanner from "../../../components/Dorm/DormBanner";
 import RoomCard from "../../../components/Dorm/RoomCard";
+import { isCompositeComponent } from "react-dom/test-utils";
+import DormMap from "../../../components/Dorm/DormMap";
 
 export default function DormPage() {
   const { id } = useParams();
@@ -33,12 +35,18 @@ export default function DormPage() {
         const tmp = await result.json();
         console.log(tmp);
         const data = dormSchema.safeParse(tmp);
-        if (!data.success) return;
+
+        if (!data.success) {
+          console.log(data.error);
+          return;
+        }
         setDormData(data.data);
       }
     };
     fetchData();
   }, []);
+  console.log(dormData?.latitude);
+  console.log(dormData?.longitude);
   if (notFound) return <NotFoundPage />;
   if (!dormData) return <LoadingPage />;
 
@@ -74,6 +82,8 @@ export default function DormPage() {
                 );
               })}
             </div>
+            <div className="font-bold">Dorm Map</div>
+            <DormMap lat={dormData.latitude} lng={dormData.longitude} />
           </div>
         </div>
         <div className="w-1/4">

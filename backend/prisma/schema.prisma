@@ -58,9 +58,9 @@ model RoomType {
   size        Int
   cost        Float
   capacity    Int
-  roomFacilities          DormFacilities[]
-  numberOfRoom            Int
-  numberOfAvailableRoom   Int
+  roomFacilities          RoomFacilities[]
+  numberOfRoom            Int       @default(0)
+  numberOfAvailableRoom   Int       @default(0)
   images      String[]
   bookings    Booking[] @relation("reserveAt")
 }
@@ -119,6 +119,7 @@ enum DormFacilities {
   guard
   keycard
   fingerprint
+  television
   cctv
   coworking
   kitchen
@@ -126,4 +127,23 @@ enum DormFacilities {
   vending
   dispenser
   frontdesk
+}
+
+enum RoomFacilities {
+  singlebed
+  bunkbed
+  table
+  closet
+  drawer
+  bedsidetable
+  curtain
+  bin
+  airconditioner
+  waterheater
+  fan
+  television
+  refrig
+  kettle
+  microwave
+  toilet
 }
