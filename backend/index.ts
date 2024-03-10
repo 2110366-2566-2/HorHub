@@ -8,6 +8,7 @@ import testRouter from "./routes/test.routes";
 import authRouter from "./routes/auth.routes";
 import userRouter from "./routes/user.routes";
 import dormRouter from "./routes/dorm.routes";
+import bookingRouter from "./routes/booking.routes"
 import cookieParser from "cookie-parser";
 
 // dotenv.config();
@@ -31,6 +32,7 @@ app.use('/auth', authRouter)
 app.use('/users', userRouter)
 app.use('/mails', mailRouter)
 app.use('/dorms', dormRouter)
+app.use('/bookings', bookingRouter)
 
 
 

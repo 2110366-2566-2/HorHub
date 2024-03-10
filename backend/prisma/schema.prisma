@@ -74,7 +74,8 @@ model Booking {
   roomName    String
   payment     Payment?  @relation("bookingPayment", fields: [paymentId], references: [id])
   paymentId   String?   @db.ObjectId @unique
-  status      String
+  status      BookingStatus
+  startAt     DateTime    
   bookAt      DateTime  @default(now())
 }
 
@@ -145,4 +146,11 @@ enum RoomFacilities {
   kettle
   microwave
   toilet
+}
+
+enum BookingStatus {
+  PendingPayment
+  InProcess
+  Completed
+  Cancelled
 }
