@@ -19,13 +19,14 @@ import DeleteAccountPage from './pages/profile/setting/setting-page/DeleteAccoun
 import PaymentInformationPage from './pages/profile/setting/setting-page/PaymentInformationPage';
 import PasswordChangePage from './pages/profile/setting/setting-page/PasswordChangePage';
 import FailVerifyPopup from './pages/register/FailVerifyPopup';
-import ProviderDormPage from './pages/provider/dorm/ProviderDormListPage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CreateDormPage from './pages/provider/dorm/CreateDormPage';
 import EditDormPage from './pages/provider/dorm/EditDormPage';
 import CreateRoomTypePage from './pages/provider/dorm/roomtype/CreateRoomTypePage';
 import EditRoomTypePage from './pages/provider/dorm/roomtype/EditRoomTypePage';
+import ProviderPageLayout from './pages/provider/ProviderPageLayout';
+import ProviderDormListPage from './pages/provider/dorm/ProviderDormListPage';
 
 function App() {
   return (
@@ -49,7 +50,13 @@ function App() {
               </Route>
             </Route>
 
-            <Route path="provider/dorms" element={<ProviderDormPage />} />
+            <Route path="provider">
+              <Route element={<ProviderPageLayout />} >
+                <Route path="dorms" element={<ProviderDormListPage />} />
+              </Route>
+            </Route>
+
+            {/* <Route path="provider/dorms" element={<ProviderDormListPage />} /> */}
             <Route path="provider/dorms/create" element={<CreateDormPage />} />
             <Route path="provider/dorms/:dormId/edit" element={<EditDormPage />} />
             <Route path="provider/dorms/:dormId/rooms/create" element={<CreateRoomTypePage />} />

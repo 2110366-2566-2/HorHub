@@ -7,6 +7,7 @@ import bcrypt from 'bcrypt';
 import { supportBankName } from "../lib/constant";
 
 import { DataSender, Schema_DataSender, sender } from "../lib/mail_sender";
+import { authenticateProvider } from "../middlewares/authProvider";
 
 const router = Router();
 
@@ -266,6 +267,25 @@ router.delete("/:id/paymentMethods/:methodId", authenticateToken, async (req, re
     })
 
     return res.send(deleteRes)
+})
+
+router.get("/:id/dorms", authenticateToken, authenticateProvider, async (req, res) => {
+    const { id } = req.params
+
+    if (id.length != 24 || /[0-9A-Fa-f]{24}/g.test(id) === false) {
+        return res.status(404).send("No user found")
+    }
+
+    const findDormsRes = await db.dorm.findMany({
+        where: {
+            providerId: id
+        },
+        include: {
+            roomTypes: true
+        }
+    })
+
+    return res.send(findDormsRes)
 })
 
 // ===================================== NINE will try his best
