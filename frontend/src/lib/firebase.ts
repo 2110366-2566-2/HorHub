@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getStorage } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { ImageType } from "react-images-uploading";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -18,3 +19,23 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app);
 
+
+export async function uploadImages(files: Array<ImageType | string>, path: string): Promise<Array<string>> {
+    const result = await Promise.all(
+      files.map(async (file) => {
+        if (typeof file !== "string" && file.file) { // real file
+          const fileRef = ref(storage, `${path}/${(new Date()).getTime()}-${file.file.name}`)
+          const fileURL = await uploadBytes(fileRef, file.file).then( async () => {
+            const fileURL = await getDownloadURL(fileRef)
+            return fileURL
+          })
+          return fileURL
+        }
+        else {  // just URL string
+          return file as string
+        }
+      })
+    )
+
+    return result
+}
