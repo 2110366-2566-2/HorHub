@@ -120,6 +120,7 @@ enum DormFacilities {
   guard
   keycard
   fingerprint
+  television
   cctv
   coworking
   kitchen
