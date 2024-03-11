@@ -76,7 +76,8 @@ router.get("/:dormId", async (req, res) => {
             id: dormId
         },
         include: {
-            roomTypes: true
+            roomTypes: true,
+            provider: true
         }
     })
 
@@ -242,6 +243,9 @@ router.get("/:dormId/roomtypes/:roomtypeId", async (req, res) => {
     const findRoomRes = await db.roomType.findUnique({
         where: {
             id: roomtypeId
+        },
+        include: {
+            dorm: true
         }
     })
 

@@ -71,11 +71,11 @@ model Booking {
   customerId  String    @db.ObjectId
   roomType    RoomType      @relation("reserveAt", fields: [roomTypeId], references: [id], onDelete: Cascade)
   roomTypeId  String    @db.ObjectId
-  roomName    String
   payment     Payment?  @relation("bookingPayment", fields: [paymentId], references: [id])
   paymentId   String?   @db.ObjectId @unique
-  status      BookingStatus
+  status      BookingStatus   @default(Pending)
   startAt     DateTime    
+  duration    Int       @default(1)
   bookAt      DateTime  @default(now())
 }
 
@@ -150,7 +150,7 @@ enum RoomFacilities {
 }
 
 enum BookingStatus {
-  PendingPayment
+  Pending
   InProcess
   Completed
   Cancelled

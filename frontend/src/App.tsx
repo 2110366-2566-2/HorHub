@@ -21,12 +21,14 @@ import PasswordChangePage from "./pages/profile/setting/setting-page/PasswordCha
 import FailVerifyPopup from "./pages/register/FailVerifyPopup";
 import DormPage from "./pages/dorm/[id]/DormPage";
 import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import ProviderPageLayout from "./pages/provider/ProviderPageLayout";
 import ProviderDormListPage from "./pages/provider/dorm/ProviderDormListPage";
 import EditDormPage from "./pages/provider/dorm/EditDormPage";
 import CreateRoomTypePage from "./pages/provider/dorm/roomtype/CreateRoomTypePage";
 import EditRoomTypePage from "./pages/provider/dorm/roomtype/EditRoomTypePage";
 import CreateDormPage from "./pages/provider/dorm/CreateDormPage";
+import BookingPage from "./pages/booking/BookingPage";
 import SearchDorm from "./pages/search/SearchDorm";
 
 function App() {
@@ -66,12 +68,16 @@ function App() {
             <Route path="provider/dorms/:dormId/edit" element={<EditDormPage />} />
             <Route path="provider/dorms/:dormId/rooms/create" element={<CreateRoomTypePage />} />
             <Route path="provider/dorms/:dormId/rooms/:roomtypeId/edit" element={<EditRoomTypePage />} />
+
+            
            
             <Route path="verify" element={<MailVerifyPage/>} />
             <Route path="verify/success" element={<SuccessVerifyPage/>} />
             <Route path="verify/:id" element={<AccVerifyTempPage/>} />
+
             <Route path="dorms/:id" element={<DormPage />} />
-            <Route path="dorms/create" element={<CreateDormPage />} />
+            {/* <Route path="dorms/create" element={<CreateDormPage />} /> */}
+            <Route path="dorms/:dormId/rooms/:roomtypeId/booking" element={<BookingPage />} />
 
             <Route path="verify" element={<MailVerifyPage />} />
             <Route path="verify/success" element={<SuccessVerifyPage />} />

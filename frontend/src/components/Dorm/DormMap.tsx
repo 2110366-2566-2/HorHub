@@ -19,7 +19,7 @@ export default function DormMap({ lat, lng }: { lat: number; lng: number }) {
   const [isOpen, setOpen] = useState<boolean>(false);
   return (
     <APIProvider apiKey={process.env.REACT_APP_MAP_API_KEY as string}>
-      <div className="h-[75vh] w-[75vw]">
+      <div className="w-full aspect-video">
         <Map
           {...cameraProps}
           mapId={process.env.REACT_APP_MAP_ID as string}

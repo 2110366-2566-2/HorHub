@@ -8,6 +8,7 @@ import DormBanner from "../../../components/Dorm/DormBanner";
 import RoomCard from "../../../components/Dorm/RoomCard";
 import { isCompositeComponent } from "react-dom/test-utils";
 import DormMap from "../../../components/Dorm/DormMap";
+import { availableDormFacilities } from "../../../lib/constants/dormFacilities";
 
 export default function DormPage() {
   const { id } = useParams();
@@ -61,11 +62,21 @@ export default function DormPage() {
       />
       <div className="flex flex-row p-4 md:w-4/5 w-full">
         <div className="w-3/4">
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 pr-4">
             <div className="font-bold">Dorm Description</div>
             <div>{dormData.description}</div>
+            <div className="font-bold">Dorm Facilities</div>
+            <div className="flex flex-wrap gap-2">
+              {
+                availableDormFacilities.filter((fac) => dormData.dormFacilities.includes(fac.value as any)).map((fac, idx) => {
+                  return <div className="w-60 border border-slate-300 px-3 py-2 rounded-md flex gap-2 hover:bg-indigo-50 transition-colors">
+                      {fac.label}
+                    </div>
+                })
+              }
+            </div>
             <div className="font-bold">Dorm Room</div>
-            <div>
+            <div className="gap-3 space-y-3">
               {dormData.roomTypes.map((obj) => {
                 return (
                   <RoomCard
@@ -84,11 +95,13 @@ export default function DormPage() {
             </div>
             <div className="font-bold">Dorm Map</div>
             <DormMap lat={dormData.latitude} lng={dormData.longitude} />
+
+            
           </div>
         </div>
         <div className="w-1/4">
-          <div className="font-bold">Dorm Image</div>
-          <div className="flex flex-col">
+          {/* <div className="font-bold">Dorm Image</div> */}
+          <div className="flex flex-col gap-3">
             {dormData.images.map((url) => {
               return <img src={url}></img>;
             })}
