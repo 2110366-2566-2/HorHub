@@ -3,7 +3,7 @@ import HomePage from "./pages/home/HomePage";
 import NavigationBar from "./components/NavBar/NavigationBar";
 import Footbar from "./components/Footer/Footbar";
 import RegisterPage from "./pages/register/RegisterPage";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { UserProvider } from "./lib/context/UserContext";
 import ProfilePage from "./pages/profile/ProfilePage";
 import MailVerifyPage from "./pages/register/MailVerifyPage";
@@ -21,7 +21,7 @@ import PasswordChangePage from "./pages/profile/setting/setting-page/PasswordCha
 import FailVerifyPopup from "./pages/register/FailVerifyPopup";
 import DormPage from "./pages/dorm/[id]/DormPage";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import ProviderPageLayout from "./pages/provider/ProviderPageLayout";
 import ProviderDormListPage from "./pages/provider/dorm/ProviderDormListPage";
 import EditDormPage from "./pages/provider/dorm/EditDormPage";
@@ -29,6 +29,7 @@ import CreateRoomTypePage from "./pages/provider/dorm/roomtype/CreateRoomTypePag
 import EditRoomTypePage from "./pages/provider/dorm/roomtype/EditRoomTypePage";
 import CreateDormPage from "./pages/provider/dorm/CreateDormPage";
 import BookingPage from "./pages/booking/BookingPage";
+import ProviderDashboardLayout from "./pages/provider/dorm/ProviderDashboardLayout";
 
 function App() {
   return (
@@ -56,26 +57,42 @@ function App() {
             </Route>
 
             <Route path="provider">
-              <Route element={<ProviderPageLayout />} >
+              <Route element={<ProviderPageLayout />}>
                 <Route path="dorms" element={<ProviderDormListPage />} />
+                <Route path="dorms/:id" element={<ProviderDashboardLayout />}>
+                  <Route path="" element={<Navigate to="info" />} />
+                  <Route path="info" element={<DormPage isPreview={true} />} />
+                  <Route path="reservation" />
+                  <Route path="*" element={<Navigate to="info" />} />
+                </Route>
               </Route>
             </Route>
 
             {/* <Route path="provider/dorms" element={<ProviderDormListPage />} /> */}
             <Route path="provider/dorms/create" element={<CreateDormPage />} />
-            <Route path="provider/dorms/:dormId/edit" element={<EditDormPage />} />
-            <Route path="provider/dorms/:dormId/rooms/create" element={<CreateRoomTypePage />} />
-            <Route path="provider/dorms/:dormId/rooms/:roomtypeId/edit" element={<EditRoomTypePage />} />
+            <Route
+              path="provider/dorms/:dormId/edit"
+              element={<EditDormPage />}
+            />
+            <Route
+              path="provider/dorms/:dormId/rooms/create"
+              element={<CreateRoomTypePage />}
+            />
+            <Route
+              path="provider/dorms/:dormId/rooms/:roomtypeId/edit"
+              element={<EditRoomTypePage />}
+            />
 
-            
-           
-            <Route path="verify" element={<MailVerifyPage/>} />
-            <Route path="verify/success" element={<SuccessVerifyPage/>} />
-            <Route path="verify/:id" element={<AccVerifyTempPage/>} />
+            <Route path="verify" element={<MailVerifyPage />} />
+            <Route path="verify/success" element={<SuccessVerifyPage />} />
+            <Route path="verify/:id" element={<AccVerifyTempPage />} />
 
-            <Route path="dorms/:id" element={<DormPage />} />
+            <Route path="dorms/:id" element={<DormPage isPreview={false} />} />
             {/* <Route path="dorms/create" element={<CreateDormPage />} /> */}
-            <Route path="dorms/:dormId/rooms/:roomtypeId/booking" element={<BookingPage />} />
+            <Route
+              path="dorms/:dormId/rooms/:roomtypeId/booking"
+              element={<BookingPage />}
+            />
 
             <Route path="verify" element={<MailVerifyPage />} />
             <Route path="verify/success" element={<SuccessVerifyPage />} />

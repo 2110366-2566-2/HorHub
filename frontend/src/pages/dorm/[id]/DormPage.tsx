@@ -10,7 +10,7 @@ import { isCompositeComponent } from "react-dom/test-utils";
 import DormMap from "../../../components/Dorm/DormMap";
 import { availableDormFacilities } from "../../../lib/constants/dormFacilities";
 
-export default function DormPage() {
+export default function DormPage({ isPreview }: { isPreview: boolean }) {
   const { id } = useParams();
   const [dormData, setDormData] = useState<Dorm | null>(null);
   const [notFound, setNotFound] = useState<boolean>(false);
@@ -27,7 +27,7 @@ export default function DormPage() {
           },
         }
       );
-      if (result.status === 404) {
+      if (!result.ok) {
         // TODO : use 🍞 toast to notify
         setNotFound(true);
         return;
@@ -67,13 +67,17 @@ export default function DormPage() {
             <div>{dormData.description}</div>
             <div className="font-bold">Dorm Facilities</div>
             <div className="flex flex-wrap gap-2">
-              {
-                availableDormFacilities.filter((fac) => dormData.dormFacilities.includes(fac.value as any)).map((fac, idx) => {
-                  return <div className="w-60 border border-slate-300 px-3 py-2 rounded-md flex gap-2 hover:bg-indigo-50 transition-colors">
+              {availableDormFacilities
+                .filter((fac) =>
+                  dormData.dormFacilities.includes(fac.value as any)
+                )
+                .map((fac, idx) => {
+                  return (
+                    <div className="w-60 border border-slate-300 px-3 py-2 rounded-md flex gap-2 hover:bg-indigo-50 transition-colors">
                       {fac.label}
                     </div>
-                })
-              }
+                  );
+                })}
             </div>
             <div className="font-bold">Dorm Room</div>
             <div className="gap-3 space-y-3">
@@ -89,14 +93,13 @@ export default function DormPage() {
                     numberOfAvailableRoom={obj.numberOfAvailableRoom}
                     numberOfRoom={obj.numberOfRoom}
                     images={obj.images}
+                    isPreview={isPreview}
                   />
                 );
               })}
             </div>
             <div className="font-bold">Dorm Map</div>
             <DormMap lat={dormData.latitude} lng={dormData.longitude} />
-
-            
           </div>
         </div>
         <div className="w-1/4">
