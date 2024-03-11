@@ -59,7 +59,6 @@ const NavigationBar = () => {
               )}
                 
           </div>
-      
     </nav>
   )
 }

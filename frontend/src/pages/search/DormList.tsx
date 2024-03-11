@@ -1,3 +1,4 @@
+
 function DormList(){
     return (
         <ul className="grid max-w-[26rem] sm:max-w-[52.5rem] mt-[2rem] grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mx-auto gap-6 lg:gap-y-8 xl:gap-x-8 lg:max-w-7xl px-4 sm:px-6 lg:px-8">

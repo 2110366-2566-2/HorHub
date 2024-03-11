@@ -70,7 +70,6 @@ function App() {
             <Route path="provider/dorms/:dormId/rooms/:roomtypeId/edit" element={<EditRoomTypePage />} />
 
             
-           
             <Route path="verify" element={<MailVerifyPage/>} />
             <Route path="verify/success" element={<SuccessVerifyPage/>} />
             <Route path="verify/:id" element={<AccVerifyTempPage/>} />

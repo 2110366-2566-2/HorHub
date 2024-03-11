@@ -9,7 +9,6 @@ import { MdOutlineMonetizationOn } from "react-icons/md";
 
 function SearchDorm(){
 
-
     return (
         <div className="relative w-full min-h-[calc(100vh-7rem)] flex flex-col items-center">
             <div className="w-full flex flex-col bg-indigo-100 z-10">
