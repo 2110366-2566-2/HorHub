@@ -84,6 +84,7 @@ export default function DormPage({ isPreview }: { isPreview: boolean }) {
               {dormData.roomTypes.map((obj) => {
                 return (
                   <RoomCard
+                    roomId={obj.id}
                     name={obj.name}
                     cost={obj.cost}
                     capacity={obj.capacity}

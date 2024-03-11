@@ -29,6 +29,7 @@ import CreateRoomTypePage from "./pages/provider/dorm/roomtype/CreateRoomTypePag
 import EditRoomTypePage from "./pages/provider/dorm/roomtype/EditRoomTypePage";
 import CreateDormPage from "./pages/provider/dorm/CreateDormPage";
 import BookingPage from "./pages/booking/BookingPage";
+import SearchDorm from "./pages/search/SearchDorm";
 import ProviderDashboardLayout from "./pages/provider/dorm/ProviderDashboardLayout";
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
               </Route>
             </Route>
 
+            <Route path="search" element={<SearchDorm />} />
             <Route path="provider">
               <Route element={<ProviderPageLayout />}>
                 <Route path="dorms" element={<ProviderDormListPage />} />
@@ -70,6 +72,22 @@ function App() {
 
             {/* <Route path="provider/dorms" element={<ProviderDormListPage />} /> */}
             <Route path="provider/dorms/create" element={<CreateDormPage />} />
+            <Route
+              path="provider/dorms/:dormId/edit"
+              element={<EditDormPage />}
+            />
+            <Route
+              path="provider/dorms/:dormId/rooms/create"
+              element={<CreateRoomTypePage />}
+            />
+            <Route
+              path="provider/dorms/:dormId/rooms/:roomtypeId/edit"
+              element={<EditRoomTypePage />}
+            />
+
+            <Route path="verify" element={<MailVerifyPage />} />
+            <Route path="verify/success" element={<SuccessVerifyPage />} />
+            <Route path="verify/:id" element={<AccVerifyTempPage />} />
             <Route
               path="provider/dorms/:dormId/edit"
               element={<EditDormPage />}

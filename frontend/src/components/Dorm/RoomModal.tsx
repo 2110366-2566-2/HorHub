@@ -4,7 +4,9 @@ import { MdEventAvailable, MdNotes } from "react-icons/md";
 import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import { SlSizeFullscreen } from "react-icons/sl";
 import { availableRoomFacilities } from "../../lib/constants/roomFacilities";
+import { useParams } from "react-router-dom";
 type Room = {
+  roomId: string;
   name: string;
   cost: number;
   size: number;
@@ -17,6 +19,7 @@ type Room = {
   isPreview: boolean;
 };
 export default function RoomModal({
+  roomId,
   name,
   cost,
   description,
@@ -28,6 +31,7 @@ export default function RoomModal({
   images,
   isPreview,
 }: Room) {
+  const { id } = useParams();
   const [idxImg, setIdxImg] = useState<number>(0);
   return (
     <div className="flex max-h-screen overflow-scroll overflow-x-hidden overflow-y-auto px-2">
@@ -99,7 +103,13 @@ export default function RoomModal({
 
         <div className="card-actions justify-end">
           {
-            <button className={"primary-button " + (isPreview ? "hidden" : "")}>
+            <button
+              className={"primary-button" + (isPreview ? "hidden" : "")}
+              onClick={() =>
+                (document.location.href =
+                  "/dorms/" + id + "/rooms/" + roomId + "/booking")
+              }
+            >
               Reserve Room!
             </button>
           }

@@ -88,6 +88,7 @@ export const dormSchema = z.object({
   }),
   roomTypes: z
     .object({
+      id: z.string(),
       capacity: z.number(),
       cost: z.number(),
       description: z.string(),
