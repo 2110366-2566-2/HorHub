@@ -80,6 +80,7 @@ export default function DormPage() {
               {dormData.roomTypes.map((obj) => {
                 return (
                   <RoomCard
+                    roomId={obj.id}
                     name={obj.name}
                     cost={obj.cost}
                     capacity={obj.capacity}

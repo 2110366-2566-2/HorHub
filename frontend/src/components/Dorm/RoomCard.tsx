@@ -8,6 +8,7 @@ import { MdEventAvailable } from "react-icons/md";
 import RoomModal from "./RoomModal";
 
 type Room = {
+  roomId: string;
   name: string;
   cost: number;
   size: number;
@@ -32,6 +33,7 @@ const style = {
 };
 
 export default function RoomCard({
+  roomId,
   name,
   cost,
   description,
@@ -88,6 +90,7 @@ export default function RoomCard({
       >
         <Box sx={{ ...style }}>
           <RoomModal
+            roomId={roomId}
             name={name}
             cost={cost}
             capacity={capacity}

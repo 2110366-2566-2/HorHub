@@ -73,9 +73,10 @@ model Booking {
   roomTypeId  String    @db.ObjectId
   payment     Payment?  @relation("bookingPayment", fields: [paymentId], references: [id])
   paymentId   String?   @db.ObjectId @unique
+  price       Float
   status      BookingStatus   @default(Pending)
   startAt     DateTime    
-  duration    Int       @default(1)
+  endAt       DateTime
   bookAt      DateTime  @default(now())
 }
 

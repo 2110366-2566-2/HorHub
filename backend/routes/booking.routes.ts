@@ -9,9 +9,13 @@ const router = Router();
 
 const bookingSchema = z.object({
     roomTypeId: z.string(),
-    startAt: z.coerce.date().refine((data) => data >= new Date(), { message: "Past is not accepted" }),
-    duration: z.coerce.number().min(1, {message: "Please fill valid number of month"})
-})
+    startAt: z.coerce.date().refine((data) => data > new Date(), { message: "This should not be before tomorrow" }),
+    endAt: z.coerce.date(),
+    price: z.coerce.number().min(0.01, {message: "Please fill valid price of this booking"}).multipleOf(0.01, {message: "Please fill valid price of this booking"})
+}).refine((data) => data.startAt <= data.endAt, {
+    path: ['endAt'],
+    message: 'This should be after or at starting date'
+  })
 
 router.post("/", authenticateToken, authenticateCustomer, async (req, res) => {
     const user: User = req.body.user
@@ -52,6 +56,7 @@ router.post("/", authenticateToken, authenticateCustomer, async (req, res) => {
         return res.send(bookingRes)
     }
     catch (err) {
+        console.log(err)
         return res.status(400).send(err)
     }
 
