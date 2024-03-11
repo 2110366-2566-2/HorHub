@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { availableRoomFacilities } from "../constants/roomFacilities";
 
 const dormFacilities = [
   "pet",
@@ -21,6 +22,25 @@ const dormFacilities = [
   "frontdesk",
   "television",
 ] as const;
+
+const roomFacilities = [
+  "singlebed",
+  "bunkbed",
+  "table",
+  "closet",
+  "drawer",
+  "bedsidetable",
+  "curtain",
+  "bin",
+  "airconditioner",
+  "waterheater",
+  "fan",
+  "television",
+  "refrig",
+  "kettle",
+  "microwave",
+  "toilet"
+] as const
 
 export const dormSchema = z.object({
   name: z
@@ -73,10 +93,32 @@ export const dormSchema = z.object({
       name: z.string(),
       numberOfAvailableRoom: z.number(),
       numberOfRoom: z.number(),
-      roomFacilities: z.enum(dormFacilities).array(),
+      roomFacilities: z.enum(roomFacilities).array(),
       size: z.number(),
     })
     .array(),
 });
 
+export const roomTypeSchema = z.object({
+  capacity: z.number(),
+  cost: z.number(),
+  description: z.string(),
+  images: z.string().url().array(),
+  name: z.string(),
+  numberOfAvailableRoom: z.number(),
+  numberOfRoom: z.number(),
+  roomFacilities: z.enum(roomFacilities).array(),
+  size: z.number(),
+  dorm: z.object({
+    name: z
+      .string()
+      .trim()
+      .min(1, { message: "Fill dorm name" })
+      .max(100, { message: "Your dorm name must not exceed 100 characters" }),
+  })
+
+})
+
 export type Dorm = z.infer<typeof dormSchema>;
+
+export type RoomType = z.infer<typeof roomTypeSchema>

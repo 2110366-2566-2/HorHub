@@ -52,27 +52,27 @@ export default function RoomCard({
           <div className="card-title">{name}</div>
           <div className="flex items-center gap-4">
             <IoPersonAddSharp />
-            <div>Capacity : {capacity}</div>
+            <div>Capacity : {capacity} people</div>
           </div>
           <div className="flex items-center gap-4">
             <RiMoneyDollarCircleLine />
-            <div>Cost : {cost}</div>
+            <div>Cost : {cost} baht</div>
           </div>
           <div className="flex items-center gap-4">
             <SlSizeFullscreen />
-            <div>Size : {size}</div>
+            <div>Size : {size} square meter</div>
           </div>
-          <div className="flex items-center gap-4">
+          {/* <div className="flex items-center gap-4">
             <MdEventAvailable />
             <div>
               Availability : {numberOfAvailableRoom} / {numberOfRoom}
             </div>
-          </div>
-          <div className="card-actions justify-end">
+          </div> */}
+          {/* <div className="card-actions justify-end">
             {roomFacilities.map((roomFal) => {
               return <div className="badge badge-outline">{roomFal}</div>;
             })}
-          </div>
+          </div> */}
           <div className="card-actions justify-end">
             <button className=" primary-button " onClick={handleOpen}>
               View Detail
