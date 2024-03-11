@@ -60,7 +60,9 @@ function App() {
             <Route path="search" element={<SearchDorm />} />
             <Route path="provider">
               <Route element={<ProviderPageLayout />}>
+                <Route path="" element={<Navigate to="dorms" />} />
                 <Route path="dorms" element={<ProviderDormListPage />} />
+                <Route path="*" element={<Navigate to="dorms" />} />
                 <Route path="dorms/:id" element={<ProviderDashboardLayout />}>
                   <Route path="" element={<Navigate to="info" />} />
                   <Route path="info" element={<DormPage isPreview={true} />} />

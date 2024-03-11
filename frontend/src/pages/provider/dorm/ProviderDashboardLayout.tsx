@@ -1,5 +1,11 @@
 import { ReactNode, useEffect, useState } from "react";
-import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { Dorm, dormSchema } from "../../../lib/type/Dorm";
 import NotFoundPage from "../../etc/NotFoundPage";
 import LoadingPage from "../../etc/LoadingPage";
@@ -24,7 +30,8 @@ const style = {
 export default function ProviderDashboardLayout() {
   const { id } = useParams();
   const [open, setOpen] = useState<boolean>(false);
-
+  const location = useLocation();
+  const currentPath = location.pathname.split("dorms/")[1].split("/")[1];
   const [isLoading, setLoading] = useState<boolean>(true);
   const [notFound, setNotFound] = useState<boolean>(false);
   const { currentUser } = useUser();
@@ -88,23 +95,47 @@ export default function ProviderDashboardLayout() {
   return (
     <div className="flex flex-col justify-start text-left">
       <ul className="flex place-content-between items-center text-center">
-        <li className="w-full primary-button">
-          <Link to="info" className={"text-white block w-full"}>
+        <li className="w-full ">
+          <Link
+            to="info"
+            className={
+              "block w-full px-2 border-b-4  hover:bg-slate-600/10 hover:border-indigo-600 items-center  hover:text-indigo-600 font-bold text-lg" +
+              (currentPath === "info"
+                ? " bg-slate-600/10 border-indigo-600 items-center :text-indigo-600 "
+                : " border-white text-slate-400")
+            }
+          >
             Information
           </Link>
         </li>
-        <li className="w-full primary-button">
-          <Link to="reservation" className={"text-white block w-full"}>
+        <li className="w-full">
+          <Link
+            to="reservation"
+            className={
+              "block w-full px-2 border-b-4 hover:bg-slate-600/10 hover:border-indigo-600 items-center hover:text-indigo-600 font-bold text-lg" +
+              (currentPath === "reservation"
+                ? " bg-slate-600/10 border-indigo-600 items-center :text-indigo-600 "
+                : " border-white text-slate-400")
+            }
+          >
             Reservation
           </Link>
         </li>
-        <li className="w-full primary-button ">
-          <Link to="edit" className={"text-white block w-full"}>
+        <li className="w-full">
+          <Link
+            to="edit"
+            className={
+              "block w-full px-2 border-b-4 border-white hover:bg-slate-600/10 hover:border-indigo-600 items-center text-slate-400 hover:text-indigo-600 font-bold text-lg"
+            }
+          >
             Edit Dorm
           </Link>
         </li>
         <li className="w-full ">
-          <button onClick={handleOpen} className="w-full danger-button">
+          <button
+            onClick={handleOpen}
+            className="block w-full px-2 border-b-4 border-white hover:bg-slate-600/10 hover:border-indigo-600 items-center text-slate-400 hover:text-indigo-600 font-bold text-lg"
+          >
             Delete Dorm
           </button>
           <Modal
