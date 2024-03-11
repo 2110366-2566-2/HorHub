@@ -29,6 +29,7 @@ import CreateRoomTypePage from "./pages/provider/dorm/roomtype/CreateRoomTypePag
 import EditRoomTypePage from "./pages/provider/dorm/roomtype/EditRoomTypePage";
 import CreateDormPage from "./pages/provider/dorm/CreateDormPage";
 import BookingPage from "./pages/booking/BookingPage";
+import SearchDorm from "./pages/search/SearchDorm";
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
               </Route>
             </Route>
 
+            <Route path="search" element={<SearchDorm />}/>
             <Route path="provider">
               <Route element={<ProviderPageLayout />} >
                 <Route path="dorms" element={<ProviderDormListPage />} />
@@ -68,7 +70,6 @@ function App() {
             <Route path="provider/dorms/:dormId/rooms/:roomtypeId/edit" element={<EditRoomTypePage />} />
 
             
-           
             <Route path="verify" element={<MailVerifyPage/>} />
             <Route path="verify/success" element={<SuccessVerifyPage/>} />
             <Route path="verify/:id" element={<AccVerifyTempPage/>} />
