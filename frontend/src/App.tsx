@@ -27,6 +27,7 @@ import EditDormPage from "./pages/provider/dorm/EditDormPage";
 import CreateRoomTypePage from "./pages/provider/dorm/roomtype/CreateRoomTypePage";
 import EditRoomTypePage from "./pages/provider/dorm/roomtype/EditRoomTypePage";
 import CreateDormPage from "./pages/provider/dorm/CreateDormPage";
+import SearchDorm from "./pages/search/SearchDorm";
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
               </Route>
             </Route>
 
+            <Route path="search" element={<SearchDorm />}/>
             <Route path="provider">
               <Route element={<ProviderPageLayout />} >
                 <Route path="dorms" element={<ProviderDormListPage />} />
