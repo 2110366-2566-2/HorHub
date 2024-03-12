@@ -43,6 +43,7 @@ export default function DormPage({ isEdit }: { isEdit: boolean }) {
           return;
         }
         setDormData(data.data);
+        window.document.title = data.data.name + " | HorHub"
       }
     };
     fetchData();

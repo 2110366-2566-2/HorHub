@@ -60,7 +60,7 @@ export default function RoomCard({
           </div>
           <div className="flex items-center gap-4">
             <RiMoneyDollarCircleLine />
-            <div>Cost : {cost} baht</div>
+            <div>Cost : ฿{Number(cost).toFixed(2)}/month</div>
           </div>
           <div className="flex items-center gap-4">
             <SlSizeFullscreen />

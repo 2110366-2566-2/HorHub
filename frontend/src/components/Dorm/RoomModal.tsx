@@ -5,6 +5,10 @@ import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import { SlSizeFullscreen } from "react-icons/sl";
 import { availableRoomFacilities } from "../../lib/constants/roomFacilities";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { useUser } from "../../lib/context/UserContext";
+
+const noImagePlaceholder = "https://firebasestorage.googleapis.com/v0/b/horhub-7d1df.appspot.com/o/placeholders%2F681px-Placeholder_view_vector.png?alt=media&token=bc0c7178-b94a-4bf0-957b-42a75f708a79"
+
 type Room = {
   roomId: string;
   name: string;
@@ -31,6 +35,8 @@ export default function RoomModal({
   images,
   isEdit,
 }: Room) {
+
+  const {currentUser} = useUser()
   const { id } = useParams();
   const [idxImg, setIdxImg] = useState<number>(0);
   const navigate = useNavigate();
@@ -39,10 +45,14 @@ export default function RoomModal({
       <div className="w-1/2 pr-6">
         {/* <h2 className="font-bold text-xl">Room Image</h2> */}
         <figure className="w-full">
-          <img
-            className="w-full aspect-square object-cover"
-            src={images[idxImg]}
-          ></img>
+          {
+            (images.length > 0) ? <img
+              className="w-full aspect-square object-cover"
+              src={images[idxImg]} />
+            : <img
+              className="w-full aspect-square object-cover"
+              src={noImagePlaceholder} />
+          }
         </figure>
         <div className="flex gap-2 flex-wrap ">
           {images.map((url, idx) => {
@@ -90,7 +100,7 @@ export default function RoomModal({
         </div>
         <div className="flex items-center gap-2">
           <RiMoneyDollarCircleLine />
-          <span className="font-bold">Cost</span> : {cost} baht/month
+          <span className="font-bold">Cost</span> : ฿{Number(cost).toFixed(2)}/month
         </div>
         <div className="flex items-center gap-2">
           <IoPersonAddSharp />
@@ -110,7 +120,7 @@ export default function RoomModal({
             >
               Edit Room
             </Link>
-          ) : (
+          ) : (( currentUser && currentUser.role === "Customer" ) &&
             <button
               className={"primary-button"}
               onClick={() =>
