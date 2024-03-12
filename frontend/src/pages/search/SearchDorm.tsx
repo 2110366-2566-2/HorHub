@@ -69,9 +69,9 @@ function SearchDorm({
                                     options={availableDormFacilities}
                                     className="basic-multi-select"
                                     classNamePrefix="select"
-                                    placeholder={<div>Select Facilities</div>}
-                                    // value={availableDormFacilities.filter((fac) => dormFacilities.includes(fac.value))}
-                                    // onChange={(e: MultiValue<JSX.Element>) => {setDormFacilities(availableDormFacilities.filter((fac) => e.includes(fac.label)).map((fac) => fac.value))}}
+                                    placeholder={<div className="text-sm">Select Facilities</div>}
+                                    value={availableDormFacilities.filter((fac) => dormFacilities.includes(fac.value))}
+                                    onChange={(e) => {setDormFacilities(availableDormFacilities.filter((fac) => e.includes(fac)).map((fac) => fac.value))}}
                                 />    
                             </div>
                         </div>
@@ -101,20 +101,12 @@ function SearchDorm({
                                 />
                             </div>
                         </div>
-                        <div className="relative flex flex-row gap-4">
-                            <div className="flex items-center gap-2">
-                                <text className="text-xl font-bold text-indigo-800">Price</text>
-                                <select name="price">
-                                    <option value="ASC">Low to High</option>
-                                    <option value="DESC">High to Low</option>
-                                </select>     
-                            </div>
-                            <div className="flex items-center gap-2">
-                            <text className="text-xl font-bold text-indigo-800">Distance</text>
-                                <select name="distance">
-                                    <option value="ASC">ใกล้คุณ</option>
-                                    <option value="DESC">ไกลคุณ</option>
-                                </select>
+                        <div className="relative flex flex-row gap-4 items-center">
+                            <text className="text-sm font-bold text-indigo-800">Sort by</text>
+                            <div className="join">
+                                <button type="button" className={"join-item " + ((sorter === "cheapest") ? "indigo-button-xs" : "white-button-xs")} onClick={() => setSorter("cheapest")}>Cheapest</button>
+                                <button type="button" className={"join-item " + ((sorter === "mostexpensive") ? "indigo-button-xs" : "white-button-xs")} onClick={() => setSorter("mostexpensive")}>Most Expensive</button>
+                                <button type="button" className={"join-item " + ((sorter === "nearest") ? "indigo-button-xs" : "white-button-xs")} onClick={() => setSorter("nearest")}>Nearest</button>
                             </div>
                         </div>
                     </form>
