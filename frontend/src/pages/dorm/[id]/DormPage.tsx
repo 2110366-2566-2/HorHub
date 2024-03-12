@@ -9,8 +9,9 @@ import RoomCard from "../../../components/Dorm/RoomCard";
 import { isCompositeComponent } from "react-dom/test-utils";
 import DormMap from "../../../components/Dorm/DormMap";
 import { availableDormFacilities } from "../../../lib/constants/dormFacilities";
+import AddRoomCard from "../../../components/Dorm/AddRoomCard";
 
-export default function DormPage({ isPreview }: { isPreview: boolean }) {
+export default function DormPage({ isEdit }: { isEdit: boolean }) {
   const { id } = useParams();
   const [dormData, setDormData] = useState<Dorm | null>(null);
   const [notFound, setNotFound] = useState<boolean>(false);
@@ -94,10 +95,11 @@ export default function DormPage({ isPreview }: { isPreview: boolean }) {
                     numberOfAvailableRoom={obj.numberOfAvailableRoom}
                     numberOfRoom={obj.numberOfRoom}
                     images={obj.images}
-                    isPreview={isPreview}
+                    isEdit={isEdit}
                   />
                 );
               })}
+              {isEdit && <AddRoomCard />}
             </div>
             <div className="font-bold">Dorm Map</div>
             <DormMap lat={dormData.latitude} lng={dormData.longitude} />

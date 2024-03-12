@@ -4,7 +4,7 @@ import { MdEventAvailable, MdNotes } from "react-icons/md";
 import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import { SlSizeFullscreen } from "react-icons/sl";
 import { availableRoomFacilities } from "../../lib/constants/roomFacilities";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 type Room = {
   roomId: string;
   name: string;
@@ -16,7 +16,7 @@ type Room = {
   numberOfAvailableRoom: number;
   numberOfRoom: number;
   images: string[];
-  isPreview: boolean;
+  isEdit: boolean;
 };
 export default function RoomModal({
   roomId,
@@ -29,10 +29,11 @@ export default function RoomModal({
   numberOfAvailableRoom,
   numberOfRoom,
   images,
-  isPreview,
+  isEdit,
 }: Room) {
   const { id } = useParams();
   const [idxImg, setIdxImg] = useState<number>(0);
+  const navigate = useNavigate();
   return (
     <div className="flex max-h-screen overflow-scroll overflow-x-hidden overflow-y-auto px-2">
       <div className="w-1/2 pr-6">
@@ -102,9 +103,16 @@ export default function RoomModal({
         </div> */}
 
         <div className="card-actions justify-end">
-          {
+          {isEdit ? (
+            <Link
+              className={"primary-button"}
+              to={"../rooms/" + roomId + "/edit"}
+            >
+              Edit Room
+            </Link>
+          ) : (
             <button
-              className={"primary-button" + (isPreview ? "hidden" : "")}
+              className={"primary-button"}
               onClick={() =>
                 (document.location.href =
                   "/dorms/" + id + "/rooms/" + roomId + "/booking")
@@ -112,7 +120,7 @@ export default function RoomModal({
             >
               Reserve Room!
             </button>
-          }
+          )}
         </div>
       </div>
     </div>

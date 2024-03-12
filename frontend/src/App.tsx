@@ -63,12 +63,12 @@ function App() {
               <Route element={<ProviderPageLayout />}>
                 <Route path="" element={<Navigate to="dorms" />} />
                 <Route path="dorms" element={<ProviderDormListPage />} />
-                <Route path="*" element={<Navigate to="dorms" />} />
+                {/* <Route path="*" element={<Navigate to="dorms" />} /> */}
                 <Route path="dorms/:id" element={<ProviderDashboardLayout />}>
                   <Route path="" element={<Navigate to="info" />} />
-                  <Route path="info" element={<DormPage isPreview={true} />} />
+                  <Route path="info" element={<DormPage isEdit={true} />} />
                   <Route path="reservation" />
-                  <Route path="*" element={<Navigate to="info" />} />
+                  {/*<Route path="*" element={<Navigate to="info" />} />*/}
                 </Route>
               </Route>
             </Route>
@@ -108,7 +108,7 @@ function App() {
             <Route path="verify/success" element={<SuccessVerifyPage />} />
             <Route path="verify/:id" element={<AccVerifyTempPage />} />
 
-            <Route path="dorms/:id" element={<DormPage isPreview={false} />} />
+            <Route path="dorms/:id" element={<DormPage isEdit={false} />} />
             {/* <Route path="dorms/create" element={<CreateDormPage />} /> */}
             <Route
               path="dorms/:dormId/rooms/:roomtypeId/booking"
@@ -118,7 +118,6 @@ function App() {
             <Route path="verify" element={<MailVerifyPage />} />
             <Route path="verify/success" element={<SuccessVerifyPage />} />
             <Route path="verify/:id" element={<AccVerifyTempPage />} />
-
 
             <Route path="bookings" element={<BookingListPage />} />
 

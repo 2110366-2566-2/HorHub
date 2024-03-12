@@ -18,7 +18,7 @@ type Room = {
   numberOfAvailableRoom: number;
   numberOfRoom: number;
   images: string[];
-  isPreview: boolean;
+  isEdit: boolean;
 };
 
 const style = {
@@ -44,7 +44,7 @@ export default function RoomCard({
   numberOfAvailableRoom,
   numberOfRoom,
   images,
-  isPreview,
+  isEdit,
 }: Room) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -102,7 +102,7 @@ export default function RoomCard({
             numberOfAvailableRoom={numberOfAvailableRoom}
             numberOfRoom={numberOfRoom}
             images={images}
-            isPreview={isPreview}
+            isEdit={isEdit}
           />
         </Box>
       </Modal>
