@@ -10,8 +10,8 @@ export default function DormCard({
   image: string;
 }) {
   return (
-    <li className="group relative rounded-3xl bg-slate-50 p-6 dark:bg-slate-800/80 dark:highlight-white/5 hover:bg-slate-100 dark:hover:bg-slate-700/50">
-      <div className="aspect-[672/494] relative rounded-md overflow-hidden shadow-[0_2px_8px_rgba(15,23,42,0.08)] bg-slate-200 dark:bg-slate-700">
+    <li className="group relative rounded-3xl bg-slate-50 p-6 hover:bg-slate-100">
+      <div className="aspect-[672/494] relative rounded-md overflow-hidden shadow-[0_2px_8px_rgba(15,23,42,0.08)] bg-slate-200">
         <img
           alt=""
           width="672"
@@ -22,7 +22,7 @@ export default function DormCard({
         />
       </div>
       <div className="flex flex-wrap items-center mt-6">
-        <h2 className="text-sm leading-6 text-slate-900 dark:text-white font-semibold group-hover:text-sky-500">
+        <h2 className="text-sm leading-6 text-slate-900 group-hover:text-sky-500">
           <Link to={id}>
             <span className="absolute inset-0 rounded-3xl"></span>
             {title}
