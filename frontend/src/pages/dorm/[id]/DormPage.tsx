@@ -65,7 +65,7 @@ export default function DormPage({ isEdit }: { isEdit: boolean }) {
         <div className="w-3/4">
           <div className="flex flex-col gap-4 pr-4">
             <div className="font-bold">Dorm Description</div>
-            <div>{dormData.description}</div>
+            <div className="whitespace-pre-line">{dormData.description}</div>
             <div className="font-bold">Dorm Facilities</div>
             <div className="flex flex-wrap gap-2">
               {availableDormFacilities

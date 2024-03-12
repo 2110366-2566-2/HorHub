@@ -51,7 +51,7 @@ export default function RoomCard({
   const handleClose = () => setOpen(false);
   return (
     <>
-      <div className="card bg-sky-300 w-96 shadow-xl ">
+      <div className="card bg-indigo-100 w-96 shadow-xl ">
         <div className="card-body">
           <div className="card-title">{name}</div>
           <div className="flex items-center gap-4">
