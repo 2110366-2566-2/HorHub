@@ -22,13 +22,14 @@ export default function DormCard({
         />
       </div>
       <div className="flex flex-wrap items-center mt-6">
-        <h2 className="text-sm leading-6 text-slate-900 group-hover:text-sky-500">
+        <h2 className="text-sm truncate leading-6 text-slate-900 group-hover:text-sky-500">
           <Link to={id}>
             <span className="absolute inset-0 rounded-3xl"></span>
-            {title}
+            <p className="font-bold truncate text-base">{title}</p>
+            
           </Link>
         </h2>
-        <svg
+        {/* <svg
           className="w-6 h-6 flex-none opacity-0 group-hover:opacity-100"
           viewBox="0 0 24 24"
           fill="none"
@@ -40,7 +41,7 @@ export default function DormCard({
             strokeLinecap="round"
             strokeLinejoin="round"
           ></path>
-        </svg>
+        </svg> */}
       </div>
     </li>
   );

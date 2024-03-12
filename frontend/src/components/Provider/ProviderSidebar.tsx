@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { LuUser2 } from "react-icons/lu";
 import { BsBuilding } from "react-icons/bs";
+import { IoWalletOutline } from "react-icons/io5";
 import ListSettingItem from "../Setting/ListSettingItem";
 
 export default function ProviderSidebar() {
@@ -17,6 +18,12 @@ export default function ProviderSidebar() {
           <ListSettingItem active={currentPath === "dorms"}>
             <BsBuilding />
             <div>My Dorms</div>
+          </ListSettingItem>
+        </Link>
+        <Link to="#">
+          <ListSettingItem active={currentPath === "wallet"}>
+            <IoWalletOutline />
+            <div>My Wallet</div>
           </ListSettingItem>
         </Link>
         {/* <Link to = "account">
