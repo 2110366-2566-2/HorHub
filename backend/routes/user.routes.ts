@@ -8,6 +8,7 @@ import { supportBankName } from "../lib/constant";
 
 import { DataSender, Schema_DataSender, sender } from "../lib/mail_sender";
 import { authenticateProvider } from "../middlewares/authProvider";
+import { authenticateCustomer } from "../middlewares/authCustomer";
 
 const router = Router();
 
@@ -293,6 +294,56 @@ router.get("/:id/dorms", authenticateToken, authenticateProvider, async (req, re
 
     return res.send(findDormsRes)
 })
+
+
+router.get("/:id/bookings", authenticateToken, authenticateCustomer, async (req, res) => {
+  const { id } = req.params
+
+  if (id.length != 24 || /[0-9A-Fa-f]{24}/g.test(id) === false) {
+      return res.status(404).send("No user found")
+  }
+
+  if (id !== req.body.user.id) {
+    return res.status(403).send("You don't have access to view this")
+  }
+
+  try {
+    // Update outdated status
+    const updateRes = await db.booking.updateMany({
+      where: {
+        status: "Pending",
+        startAt: {
+          lte: new Date()
+        }
+      },
+      data: {
+        status: "Cancelled"
+      }
+    })
+
+    const findRes = await db.booking.findMany({
+      where: {
+        customerId: id
+      },
+      include: {
+        roomType: {
+          include: {
+            dorm: true
+          }
+        }
+      },
+      orderBy: {
+        bookAt: "desc"
+      }
+    })
+
+    return res.send(findRes)
+  }
+  catch (err) {
+    return res.status(400).send(err)
+  }
+})
+
 
 // ===================================== NINE will try his best
 const sendMail = async (

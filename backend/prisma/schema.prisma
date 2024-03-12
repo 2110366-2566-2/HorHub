@@ -71,8 +71,6 @@ model Booking {
   customerId  String    @db.ObjectId
   roomType    RoomType      @relation("reserveAt", fields: [roomTypeId], references: [id], onDelete: Cascade)
   roomTypeId  String    @db.ObjectId
-  payment     Payment?  @relation("bookingPayment", fields: [paymentId], references: [id])
-  paymentId   String?   @db.ObjectId @unique
   price       Float
   status      BookingStatus   @default(Pending)
   startAt     DateTime    
@@ -84,7 +82,6 @@ model Payment {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   user        User      @relation("makePayment", fields: [userId], references: [id], onDelete: Cascade)
   userId      String    @db.ObjectId
-  booking     Booking?  @relation("bookingPayment")
   cost        Float
   payAt       DateTime  @default(now())
 }
