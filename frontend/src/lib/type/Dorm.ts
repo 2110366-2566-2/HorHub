@@ -39,10 +39,11 @@ const roomFacilities = [
   "refrig",
   "kettle",
   "microwave",
-  "toilet"
-] as const
+  "toilet",
+] as const;
 
 export const dormSchema = z.object({
+  id: z.string(),
   name: z
     .string()
     .trim()
@@ -83,6 +84,7 @@ export const dormSchema = z.object({
   dormFacilities: z.enum(dormFacilities).array(),
   provider: z.object({
     displayName: z.string(),
+    id: z.string(),
   }),
   roomTypes: z
     .object({
@@ -101,6 +103,7 @@ export const dormSchema = z.object({
 });
 
 export const roomTypeSchema = z.object({
+  id: z.string(),
   capacity: z.number(),
   cost: z.number(),
   description: z.string(),
@@ -116,10 +119,9 @@ export const roomTypeSchema = z.object({
       .trim()
       .min(1, { message: "Fill dorm name" })
       .max(100, { message: "Your dorm name must not exceed 100 characters" }),
-  })
-
-})
+  }),
+});
 
 export type Dorm = z.infer<typeof dormSchema>;
 
-export type RoomType = z.infer<typeof roomTypeSchema>
+export type RoomType = z.infer<typeof roomTypeSchema>;

@@ -16,6 +16,7 @@ type Room = {
   numberOfAvailableRoom: number;
   numberOfRoom: number;
   images: string[];
+  isPreview: boolean;
 };
 export default function RoomModal({
   roomId,
@@ -28,6 +29,7 @@ export default function RoomModal({
   numberOfAvailableRoom,
   numberOfRoom,
   images,
+  isPreview,
 }: Room) {
   const { id } = useParams();
   const [idxImg, setIdxImg] = useState<number>(0);
@@ -36,7 +38,10 @@ export default function RoomModal({
       <div className="w-1/2 pr-6">
         {/* <h2 className="font-bold text-xl">Room Image</h2> */}
         <figure className="w-full">
-          <img className="w-full aspect-square object-cover" src={images[idxImg]}></img>
+          <img
+            className="w-full aspect-square object-cover"
+            src={images[idxImg]}
+          ></img>
         </figure>
         <div className="flex gap-2 flex-wrap ">
           {images.map((url, idx) => {
@@ -60,13 +65,18 @@ export default function RoomModal({
         <div className="card-actions justify-start flex flex-col">
           <span className="font-bold">Room Facilities</span>
           <div className="flex flex-wrap gap-2">
-              {
-                availableRoomFacilities.filter((fac) => roomFacilities.includes(fac.value as any)).map((fac, idx) => {
-                  return <div key={idx} className="w-60 border border-slate-300 px-3 py-2 rounded-md flex gap-2 hover:bg-indigo-50 transition-colors">
-                      {fac.label}
-                    </div>
-                })
-              }
+            {availableRoomFacilities
+              .filter((fac) => roomFacilities.includes(fac.value as any))
+              .map((fac, idx) => {
+                return (
+                  <div
+                    key={idx}
+                    className="w-60 border border-slate-300 px-3 py-2 rounded-md flex gap-2 hover:bg-indigo-50 transition-colors"
+                  >
+                    {fac.label}
+                  </div>
+                );
+              })}
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -92,7 +102,17 @@ export default function RoomModal({
         </div> */}
 
         <div className="card-actions justify-end">
-          <button className=" primary-button" onClick={() => document.location.href = "/dorms/" + id + "/rooms/" + roomId + "/booking"}>Reserve Room!</button>
+          {
+            <button
+              className={"primary-button" + (isPreview ? "hidden" : "")}
+              onClick={() =>
+                (document.location.href =
+                  "/dorms/" + id + "/rooms/" + roomId + "/booking")
+              }
+            >
+              Reserve Room!
+            </button>
+          }
         </div>
       </div>
     </div>
