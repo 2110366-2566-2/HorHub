@@ -169,10 +169,80 @@ type UpdateDormType = z.infer<typeof optionalDormSchema>;
 
 // Without pagination and filtering/sorting
 router.get("/", async (req, res) => {
-  const allDormsRes = await db.dorm.findMany();
+  const filters = req.query;
+  
+  let query = {}
 
-  return res.send(allDormsRes);
+  let nameQuery: string[] = []
+  let locationQuery: string[] = []
+  const minPrice: number = (filters.minprice) ? Number(filters.minprice) : 0
+  const maxPrice: number =(filters.maxprice) ? Number(filters.maxprice) : 999999999
+
+
+  if (filters.name) {
+    nameQuery = (filters.name as string).split(' ').filter((value) => value != "")
+
+    if (nameQuery.length > 0) {
+      query = {...query, 
+        name: {
+          contains: nameQuery[0],
+          mode: "insensitive"
+      }}
+    }
+  }
+
+
+  if (filters.location) {
+    locationQuery = (filters.location as string).split(' ').filter((value) => value != "")
+
+    if (locationQuery.length > 0) {
+      query = {...query, 
+        address: {
+          contains: locationQuery[0],
+          mode: "insensitive"
+      }}
+    }
+  }
+
+  if (filters.facilities) {
+    query = {
+      ...query,
+      dormFacilities: {
+        hasEvery: (filters.facilities as string).split(" ").filter((value) => value != "")
+      }
+    }
+  }
+
+  const allDormsRes = await db.dorm.findMany({
+    where: query,
+    include: {
+      roomTypes: true
+    }
+  });
+
+  const result = allDormsRes
+  .filter((value) => {  // Query name
+    return nameQuery.every((testValue) => value.name.toLowerCase().includes(testValue.toLowerCase()))
+  })
+  .filter((value) => {  // Query location
+    return locationQuery.every((testValue) => value.address.toLowerCase().includes(testValue.toLowerCase()))
+  })
+  .filter((value) => {  // Query price
+    if (value.roomTypes.length === 0) return true
+    const allprice = (value.roomTypes.map((value) => value.cost))
+    const min = Math.min.apply(null, allprice)
+    const max = Math.max.apply(null, allprice)
+
+    if (min > maxPrice || max < minPrice) return false
+    return true
+  })
+
+  return res.send(result);
 });
+
+
+
+
 
 router.get("/:dormId", async (req, res) => {
   const { dormId } = req.params;
