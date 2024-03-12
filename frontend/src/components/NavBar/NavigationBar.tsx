@@ -1,6 +1,6 @@
 import React from "react";
 import LoginButton from "./LoginButton";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useUser } from "../../lib/context/UserContext";
 import { Avatar } from "@mui/material";
 import MenuBar from "./MenuBar";
@@ -8,6 +8,7 @@ import MenuBar from "./MenuBar";
 const NavigationBar = () => {
   const { currentUser, isLoading, fetchUser } = useUser();
 
+  const location = useLocation()
   // const logOutHandle = async () => {
 
   //     const result = await fetch(process.env.REACT_APP_BACKEND_URL + '/auth/logout',{
@@ -23,14 +24,14 @@ const NavigationBar = () => {
       <ul className="flex gap-5 items-center w-[70%] h-full">
         <li className="h-full">
           <Link to="/">
-            <div className="bg-gradient-to-r flex from-sky-600 to-indigo-700 h-full items-center bg-clip-text text-transparent font-bold">
+            <div className="bg-gradient-to-r flex from-sky-600 to-indigo-700 h-full items-center bg-clip-text text-transparent font-bold text-lg">
               HorHub
             </div>
           </Link>
         </li>
         <li className="h-full">
           <Link to="/dorms">
-            <div className="h-full px-2 border-b-4 border-white hover:bg-slate-600/10 hover:border-indigo-600 flex items-center text-slate-400 hover:text-indigo-600 font-bold text-lg">
+            <div className={`h-full px-2 border-b-4 hover:bg-slate-600/10 hover:border-indigo-600 flex items-center hover:text-indigo-600 font-bold text-sm ${(location.pathname.split("/").length >= 2 && location.pathname.split("/")[1] === "dorms") ? "text-indigo-600 border-indigo-600" : "border-white text-slate-400"}`}>
               Search Dorm
             </div>
           </Link>
@@ -38,7 +39,7 @@ const NavigationBar = () => {
         {currentUser && currentUser.role === "Provider" && (
           <li className="h-full">
             <Link to="/provider">
-              <div className="h-full px-2 border-b-4 border-white hover:bg-slate-600/10 hover:border-indigo-600 flex items-center text-slate-400 hover:text-indigo-600 font-bold text-lg">
+              <div className={`h-full px-2 border-b-4 hover:bg-slate-600/10 hover:border-indigo-600 flex items-center hover:text-indigo-600 font-bold text-sm ${(location.pathname.split("/").length >= 2 && location.pathname.split("/")[1] === "provider") ? "text-indigo-600 border-indigo-600" : "border-white text-slate-400"}`}>
                 Dashboard
               </div>
             </Link>
