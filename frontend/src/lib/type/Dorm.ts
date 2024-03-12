@@ -125,3 +125,7 @@ export const roomTypeSchema = z.object({
 export type Dorm = z.infer<typeof dormSchema>;
 
 export type RoomType = z.infer<typeof roomTypeSchema>;
+
+export const RoomTypeProviderSchema = dormSchema.shape.roomTypes;
+
+export type RoomTypeProvider = z.infer<typeof RoomTypeProviderSchema>;

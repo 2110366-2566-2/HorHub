@@ -198,6 +198,30 @@ router.get("/:dormId", async (req, res) => {
   return res.send(findDormRes);
 });
 
+router.get("/:dormId/roomtypes", async (req, res) => {
+  const { dormId } = req.params;
+
+  if (dormId.length != 24 || /[0-9A-Fa-f]{24}/g.test(dormId) === false) {
+    return res.status(404).send("No dorm found");
+  }
+
+  const findDormRes = await db.dorm.findUnique({
+    where: {
+      id: dormId,
+    },
+    include: {
+      roomTypes: true,
+      provider: true,
+    },
+  });
+
+  if (!findDormRes) {
+    return res.status(404).send("No dorm found");
+  }
+
+  return res.send(findDormRes);
+});
+
 router.post("/", authenticateToken, authenticateProvider, async (req, res) => {
   const body = req.body;
 
@@ -339,12 +363,24 @@ router.get(
     if (user.id !== dormRes.providerId) {
       return res.status(401).send("Not allow");
     }
-
     const bookRes = await db.roomType.findUnique({
       where: { id: roomtypeId },
-      select: { bookings: true },
+      select: {
+        bookings: {
+          include: {
+            customer: {
+              select: {
+                firstName: true,
+                lastName: true,
+                displayName: true,
+                gender: true,
+                phoneNumber: true,
+              },
+            },
+          },
+        },
+      },
     });
-
     if (!bookRes) return res.status(404).send("No room found");
 
     return res.status(200).send(bookRes.bookings);
@@ -386,7 +422,6 @@ router.get("/:dormId/roomtypes/:roomtypeId", async (req, res) => {
       dorm: true,
     },
   });
-
   if (!findRoomRes) {
     return res.status(404).send("No room found");
   }

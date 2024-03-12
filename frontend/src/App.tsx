@@ -32,7 +32,8 @@ import BookingPage from "./pages/booking/BookingPage";
 import SearchDorm from "./pages/search/SearchDorm";
 import BookingListPage from "./pages/booking/BookingListPage";
 import ProviderDashboardLayout from "./pages/provider/dorm/ProviderDashboardLayout";
-
+import ProviderBookingLayout from "./pages/provider/dorm/ProviderBookingLayout";
+import BookPage from "./pages/provider/dorm/reservation/BookPage";
 function App() {
   return (
     <>
@@ -67,7 +68,10 @@ function App() {
                 <Route path="dorms/:id" element={<ProviderDashboardLayout />}>
                   <Route path="" element={<Navigate to="info" />} />
                   <Route path="info" element={<DormPage isEdit={true} />} />
-                  <Route path="reservation" />
+                  {/*<Route path="reservation" element={<ProviderBooking />} />*/}
+                  <Route path="reservation" element={<ProviderBookingLayout />}>
+                    <Route path=":roomId" element={<BookPage />}></Route>
+                  </Route>
                   {/*<Route path="*" element={<Navigate to="info" />} />*/}
                 </Route>
               </Route>

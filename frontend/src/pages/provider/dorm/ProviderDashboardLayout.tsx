@@ -93,7 +93,7 @@ export default function ProviderDashboardLayout() {
   if (notFound) return <NotFoundPage />;
   if (isLoading) return <LoadingPage />;
   return (
-    <div className="flex flex-col justify-start text-left">
+    <div className="flex flex-col justify-start text-left gap-y-2">
       <ul className="flex place-content-between items-center text-center">
         <li className="w-full ">
           <Link

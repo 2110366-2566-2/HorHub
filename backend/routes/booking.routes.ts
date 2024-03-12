@@ -81,6 +81,8 @@ router.put(
   authenticateProvider,
   async (req, res) => {
     const { bookingId } = req.params;
+    console.log("body");
+    console.log(req.body);
     const { user, ...param } = req.body;
 
     const providerId = await db.booking.findUnique({
@@ -98,8 +100,10 @@ router.put(
     if (providerId.roomType.dorm.provider.id !== user.id) {
       return res.status(401).send("Not allow");
     }
+
     const data = bookUpdateSchema.safeParse(param);
     if (!data.success) {
+      console.log(data.error);
       return res.status(403).send("Wrong format");
     }
     try {
@@ -109,7 +113,7 @@ router.put(
       });
       return res.status(200).send(result);
     } catch (err) {
-      //console.log(err);
+      //console.log(err);1
       return res.status(403).send("Change is not allow");
     }
   }
