@@ -29,7 +29,7 @@ const NavigationBar = () => {
           </Link>
         </li>
         <li className="h-full">
-          <Link to="/search">
+          <Link to="/dorms">
             <div className="h-full px-2 border-b-4 border-white hover:bg-slate-600/10 hover:border-indigo-600 flex items-center text-slate-400 hover:text-indigo-600 font-bold text-lg">
               Search Dorm
             </div>

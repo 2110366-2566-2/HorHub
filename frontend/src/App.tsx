@@ -34,6 +34,8 @@ import BookingListPage from "./pages/booking/BookingListPage";
 import ProviderDashboardLayout from "./pages/provider/dorm/ProviderDashboardLayout";
 import ProviderBookingLayout from "./pages/provider/dorm/ProviderBookingLayout";
 import BookPage from "./pages/provider/dorm/reservation/BookPage";
+import DormList from "./pages/search/DormList";
+
 function App() {
   return (
     <>
@@ -59,7 +61,7 @@ function App() {
               </Route>
             </Route>
 
-            <Route path="search" element={<SearchDorm />} />
+            <Route path="dorms" element={<DormList />} />
             <Route path="provider">
               <Route element={<ProviderPageLayout />}>
                 <Route path="" element={<Navigate to="dorms" />} />
