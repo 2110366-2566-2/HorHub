@@ -120,7 +120,7 @@ function App() {
             <Route path="verify/:id" element={<AccVerifyTempPage />} />
 
 
-            <Route path="booking" element={<BookingListPage />} />
+            <Route path="bookings" element={<BookingListPage />} />
 
             <Route path="/*" element={<NotFoundPage />} />
           </Routes>
