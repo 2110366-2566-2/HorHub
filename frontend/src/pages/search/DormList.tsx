@@ -1,78 +1,70 @@
+import DormCard from "../../components/Provider/DormCard";
+import { Dorm } from "../../lib/type/Dorm";
+import { useEffect, useState } from "react";
 
 function DormList(){
+
+    const [isFetching, setFetching] = useState<boolean>(true);
+    const [isFetchFailed, setFetchFailed] = useState<boolean>(false);
+  
+    const [dormsData, setDormsData] = useState<Dorm[]>([]);
+  
+    async function getDorm() {
+      try {
+        setFetching(true);
+  
+        const res = await fetch(
+          process.env.REACT_APP_BACKEND_URL + "/dorms",
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+  
+        if (!res.ok) {
+          setFetchFailed(true);
+          setFetching(false);
+          return;
+        }
+  
+        const data = await res.json();
+        setDormsData(data);
+        console.log(data);
+        setFetching(false);
+      } catch (err) {
+        setFetchFailed(true);
+        setFetching(false);
+      }
+    }
+  
+    useEffect(() => {
+      getDorm();
+    }, []);
     return (
         <ul className="grid max-w-[26rem] sm:max-w-[52.5rem] mt-[2rem] grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mx-auto gap-6 lg:gap-y-8 xl:gap-x-8 lg:max-w-7xl px-4 sm:px-6 lg:px-8">
-            <li className="group relative rounded-3xl bg-slate-50 p-6 hover:bg-slate-100">
-                <div className="aspect-[672/494] relative rounded-md overflow-hidden shadow-[0_2px_8px_rgba(15,23,42,0.08)] bg-slate-200 dark:bg-slate-700">
-                    <img alt="" width="672" height="494" className="absolute inset-0 w-full h-full" style={{ color: 'transparent' }} src="" />
-                </div>
-                <div className="flex flex-wrap items-center mt-6">
-                    <h2 className="text-sm leading-6 text-slate-900 dark:text-white font-semibold group-hover:text-sky-500 dark:group-hover:text-sky-400">
-                        <a href="/showcase/openai">
-                            <span className="absolute inset-0 rounded-3xl"></span>
-                            SAMPLE
-                        </a>
-                    </h2>
-                    <svg className="w-6 h-6 flex-none opacity-0 group-hover:opacity-100" viewBox="0 0 24 24" fill="none">
-                        <path d="M9.75 15.25L15.25 9.75M15.25 9.75H10.85M15.25 9.75V14.15" stroke="#0EA5E9" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
-                    </svg>
-                    <p className="w-full flex-none text-[0.8125rem] leading-6 text-slate-500 dark:text-slate-400">SAMPLE SAMPLE SAMPLE SAMPLE SAMPLE</p>
-                </div>
-            </li>
-            <li className="group relative rounded-3xl bg-slate-50 p-6 hover:bg-slate-100">
-                
-            </li>
-            <li className="group relative rounded-3xl bg-slate-50 p-6 hover:bg-slate-100">
-            
-            </li>
-
-            <li className="group relative rounded-3xl bg-slate-50 p-6 hover:bg-slate-100">
-                <div className="aspect-[672/494] relative rounded-md overflow-hidden shadow-[0_2px_8px_rgba(15,23,42,0.08)] bg-slate-200 dark:bg-slate-700">
-                    <img alt="" width="672" height="494" className="absolute inset-0 w-full h-full" style={{ color: 'transparent' }} src="" />
-                </div>
-                <div className="flex flex-wrap items-center mt-6">
-                    <h2 className="text-sm leading-6 text-slate-900 dark:text-white font-semibold group-hover:text-sky-500 dark:group-hover:text-sky-400">
-                        <a href="/showcase/openai">
-                            <span className="absolute inset-0 rounded-3xl"></span>
-                            SAMPLE
-                        </a>
-                    </h2>
-                    <svg className="w-6 h-6 flex-none opacity-0 group-hover:opacity-100" viewBox="0 0 24 24" fill="none">
-                        <path d="M9.75 15.25L15.25 9.75M15.25 9.75H10.85M15.25 9.75V14.15" stroke="#0EA5E9" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
-                    </svg>
-                    <p className="w-full flex-none text-[0.8125rem] leading-6 text-slate-500 dark:text-slate-400">SAMPLE SAMPLE SAMPLE SAMPLE SAMPLE</p>
-                </div>
-            </li>
-            <li className="group relative rounded-3xl bg-slate-50 p-6 hover:bg-slate-100">
-                
-            </li>
-            <li className="group relative rounded-3xl bg-slate-50 p-6 hover:bg-slate-100">
-            
-            </li>
-
-            <li className="group relative rounded-3xl bg-slate-50 p-6 hover:bg-slate-100">
-                <div className="aspect-[672/494] relative rounded-md overflow-hidden shadow-[0_2px_8px_rgba(15,23,42,0.08)] bg-slate-200 dark:bg-slate-700">
-                    <img alt="" width="672" height="494" className="absolute inset-0 w-full h-full" style={{ color: 'transparent' }} src="" />
-                </div>
-                <div className="flex flex-wrap items-center mt-6">
-                    <h2 className="text-sm leading-6 text-slate-900 dark:text-white font-semibold group-hover:text-sky-500 dark:group-hover:text-sky-400">
-                        <a href="/showcase/openai">
-                            <span className="absolute inset-0 rounded-3xl"></span>
-                            SAMPLE
-                        </a>
-                    </h2>
-                    <svg className="w-6 h-6 flex-none opacity-0 group-hover:opacity-100" viewBox="0 0 24 24" fill="none">
-                        <path d="M9.75 15.25L15.25 9.75M15.25 9.75H10.85M15.25 9.75V14.15" stroke="#0EA5E9" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
-                    </svg>
-                    <p className="w-full flex-none text-[0.8125rem] leading-6 text-slate-500 dark:text-slate-400">SAMPLE SAMPLE SAMPLE SAMPLE SAMPLE</p>
-                </div>
-            </li>
-            <li className="group relative rounded-3xl bg-slate-50 p-6 hover:bg-slate-100">
-                
-            </li>
-            <li className="group relative rounded-3xl bg-slate-50 p-6 hover:bg-slate-100">
-            
-            </li>
+            {dormsData
+            .sort((a: Dorm, b: Dorm) => {
+                if (a.name < b.name) {
+                return -1;
+                }
+                if (a.name > b.name) {
+                return 1;
+                }
+                return 0;
+            })
+            .map((data) => {
+                return (
+                <DormCard
+                    id={data.id}
+                    title={data.name}
+                    image={
+                    data.images.length === 0
+                        ? "https://firebasestorage.googleapis.com/v0/b/horhub-7d1df.appspot.com/o/placeholders%2F681px-Placeholder_view_vector.png?alt=media&token=bc0c7178-b94a-4bf0-957b-42a75f708a79"
+                        : data.images[0]
+                    }
+                />
+                );
+            })}
         </ul>
     )
 }
