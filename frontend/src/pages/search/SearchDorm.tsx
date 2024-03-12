@@ -76,7 +76,7 @@ function SearchDorm({
                             </div>
                         </div>
                         <div className="relative flex flex-row justify-start items-center"> 
-                            <div className="relative flex flex-col w-[12.5%]">
+                            <div className="relative flex flex-col w-[15%]">
                                 <div className="absolute inset-y-0 start-0 flex items-center ps-2 pe-1 pointer-events-none border-indigo-100">
                                     <MdOutlineMonetizationOn className="text-xl font-bold text-indigo-600"/>
                                 </div>    
@@ -88,7 +88,7 @@ function SearchDorm({
                                     onChange={(e) => setMinPrice(Math.max(Number(e.target.value), 0))}    
                                 />
                             </div>
-                            <div className="relative flex flex-col w-[12.5%]">
+                            <div className="relative flex flex-col w-[15%]">
                                 <div className="absolute inset-y-0 start-0 flex items-center ps-2 pe-1 pointer-events-none border-indigo-100">
                                     <text className="text-sm font-bold text-indigo-800">to</text>
                                 </div>    
