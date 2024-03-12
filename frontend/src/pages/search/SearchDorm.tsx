@@ -30,8 +30,8 @@ function SearchDorm({
         <div className="relative w-full flex flex-col items-center">
             <div className="w-full flex flex-col bg-indigo-100 z-10">
                 <ul className="flex gap-8 items-center w-[70%] h-full px-8 py-4">
-                    <li><IoIosSearch className="text-4xl text-indigo-600"/></li>
-                    <li><text className="text-2xl text-indigo-600 font-bold">Search Dorm</text></li>
+                    <li><IoIosSearch className="text-2xl text-indigo-600"/></li>
+                    <li><text className="text-xl text-indigo-600 font-bold">Search Dorm</text></li>
                 </ul>
                 <ul className="flex gap-8 items-center h-full px-8 py-4">
                     <form className="w-[90%] mx-auto space-y-4">

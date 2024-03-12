@@ -125,7 +125,7 @@ function DormList(){
     }, [name, location, dormFacilities, maxPrice, minPrice], 500)
 
     return (
-      <div className="unpadding-page">
+      <div className="min-h-[calc(100vh-7rem)]">
         <SearchDorm
           name={name}
           location={location}
