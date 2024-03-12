@@ -56,11 +56,11 @@ export default function BookPage() {
   if (isLoading) return <LoadingPage />;
   if (isNotFound) return <NotFoundPage />;
   return (
-    <>
+    <div className="page gap-y-4">
       {bookingData &&
         bookingData.map((book) => {
           return <ProviderBookCard key={book.id} data={book} />;
         })}
-    </>
+    </div>
   );
 }
