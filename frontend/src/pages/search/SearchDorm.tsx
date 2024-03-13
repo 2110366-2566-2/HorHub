@@ -85,7 +85,7 @@ function SearchDorm({
                                     className="block w-full p-2 ps-[40%] text-sm text-gray-900 border border-gray-300 rounded-l-2xl bg-gray-50" 
                                     placeholder="Min Price ..."
                                     value={minPrice}
-                                    onChange={(e) => setMinPrice(Math.max(Number(e.target.value), 0))}    
+                                    onChange={(e) => setMinPrice(Number(Math.max(Number(e.target.value), 0)))}    
                                 />
                             </div>
                             <div className="relative flex flex-col w-[15%]">
@@ -97,7 +97,7 @@ function SearchDorm({
                                     className="block w-full p-2 ps-[40%] text-sm text-gray-900 border border-gray-300 rounded-r-2xl bg-gray-50" 
                                     placeholder="Max Price ..." 
                                     value={maxPrice}
-                                    onChange={(e) => setMaxPrice(Math.min(Number(e.target.value), 9999999))}
+                                    onChange={(e) => setMaxPrice(Number(Math.min(Number(e.target.value), 9999999)))}
                                 />
                             </div>
                         </div>

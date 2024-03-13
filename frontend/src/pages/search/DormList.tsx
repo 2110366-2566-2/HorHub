@@ -64,9 +64,9 @@ function DormList(){
           queryURLArray.push("facilities=" + dormFacilities.join(" "))
           // queryURLArray.push("facilities=" + dormFacilities.map((fac) => fac.value).join(" "))
         }
-        queryURLArray.push(`minPrice=${minPrice}`)
+        queryURLArray.push(`minprice=${minPrice}`)
         if (maxPrice < 99999999) {
-          queryURLArray.push(`maxPrice=${maxPrice}`)
+          queryURLArray.push(`maxprice=${maxPrice}`)
         }
         queryURLArray.push("sort=" + sorter)
 

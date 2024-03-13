@@ -180,28 +180,30 @@ router.get("/", async (req, res) => {
 
 
   if (filters.name) {
-    nameQuery = (filters.name as string).split(' ').filter((value) => value != "")
+    // if (typeof filters.name === "string") {
+      nameQuery = (filters.name as string).split(' ').filter((value) => value != "")
 
-    if (nameQuery.length > 0) {
-      query = {...query, 
-        name: {
-          contains: nameQuery[0],
-          mode: "insensitive"
-      }}
-    }
+      // if (nameQuery.length > 0) {
+      //   query = {...query, 
+      //     name: {
+      //       contains: nameQuery[0],
+      //       mode: "insensitive"
+      //   }}
+      // }
+    // }
   }
 
 
   if (filters.location) {
     locationQuery = (filters.location as string).split(' ').filter((value) => value != "")
 
-    if (locationQuery.length > 0) {
-      query = {...query, 
-        address: {
-          contains: locationQuery[0],
-          mode: "insensitive"
-      }}
-    }
+    // if (locationQuery.length > 0) {
+    //   query = {...query, 
+    //     address: {
+    //       contains: locationQuery[0],
+    //       mode: "insensitive"
+    //   }}
+    // }
   }
 
   if (filters.facilities) {
