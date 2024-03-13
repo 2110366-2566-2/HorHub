@@ -5,6 +5,7 @@ import ImageUploading, {
 } from "react-images-uploading";
 import DeleteButton from "./Button/DeleteButton";
 import { CiImageOn } from "react-icons/ci";
+import { IoCaretBackOutline, IoCaretForwardOutline } from "react-icons/io5";
 
 type FormFieldProps = {
   fieldName: string;
@@ -29,6 +30,17 @@ const ImagesInput = ({
     console.log(imageList, addUpdateIndex);
     setImages(imageList as never[]);
   };
+
+  function swapImage(idx1: number, idx2: number) {
+    if (idx1 >= images.length || idx1 < 0 || idx2 >= images.length || idx2 < 0) return
+    
+    let newData = [...images]
+    let temp = newData[idx1];
+    newData[idx1] = newData[idx2];
+    newData[idx2] = temp;
+
+    setImages(newData)
+}
 
   return (
     <div className="App">
@@ -79,9 +91,27 @@ const ImagesInput = ({
                       alt=""
                       className="object-cover w-32 h-32"
                     />
-                    <div className="image-item__btn-wrapper">
+                    <div className="image-item__btn-wrapper gap-2">
                       {/* <button onClick={() => onImageUpdate(index)}>Update</button> */}
+                      {
+                        (index !== 0) ? <button type="button" onClick={() => swapImage(index, index-1)} className="p-1 rounded-md transition-colors hover:bg-indigo-200">
+                          <IoCaretBackOutline  className="w-4 h-4" />
+                        </button> :
+                        <button type="button" className="p-1 rounded-md transition-colors text-gray-300" disabled>
+                          <IoCaretBackOutline  className="w-4 h-4" />
+                        </button>
+                      }
+                      
                       <DeleteButton onClick={() => onImageRemove(index)} />
+                      {
+                        (index !== images.length - 1) ? <button type="button" onClick={() => swapImage(index, index+1)} className="p-1 rounded-md transition-colors hover:bg-indigo-200">
+                          <IoCaretForwardOutline  className="w-4 h-4" />
+                        </button> :
+                        <button type="button" className="p-1 rounded-md transition-colors text-gray-300" disabled>
+                          <IoCaretForwardOutline  className="w-4 h-4" />
+                        </button>
+                      }
+                      
                     </div>
                   </div>
                 ))}

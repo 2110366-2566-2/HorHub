@@ -48,6 +48,7 @@ const CreateDormPage = () => {
 
     const watchLatitude = watch("latitude")
     const watchLongitude = watch("longitude")
+
     
     const onSubmit: SubmitHandler<ValidationSchemaType> = async (data) => {
         setAllowSubmit(false)
@@ -93,6 +94,8 @@ const CreateDormPage = () => {
 
         
     }
+
+
 
     if (isLoading) {
         return <LoadingPage />
