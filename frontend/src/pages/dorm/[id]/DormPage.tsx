@@ -92,6 +92,7 @@ export default function DormPage({ isEdit }: { isEdit: boolean }) {
               {dormData.roomTypes.map((obj) => {
                 return (
                   <RoomCard
+                    dormId={id || ""}
                     roomId={obj.id}
                     name={obj.name}
                     cost={obj.cost}
