@@ -126,6 +126,10 @@ const CreateRoomTypePage = () => {
     checkData()
   }, [])
 
+  useEffect(() => {
+    document.title = "Creating Room | HorHub";
+  }, []);
+
   if (isLoading || isFetching) {
     return <LoadingPage />
   }

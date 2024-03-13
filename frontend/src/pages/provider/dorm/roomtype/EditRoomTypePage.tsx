@@ -146,6 +146,10 @@ const EditRoomTypePage = () => {
     initData()
   }, [])
 
+  useEffect(() => {
+    document.title = "Editing Room | HorHub";
+  }, []);
+
   if (isLoading || isFetching) {
     return <LoadingPage />
   }

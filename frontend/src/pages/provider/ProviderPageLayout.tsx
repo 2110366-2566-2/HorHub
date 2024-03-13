@@ -14,7 +14,7 @@ const ProviderPageLayout = () => {
   useAuthRedirect();
 
   useEffect(() => {
-    document.title = "Provider | HorHub";
+    document.title = "Dashboard | HorHub";
   }, []);
 
   if (isLoading || !currentUser) return <LoadingPage />;

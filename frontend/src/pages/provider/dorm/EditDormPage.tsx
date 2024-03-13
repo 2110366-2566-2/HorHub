@@ -138,6 +138,10 @@ const EditDormPage = () => {
         initData()
     }, [])
 
+    useEffect(() => {
+        document.title = "Editing Dorm | HorHub";
+    }, []);
+
     if (isLoading || isFetching) {
         return <LoadingPage />
     }

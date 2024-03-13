@@ -124,6 +124,7 @@ const BookingPage = () => {
     }
 
     useEffect(() => {
+        window.document.title = "Reserving Room | HorHub"
         initData()
     }, [])
 

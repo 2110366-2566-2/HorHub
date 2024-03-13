@@ -46,6 +46,10 @@ const ProviderDormListPage = () => {
     getProviderDorm();
   }, []);
 
+  useEffect(() => {
+    document.title = "Dashboard | HorHub";
+  }, []);
+
   return (
     <div className="w-full flex flex-col gap-5">
       <div className="px-3 my-2 font-bold text-left text-xl">
