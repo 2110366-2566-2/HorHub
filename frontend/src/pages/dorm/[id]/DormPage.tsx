@@ -62,13 +62,16 @@ export default function DormPage({ isEdit }: { isEdit: boolean }) {
         contactNo={dormData.contractNumber}
         dormFacility={dormData.dormFacilities}
       />
-      <div className="flex flex-row p-4 md:w-4/5 w-full">
+      <div className="flex flex-row p-4 md:w-4/5 w-full text-base">
         <div className="w-3/4">
           <div className="flex flex-col gap-4 pr-4">
-            <div className="font-bold">Dorm Description</div>
-            <div className="whitespace-pre-line">{dormData.description}</div>
-            <div className="font-bold">Dorm Facilities</div>
+            <div className="font-bold text-base">Dorm Description</div>
+            <div className="whitespace-pre-line text-sm">{dormData.description}</div>
+            <div className="font-bold text-base">Dorm Facilities</div>
             <div className="flex flex-wrap gap-2">
+              {
+                (dormData.dormFacilities.length === 0) && <div className="text-sm">There is no facilities</div>
+              }
               {availableDormFacilities
                 .filter((fac) =>
                   dormData.dormFacilities.includes(fac.value as any)
@@ -83,6 +86,9 @@ export default function DormPage({ isEdit }: { isEdit: boolean }) {
             </div>
             <div className="font-bold">Dorm Room</div>
             <div className="gap-3 space-y-3">
+              {
+                (!isEdit && dormData.roomTypes.length === 0) && <div className="text-sm">There is no room available</div>
+              }
               {dormData.roomTypes.map((obj) => {
                 return (
                   <RoomCard

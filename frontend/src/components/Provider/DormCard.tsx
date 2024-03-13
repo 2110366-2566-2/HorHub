@@ -4,13 +4,15 @@ export default function DormCard({
   id,
   title,
   image,
+  isAdding,
 }: {
   id: string;
   title: string;
   image: string;
+  isAdding?: boolean
 }) {
   return (
-    <li className="group relative rounded-3xl bg-slate-50 p-6 hover:bg-slate-100">
+    <li className={"group relative rounded-3xl bg-slate-50 p-6 hover:bg-slate-100"}>
       <div className="aspect-[672/494] relative rounded-md overflow-hidden shadow-[0_2px_8px_rgba(15,23,42,0.08)] bg-slate-200">
         <img
           alt=""

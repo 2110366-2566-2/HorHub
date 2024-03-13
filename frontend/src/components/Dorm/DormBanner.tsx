@@ -27,8 +27,8 @@ export default function DormBanner({
         </div>
         <div className="w-3/4">
           <div className="font-bold text-5xl">{dormName}</div>
-          <div className="text-indigo-600">Provider: {agencyName}</div>
-          <div className="flex place-content-between sm:flex-row flex-col">
+          {/* <div className="text-indigo-600">Provider: {agencyName}</div> */}
+          <div className="flex place-content-between sm:flex-row flex-col text-base">
             <DormIcon title={"Overview Location"} content={address}>
               <CiLocationOn size={25} />
             </DormIcon>

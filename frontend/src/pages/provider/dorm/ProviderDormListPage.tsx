@@ -48,7 +48,7 @@ const ProviderDormListPage = () => {
 
   return (
     <div className="w-full flex flex-col gap-5">
-      <div className="border-b border-slate-300 my-2 font-bold text-left">
+      <div className="px-3 my-2 font-bold text-left text-xl">
         My Dorms
       </div>
       <div className="text-lg w-full">
