@@ -61,7 +61,7 @@ export default function RoomModal({
                 src={url}
                 width={60}
                 height={60}
-                className={idx === idxImg ? "border-orange-400 border-2" : ""}
+                className={idx === idxImg ? "border-orange-400 border-2 object-cover w-[60px] h-[60px]" : "object-cover w-[60px] h-[60px]"}
                 onClick={() => {
                   setIdxImg(idx);
                 }}
@@ -90,10 +90,11 @@ export default function RoomModal({
               })}
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="text-xs">{description}</div>
+        {/* <div className="flex items-center gap-2">
           <MdNotes />
           <span className="font-bold">Description</span> : {description}
-        </div>
+        </div> */}
         <div className="flex items-center gap-2">
           <SlSizeFullscreen />
           <span className="font-bold">Size</span> : {size} square meter
