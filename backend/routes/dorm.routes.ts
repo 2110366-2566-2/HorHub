@@ -181,15 +181,17 @@ router.get("/", async (req, res) => {
     : 999999999;
 
   if (filters.name) {
-    nameQuery = (filters.name as string).split(' ').filter((value) => value != "")
+    nameQuery = (filters.name as string)
+      .split(" ")
+      .filter((value) => value != "");
 
-      // if (nameQuery.length > 0) {
-      //   query = {...query, 
-      //     name: {
-      //       contains: nameQuery[0],
-      //       mode: "insensitive"
-      //   }}
-      // }
+    // if (nameQuery.length > 0) {
+    //   query = {...query,
+    //     name: {
+    //       contains: nameQuery[0],
+    //       mode: "insensitive"
+    //   }}
+    // }
     // }
   }
 
@@ -199,7 +201,7 @@ router.get("/", async (req, res) => {
       .filter((value) => value != "");
 
     // if (locationQuery.length > 0) {
-    //   query = {...query, 
+    //   query = {...query,
     //     address: {
     //       contains: locationQuery[0],
     //       mode: "insensitive"
