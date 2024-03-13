@@ -15,6 +15,7 @@ import { ImageType } from 'react-images-uploading';
 import { Bounce, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import NotFoundPage from '../../etc/NotFoundPage';
+import DormMap from '../../../components/Dorm/DormMap';
 
 const schema = z.object({
     name: z.string().trim().min(1, {message: "Fill dorm name"}).max(100, {message: "Your dorm name must not exceed 100 characters"}),
@@ -37,13 +38,16 @@ const CreateDormPage = () => {
 
     const [allowSubmit, setAllowSubmit] = useState<boolean>(true)
     
-    const { register, handleSubmit, formState: { errors } } = useForm<ValidationSchemaType>({
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<ValidationSchemaType>({
         resolver: zodResolver(schema),
         mode: 'all',
         defaultValues: {
-            dormFacilities: []
+            dormFacilities: [],
         }
     });
+
+    const watchLatitude = watch("latitude")
+    const watchLongitude = watch("longitude")
     
     const onSubmit: SubmitHandler<ValidationSchemaType> = async (data) => {
         setAllowSubmit(false)
@@ -144,38 +148,48 @@ const CreateDormPage = () => {
 
             <div className="border-b border-slate-300 my-2 font-bold text-left pt-2">Location</div>
 
-            <TextInput 
-                type="text" 
-                name="address" 
-                fieldName="Address" 
-                placeholder="Address..." 
-                register={register} 
-                error={errors.address} 
-            />
+            <div className="flex flex-col md:flex-row w-full">
+                <div className="flex flex-col w-full md:w-1/2">
+                    <TextInput 
+                        type="text" 
+                        name="address" 
+                        fieldName="Address" 
+                        placeholder="Address..." 
+                        register={register} 
+                        error={errors.address} 
+                    />
 
-            <div className="flex gap-3">
-                <div className="w-40">
-                    <NumberInput 
-                        name="latitude" 
-                        fieldName="Latitude" 
-                        placeholder="0.00000" 
-                        step={0.00001}
-                        register={register} 
-                        error={errors.latitude} 
-                    />
+                    <div className="flex gap-3">
+                        <div className="w-40">
+                            <NumberInput 
+                                name="latitude" 
+                                fieldName="Latitude" 
+                                placeholder="0.00000" 
+                                step={0.00001}
+                                register={register} 
+                                error={errors.latitude} 
+                            />
+                        </div>
+                        <div className="w-40">
+                            <NumberInput
+                                name="longitude" 
+                                fieldName="Longitude" 
+                                placeholder="0.00000" 
+                                step={0.00001}
+                                register={register} 
+                                error={errors.longitude} 
+                            />
+                        </div>
+                    </div>
+                    <div className="text-sm w-full text-left">In case you are not familiar with geolocation, please see <a href="https://support.google.com/maps/answer/18539" target="_blank">this guide</a></div>
                 </div>
-                <div className="w-40">
-                    <NumberInput
-                        name="longitude" 
-                        fieldName="Longitude" 
-                        placeholder="0.00000" 
-                        step={0.00001}
-                        register={register} 
-                        error={errors.longitude} 
-                    />
+                <div className="flex flex-col w-full md:w-1/2 items-center">
+                    <div className="w-4/5">
+                        <DormMap lat={!watchLatitude ? 0 : Number(watchLatitude)} lng={!watchLongitude ? 0 : Number(watchLongitude)} />
+                    </div>
                 </div>
             </div>
-            <div className="text-sm w-full text-left">In case you are not familiar with geolocation, please see <a href="https://support.google.com/maps/answer/18539" target="_blank">this guide</a></div>
+            
 
 
             <div className="border-b border-slate-300 my-2 font-bold text-left pt-2">Facilities</div>
