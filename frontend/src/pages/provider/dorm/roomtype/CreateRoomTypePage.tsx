@@ -20,9 +20,9 @@ import { availableRoomFacilities } from "../../../../lib/constants/roomFacilitie
 const schema = z.object({
   name: z.string().trim().min(1, {message: "Fill dorm name"}).max(100, {message: "Your room name must not exceed 100 characters"}),
   description: z.string().trim().min(1, {message: "Fill description"}).max(5000, {message: "Description must not exceed 5000 characters"}),
-  size: z.coerce.number().min(1, {message: "Fill valid size in unit of square meter"}),
-  cost: z.coerce.number().min(0.01, {message: "Fill valid cost in 2 decimal places"}).multipleOf(0.01, {message: "Fill valid cost in 2 decimal places"}),
-  capacity: z.coerce.number().min(1, {message: "Fill valid room capacity"}),
+  size: z.coerce.number().min(1, {message: "Fill valid size in unit of square meter"}).max(10000000, {message: "Too big?"}),
+  cost: z.coerce.number().min(0.01, {message: "Fill valid cost in 2 decimal places"}).multipleOf(0.01, {message: "Fill valid cost in 2 decimal places"}).max(5000000, {message: "Too expensive!"}),
+  capacity: z.coerce.number().min(1, {message: "Fill valid room capacity"}).max(10000000, {message: "Too large?"}),
   roomFacilities: z.string().array()
 })
 
