@@ -25,7 +25,7 @@ export default function DormBanner({
           {/* <CiSquareInfo size={50} /> */}
           Dorm Information
         </div>
-        <div className="w-3/4">
+        <div className="w-3/4 gap-2">
           <div className="font-bold text-5xl">{dormName}</div>
           {/* <div className="text-indigo-600">Provider: {agencyName}</div> */}
           <div className="flex place-content-between sm:flex-row flex-col text-base">

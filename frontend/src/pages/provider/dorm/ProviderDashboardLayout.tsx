@@ -34,6 +34,7 @@ export default function ProviderDashboardLayout() {
   const currentPath = location.pathname.split("dorms/")[1].split("/")[1];
   const [isLoading, setLoading] = useState<boolean>(true);
   const [notFound, setNotFound] = useState<boolean>(false);
+  const [name,setName] = useState<string>("");
   const { currentUser } = useUser();
   const navigate = useNavigate();
   const handleOpen = () => setOpen(true);
@@ -85,6 +86,7 @@ export default function ProviderDashboardLayout() {
         if (!currentUser || currentUser.id !== data.data.provider.id) {
           setNotFound(true);
         }
+        setName(data.data.name)
         setLoading(false);
       }
     };
@@ -94,6 +96,46 @@ export default function ProviderDashboardLayout() {
   if (isLoading) return <LoadingPage />;
   return (
     <div className="flex flex-col justify-start text-left gap-y-2">
+      <div className="flex w-full justify-between">
+        <div className="px-3 my-2 font-bold text-left text-xl">{name}</div>
+        <div className="w-fit h-fit flex gap-3">
+          <Link to="edit" className="bordered-button">Edit</Link>
+          <button onClick={handleOpen} className="danger-button">Delete</button>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style} className="modal-box">
+              <div className="flex flex-col gap-y-6">
+                {/* <Typography id="modal-modal-title" variant="h6" component="h2">
+                  Do you really want to delete this dorm?
+                </Typography> */}
+                <div className="font-bold text-lg text-center">
+                  Deleting Dorm
+                </div>
+                
+                <div className="text-sm">
+                  Are you sure to delete this dorm?
+                </div>
+                <div className="flex gap-5">
+                  <button
+                    className="bordered-button w-full"
+                    onClick={handleClose}
+                  >
+                    No
+                  </button>
+                  <button className="danger-button w-full" onClick={deleteDorm}>
+                    Yes
+                  </button>
+                </div>
+              </div>
+            </Box>
+          </Modal>
+        </div>
+      </div>
+      
       <ul className="flex place-content-between items-center text-center">
         <li className="w-full ">
           <Link
@@ -101,7 +143,7 @@ export default function ProviderDashboardLayout() {
             className={
               "block w-full px-2 border-b-4  hover:bg-slate-600/10 hover:border-indigo-600 items-center  hover:text-indigo-600 font-bold text-lg" +
               (currentPath === "info"
-                ? " bg-slate-600/10 border-indigo-600 items-center :text-indigo-600 "
+                ? " border-indigo-600 items-center :text-indigo-600 "
                 : " border-white text-slate-400")
             }
           >
@@ -114,14 +156,14 @@ export default function ProviderDashboardLayout() {
             className={
               "block w-full px-2 border-b-4 hover:bg-slate-600/10 hover:border-indigo-600 items-center hover:text-indigo-600 font-bold text-lg" +
               (currentPath === "reservation"
-                ? " bg-slate-600/10 border-indigo-600 items-center :text-indigo-600 "
+                ? " border-indigo-600 items-center :text-indigo-600 "
                 : " border-white text-slate-400")
             }
           >
             Reservation
           </Link>
         </li>
-        <li className="w-full">
+        {/* <li className="w-full">
           <Link
             to="edit"
             className={
@@ -130,40 +172,16 @@ export default function ProviderDashboardLayout() {
           >
             Edit Dorm
           </Link>
-        </li>
-        <li className="w-full ">
+        </li> */}
+        {/* <li className="w-full ">
           <button
             onClick={handleOpen}
             className="block w-full px-2 border-b-4 border-white hover:bg-slate-600/10 hover:border-indigo-600 items-center text-slate-400 hover:text-indigo-600 font-bold text-lg"
           >
             Delete Dorm
           </button>
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box sx={style}>
-              <div className="flex flex-col gap-y-6">
-                <Typography id="modal-modal-title" variant="h6" component="h2">
-                  Do you really want to delete this dorm?
-                </Typography>
-                <div className="flex ">
-                  <button
-                    className="primary-button w-full"
-                    onClick={handleClose}
-                  >
-                    No
-                  </button>
-                  <button className="danger-button w-full" onClick={deleteDorm}>
-                    Yes
-                  </button>
-                </div>
-              </div>
-            </Box>
-          </Modal>
-        </li>
+          
+        </li> */}
       </ul>
       <Outlet />
     </div>

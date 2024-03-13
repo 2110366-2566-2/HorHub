@@ -85,8 +85,8 @@ const ProviderBookCard = ({ data }: { data: BookingProviderType }) => {
           <div className="flex items-center">
             {data.status === "Pending" && (
               <div className="w-full flex justify-start">
-                <button onClick={handleOpen} className="danger-button">
-                  Cancel booking
+                <button onClick={handleOpen} className="danger-button-xs">
+                  Cancel
                 </button>
                 <Modal
                   open={open}
@@ -94,27 +94,36 @@ const ProviderBookCard = ({ data }: { data: BookingProviderType }) => {
                   aria-labelledby="modal-modal-title"
                   aria-describedby="modal-modal-description"
                 >
-                  <Box sx={style}>
+                  <Box sx={style} className="modal-box">
                     <div className="flex flex-col gap-y-6">
-                      <Typography
+                      {/* <Typography
                         id="modal-modal-title"
                         variant="h6"
                         component="h2"
                       >
                         Do you really want to cancel this booking?
-                      </Typography>
-                      <div className="flex ">
+                      </Typography> */}
+                      <div className="font-bold text-lg text-center">
+                        
+                        Cancelling Reservation
+                      </div>
+                
+                      <div className="text-sm">
+                        Are you sure to cancel this reservation?
+                      </div>
+                      <div className="flex gap-5">
+                        
+                        <button
+                          className="bordered-button w-full"
+                          onClick={handleClose}
+                        >
+                          No
+                        </button>
                         <button
                           className="danger-button w-full"
                           onClick={cancelReservation}
                         >
                           Yes
-                        </button>
-                        <button
-                          className="primary-button w-full"
-                          onClick={handleClose}
-                        >
-                          No
                         </button>
                       </div>
                     </div>
