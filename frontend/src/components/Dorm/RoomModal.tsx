@@ -90,7 +90,7 @@ export default function RoomModal({
               })}
           </div>
         </div>
-        <div className="text-xs">{description}</div>
+        <div className="whitespace-pre-line text-sm">{description}</div>
         {/* <div className="flex items-center gap-2">
           <MdNotes />
           <span className="font-bold">Description</span> : {description}
