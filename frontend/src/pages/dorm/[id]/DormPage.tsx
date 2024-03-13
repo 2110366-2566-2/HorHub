@@ -78,7 +78,7 @@ export default function DormPage({ isEdit }: { isEdit: boolean }) {
                 )
                 .map((fac, idx) => {
                   return (
-                    <div className="w-60 border border-slate-300 px-3 py-2 rounded-md flex gap-2 hover:bg-indigo-50 transition-colors">
+                    <div key={fac.value} className="w-60 border border-slate-300 px-3 py-2 rounded-md flex gap-2 hover:bg-indigo-50 transition-colors">
                       {fac.label}
                     </div>
                   );
@@ -92,6 +92,7 @@ export default function DormPage({ isEdit }: { isEdit: boolean }) {
               {dormData.roomTypes.map((obj) => {
                 return (
                   <RoomCard
+                    key={obj.id}
                     dormId={id || ""}
                     roomId={obj.id}
                     name={obj.name}
@@ -117,7 +118,7 @@ export default function DormPage({ isEdit }: { isEdit: boolean }) {
           {/* <div className="font-bold">Dorm Image</div> */}
           <div className="flex flex-col gap-3">
             {dormData.images.map((url) => {
-              return <img src={url}></img>;
+              return <img key={url} src={url}></img>;
             })}
           </div>
         </div>

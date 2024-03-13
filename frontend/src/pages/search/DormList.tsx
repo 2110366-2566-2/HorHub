@@ -198,6 +198,7 @@ function DormList(){
             .map((data) => {
                 return (
                 <DormCard
+                    key={data.id}
                     id={data.id}
                     title={data.name}
                     image={
