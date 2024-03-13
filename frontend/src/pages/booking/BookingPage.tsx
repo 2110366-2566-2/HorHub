@@ -56,7 +56,7 @@ const BookingPage = () => {
         }
 
         setAllowSubmit(false)
-        const price = Number(Number(((+(new Date(watchEndAt.toString())) - +(new Date(watchStartAt.toString()))) / (1000 * 60 * 60 * 24) + 1)/30 * roomData.cost).toFixed(2))
+        const price = Number((Math.ceil(Number(((+(new Date(watchEndAt.toString())) - +(new Date(watchStartAt.toString()))) / (1000 * 60 * 60 * 24) + 1)/30 * roomData.cost)*100)/100).toFixed(2))
 
         try {
             const result = await fetch(process.env.REACT_APP_BACKEND_URL + "/bookings",{
@@ -197,7 +197,7 @@ const BookingPage = () => {
                                         <td className="font-bold text-right">
                                             ฿
                                             {
-                                                (!watchStartAt || !watchEndAt || watchStartAt > watchEndAt || errors.startAt || errors.endAt) ? Number(0).toFixed(2) : Number(((+(new Date(watchEndAt.toString())) - +(new Date(watchStartAt.toString()))) / (1000 * 60 * 60 * 24) + 1)/30 * roomData.cost).toFixed(2)
+                                                (!watchStartAt || !watchEndAt || watchStartAt > watchEndAt || errors.startAt || errors.endAt) ? Number(0).toFixed(2) : (Math.ceil(Number(((+(new Date(watchEndAt.toString())) - +(new Date(watchStartAt.toString()))) / (1000 * 60 * 60 * 24) + 1)/30 * roomData.cost)*100)/100).toFixed(2)
                                             }
                                         </td>
                                     </tr>
