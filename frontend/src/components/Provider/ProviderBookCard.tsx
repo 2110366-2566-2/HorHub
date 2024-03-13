@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { BookingProviderType, BookingType } from "../../lib/type/Booking";
-import { FaRegClock } from "react-icons/fa";
+import { FaPhoneAlt, FaRegClock } from "react-icons/fa";
 import { FiBookOpen } from "react-icons/fi";
+import { TbGenderBigender } from "react-icons/tb";
 import { Bounce, toast } from "react-toastify";
 import BookingStatusBadge from "../Booking/BookingStatusBadge";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
+import { Avatar } from "@mui/material";
 
 const style = {
   position: "absolute" as "absolute",
@@ -54,15 +56,21 @@ const ProviderBookCard = ({ data }: { data: BookingProviderType }) => {
     <div className="card w-full md:w-3/4 bg-base-200 shadow-lg border border-slate-300">
       <div className="card-body py-4 flex flex-row">
         <div className="w-[80%] flex flex-col gap-2">
-          <p className="card-title text-sm w-fit">
-            {data.customer.displayName}
+          <p className="card-title text-sm w-fit font-bold">
+            {data.customer.displayName} <span className="font-normal">({data.customer.firstName} {data.customer.lastName})</span>
           </p>
-
-          <p className="text-xs">
-            Full name : {data.customer.firstName} {data.customer.lastName} ,
-            Gender :{data.customer.gender}, PhoneNumber :
-            {data.customer.phoneNumber}
-          </p>
+          <div className="flex gap-3 items-center text-xs">
+            <TbGenderBigender />
+            <div>
+              Gender: {data.customer.gender}
+            </div>
+          </div>
+          <div className="flex gap-3 items-center text-xs">
+            <FaPhoneAlt />
+            <div>
+              Phone: {data.customer.phoneNumber}
+            </div>
+          </div>
           <div className="flex gap-3 items-center text-xs">
             <FaRegClock />
             <div>
@@ -73,7 +81,7 @@ const ProviderBookCard = ({ data }: { data: BookingProviderType }) => {
           <div className="flex gap-3 items-center text-xs">
             <FiBookOpen />
             <div>
-              You booked at {new Date(data.bookAt.toString()).toDateString()}
+              Booked at {new Date(data.bookAt.toString()).toDateString()}
             </div>
           </div>
         </div>

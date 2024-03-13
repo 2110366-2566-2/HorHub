@@ -71,7 +71,7 @@ export default function ProviderBookingLayout() {
   if (isNotFound) return <NotFoundPage />;
   if (!rooms) return <LoadingPage />;
   return (
-    <div>
+    <div className="px-3 py-3">
       <Box sx={{ minWidth: 120 }}>
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Select Room</InputLabel>
