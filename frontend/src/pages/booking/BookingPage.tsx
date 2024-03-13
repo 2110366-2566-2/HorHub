@@ -11,12 +11,15 @@ import TextInput from '../../components/Form/TextInput';
 import { Bounce, toast } from 'react-toastify';
 
 const schema = z.object({
-    startAt: z.coerce.date().refine((data) => data > new Date(), { message: "This should not be before tomorrow" }),
+    startAt: z.coerce.date().refine((data) => data > new Date(), { message: "This should not be before tomorrow" }).refine((data) => (+(new Date(data.toString())) - +(new Date())) / (1000 * 60 * 60 * 24) <= 366, {message: "You can reserve in advance at most 1 year"}),
     endAt: z.coerce.date()
 }).refine((data) => data.startAt <= data.endAt, {
     path: ['endAt'],
     message: 'This should be after or at starting date'
-  })
+}).refine((data) => (+(new Date(data.endAt.toString())) - +(new Date(data.startAt.toString())))/ (1000 * 60 * 60 * 24) <= 366, {
+    path: ['endAt'],
+    message: 'You can reserve at most 1 year'
+})
 
 type ValidationSchemaType = z.infer<typeof schema>;
 
@@ -176,22 +179,24 @@ const BookingPage = () => {
                             <table className="table table-sm">
                                 <tbody>
                                     <tr>
-                                        <td>Price per month (baht)</td>
-                                        <td className="text-right">{Number(roomData.cost).toFixed(2)}</td>
+                                        <td>Price per month</td>
+                                        <td className="text-right">฿{Number(roomData.cost).toFixed(2)}</td>
                                     </tr>
                                     <tr>
                                         <td>Duration (days)</td>
                                         <td className="text-right">
+                                        
                                             {
-                                                (!watchStartAt || !watchEndAt || watchStartAt > watchEndAt) ? 0 : (+(new Date(watchEndAt.toString())) - +(new Date(watchStartAt.toString()))) / (1000 * 60 * 60 * 24) + 1
+                                                (!watchStartAt || !watchEndAt || watchStartAt > watchEndAt || errors.startAt || errors.endAt) ? 0 : (+(new Date(watchEndAt.toString())) - +(new Date(watchStartAt.toString()))) / (1000 * 60 * 60 * 24) + 1
                                             }
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td className="font-bold">Total (baht)</td>
+                                        <td className="font-bold">Total</td>
                                         <td className="font-bold text-right">
+                                            ฿
                                             {
-                                                (!watchStartAt || !watchEndAt || watchStartAt > watchEndAt) ? 0 : Number(((+(new Date(watchEndAt.toString())) - +(new Date(watchStartAt.toString()))) / (1000 * 60 * 60 * 24) + 1)/30 * roomData.cost).toFixed(2)
+                                                (!watchStartAt || !watchEndAt || watchStartAt > watchEndAt || errors.startAt || errors.endAt) ? Number(0).toFixed(2) : Number(((+(new Date(watchEndAt.toString())) - +(new Date(watchStartAt.toString()))) / (1000 * 60 * 60 * 24) + 1)/30 * roomData.cost).toFixed(2)
                                             }
                                         </td>
                                     </tr>
