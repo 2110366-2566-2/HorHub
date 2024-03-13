@@ -1,16 +1,13 @@
 import { Link } from "react-router-dom";
+import { IoMdAddCircle } from "react-icons/io";
 
 export default function AddRoomCard() {
   return (
-    <div className="card bg-slate-300 w-96 shadow-xl ">
-      <div className="card-body">
-        <div className="card-title">Add new room</div>
-        <div className="card-actions justify-end">
-          <Link className={"primary-button"} to={"../rooms/create"}>
-            +
-          </Link>
-        </div>
+    <Link to={"../rooms/create"} className="card bg-slate-100 hover:bg-slate-200 w-96 shadow-xl transition-colors">
+      <div className="card-body flex flex-col items-center">
+        <IoMdAddCircle className="w-8 h-8 text-black"/>
+        <div className="card-title font-bold text-base text-black">Add New Room</div>
       </div>
-    </div>
+    </Link>
   );
 }
