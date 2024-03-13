@@ -4,6 +4,7 @@ import ImageUploading, {
   ImageType,
 } from "react-images-uploading";
 import DeleteButton from "./Button/DeleteButton";
+import { CiImageOn } from "react-icons/ci";
 
 type FormFieldProps = {
   fieldName: string;
@@ -62,7 +63,8 @@ const ImagesInput = ({
               {...dragProps}
             >
               {imageList.length == 0 && (
-                <div className="flex w-full justify-center items-center text-center text-slate-700">
+                <div className="flex flex-col w-full justify-center items-center text-center text-slate-700">
+                  <CiImageOn className="w-8 h-8 text-slate-700"/>
                   Click on the button or drop images here to upload
                 </div>
               )}
