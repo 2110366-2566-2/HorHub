@@ -140,7 +140,21 @@ function DormList(){
           setMaxPrice={setMaxPrice}
           setSorter={setSorter}
         />
+        {
+              (dormsData.filter((data) => {
+                if (minPrice !== 0) {
+                  if (data.roomTypes.length === 0) {
+                    return false
+                  }
+                }
+                return true
+              }).length === 0) && <div className="w-full h-full flex flex-col justify-center items-center py-4 text-base font-bold">
+                No dorm found...
+                {/* <div className="loader"></div> */}
+              </div>
+        }
         <ul className="grid max-w-[26rem] sm:max-w-[52.5rem] mt-[2rem] mb-[4rem] grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto gap-6 lg:gap-y-8 xl:gap-x-8 lg:max-w-7xl px-4 sm:px-6 lg:px-8">
+            
             {dormsData
             .sort((a: Dorm, b: Dorm) => {
                 if (sorter === "cheapest") {
@@ -172,6 +186,14 @@ function DormList(){
                 }
                 return 0
 
+            })
+            .filter((data) => {
+              if (minPrice !== 0) {
+                if (data.roomTypes.length === 0) {
+                  return false
+                }
+              }
+              return true
             })
             .map((data) => {
                 return (

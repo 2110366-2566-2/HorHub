@@ -105,7 +105,7 @@ function SearchDorm({
                             <text className="text-sm font-bold text-indigo-800">Sort by</text>
                             <div className="join">
                                 <button type="button" className={"join-item " + ((sorter === "cheapest") ? "indigo-button-xs" : "white-button-xs")} onClick={() => setSorter("cheapest")}>Cheapest</button>
-                                <button type="button" className={"join-item " + ((sorter === "mostexpensive") ? "indigo-button-xs" : "white-button-xs")} onClick={() => setSorter("mostexpensive")}>Most Expensive</button>
+                                {/* <button type="button" className={"join-item " + ((sorter === "mostexpensive") ? "indigo-button-xs" : "white-button-xs")} onClick={() => setSorter("mostexpensive")}>Most Expensive</button> */}
                                 <button type="button" className={"join-item " + ((sorter === "nearest") ? "indigo-button-xs" : "white-button-xs")} onClick={() => setSorter("nearest")}>Nearest</button>
                             </div>
                         </div>
