@@ -35,6 +35,7 @@ import ProviderDashboardLayout from "./pages/provider/dorm/ProviderDashboardLayo
 import ProviderBookingLayout from "./pages/provider/dorm/ProviderBookingLayout";
 import BookPage from "./pages/provider/dorm/reservation/BookPage";
 import DormList from "./pages/search/DormList";
+import ChatPage from "./pages/chat/ChatPage";
 
 function App() {
   return (
@@ -126,6 +127,8 @@ function App() {
             <Route path="verify/:id" element={<AccVerifyTempPage />} />
 
             <Route path="bookings" element={<BookingListPage />} />
+
+            <Route path="chat" element={<ChatPage />} />
 
             <Route path="/*" element={<NotFoundPage />} />
           </Routes>
