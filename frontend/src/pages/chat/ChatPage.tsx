@@ -4,6 +4,7 @@ import LoadingPage from '../etc/LoadingPage'
 import NotFoundPage from '../etc/NotFoundPage'
 import ChatSearchBox from '../../components/Chat/ChatSearchBox'
 import ChatListElement from '../../components/Chat/ChatListElement'
+import ChatPanel from '../../components/Chat/ChatPanel/ChatPanel'
 
 const ChatPage = () => {
 
@@ -26,11 +27,23 @@ const ChatPage = () => {
                     <ChatListElement />
                     <ChatListElement />
                     <ChatListElement />
+                    <ChatListElement />
+                    <ChatListElement />
+                    <ChatListElement />
+                    <ChatListElement />
+                    <ChatListElement />
+                    <ChatListElement />
+                    <ChatListElement />
+                    <ChatListElement />
+                    <ChatListElement />
+                    <ChatListElement />
+                    <ChatListElement />
+                    <ChatListElement />
                 </div>
             </div>
         </div>
-        <div className="h-full w-3/4flex flex-col">
-            Chat Box
+        <div className="h-full w-3/4 flex flex-col">
+            <ChatPanel />
         </div>
     </div>
     )
