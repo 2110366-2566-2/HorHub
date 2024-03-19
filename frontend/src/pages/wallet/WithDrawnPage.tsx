@@ -31,8 +31,9 @@ function WithDrawnPage(){
         }
          useEffect(() => {
         initData()
-    },[])
+    },[isLoading])
         useAuthRedirect();
+    if(isLoading) return <LoadingPage />
     if(!currentUser) return <LoadingPage />
     console.log(bank)
 return  <div className="w-full h-[calc(100vh-7rem)] flex flex-row px-20">
