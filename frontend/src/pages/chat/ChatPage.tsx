@@ -3,6 +3,7 @@ import { useUser } from '../../lib/context/UserContext'
 import LoadingPage from '../etc/LoadingPage'
 import NotFoundPage from '../etc/NotFoundPage'
 import ChatSearchBox from '../../components/Chat/ChatSearchBox'
+import ChatListElement from '../../components/Chat/ChatListElement'
 
 const ChatPage = () => {
 
@@ -17,6 +18,16 @@ const ChatPage = () => {
     <div className="w-full h-[calc(100vh-7rem)] flex">
         <div className="h-full w-1/4 flex flex-col border-r border-slate-200">
             <ChatSearchBox value={searchName} onChange={(e) => {setSearchName(e.target.value)}} />
+            <div className="w-full h-full overflow-y-auto">
+                <div className="flex flex-col flex-nowarp">
+                    <ChatListElement />
+                    <ChatListElement />
+                    <ChatListElement />
+                    <ChatListElement />
+                    <ChatListElement />
+                    <ChatListElement />
+                </div>
+            </div>
         </div>
         <div className="h-full w-3/4flex flex-col">
             Chat Box
