@@ -56,7 +56,7 @@ function MenuBar() {
                     menuList.map((data, idx) => {
                         if (!data.allow || !currentUser) {
                             return (
-                                <li key={idx}>
+                                <li key={data.name}>
                                     <button 
                                         className="w-full flex items-center hover:bg-slate-100"
                                         onClick={data.onClick}>
@@ -69,7 +69,7 @@ function MenuBar() {
                         if (data.allow === "Customer") {
                             if (currentUser.role === "Customer") {
                                 return (
-                                    <li key={idx}>
+                                    <li key={data.name}>
                                         <button 
                                             className="w-full flex items-center hover:bg-slate-100"
                                             onClick={data.onClick}>
@@ -87,7 +87,7 @@ function MenuBar() {
                         else if (data.allow === "Provider") {
                             if (currentUser.role === "Provider") {
                                 return (
-                                    <li key={idx}>
+                                    <li key={data.name}>
                                         <button 
                                             className="w-full flex items-center hover:bg-slate-100"
                                             onClick={data.onClick}>

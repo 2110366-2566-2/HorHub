@@ -444,6 +444,20 @@ router.get(
       if (user.id !== dormRes.providerId) {
         return res.status(401).send("Not allow");
       }
+
+          // Update outdated status
+      const updateRes = await db.booking.updateMany({
+        where: {
+          status: "Pending",
+          startAt: {
+            lte: new Date()
+          }
+        },
+        data: {
+          status: "Cancelled"
+        }
+      })
+
       const bookRes = await db.roomType.findUnique({
         where: { id: roomtypeId },
         select: {

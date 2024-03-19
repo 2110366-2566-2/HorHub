@@ -31,7 +31,7 @@ function SearchDorm({
             <div className="w-full flex flex-col bg-indigo-100 z-10">
                 <ul className="flex gap-8 items-center w-[70%] h-full px-8 py-4">
                     <li><IoIosSearch className="text-2xl text-indigo-600"/></li>
-                    <li><text className="text-xl text-indigo-600 font-bold">Search Dorm</text></li>
+                    <li><div className="text-xl text-indigo-600 font-bold">Search Dorm</div></li>
                 </ul>
                 <ul className="flex gap-8 items-center h-full px-8 py-4">
                     <form className="w-[90%] mx-auto space-y-4">
@@ -76,7 +76,7 @@ function SearchDorm({
                             </div>
                         </div>
                         <div className="relative flex flex-row justify-start items-center"> 
-                            <div className="relative flex flex-col w-[15%]">
+                            <div className="relative flex flex-col w-[18%]">
                                 <div className="absolute inset-y-0 start-0 flex items-center ps-2 pe-1 pointer-events-none border-indigo-100">
                                     <MdOutlineMonetizationOn className="text-xl font-bold text-indigo-600"/>
                                 </div>    
@@ -88,9 +88,9 @@ function SearchDorm({
                                     onChange={(e) => setMinPrice(Number(Math.max(Number(e.target.value), 0)))}    
                                 />
                             </div>
-                            <div className="relative flex flex-col w-[15%]">
+                            <div className="relative flex flex-col w-[18%]">
                                 <div className="absolute inset-y-0 start-0 flex items-center ps-2 pe-1 pointer-events-none border-indigo-100">
-                                    <text className="text-sm font-bold text-indigo-800">to</text>
+                                    <div className="text-sm font-bold text-indigo-800">to</div>
                                 </div>    
                                 <input 
                                     type="number" 
@@ -102,7 +102,7 @@ function SearchDorm({
                             </div>
                         </div>
                         <div className="relative flex flex-row gap-4 items-center">
-                            <text className="text-sm font-bold text-indigo-800">Sort by</text>
+                            <div className="text-sm font-bold text-indigo-800">Sort by</div>
                             <div className="join">
                                 <button type="button" className={"join-item " + ((sorter === "cheapest") ? "indigo-button-xs" : "white-button-xs")} onClick={() => setSorter("cheapest")}>Cheapest</button>
                                 {/* <button type="button" className={"join-item " + ((sorter === "mostexpensive") ? "indigo-button-xs" : "white-button-xs")} onClick={() => setSorter("mostexpensive")}>Most Expensive</button> */}

@@ -6,6 +6,7 @@ import NotFoundPage from "../etc/NotFoundPage";
 import { BookingType } from "../../lib/type/Booking";
 import BookingCard from "../../components/Booking/BookingCard";
 import useAuthRedirect from "../../lib/authRedirect";
+import { IoWarningOutline } from "react-icons/io5";
 
 const BookingListPage = () => {
   const { currentUser, isLoading } = useUser();
@@ -84,6 +85,14 @@ const BookingListPage = () => {
         <Tab options={tabOptions} />
       </div>
       <div className="w-full flex flex-col py-6 items-center gap-3">
+        {
+          (tabState === "current") && <div className="card w-full md:w-3/4 shadow-lg border border-indigo-600 bg-indigo-100 text-indigo-600">
+            <div className="card-body py-4 flex flex-row items-center gap-2">
+              <IoWarningOutline className="w-5 h-5" />
+              <div className="text-sm font-bold">Please make a payment before starting date or your reservation <span className="text-red-700">will be cancelled</span> automatically!</div>
+            </div>
+          </div>
+        }
         {bookingsData
           .filter((value) => {
             if (tabState === "current") {
