@@ -8,6 +8,7 @@ import testRouter from "./routes/test.routes";
 import authRouter from "./routes/auth.routes";
 import userRouter from "./routes/user.routes";
 import dormRouter from "./routes/dorm.routes";
+import chatRouter from "./routes/chat.routes";
 import bookingRouter from "./routes/booking.routes"
 import cookieParser from "cookie-parser";
 
@@ -33,6 +34,7 @@ app.use('/users', userRouter)
 app.use('/mails', mailRouter)
 app.use('/dorms', dormRouter)
 app.use('/bookings', bookingRouter)
+app.use('/chats', chatRouter)
 
 
 
