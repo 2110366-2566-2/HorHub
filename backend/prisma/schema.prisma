@@ -24,6 +24,9 @@ model User {
   dorms       Dorm[]   @relation("ownDorm")
   payments    Payment[]   @relation("makePayment")
   bookings    Booking[]   @relation("makeReserve")
+  chatA       Chat[]      @relation("joinChatAsParticipantA")
+  chatB       Chat[]      @relation("joinChatAsParticipantB")
+  myMessages  Message[]   @relation("sendMessage")
 }
 
 model PaymentMethod {
@@ -84,6 +87,31 @@ model Payment {
   userId      String    @db.ObjectId
   cost        Float
   payAt       DateTime  @default(now())
+}
+
+model Chat {
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  participantA    User      @relation("joinChatAsParticipantA", fields: [participantAId], references: [id], onDelete: Cascade)
+  participantAId  String    @db.ObjectId
+  participantB    User      @relation("joinChatAsParticipantB", fields: [participantBId], references: [id], onDelete: Cascade)
+  participantBId  String    @db.ObjectId
+  participantAUnread    Int     @default(0)
+  participantBUnread    Int     @default(0)
+  messages        Message[] @relation("containMessages")
+}
+
+model Message {
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  chat            Chat          @relation("containMessages", fields: [chatId], references: [id], onDelete: Cascade)
+  chatId          String        @db.ObjectId
+  sender          User          @relation("sendMessage", fields: [senderId], references: [id], onDelete: Cascade)
+  senderId        String        @db.ObjectId
+  type            MessageType
+  text            String?
+  pictures        String[]
+  latitude        Float?
+  longitude       Float?    
+  sentAt          DateTime      @default(now())
 }
 
 
@@ -152,4 +180,9 @@ enum BookingStatus {
   InProcess
   Completed
   Cancelled
+}
+
+enum MessageType {
+  TextImage
+  TextLocation
 }
