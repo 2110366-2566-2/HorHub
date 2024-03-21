@@ -2,8 +2,9 @@ import React from "react";
 import LoginButton from "./LoginButton";
 import { Link, useLocation } from "react-router-dom";
 import { useUser } from "../../lib/context/UserContext";
-import { Avatar } from "@mui/material";
+import { Avatar, Tooltip } from "@mui/material";
 import MenuBar from "./MenuBar";
+import { AiFillMessage } from "react-icons/ai";
 
 const NavigationBar = () => {
   const { currentUser, isLoading, fetchUser } = useUser();
@@ -53,16 +54,23 @@ const NavigationBar = () => {
             </li> */}
       </ul>
       <div className="flex items-center gap-5 w-[30%] h-full justify-end">
+        
         {!isLoading && !currentUser && (
           <>
-            <Link to="/register" className="secondary-button">
-              Sign Up
-            </Link>
+            <Tooltip title="Chats">
+              <Link to="/register" className="secondary-button">
+                Sign Up
+              </Link>
+            </Tooltip>
+
             <LoginButton />
           </>
         )}
         {!isLoading && currentUser && (
           <>
+            <Link to="/chats" className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-indigo-50 transition-colors">
+              <AiFillMessage className="text-indigo-600 w-6 h-6" />
+            </Link>
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
