@@ -13,7 +13,7 @@ const ChatMessageSendBox = ({ chatId }: { chatId: string }) => {
   
   function submitText(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    if (!currentUser) {
+    if (!currentUser || text.length === 0) {
       return
     }
     socket.emit(`chats:sendMessage`, {
