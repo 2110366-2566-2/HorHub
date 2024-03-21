@@ -15,6 +15,7 @@ const ChatPage = () => {
     if (isLoading) return <LoadingPage />
     if (!currentUser) return <NotFoundPage />
 
+
     return (
     <div className="w-full h-[calc(100vh-7rem)] flex">
         <div className="h-full w-1/4 flex flex-col border-r border-slate-200">

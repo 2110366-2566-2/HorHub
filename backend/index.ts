@@ -11,22 +11,35 @@ import dormRouter from "./routes/dorm.routes";
 import chatRouter from "./routes/chat.routes";
 import bookingRouter from "./routes/booking.routes"
 import cookieParser from "cookie-parser";
+import { Server } from 'socket.io';
+import { createServer } from "http";
 
 // dotenv.config();
 
 dotenv.config();
 
 const app: Express = express();
+
 const port = process.env.PORT || 3001;
 
 app.use(cors({
   origin : process.env.FRONTEND_URL,
   credentials : true
 }))
+
+
 app.use(cookieParser());
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}))
 app.use(express.json())
 //app.use(express.urlencoded());
+
+const server = createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: "http://localhost:3000",
+        credentials: true
+    },
+});
 
 app.use('/', testRouter)
 app.use('/auth', authRouter)
@@ -74,11 +87,6 @@ app.get("/", async (req: Request, res: Response) => {
   res.send("Hello, this is backend!");
 });
 
-app.get("/temp",async (req: Request, res: Response) => {
-  // console.log(req.cookies);
-  res.send("Hello, this is backend!");
-})
-
 app.post("/login",loginMiddleware,(req : Request,res : Response) => {
     const payload = {
       user : req.body.username,
@@ -87,7 +95,20 @@ app.post("/login",loginMiddleware,(req : Request,res : Response) => {
     res.send("Login");
 });
 
-app.listen(port, () => {
+
+// ----------------------------------------------------------------
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+
+  
+})
+
+server.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });
 
