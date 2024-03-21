@@ -105,7 +105,11 @@ io.on('connection', (socket) => {
     console.log('user disconnected');
   });
 
-  
+  socket.on('chats:sendMessage', async (message) => {
+    console.log(message)
+  })
+
+
 })
 
 server.listen(port, () => {

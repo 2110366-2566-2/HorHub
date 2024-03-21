@@ -2,14 +2,27 @@ import React, { useState } from 'react'
 import { FaImage } from 'react-icons/fa'
 import { FaLocationDot } from 'react-icons/fa6'
 import { IoIosSend } from 'react-icons/io'
+import { socket } from '../../../lib/socket'
+import { useUser } from '../../../lib/context/UserContext'
 
-const ChatMessageSendBox = () => {
+const ChatMessageSendBox = ({ chatId }: { chatId: string }) => {
+
+  const {currentUser, isLoading} = useUser()
 
   const [text, setText] = useState<string>("")
   
   function submitText(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    alert(text)
+    if (!currentUser) {
+      return
+    }
+    socket.emit(`chats:sendMessage`, {
+      senderId: currentUser.id,
+      chatId: chatId,
+      type: "Text",
+      text: text,
+      sentAt: new Date()
+    })
   }
 
   return (

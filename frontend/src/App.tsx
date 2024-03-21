@@ -128,7 +128,8 @@ function App() {
 
             <Route path="bookings" element={<BookingListPage />} />
 
-            <Route path="chat" element={<ChatPage />} />
+            <Route path="chats" element={<ChatPage />} />
+            <Route path="chats/:chatId" element={<ChatPage />} />
 
             <Route path="/*" element={<NotFoundPage />} />
           </Routes>

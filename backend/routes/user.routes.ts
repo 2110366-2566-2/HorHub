@@ -344,6 +344,55 @@ router.get("/:id/bookings", authenticateToken, authenticateCustomer, async (req,
   }
 })
 
+router.get("/:id/chats", authenticateToken, async (req, res) => {
+  const { id } = req.params
+
+  if (id.length != 24 || /[0-9A-Fa-f]{24}/g.test(id) === false) {
+      return res.status(404).send("No user found")
+  }
+
+  try {
+    const chatsRes = await db.chat.findMany({
+      where: {
+        OR: [
+          {
+            participantAId: id,
+          },
+          {
+            participantBId: id
+          }
+        ]
+      },
+      include: {
+        participantA: {
+          select: {
+            id: true,
+            displayName: true,
+            imageURL: true
+          }
+        },
+        participantB: {
+          select: {
+            id: true,
+            displayName: true,
+            imageURL: true
+          }
+        }
+      },
+      orderBy: {
+        lastUpdated: "desc"
+      }
+    })
+
+    return res.send(chatsRes)
+
+
+
+  } catch (err) {
+    return res.status(400).send(err)
+  }
+
+})
 
 // ===================================== NINE will try his best
 const sendMail = async (

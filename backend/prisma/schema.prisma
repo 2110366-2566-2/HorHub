@@ -98,6 +98,7 @@ model Chat {
   participantAUnread    Int     @default(0)
   participantBUnread    Int     @default(0)
   messages        Message[] @relation("containMessages")
+  lastUpdated     DateTime  @default(now())
 }
 
 model Message {

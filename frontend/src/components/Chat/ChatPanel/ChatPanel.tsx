@@ -1,20 +1,82 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import ChatTitle from './ChatTitle'
 import ChatMessageSendBox from './ChatMessageSendBox'
 import ChatMessagePane from './ChatMessagePane'
 import { socket } from '../../../lib/socket'
+import { useParams } from 'react-router-dom'
+import { useUser } from '../../../lib/context/UserContext'
+import { Chat, Message } from '../../../lib/type/Chat'
 
 const ChatPanel = () => {
+  let { chatId } = useParams();
+
+  const {currentUser, isLoading} = useUser()
+
+  const [isFetching, setFetching] = useState<boolean>(true)
+  const [isInvalid, setInvalid] = useState<boolean>(false)
+
+  const [chatRoom, setChatRoom] = useState<Chat>()
+  const [messages, setMessages] = useState<Message[]>([])
+
+
+  async function initRoom() {
+    setFetching(true)
+    if (!currentUser) return
+
+    try {
+      const res = await fetch(process.env.REACT_APP_BACKEND_URL + "/chats/" + chatId, {
+        method: "GET",
+         credentials: "include"
+      })
+      if (res.ok) {
+        const data = await res.json()
+          
+        setChatRoom(data)
+        setMessages(data.messages)
+
+        console.log(data)
+
+        setFetching(false)
+
+      }
+      else {
+        setInvalid(true)
+        setFetching(false)
+      }
+    }
+    catch (err) {
+      setInvalid(true)
+      setFetching(false)
+    }        
+  }
+
+  function addMessage(newMessage: Message) {
+    const newMessages = [...messages, newMessage]
+    setMessages(newMessages)
+  }
+
 
   useEffect(() => {
-    socket.on('connection', () => console.log('socket connected'))
+    initRoom()
+  }, [isLoading])
+
+  useEffect(() => {
+    socket.on(`chats:${chatId}:addMessage`, (e) => console.log(e))
   }, [])
+
+  if (!currentUser || !chatRoom || isInvalid) {
+    return <></>
+  }
 
   return (
     <div className="w-full h-full flex flex-col justify-between">
-        <ChatTitle />
-        <ChatMessagePane />
-        <ChatMessageSendBox />
+        <ChatTitle chat={chatRoom} />
+        <ChatMessagePane
+          myUser={(currentUser.id === chatRoom.participantA.id) ? chatRoom.participantA : chatRoom.participantB}
+          anotherUser={(currentUser.id === chatRoom.participantA.id) ? chatRoom.participantB : chatRoom.participantA}
+          messages={messages}
+        />
+        <ChatMessageSendBox chatId={chatId || ""} />
     </div>
   )
 }
