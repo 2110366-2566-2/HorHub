@@ -13,6 +13,8 @@ import bookingRouter from "./routes/booking.routes"
 import cookieParser from "cookie-parser";
 import { Server } from 'socket.io';
 import { createServer } from "http";
+import { Message } from "@prisma/client";
+import { db } from "./lib/db";
 
 // dotenv.config();
 
@@ -105,8 +107,29 @@ io.on('connection', (socket) => {
     console.log('user disconnected');
   });
 
-  socket.on('chats:sendMessage', async (message) => {
+  socket.on('chats:sendMessage', async (message: Message) => {
     console.log(message)
+    try {
+      
+      const createMessage = await db.message.create({
+        data: message
+      })
+  
+      const updateTimeChat = await db.chat.update({
+        where: {
+          id: message.chatId
+        },
+        data: {
+          lastUpdated: message.sentAt
+        }
+      })
+  
+      io.emit(`chats:${message.chatId}:addMessage`, message)
+
+    } catch (err) {
+      console.log(err)
+    }
+
   })
 
 

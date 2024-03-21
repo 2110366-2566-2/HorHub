@@ -23,6 +23,7 @@ const ChatMessageSendBox = ({ chatId }: { chatId: string }) => {
       text: text,
       sentAt: new Date()
     })
+    setText("")
   }
 
   return (

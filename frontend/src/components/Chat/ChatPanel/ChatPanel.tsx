@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ChatTitle from './ChatTitle'
 import ChatMessageSendBox from './ChatMessageSendBox'
 import ChatMessagePane from './ChatMessagePane'
@@ -18,11 +18,13 @@ const ChatPanel = () => {
   const [chatRoom, setChatRoom] = useState<Chat>()
   const [messages, setMessages] = useState<Message[]>([])
 
+  
+
 
   async function initRoom() {
-    setFetching(true)
+    
     if (!currentUser) return
-
+    setFetching(true)
     try {
       const res = await fetch(process.env.REACT_APP_BACKEND_URL + "/chats/" + chatId, {
         method: "GET",
@@ -30,7 +32,7 @@ const ChatPanel = () => {
       })
       if (res.ok) {
         const data = await res.json()
-          
+
         setChatRoom(data)
         setMessages(data.messages)
 
@@ -60,9 +62,21 @@ const ChatPanel = () => {
     initRoom()
   }, [isLoading])
 
+  // useEffect(() => {
+  //   setMessages([])
+  // }, [chatId])
+
   useEffect(() => {
-    socket.on(`chats:${chatId}:addMessage`, (e) => console.log(e))
-  }, [])
+    socket.on(`chats:${chatId}:addMessage`, (message) => addMessage(message))
+    
+    return function cleanup() {
+      socket.off(`chats:${chatId}:addMessage`)
+    };
+  }, [messages, chatId])
+
+  // useEffect(() => {
+  //   console.log(messages)
+  // }, [messages])
 
   if (!currentUser || !chatRoom || isInvalid) {
     return <></>

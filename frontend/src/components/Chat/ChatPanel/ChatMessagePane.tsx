@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import ChatMessage from './ChatMessage/ChatMessage'
 import { Message } from '../../../lib/type/Chat'
 
@@ -18,12 +18,31 @@ type ChatMessagePanelProps = {
 
 
 const ChatMessagePane = ({ myUser, anotherUser, messages }: ChatMessagePanelProps) => {
+
+  const messagesEndRef = useRef<null | HTMLDivElement>(null)
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages]);
+
+
   return (
     <div className="w-full h-full overflow-y-auto">
         <div className="w-full flex flex-col px-5 py-5 gap-3">
-            <ChatMessage side="left" />
-            <ChatMessage side="right" />
-            <ChatMessage side="left" />
+            {
+              messages.map((message, idx) => {
+                return <ChatMessage 
+                          key={idx} 
+                          side={(myUser.id === message.senderId) ? "right" : "left"} 
+                          anotherUserAvatar={anotherUser.imageURL} message={message} 
+                        />
+              })
+            }
+            <div ref={messagesEndRef} />
         </div>
     </div>
   )
