@@ -183,6 +183,7 @@ enum BookingStatus {
 }
 
 enum MessageType {
-  TextImage
-  TextLocation
+  Text
+  Images
+  Location
 }
