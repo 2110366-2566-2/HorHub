@@ -1,7 +1,50 @@
 import { Router } from "express";
+import { z } from "zod";
+import { db } from "../lib/db";
+import { authenticateToken } from "../middlewares/authToken";
 
 const router = Router();
 
+const createRoomBodySchema = z.object({
+    participantAId: z.string(),
+    participantBId: z.string()
+})
 
+router.post('/', authenticateToken, async (req, res) => {
+    const body = req.body
+
+    const parseStatus = createRoomBodySchema.safeParse(body);
+    if (!parseStatus.success) return res.status(400).send("Invalid Data");
+
+    const parsedBody = parseStatus.data;
+
+    try {   
+
+        // Check if participant Id is valid or not
+        if (parsedBody.participantAId.length != 24 || /[0-9A-Fa-f]{24}/g.test(parsedBody.participantAId) === false) {
+            return res.status(404).send("Participant A not found");
+        }
+
+        if (parsedBody.participantBId.length != 24 || /[0-9A-Fa-f]{24}/g.test(parsedBody.participantBId) === false) {
+            return res.status(404).send("Participant B not found");
+        }
+
+        if (parsedBody.participantAId === parsedBody.participantBId) {
+            return res.status(400).send("You cannot make chat with both of participants are same user")
+        }
+
+        const chatRes = await db.chat.create({
+            data: {
+                participantAId: parsedBody.participantAId,
+                participantBId: parsedBody.participantBId
+            }
+        })
+
+        return res.send(chatRes)
+
+    } catch (err) {
+        return res.status(400).send(err);
+    }
+})
 
 export default router
