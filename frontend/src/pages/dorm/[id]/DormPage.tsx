@@ -61,6 +61,7 @@ export default function DormPage({ isEdit }: { isEdit: boolean }) {
         address={dormData.address}
         contactNo={dormData.contractNumber}
         dormFacility={dormData.dormFacilities}
+        owner={dormData.provider.id}
       />
       <div className="flex flex-row p-4 md:w-4/5 w-full text-base">
         <div className="w-3/4">

@@ -143,6 +143,6 @@ server.listen(port, () => {
 });
 
 
-
+export { io }
 
 module.exports = app;

@@ -2,6 +2,7 @@ import { Router } from "express";
 import { z } from "zod";
 import { db } from "../lib/db";
 import { authenticateToken } from "../middlewares/authToken";
+import { io } from "..";
 
 const router = Router();
 
@@ -89,6 +90,26 @@ router.post('/', authenticateToken, async (req, res) => {
             return res.status(400).send("You cannot make chat with both of participants are same user")
         }
 
+        // If there is room already, send that room
+        const findOldChatRoom = await db.chat.findFirst({
+            where: {
+                OR: [
+                    {
+                        participantAId: parsedBody.participantAId,
+                        participantBId: parsedBody.participantBId
+                    },
+                    {
+                        participantAId: parsedBody.participantBId,
+                        participantBId: parsedBody.participantAId
+                    }
+                ]
+            }
+        })
+
+        if (findOldChatRoom) {
+            return res.send(findOldChatRoom)
+        }
+
         const chatRes = await db.chat.create({
             data: {
                 participantAId: parsedBody.participantAId,
@@ -96,11 +117,18 @@ router.post('/', authenticateToken, async (req, res) => {
             }
         })
 
+        io.emit(`users:${parsedBody.participantAId}:chatsUpdate`)
+        io.emit(`users:${parsedBody.participantBId}:chatsUpdate`)
+
         return res.send(chatRes)
 
     } catch (err) {
         return res.status(400).send(err);
     }
+})
+
+router.put('/:id/read', authenticateToken, async (req, res) => {
+
 })
 
 export default router

@@ -10,6 +10,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import { Avatar } from "@mui/material";
+import { useUser } from "../../lib/context/UserContext";
+import { createChat } from "../../lib/chat";
 
 const style = {
   position: "absolute" as "absolute",
@@ -25,9 +27,13 @@ const style = {
 
 const ProviderBookCard = ({ data }: { data: BookingProviderType }) => {
   const [open, setOpen] = useState<boolean>(false);
+  
+  const {currentUser} = useUser()
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
+
   async function cancelReservation() {
     try {
       const res = await fetch(
@@ -52,6 +58,17 @@ const ProviderBookCard = ({ data }: { data: BookingProviderType }) => {
       return;
     }
   }
+
+  async function handleCreateChat() {
+    if (!currentUser) return
+
+    const chatId = await createChat(data.customer.id, currentUser.id)
+
+    if (!chatId) return
+
+    navigate('/chats/' + chatId)
+  }
+
   return (
     <div className="card w-full md:w-3/4 bg-base-200 shadow-lg border border-slate-300">
       <div className="card-body py-4 flex flex-row">
@@ -90,7 +107,14 @@ const ProviderBookCard = ({ data }: { data: BookingProviderType }) => {
           <div className="grow text-sm flex items-center font-bold">
             ฿{Number(data.price).toFixed(2)}
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center gap-2">
+            {
+              (currentUser && currentUser.role === "Provider") && (
+                <button onClick={handleCreateChat} className="bordered-button-xs">
+                  Chat
+                </button>
+              )
+            }
             {data.status === "Pending" && (
               <div className="w-full flex justify-start">
                 <button onClick={handleOpen} className="danger-button-xs">

@@ -21,6 +21,7 @@ export type BookingType = {
 export const BookingProviderSchema = z.object({
   id: z.string(),
   customer: z.object({
+    id: z.string(),
     firstName: z.string(),
     lastName: z.string(),
     displayName: z.string(),

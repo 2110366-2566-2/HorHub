@@ -69,6 +69,10 @@ a {
   @apply py-1.5 px-2.5 rounded-md bg-indigo-200 hover:bg-indigo-300 text-black text-sm transition-colors
 }
 
+.bordered-button-xs {
+  @apply py-1.5 px-2.5 rounded-md border hover:bg-slate-100 text-slate-900 text-xs transition-colors
+}
+
 .checkbox-text-container{
   @apply flex items-center gap-2
 }
