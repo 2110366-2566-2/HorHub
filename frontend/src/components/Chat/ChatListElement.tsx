@@ -31,7 +31,7 @@ const ChatListElement = ({ chat, setChatRooms }: { chat: Chat, setChatRooms: Rea
               (chat.latestMessage) && <div className="text-slate-600 text-xs">{((new Date(chat.latestMessage.sentAt)).toDateString() === (new Date()).toDateString()) ? (new Date(chat.latestMessage.sentAt)).toLocaleTimeString("en-US", {hour: "2-digit", minute: "2-digit"}) : (new Date(chat.latestMessage.sentAt)).toDateString()}</div>
             }
               <div className="px-2 py-1 bg-indigo-200 text-indigo-800 font-bold rounded-full">
-                1
+                {(currentUser.id === chat.participantA.id) ? chat.participantAUnread : chat.participantBUnread}
               </div>
             </div>
         </div>
