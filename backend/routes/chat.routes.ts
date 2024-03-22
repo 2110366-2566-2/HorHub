@@ -128,7 +128,71 @@ router.post('/', authenticateToken, async (req, res) => {
 })
 
 router.put('/:id/read', authenticateToken, async (req, res) => {
+    const { id } = req.params
 
+    const user = req.body.user
+    const userId: string = user.id
+
+    try {
+
+        // Check if chat id is valid
+        if (id.length != 24 || /[0-9A-Fa-f]{24}/g.test(id) === false) {
+            return res.status(404).send("Chat not found");
+        }
+
+        // Check if user have priority to read
+        const roomRes = await db.chat.findUnique({
+            where: {
+                id: id,
+                OR: [
+                    {
+                        participantAId: userId
+                    },
+                    {
+                        participantBId: userId
+                    }
+                ]
+            }
+        })
+
+        if (!roomRes) {
+            return res.status(403).send("You don't have priority to update this chat")
+        }
+
+        if (roomRes.participantAId === userId) {
+            // Update A
+            const updateRes = await db.chat.update({
+                where: {
+                    id: id
+                },
+                data: {
+                    participantAUnread: 0
+                }
+            })
+
+            io.emit(`users:${userId}:chatsUpdate`)
+
+            return res.send(updateRes)
+        }
+        else {
+            // Update B
+            const updateRes = await db.chat.update({
+                where: {
+                    id: id
+                },
+                data: {
+                    participantBUnread: 0
+                }
+            })
+
+            io.emit(`users:${userId}:chatsUpdate`)
+
+            return res.send(updateRes)
+        }
+
+    } catch (err) {
+        return res.status(403).send(err)
+    }
 })
 
 export default router

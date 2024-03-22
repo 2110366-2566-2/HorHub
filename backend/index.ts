@@ -107,21 +107,40 @@ io.on('connection', (socket) => {
     console.log('user disconnected');
   });
 
-  socket.on('chats:sendMessage', async (message: Message, sendTo: string) => {
+  socket.on('chats:sendMessage', async (message: Message, senderSide: "A" | "B", sendTo: string) => {
     console.log(message)
     try {
       
       const createMessage = await db.message.create({
         data: message
       })
+
+      let updateData: any = {
+        lastUpdated: message.sentAt,
+      }
+
+      if (senderSide === "A") {
+        updateData = {
+          ...updateData,
+          participantBUnread: {
+            increment: 1
+          }
+        }
+      }
+      else {
+        updateData = {
+          ...updateData,
+          participantAUnread: {
+            increment: 1
+          }
+        }
+      }
   
-      const updateTimeChat = await db.chat.update({
+      const updateChat = await db.chat.update({
         where: {
           id: message.chatId
         },
-        data: {
-          lastUpdated: message.sentAt
-        }
+        data: updateData
       })
   
       io.emit(`chats:${message.chatId}:addMessage`, message)

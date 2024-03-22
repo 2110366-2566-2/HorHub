@@ -8,8 +8,9 @@ import { ImageType } from 'react-images-uploading'
 import { uploadImages } from '../../../lib/firebase'
 import ChatMessageSendImages from './ChatMessageSendImages'
 import ChatMessageSendLocation from './ChatMessageSendLocation'
+import { Chat } from '../../../lib/type/Chat'
 
-const ChatMessageSendBox = ({ chatId, sendTo }: { chatId: string, sendTo: string }) => {
+const ChatMessageSendBox = ({ chat, chatId, sendTo }: { chat: Chat, chatId: string, sendTo: string }) => {
 
   const {currentUser, isLoading} = useUser()
 
@@ -29,7 +30,7 @@ const ChatMessageSendBox = ({ chatId, sendTo }: { chatId: string, sendTo: string
       type: "Text",
       text: text,
       sentAt: new Date()
-    }, sendTo)
+    }, (chat.participantA.id === currentUser.id) ? "A" : "B", sendTo)
     setText("")
   }
 
@@ -45,7 +46,7 @@ const ChatMessageSendBox = ({ chatId, sendTo }: { chatId: string, sendTo: string
       type: "Images",
       pictures: imagesURL,
       sentAt: new Date()
-    })
+    }, (chat.participantA.id === currentUser.id) ? "A" : "B", sendTo)
   }
 
   async function submitLocation() {
@@ -60,7 +61,7 @@ const ChatMessageSendBox = ({ chatId, sendTo }: { chatId: string, sendTo: string
       latitude: latitude,
       longitude: longitude,
       sentAt: new Date()
-    })
+    }, (chat.participantA.id === currentUser.id) ? "A" : "B", sendTo)
   }
 
   return (

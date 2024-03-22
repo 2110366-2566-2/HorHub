@@ -38,6 +38,11 @@ const ChatPanel = ({ chatId }: { chatId: string }) => {
 
         console.log(data)
 
+        const readRes = await fetch(process.env.REACT_APP_BACKEND_URL + "/chats/" + chatId + "/read", {
+          method: "PUT",
+          credentials: "include"
+        })
+
         setFetching(false)
 
       }
@@ -94,7 +99,7 @@ const ChatPanel = ({ chatId }: { chatId: string }) => {
           anotherUser={(currentUser.id === chatRoom.participantA.id) ? chatRoom.participantB : chatRoom.participantA}
           messages={messages}
         />
-        <ChatMessageSendBox chatId={chatId || ""} sendTo={(currentUser.id === chatRoom.participantA.id) ? chatRoom.participantB.id : chatRoom.participantA.id} />
+        <ChatMessageSendBox chat={chatRoom} chatId={chatId || ""} sendTo={(currentUser.id === chatRoom.participantA.id) ? chatRoom.participantB.id : chatRoom.participantA.id} />
     </div>
   )
 }

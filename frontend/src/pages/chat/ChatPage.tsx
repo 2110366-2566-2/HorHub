@@ -31,11 +31,33 @@ const ChatPage = () => {
                 credentials: "include"
             })
             if (res.ok) {
-                const data = await res.json()
+                const data: Chat[] = await res.json()
+                
+                // Check if you are in sender room
+
+                const currentRoom: Chat | undefined = data.find((chat) => chat.id === chatId)
+                const currentRoomIdx: number = data.findIndex((chat) => chat.id === chatId)
+                if (currentRoom && currentRoomIdx !== -1) {
+                    if (currentUser.id === currentRoom.participantA.id && currentRoom.participantAUnread != 0) {
+                        const readRes = await fetch(process.env.REACT_APP_BACKEND_URL + "/chats/" + currentRoom.id + "/read", {
+                            method: "PUT",
+                            credentials: "include"
+                        })
+                        data[currentRoomIdx].participantAUnread = 0
+                        
+                    }
+                    else if (currentUser.id === currentRoom.participantB.id && currentRoom.participantBUnread != 0) {
+                        const readRes = await fetch(process.env.REACT_APP_BACKEND_URL + "/chats/" + currentRoom.id + "/read", {
+                            method: "PUT",
+                            credentials: "include"
+                        })
+                        data[currentRoomIdx].participantBUnread = 0
+                    }
+                }
                 
                 setChatRooms(data)
+                
 
-                console.log(data)
 
             }
         }
