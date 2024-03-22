@@ -49,6 +49,10 @@ const ChatPage = () => {
         }
     }, [isLoading])
 
+    useEffect(() => {
+        window.document.title = "Chats | HorHub"
+    }, [])
+
 
 
     if (isLoading) return <LoadingPage />

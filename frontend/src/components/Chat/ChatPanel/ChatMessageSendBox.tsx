@@ -4,12 +4,16 @@ import { FaLocationDot } from 'react-icons/fa6'
 import { IoIosSend } from 'react-icons/io'
 import { socket } from '../../../lib/socket'
 import { useUser } from '../../../lib/context/UserContext'
+import { ImageType } from 'react-images-uploading'
+import { uploadImages } from '../../../lib/firebase'
+import ChatMessageSendImages from './ChatMessageSendImages'
 
 const ChatMessageSendBox = ({ chatId }: { chatId: string }) => {
 
   const {currentUser, isLoading} = useUser()
 
   const [text, setText] = useState<string>("")
+  const [images, setImages] = useState<ImageType[]>([])
   
   function submitText(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -26,10 +30,28 @@ const ChatMessageSendBox = ({ chatId }: { chatId: string }) => {
     setText("")
   }
 
+  async function submitImages() {
+    if (!currentUser){
+      return false;
+    }
+    const imagesURL = await uploadImages(images, 'chats/' + chatId + '/images')
+
+    socket.emit(`chats:sendMessage`, {
+      senderId: currentUser.id,
+      chatId: chatId,
+      type: "Images",
+      pictures: imagesURL,
+      sentAt: new Date()
+    })
+
+    
+  }
+
   return (
     <div className="w-full h-16 flex items-center bg-indigo-100 gap-4 px-5">
         <button><FaLocationDot className="text-xl fond-bold text-indigo-600" /></button>
-        <button><FaImage className="text-xl fond-bold text-indigo-600" /></button>
+        {/* <button><FaImage className="text-xl fond-bold text-indigo-600" /></button> */}
+        <ChatMessageSendImages images={images} setImages={setImages} submitImages={submitImages} />
         <form className="flex items-center w-full gap-4" onSubmit={submitText}>
           <input 
             type="text" 

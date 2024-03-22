@@ -12,6 +12,7 @@ type FormFieldProps = {
   maxNumber: number;
   images: ImageType[];
   setImages: React.Dispatch<React.SetStateAction<ImageType[]>>;
+  isButtonsLeft?: boolean;
 };
 
 const ImagesInput = ({
@@ -19,6 +20,7 @@ const ImagesInput = ({
   maxNumber,
   images,
   setImages,
+  isButtonsLeft
 }: FormFieldProps) => {
   // const [images, setImages] = React.useState([]);
 
@@ -117,7 +119,8 @@ const ImagesInput = ({
                 ))}
               </div>
             </div>
-            <div className="py-3 flex justify-center gap-5">
+            <div className={`py-3 flex ${(isButtonsLeft) ? "justify-start" : "justify-center"} gap-5`}>
+              
               <button
                 type="button"
                 className="primary-button"

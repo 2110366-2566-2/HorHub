@@ -27,6 +27,9 @@ const ChatMessagePane = ({ myUser, anotherUser, messages }: ChatMessagePanelProp
 
   useEffect(() => {
     scrollToBottom()
+    setTimeout(() => {
+      scrollToBottom()
+    }, 500)
   }, [messages]);
 
 
