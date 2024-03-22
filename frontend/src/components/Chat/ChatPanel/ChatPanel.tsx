@@ -94,7 +94,7 @@ const ChatPanel = ({ chatId }: { chatId: string }) => {
           anotherUser={(currentUser.id === chatRoom.participantA.id) ? chatRoom.participantB : chatRoom.participantA}
           messages={messages}
         />
-        <ChatMessageSendBox chatId={chatId || ""} />
+        <ChatMessageSendBox chatId={chatId || ""} sendTo={(currentUser.id === chatRoom.participantA.id) ? chatRoom.participantB.id : chatRoom.participantA.id} />
     </div>
   )
 }

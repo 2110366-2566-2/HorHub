@@ -12,7 +12,8 @@ export type Chat = {
     },
     participantAUnread: number,
     participantBUnread: number,
-    lastUpdated: Date
+    lastUpdated: Date,
+    latestMessage?: Message
 }
 
 export type Message = {

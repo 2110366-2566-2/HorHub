@@ -9,7 +9,7 @@ import { uploadImages } from '../../../lib/firebase'
 import ChatMessageSendImages from './ChatMessageSendImages'
 import ChatMessageSendLocation from './ChatMessageSendLocation'
 
-const ChatMessageSendBox = ({ chatId }: { chatId: string }) => {
+const ChatMessageSendBox = ({ chatId, sendTo }: { chatId: string, sendTo: string }) => {
 
   const {currentUser, isLoading} = useUser()
 
@@ -29,7 +29,7 @@ const ChatMessageSendBox = ({ chatId }: { chatId: string }) => {
       type: "Text",
       text: text,
       sentAt: new Date()
-    })
+    }, sendTo)
     setText("")
   }
 

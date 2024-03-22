@@ -7,6 +7,7 @@ import ChatListElement from '../../components/Chat/ChatListElement'
 import ChatPanel from '../../components/Chat/ChatPanel/ChatPanel'
 import { Chat } from '../../lib/type/Chat'
 import { useParams } from 'react-router-dom'
+import { socket } from '../../lib/socket'
 
 const ChatPage = () => {
 
@@ -53,6 +54,17 @@ const ChatPage = () => {
         window.document.title = "Chats | HorHub"
     }, [])
 
+    useEffect(() => {
+        if (!currentUser) return
+        socket.on(`users:${currentUser.id}:chatsUpdate`, () => {
+            initChatRooms()
+        })
+
+        return function cleanup() {
+            socket.off(`users:${currentUser.id}:chatsUpdate`)
+          };
+    }, [isLoading])
+
 
 
     if (isLoading) return <LoadingPage />
@@ -74,7 +86,7 @@ const ChatPage = () => {
                             }
                         }).map((chat) => {
                             return (
-                                <ChatListElement key={chat.id} chat={chat} />
+                                <ChatListElement key={chat.id} chat={chat} setChatRooms={setChatRooms} />
                             )
                         })
                     }

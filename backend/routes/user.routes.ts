@@ -377,6 +377,12 @@ router.get("/:id/chats", authenticateToken, async (req, res) => {
             displayName: true,
             imageURL: true
           }
+        },
+        messages: {
+          orderBy: {
+            sentAt: 'desc'
+          },
+          take: 1
         }
       },
       orderBy: {
@@ -384,7 +390,22 @@ router.get("/:id/chats", authenticateToken, async (req, res) => {
       }
     })
 
-    return res.send(chatsRes)
+    const result = chatsRes.map((chat) => {
+      if (chat.messages.length === 0) {
+        const result: any = {...chat}
+        delete result.messages
+        return result
+      }
+      else {
+        const result: any = {...chat, latestMessage: chat.messages[0]}
+        delete result.messages
+        return result
+      }
+    })
+
+    return res.send(result)
+
+    // return res.send(chatsRes)
 
 
 

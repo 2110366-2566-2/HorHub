@@ -107,7 +107,7 @@ io.on('connection', (socket) => {
     console.log('user disconnected');
   });
 
-  socket.on('chats:sendMessage', async (message: Message) => {
+  socket.on('chats:sendMessage', async (message: Message, sendTo: string) => {
     console.log(message)
     try {
       
@@ -125,6 +125,9 @@ io.on('connection', (socket) => {
       })
   
       io.emit(`chats:${message.chatId}:addMessage`, message)
+
+      io.emit(`users:${message.senderId}:chatsUpdate`)
+      io.emit(`users:${sendTo}:chatsUpdate`)
 
     } catch (err) {
       console.log(err)
