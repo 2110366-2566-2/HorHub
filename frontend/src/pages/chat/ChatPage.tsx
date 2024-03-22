@@ -76,7 +76,7 @@ const ChatPage = () => {
         </div>
         <div className="h-full w-3/4 flex flex-col">
             {
-                (chatId) && <ChatPanel />
+                (chatId) && <ChatPanel chatId={chatId} />
             }
         </div>
     </div>

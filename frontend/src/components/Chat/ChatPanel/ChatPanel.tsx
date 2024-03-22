@@ -7,8 +7,8 @@ import { useParams } from 'react-router-dom'
 import { useUser } from '../../../lib/context/UserContext'
 import { Chat, Message } from '../../../lib/type/Chat'
 
-const ChatPanel = () => {
-  let { chatId } = useParams();
+const ChatPanel = ({ chatId }: { chatId: string }) => {
+  // let { chatId } = useParams();
 
   const {currentUser, isLoading} = useUser()
 
@@ -60,7 +60,11 @@ const ChatPanel = () => {
 
   useEffect(() => {
     initRoom()
-  }, [isLoading])
+  }, [isLoading, chatId])
+
+  // useEffect(() => {
+  //   console.log(id)
+  // }, [id])
 
   // useEffect(() => {
   //   setMessages([])
