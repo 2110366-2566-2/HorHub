@@ -7,6 +7,7 @@ import { useUser } from '../../../lib/context/UserContext'
 import { ImageType } from 'react-images-uploading'
 import { uploadImages } from '../../../lib/firebase'
 import ChatMessageSendImages from './ChatMessageSendImages'
+import ChatMessageSendLocation from './ChatMessageSendLocation'
 
 const ChatMessageSendBox = ({ chatId }: { chatId: string }) => {
 
@@ -14,6 +15,8 @@ const ChatMessageSendBox = ({ chatId }: { chatId: string }) => {
 
   const [text, setText] = useState<string>("")
   const [images, setImages] = useState<ImageType[]>([])
+  const [latitude, setLatitude] = useState<number>(13.73377)
+  const [longitude, setLongitude] = useState<number>(100.63558)
   
   function submitText(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -43,14 +46,34 @@ const ChatMessageSendBox = ({ chatId }: { chatId: string }) => {
       pictures: imagesURL,
       sentAt: new Date()
     })
+  }
 
-    
+  async function submitLocation() {
+    if (!currentUser){
+      return false;
+    }
+
+    socket.emit(`chats:sendMessage`, {
+      senderId: currentUser.id,
+      chatId: chatId,
+      type: "Location",
+      latitude: latitude,
+      longitude: longitude,
+      sentAt: new Date()
+    })
   }
 
   return (
     <div className="w-full h-16 flex items-center bg-indigo-100 gap-4 px-5">
-        <button><FaLocationDot className="text-xl fond-bold text-indigo-600" /></button>
+        {/* <button><FaLocationDot className="text-xl fond-bold text-indigo-600" /></button> */}
         {/* <button><FaImage className="text-xl fond-bold text-indigo-600" /></button> */}
+        <ChatMessageSendLocation
+          latitude={latitude}
+          longitude={longitude}
+          setLatitude={setLatitude}
+          setLongitude={setLongitude}
+          submitLocation={submitLocation}
+        />
         <ChatMessageSendImages images={images} setImages={setImages} submitImages={submitImages} />
         <form className="flex items-center w-full gap-4" onSubmit={submitText}>
           <input 
