@@ -65,7 +65,14 @@ const ChatPage = () => {
             <div className="w-full h-full overflow-y-auto">
                 <div className="flex flex-col flex-nowarp">
                     {
-                        chatRooms.map((chat) => {
+                        chatRooms.filter((chat) => {
+                            if (currentUser.id === chat.participantA.id) {
+                                return chat.participantB.displayName.toLowerCase().includes(searchName.toLowerCase())
+                            }
+                            else {
+                                return chat.participantA.displayName.toLowerCase().includes(searchName.toLowerCase())
+                            }
+                        }).map((chat) => {
                             return (
                                 <ChatListElement key={chat.id} chat={chat} />
                             )
