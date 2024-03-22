@@ -19,6 +19,7 @@ const ChatMessage = ({ side, message, anotherUserAvatar }: ChatMessageProps) => 
                         <img src={anotherUserAvatar} />
                     </div>
                 </div>
+                <div className="text-slate-600 text-xs">{(new Date(message.sentAt)).toLocaleTimeString("en-US", {hour: "2-digit", minute: "2-digit"})}</div>
                 {
                     (message.type === "Text") ? <ChatMessageText text={message.text || ""} /> :
                     (message.type === "Images") ? <ChatMessageImages images={(message.pictures) ? message.pictures : []} /> :
@@ -29,7 +30,8 @@ const ChatMessage = ({ side, message, anotherUserAvatar }: ChatMessageProps) => 
     }
     else {
         return (
-            <div className="chat chat-end">
+            <div className="chat chat-end flex flex-col">
+                <div className="text-slate-600 text-xs">{(new Date(message.sentAt)).toLocaleTimeString("en-US", {hour: "2-digit", minute: "2-digit"})}</div>
                 {
                     (message.type === "Text") ? <ChatMessageText text={message.text || ""} /> :
                     (message.type === "Images") ? <ChatMessageImages images={(message.pictures) ? message.pictures : []} /> :

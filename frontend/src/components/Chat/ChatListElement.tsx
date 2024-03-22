@@ -27,7 +27,7 @@ const ChatListElement = ({ chat, setChatRooms }: { chat: Chat, setChatRooms: Rea
                 )}
             </div>
             {
-              (chat.latestMessage) && <div>{}</div>
+              (chat.latestMessage) && <div className="text-slate-600 text-xs">{(new Date(chat.latestMessage.sentAt)).toLocaleTimeString("en-US", {hour: "2-digit", minute: "2-digit"})}</div>
             }
         </div>
     </Link>

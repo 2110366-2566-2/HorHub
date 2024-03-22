@@ -38,11 +38,17 @@ const ChatMessagePane = ({ myUser, anotherUser, messages }: ChatMessagePanelProp
         <div className="w-full flex flex-col px-5 py-5 gap-3">
             {
               messages.map((message, idx) => {
-                return <ChatMessage 
-                          key={idx} 
-                          side={(myUser.id === message.senderId) ? "right" : "left"} 
-                          anotherUserAvatar={anotherUser.imageURL} message={message} 
-                        />
+                return <>
+                  {
+                    (idx === 0 || (new Date(messages[idx].sentAt)).toDateString() !== (new Date(messages[idx-1].sentAt)).toDateString()) &&
+                    <div key={idx + "-breaker"} className="w-full text-center text-indigo-700 font-bold text-sm">{(new Date(message.sentAt)).toDateString()}</div>
+                  }
+                  <ChatMessage 
+                    key={idx} 
+                    side={(myUser.id === message.senderId) ? "right" : "left"} 
+                    anotherUserAvatar={anotherUser.imageURL} message={message} 
+                  />
+                </>
               })
             }
             <div ref={messagesEndRef} />
