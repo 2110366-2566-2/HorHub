@@ -21,7 +21,7 @@ const bookingSchema = z.object({
   startAt: z.coerce.date(),
   endAt: z.coerce.date(),
   bookAt: z.coerce.date(),
-  status: z.enum(["Pending", "InProcess", "Completed", "Cancelled"]),
+  status: z.enum(["Pending", "PaymentPending", "Confirmed", "Completed", "Cancelled"]),
 });
 
 type Book = z.infer<typeof bookingSchema>;
@@ -48,6 +48,7 @@ export default function PaymentPage() {
         console.log(tmp);
         const my_data = bookingSchema.safeParse(tmp);
         if (!my_data.success) {
+          console.log("Unsafe Parse")
           setNotFound(true);
         } else {
           setBookData(my_data.data);
