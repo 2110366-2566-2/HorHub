@@ -132,7 +132,7 @@ function App() {
             <Route path="verify/:id" element={<AccVerifyTempPage />} />
 
             <Route path="bookings" element={<BookingListPage />} />
-            <Route path="bookings/:bookingId" element={<PaymentPage />} />
+            <Route path="bookings/:bookingId/payment" element={<PaymentPage />} />
 
             <Route path="chats" element={<ChatPage />} />
             <Route path="chats/:chatId" element={<ChatPage />} />

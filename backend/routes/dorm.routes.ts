@@ -465,6 +465,9 @@ router.get(
                 },
               },
             },
+            orderBy: {
+              bookAt: "desc"
+            }
           },
         },
       });

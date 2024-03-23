@@ -8,6 +8,7 @@ import { Bounce, toast } from "react-toastify";
 const BookingCard = ({ data }: { data: BookingType }) => {
   const [allowSubmit, setAllowSubmit] = useState<boolean>(true);
   console.log(data.endAt);
+
   async function cancelReservation() {
     setAllowSubmit(false);
     try {
@@ -33,7 +34,7 @@ const BookingCard = ({ data }: { data: BookingType }) => {
   return (
     <div className="card w-full md:w-3/4 bg-base-200 shadow-lg border border-slate-300">
       <div className="card-body py-4 flex flex-row">
-        <div className="w-[80%] flex flex-col gap-2">
+        <div className="grow flex flex-col gap-2">
           <a
             className="card-title text-sm w-fit"
             href={"dorms/" + data.roomType.dormId}
@@ -56,14 +57,22 @@ const BookingCard = ({ data }: { data: BookingType }) => {
             </div>
           </div>
         </div>
-        <div className="w-[20%] flex flex-col gap-2 text-xs items-end">
+        <div className="flex flex-col gap-2 text-xs items-end">
           <BookingStatusBadge status={data.status} />
           <div className="grow text-sm flex items-center font-bold">
             ฿{Number(data.price).toFixed(2)}
           </div>
-          <div className="flex items-center">
-            {data.status === "Pending" && (
-              <div className="w-full flex justify-start">
+          <div className="flex items-center gap-2 justify-end">
+            {
+              (data.status === "PaymentPending") && (
+                <button className="primary-button-xs w-fit" onClick={() => {window.location.href = "/bookings/" + data.id + "/payment"}}>
+                  Make Payment
+                </button>
+              )
+            }
+            {(data.status === "Pending" || data.status === "PaymentPending") && (
+              // <div className="w-full flex justify-start">
+              <>
                 <button
                   type="submit"
                   className="danger-button-xs"
@@ -110,7 +119,8 @@ const BookingCard = ({ data }: { data: BookingType }) => {
                     <button>close</button>
                   </form>
                 </dialog>
-              </div>
+              {/* </div> */}
+              </>
             )}
           </div>
         </div>

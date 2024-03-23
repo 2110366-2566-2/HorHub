@@ -69,6 +69,32 @@ const ProviderBookCard = ({ data }: { data: BookingProviderType }) => {
     navigate('/chats/' + chatId)
   }
 
+  async function allowReservation() {
+    try {
+      const res = await fetch(
+        process.env.REACT_APP_BACKEND_URL + "/bookings/" + data.id,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status: "PaymentPending" }),
+        }
+      );
+
+      if (res.ok) {
+        handleClose();
+        navigate(0);
+      } else {
+      }
+    } catch (err) {
+      console.log(err);
+      return;
+    }
+  }
+
+
   return (
     <div className="card w-full md:w-3/4 bg-base-200 shadow-lg border border-slate-300">
       <div className="card-body py-4 flex flex-row">
@@ -115,7 +141,14 @@ const ProviderBookCard = ({ data }: { data: BookingProviderType }) => {
                 </button>
               )
             }
-            {data.status === "Pending" && (
+            {
+              data.status === "Pending" && (
+                <button onClick={allowReservation} className="primary-button-xs">
+                  Allow
+                </button>
+              )
+            }
+            {(data.status === "Pending" || data.status === "PaymentPending") && (
               <div className="w-full flex justify-start">
                 <button onClick={handleOpen} className="danger-button-xs">
                   Cancel

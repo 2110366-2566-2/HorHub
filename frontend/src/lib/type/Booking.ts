@@ -32,7 +32,7 @@ export const BookingProviderSchema = z.object({
   startAt: z.coerce.date(),
   endAt: z.coerce.date(),
   bookAt: z.coerce.date(),
-  status: z.enum(["Pending", "InProcess", "Completed", "Cancelled"]),
+  status: z.enum(["Pending", "PaymentPending", "Confirmed", "Completed", "Cancelled"]),
 });
 export const BookingsSchema = BookingProviderSchema.array();
 

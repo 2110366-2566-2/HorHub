@@ -15,6 +15,27 @@ const BookingStatusBadge = ({ status }: { status: string }) => {
             </div>
         )
     }
+    else if (status === "PaymentPending") {
+        return (
+            <div className="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                Payment Pending
+            </div>
+        )
+    }
+    else if (status === "Confirmed") {
+        return (
+            <div className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                Confirmed
+            </div>
+        )
+    }
+    else if (status === "Completed") {
+        return (
+            <div className="bg-sky-100 text-sky-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                Completed
+            </div>
+        )
+    }
 
 
     return (

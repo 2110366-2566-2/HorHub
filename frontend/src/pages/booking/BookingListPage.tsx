@@ -96,9 +96,9 @@ const BookingListPage = () => {
         {bookingsData
           .filter((value) => {
             if (tabState === "current") {
-              return ["Pending"].includes(value.status);
+              return ["Pending", "PaymentPending", "Confirmed"].includes(value.status);
             } else if (tabState === "past") {
-              return ["Cancelled"].includes(value.status);
+              return ["Completed", "Cancelled"].includes(value.status);
             }
           })
           .map((value, idx) => {
