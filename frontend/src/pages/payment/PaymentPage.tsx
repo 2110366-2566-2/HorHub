@@ -1,15 +1,18 @@
-import { useState } from "react";
 import { LuSmartphone } from "react-icons/lu";
 import { LuCreditCard } from "react-icons/lu";
 import { Link } from "react-router-dom";
+import React, { useState } from "react";
+
 
 function PaymentPage() {
 
+  
     const [method, setMethod] = useState<'creditCard' | 'mobileBanking'>('creditCard');
 
+
     const handlePaymentSelection = (method: 'creditCard' | 'mobileBanking') => {
-      setMethod(method);
-    };
+        setMethod(method);
+      };
 
     return (
         <div className="page">
@@ -68,7 +71,7 @@ function PaymentPage() {
                         <div className="text-2xl font-bold">Mobile Banking</div>    
                     </button>
                     <Link 
-                        to={`/payment/${method}`}
+                        to={`${method}`}
                         className="flex items-center justify-center rounded-2xl w-[70%] h-[10%] mt-4 hover:bg-indigo-600 bg-indigo-500"
                     >
                         <div className="text-3xl text-slate-50 font-bold">Next</div>
@@ -77,7 +80,7 @@ function PaymentPage() {
             </div>  
             <div className="flex items-start justify-start ms-8 w-full">
                 <Link 
-                    to="/"
+                    to="/bookings"
                     className="text-4xl text-black hover:text-indigo-600"
                 >
                     &lt; Back

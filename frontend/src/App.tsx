@@ -137,9 +137,9 @@ function App() {
 
             <Route path="withdrawn" element={<WithDrawnPage />} />
 
-            <Route path="Payment" element={<PaymentPage />} />
-            <Route path="Payment/creditCard" element={<CreditCardPage />} />
-            <Route path="Payment/mobileBanking" element={<MobileBankingPage />} />
+            <Route path="bookings/:bookingId/Payment" element={<PaymentPage />} />
+            <Route path="bookings/:bookingId/Payment/creditCard" element={<CreditCardPage />} />
+            <Route path="bookings/:bookingId/Payment/mobileBanking" element={<MobileBankingPage />} />
 
             <Route path="/*" element={<NotFoundPage />} />
           </Routes>

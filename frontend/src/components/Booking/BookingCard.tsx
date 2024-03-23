@@ -4,6 +4,7 @@ import { FaRegClock } from "react-icons/fa";
 import { FiBookOpen } from "react-icons/fi";
 import BookingStatusBadge from "./BookingStatusBadge";
 import { Bounce, toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const BookingCard = ({ data }: { data: BookingType }) => {
   const [allowSubmit, setAllowSubmit] = useState<boolean>(true);
@@ -79,6 +80,12 @@ const BookingCard = ({ data }: { data: BookingType }) => {
                 >
                   Cancel
                 </button>
+                <Link 
+                  to={`/bookings/${data.id}/payment`}
+                  className="primary-button"
+                >
+                  Pay
+                </Link>
                 <dialog id={"delete_booking_" + data.id} className="modal">
                   <div className="modal-box bg-white gap-3 space-y-3">
                     <div className="font-bold text-lg text-center">

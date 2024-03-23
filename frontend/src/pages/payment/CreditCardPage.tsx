@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { LuMemoryStick } from "react-icons/lu";
 import React from 'react'
-import Select, { StylesConfig } from 'react-select';
+import Select from 'react-select';
 import { FaPlus } from "react-icons/fa";
 
 const options = [
@@ -11,6 +11,8 @@ const options = [
 ]
 
 function CreditCardPage() {
+
+    const navigate = useNavigate();
 
     return(
         <div className="page">
@@ -51,12 +53,12 @@ function CreditCardPage() {
                 </div>
             </div>  
             <div className="flex items-start justify-start ms-8 w-full">
-                <Link 
-                    to="/payment"
+                <button 
+                    onClick={() => navigate(-1)}
                     className="text-4xl text-black hover:text-indigo-600"
                 >
                     &lt; Back
-                </Link>
+                </button>
             </div>
         </div>
         

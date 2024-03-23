@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { LuSmartphone } from "react-icons/lu";
 import React from 'react'
-import Select, { StylesConfig } from 'react-select';
+import Select from 'react-select';
 import { FaPlus } from "react-icons/fa";
 import { LuQrCode } from "react-icons/lu";
 
@@ -12,6 +12,8 @@ const options = [
   ]
 
 function MobileBankingPage() {
+
+    const navigate = useNavigate();
 
     return(
         <div className="page">
@@ -50,8 +52,9 @@ function MobileBankingPage() {
                     </div> 
                     <button className="flex mt-[2rem] rounded-xl items-center text-xl bg-gray-300 text-white font-bold p-4">Proceed</button>
                     <div className="flex mt-[2rem] justify-center text-xl">Or pay via QR code here</div>
+                    {/* link to somewhere*/}
                     <Link
-                        to="/payment/mobileBanking/QRcode"
+                        to="/QRcode" 
                         className="flex items-center justify-center rounded-2xl w-[70%] mt-4 hover:bg-indigo-600 bg-indigo-500 text-white text-2xl p-4 font-bold"
                     >
                         <LuQrCode className="me-2"/> QR - Payment
@@ -59,12 +62,12 @@ function MobileBankingPage() {
                 </div>
             </div>  
             <div className="flex items-start justify-start ms-8 w-full">
-                <Link 
-                    to="/payment"
+                <button 
+                    onClick={() => navigate(-1)}
                     className="text-4xl text-black hover:text-indigo-600"
                 >
                     &lt; Back
-                </Link>
+                </button>
             </div>
         </div>
     )
