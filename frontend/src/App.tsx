@@ -36,6 +36,7 @@ import ProviderBookingLayout from "./pages/provider/dorm/ProviderBookingLayout";
 import BookPage from "./pages/provider/dorm/reservation/BookPage";
 import DormList from "./pages/search/DormList";
 import ChatPage from "./pages/chat/ChatPage";
+import WithDrawnPage from "./pages/wallet/WithDrawnPage";
 
 function App() {
   return (
@@ -130,6 +131,8 @@ function App() {
 
             <Route path="chats" element={<ChatPage />} />
             <Route path="chats/:chatId" element={<ChatPage />} />
+
+            <Route path="withdrawn" element={<WithDrawnPage />} />
 
             <Route path="/*" element={<NotFoundPage />} />
           </Routes>
