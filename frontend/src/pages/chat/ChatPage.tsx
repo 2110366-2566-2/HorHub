@@ -111,7 +111,7 @@ const ChatPage = () => {
 
     return (
     <div className="w-full h-[calc(100vh-7rem)] flex">
-        <div className="h-full w-1/4 flex flex-col border-r border-slate-200">
+        <div className="h-full w-1/4 flex flex-col border-r border-slate-300">
             <ChatSearchBox value={searchName} onChange={(e) => {setSearchName(e.target.value)}} />
             <div className="w-full h-full overflow-y-auto">
                 <div className="flex flex-col flex-nowarp">
