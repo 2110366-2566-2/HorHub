@@ -17,12 +17,18 @@ function PaymentPage() {
                 <div className="flex flex-col min-w-[50%] max-w-[75%]">
                     <div className="flex flex-col rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-600">
                         <div className="flex flex-col rounded-2xl bg-indigo-100 w-full gap-2">
-                            <div className="flex ms-8 mt-8 text-4xl font-bold">Payment Summary</div>
-                            <div className="flex ms-6 me-6 mt-6 border-t border-1 border-gray-400 flex-grow"></div>
-                            <div className="flex ms-8 mt-6 text-3xl font-bold text-indigo-600">Dorm Information</div>
-                            <div className="flex ms-8 text-2xl">Khao San Social Capsule Hostel</div>
-                            <div className="flex ms-8 mt-6 text-3xl font-bold text-indigo-600">Dorm Room</div>
-                            <div className="flex ms-8 mb-4 text-2xl">Very Small Room</div>
+                            <div className="flex flex-col">
+                                <div className="flex ms-8 mt-8 text-4xl font-bold">Payment Summary</div>
+                                <div className="flex ms-6 me-6 mt-6 border-t border-1 border-gray-400 flex-grow"></div>   
+                            </div>
+                            <div className="flex flex-col">
+                                <div className="flex ms-8 mt-6 text-3xl font-bold text-indigo-600">Dorm Information</div>
+                                <div className="flex ms-8 mb-4 text-2xl">Khao San Social Capsule Hostel</div>
+                            </div>
+                            <div className="flex flex-col">
+                                <div className="flex ms-8 mt-6 text-3xl font-bold text-indigo-600">Dorm Room</div>
+                                <div className="flex ms-8 mb-4 text-2xl">Very Small Room</div>
+                            </div>
                         </div>
                         <div className="flex flex-row justify-between items-center gap-6">
                             <div className="flex flex-col items-center gap-2">
@@ -68,6 +74,14 @@ function PaymentPage() {
                         <div className="text-3xl text-slate-50 font-bold">Next</div>
                     </Link>
                 </div>
+            </div>  
+            <div className="flex items-start justify-start ms-8 w-full">
+                <Link 
+                    to="/"
+                    className="text-4xl text-black hover:text-indigo-600"
+                >
+                    &lt; Back
+                </Link>
             </div>
         </div>
     );
