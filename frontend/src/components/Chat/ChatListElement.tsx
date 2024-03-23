@@ -28,11 +28,15 @@ const ChatListElement = ({ chat, setChatRooms }: { chat: Chat, setChatRooms: Rea
             </div>
             <div className="flex flex-col items-end">
             {
-              (chat.latestMessage) && <div className="text-slate-600 text-xs">{((new Date(chat.latestMessage.sentAt)).toDateString() === (new Date()).toDateString()) ? (new Date(chat.latestMessage.sentAt)).toLocaleTimeString("en-US", {hour: "2-digit", minute: "2-digit"}) : (new Date(chat.latestMessage.sentAt)).toDateString()}</div>
+              (chat.latestMessage) && <div className="text-slate-600 text-xs">{((new Date(chat.latestMessage.sentAt)).toDateString() === (new Date()).toDateString()) ? (new Date(chat.latestMessage.sentAt)).toLocaleTimeString("en-US", {hour: "2-digit", minute: "2-digit"}) : (new Date(chat.latestMessage.sentAt)).toLocaleDateString('en-GB', { day: "2-digit", month: "2-digit", year: "2-digit"})}</div>
             }
+            {
+              ((currentUser.id === chat.participantA.id) ? chat.participantAUnread !== 0 : chat.participantBUnread !== 0) &&
               <div className="px-2 py-1 bg-indigo-200 text-indigo-800 font-bold rounded-full">
                 {(currentUser.id === chat.participantA.id) ? chat.participantAUnread : chat.participantBUnread}
               </div>
+            }
+              
             </div>
         </div>
     </Link>
