@@ -69,7 +69,7 @@ function PaymentPage() {
                     </button>
                     <Link 
                         to={`/payment/${method}`}
-                        className="flex flex-col items-center justify-center rounded-2xl border border-gray-400 w-[70%] h-[10%] mt-4 hover:bg-indigo-600 bg-indigo-500"
+                        className="flex items-center justify-center rounded-2xl w-[70%] h-[10%] mt-4 hover:bg-indigo-600 bg-indigo-500"
                     >
                         <div className="text-3xl text-slate-50 font-bold">Next</div>
                     </Link>
