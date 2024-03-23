@@ -6,6 +6,7 @@ import { z } from "zod";
 import { db } from "../lib/db";
 import { authenticateProvider } from "../middlewares/authProvider";
 import { bookStatus } from "../lib/constant";
+import { refreshBookings } from "../lib/bookingRefresher";
 
 const router = Router();
 
@@ -27,8 +28,63 @@ const bookingSchema = z
   });
 
 const bookUpdateSchema = z.object({
-  status: z.enum(["Cancelled"]),
+  status: z.enum(["Cancelled", "PaymentPending", "Confirmed"]),
 });
+
+
+
+router.get("/:bookingId", authenticateToken, async (req, res) => {
+  const { bookingId } = req.params;
+  const user: User = req.body.user
+  
+  try {
+    if (bookingId.length != 24 || /[0-9A-Fa-f]{24}/g.test(bookingId) === false) {
+      return res.status(404).send("No booking found");
+    }
+
+    // Update outdated bookings
+    await refreshBookings()
+
+    const bookingRes = await db.booking.findUnique({
+      include: {
+        roomType: {
+          include: {
+            dorm: {
+              select: {
+                id: true,
+                name: true
+              }
+            }
+          }
+        }
+      },
+      where: {
+        id: bookingId,
+        OR: [
+          {
+            customerId: user.id
+          },
+          {
+            roomType: {
+              dorm: {
+                providerId: user.id
+              }
+            }
+          }
+        ]
+      }
+    })
+
+    if (!bookingRes) {
+      return res.status(403).send("You cannot view this booking")
+    }
+
+    return res.send(bookingRes)
+
+  } catch (err) {
+    return res.status(400).send(err)
+  }
+})
 
 router.post("/", authenticateToken, authenticateCustomer, async (req, res) => {
   const user: User = req.body.user;
@@ -75,8 +131,7 @@ router.post("/", authenticateToken, authenticateCustomer, async (req, res) => {
   }
 });
 
-router.put(
-  "/:bookingId",
+router.put("/:bookingId",
   authenticateToken,
   authenticateProvider,
   async (req, res) => {

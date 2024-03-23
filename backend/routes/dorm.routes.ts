@@ -5,6 +5,7 @@ import { z } from "zod";
 import { dormFacilities, roomFacilities } from "../lib/constant";
 import { db } from "../lib/db";
 import { Dorm, User } from "@prisma/client";
+import { refreshBookings } from "../lib/bookingRefresher";
 
 const router = Router();
 
@@ -445,18 +446,8 @@ router.get(
         return res.status(401).send("Not allow");
       }
 
-          // Update outdated status
-      const updateRes = await db.booking.updateMany({
-        where: {
-          status: "Pending",
-          startAt: {
-            lte: new Date()
-          }
-        },
-        data: {
-          status: "Cancelled"
-        }
-      })
+      // Update outdated status
+      await refreshBookings()
 
       const bookRes = await db.roomType.findUnique({
         where: { id: roomtypeId },

@@ -9,6 +9,7 @@ import { supportBankName } from "../lib/constant";
 import { DataSender, Schema_DataSender, sender } from "../lib/mail_sender";
 import { authenticateProvider } from "../middlewares/authProvider";
 import { authenticateCustomer } from "../middlewares/authCustomer";
+import { refreshBookings } from "../lib/bookingRefresher";
 
 const router = Router();
 
@@ -309,17 +310,7 @@ router.get("/:id/bookings", authenticateToken, authenticateCustomer, async (req,
 
   try {
     // Update outdated status
-    const updateRes = await db.booking.updateMany({
-      where: {
-        status: "Pending",
-        startAt: {
-          lte: new Date()
-        }
-      },
-      data: {
-        status: "Cancelled"
-      }
-    })
+    await refreshBookings()
 
     const findRes = await db.booking.findMany({
       where: {
