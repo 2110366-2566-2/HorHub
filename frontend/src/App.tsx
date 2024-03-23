@@ -38,6 +38,8 @@ import DormList from "./pages/search/DormList";
 import ChatPage from "./pages/chat/ChatPage";
 import WithDrawnPage from "./pages/wallet/WithDrawnPage";
 import PaymentPage from "./pages/payment/PaymentPage";
+import CredictCardPage from "./pages/payment/CredictCardPage";
+import MobileBankingPage from "./pages/payment/MobileBankingPage";
 
 function App() {
   return (
@@ -136,6 +138,8 @@ function App() {
             <Route path="withdrawn" element={<WithDrawnPage />} />
 
             <Route path="Payment" element={<PaymentPage />} />
+            <Route path="Payment/creditCard" element={<CredictCardPage />} />
+            <Route path="Payment/mobileBanking" element={<MobileBankingPage />} />
 
             <Route path="/*" element={<NotFoundPage />} />
           </Routes>
