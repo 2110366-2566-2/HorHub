@@ -37,6 +37,8 @@ import BookPage from "./pages/provider/dorm/reservation/BookPage";
 import DormList from "./pages/search/DormList";
 import ChatPage from "./pages/chat/ChatPage";
 import WithDrawnPage from "./pages/wallet/WithDrawnPage";
+import TopUpPage from "./pages/wallet/TopUpPage";
+import PaymentPage from "./pages/payment/PaymentPage";
 
 function App() {
   return (
@@ -56,6 +58,8 @@ function App() {
                 <Route path="password" element={<PasswordChangePage />} />
                 <Route path="email" element={<EmailChangePage />} />
                 <Route path="delete" element={<DeleteAccountPage />} />
+
+                <Route path="topup" element={<TopUpPage />} />
                 <Route
                   path="payment_information"
                   element={<PaymentInformationPage />}
@@ -128,12 +132,11 @@ function App() {
             <Route path="verify/:id" element={<AccVerifyTempPage />} />
 
             <Route path="bookings" element={<BookingListPage />} />
+            <Route path="bookings/:bookingId" element={<PaymentPage />} />
 
             <Route path="chats" element={<ChatPage />} />
             <Route path="chats/:chatId" element={<ChatPage />} />
-
             <Route path="withdrawn" element={<WithDrawnPage />} />
-
             <Route path="/*" element={<NotFoundPage />} />
           </Routes>
           <Footbar />

@@ -10,6 +10,7 @@ import { DataSender, Schema_DataSender, sender } from "../lib/mail_sender";
 import { authenticateProvider } from "../middlewares/authProvider";
 import { authenticateCustomer } from "../middlewares/authCustomer";
 import { refreshBookings } from "../lib/bookingRefresher";
+import { User } from "@prisma/client";
 
 const router = Router();
 
@@ -277,69 +278,119 @@ router.delete(
   }
 );
 
-router.get("/:id/dorms", authenticateToken, authenticateProvider, async (req, res) => {
-    const { id } = req.params
+router.get(
+  "/:id/dorms",
+  authenticateToken,
+  authenticateProvider,
+  async (req, res) => {
+    const { id } = req.params;
 
     if (id.length != 24 || /[0-9A-Fa-f]{24}/g.test(id) === false) {
-        return res.status(404).send("No user found")
+      return res.status(404).send("No user found");
     }
 
     const findDormsRes = await db.dorm.findMany({
+      where: {
+        providerId: id,
+      },
+      include: {
+        roomTypes: true,
+      },
+    });
+
+    return res.send(findDormsRes);
+  }
+);
+
+router.get(
+  "/:bookingId/payment/bookings/",
+  authenticateToken,
+  authenticateCustomer,
+  async (req, res) => {
+    const user: User = req.body.user;
+    delete req.body.user;
+    const { bookingId } = req.params;
+    try {
+      const result = await db.booking.findFirst({
         where: {
-            providerId: id
+          AND: [
+            { id: bookingId },
+            { OR: [{ status: "Pending" }, { status: "InProcess" }] },
+          ],
         },
         include: {
-            roomTypes: true
-        }
-    })
-
-    return res.send(findDormsRes)
-})
-
-
-router.get("/:id/bookings", authenticateToken, authenticateCustomer, async (req, res) => {
-  const { id } = req.params
-
-  if (id.length != 24 || /[0-9A-Fa-f]{24}/g.test(id) === false) {
-      return res.status(404).send("No user found")
+          roomType: {
+            select: {
+              capacity: true,
+              name: true,
+              numberOfAvailableRoom: true,
+              numberOfRoom: true,
+              dorm: { select: { name: true } },
+            },
+          },
+        },
+      });
+      if (!result) {
+        return res.status(404).send("Not found");
+      }
+      if (user.id !== result.customerId) {
+        return res.status(403).send("Not allow");
+      }
+      return res.send(result);
+    } catch (err) {
+      console.log(err);
+      return res.status(403);
+    }
   }
+);
 
-  if (id !== req.body.user.id) {
-    return res.status(403).send("You don't have access to view this")
-  }
+router.get(
+  "/:id/bookings",
+  authenticateToken,
+  authenticateCustomer,
+  async (req, res) => {
+    const { id } = req.params;
+
+    if (id.length != 24 || /[0-9A-Fa-f]{24}/g.test(id) === false) {
+      return res.status(404).send("No user found");
+    }
+
+    if (id !== req.body.user.id) {
+      return res.status(403).send("You don't have access to view this");
+    }
 
   try {
     // Update outdated status
     await refreshBookings()
 
-    const findRes = await db.booking.findMany({
-      where: {
-        customerId: id
-      },
-      include: {
-        roomType: {
-          include: {
-            dorm: true
-          }
-        }
-      },
-      orderBy: {
-        bookAt: "desc"
-      }
-    })
+      const findRes = await db.booking.findMany({
+        where: {
+          customerId: id,
+        },
+        include: {
+          roomType: {
+            include: {
+              dorm: true,
+            },
+          },
+        },
+        orderBy: {
+          bookAt: "desc",
+        },
+      });
 
-    return res.send(findRes)
+      return res.send(findRes);
+    } catch (err) {
+      return res.status(400).send(err);
+    }
   }
-  catch (err) {
-    return res.status(400).send(err)
-  }
-})
+);
 
 router.get("/:id/chats", authenticateToken, async (req, res) => {
-  const { id } = req.params
+  const { id } = req.params;
 
   if (id.length != 24 || /[0-9A-Fa-f]{24}/g.test(id) === false) {
-      return res.status(404).send("No user found")
+    return res.status(404).send("No user found");
   }
 
   try {
@@ -350,61 +401,56 @@ router.get("/:id/chats", authenticateToken, async (req, res) => {
             participantAId: id,
           },
           {
-            participantBId: id
-          }
-        ]
+            participantBId: id,
+          },
+        ],
       },
       include: {
         participantA: {
           select: {
             id: true,
             displayName: true,
-            imageURL: true
-          }
+            imageURL: true,
+          },
         },
         participantB: {
           select: {
             id: true,
             displayName: true,
-            imageURL: true
-          }
+            imageURL: true,
+          },
         },
         messages: {
           orderBy: {
-            sentAt: 'desc'
+            sentAt: "desc",
           },
-          take: 1
-        }
+          take: 1,
+        },
       },
       orderBy: {
-        lastUpdated: "desc"
-      }
-    })
+        lastUpdated: "desc",
+      },
+    });
 
     const result = chatsRes.map((chat) => {
       if (chat.messages.length === 0) {
-        const result: any = {...chat}
-        delete result.messages
-        return result
+        const result: any = { ...chat };
+        delete result.messages;
+        return result;
+      } else {
+        const result: any = { ...chat, latestMessage: chat.messages[0] };
+        delete result.messages;
+        return result;
       }
-      else {
-        const result: any = {...chat, latestMessage: chat.messages[0]}
-        delete result.messages
-        return result
-      }
-    })
+    });
 
-    return res.send(result)
+    return res.send(result);
 
     // return res.send(chatsRes)
-
-
-
   } catch (err) {
-    return res.status(400).send(err)
+    return res.status(400).send(err);
   }
-
-})
+});
 
 // ===================================== NINE will try his best
 const sendMail = async (

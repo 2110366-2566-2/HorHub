@@ -1,86 +1,89 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
 body {
   margin: 0;
-  font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: "Quicksand", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 1.25em;
-  @apply text-base
+  @apply text-base;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
 a {
-  @apply text-indigo-600
+  @apply text-indigo-600;
 }
 
 .page {
-  @apply w-full min-h-[calc(100vh-7rem)] flex flex-col items-center px-5 py-5
+  @apply w-full min-h-[calc(100vh-7rem)] flex flex-col items-center px-5 py-5;
+}
+
+.page-row {
+  @apply w-full min-h-[calc(100vh-7rem)] flex flex-row items-center px-5 py-5;
 }
 
 .unpadding-page {
-  @apply w-full min-h-[calc(100vh-7rem)] flex flex-col items-center 
+  @apply w-full min-h-[calc(100vh-7rem)] flex flex-col items-center;
 }
 
 .primary-button {
-  @apply py-2 px-3 rounded-md bg-indigo-500 hover:bg-indigo-600 text-white text-sm transition-colors
+  @apply py-2 px-3 rounded-md bg-indigo-500 hover:bg-indigo-600 text-white text-sm transition-colors;
 }
 
 .secondary-button {
-  @apply py-2 px-3 rounded-md hover:bg-slate-100 text-slate-900 text-sm transition-colors
+  @apply py-2 px-3 rounded-md hover:bg-slate-100 text-slate-900 text-sm transition-colors;
 }
 
 .bordered-button {
-  @apply py-2 px-3 rounded-md border hover:bg-slate-100 text-slate-900 text-sm transition-colors
+  @apply py-2 px-3 rounded-md border hover:bg-slate-100 text-slate-900 text-sm transition-colors;
 }
 
 .disabled-button {
-  @apply py-2 px-3 rounded-md bg-slate-200 text-slate-700 text-sm transition-colors
+  @apply py-2 px-3 rounded-md bg-slate-200 text-slate-700 text-sm transition-colors;
 }
 
 .danger-button {
-  @apply py-2 px-3 rounded-md bg-red-500 hover:bg-red-600 text-white text-sm transition-colors
+  @apply py-2 px-3 rounded-md bg-red-500 hover:bg-red-600 text-white text-sm transition-colors;
 }
 
 .danger-button-xs {
-  @apply py-1.5 px-2.5 rounded-md bg-red-500 hover:bg-red-600 text-white text-xs transition-colors
+  @apply py-1.5 px-2.5 rounded-md bg-red-500 hover:bg-red-600 text-white text-xs transition-colors;
 }
 
-.white-button{
-  @apply py-2 px-3 rounded-md bg-slate-100 hover:bg-slate-200 text-black text-sm transition-colors
+.white-button {
+  @apply py-2 px-3 rounded-md bg-slate-100 hover:bg-slate-200 text-black text-sm transition-colors;
 }
 
-.white-button-xs{
-  @apply py-1.5 px-2.5 rounded-md bg-slate-100 hover:bg-slate-200 text-black text-sm transition-colors
+.white-button-xs {
+  @apply py-1.5 px-2.5 rounded-md bg-slate-100 hover:bg-slate-200 text-black text-sm transition-colors;
 }
 
 .indigo-button-xs {
-  @apply py-1.5 px-2.5 rounded-md bg-indigo-200 hover:bg-indigo-300 text-black text-sm transition-colors
+  @apply py-1.5 px-2.5 rounded-md bg-indigo-200 hover:bg-indigo-300 text-black text-sm transition-colors;
 }
 
 .bordered-button-xs {
-  @apply py-1.5 px-2.5 rounded-md border hover:bg-slate-100 text-slate-900 text-xs transition-colors
+  @apply py-1.5 px-2.5 rounded-md border hover:bg-slate-100 text-slate-900 text-xs transition-colors;
 }
 
-.checkbox-text-container{
-  @apply flex items-center gap-2
+.checkbox-text-container {
+  @apply flex items-center gap-2;
 }
 
-.checkbox-icon{
-  @apply w-4 h-4
+.checkbox-icon {
+  @apply w-4 h-4;
 }
 
-.checkbox-label{
-  @apply text-sm
+.checkbox-label {
+  @apply text-sm;
 }
