@@ -37,6 +37,7 @@ import BookPage from "./pages/provider/dorm/reservation/BookPage";
 import DormList from "./pages/search/DormList";
 import ChatPage from "./pages/chat/ChatPage";
 import WithDrawnPage from "./pages/wallet/WithDrawnPage";
+import PaymentPage from "./pages/payment/PaymentPage";
 
 function App() {
   return (
@@ -133,6 +134,8 @@ function App() {
             <Route path="chats/:chatId" element={<ChatPage />} />
 
             <Route path="withdrawn" element={<WithDrawnPage />} />
+
+            <Route path="Payment" element={<PaymentPage />} />
 
             <Route path="/*" element={<NotFoundPage />} />
           </Routes>
