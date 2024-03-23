@@ -315,7 +315,7 @@ router.get(
         where: {
           AND: [
             { id: bookingId },
-            { OR: [{ status: "Pending" }, { status: "InProcess" }] },
+            { status: "PaymentPending" },
           ],
         },
         include: {
