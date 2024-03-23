@@ -30,6 +30,17 @@ const bookUpdateSchema = z.object({
   status: z.enum(["Cancelled"]),
 });
 
+router.get(
+  "/:bookingId",
+  authenticateToken,
+  authenticateCustomer,
+  async (req, res) => {
+    const user: User = req.body.user;
+    delete req.body.user;
+    const body = req.body;
+  }
+);
+
 router.post("/", authenticateToken, authenticateCustomer, async (req, res) => {
   const user: User = req.body.user;
   delete req.body.user;

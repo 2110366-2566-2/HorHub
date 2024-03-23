@@ -16,6 +16,7 @@ model User {
   lastName    String
   displayName String
   gender      Gender
+  balance     Float       @default(0.0)
   birthdate   DateTime
   phoneNumber String
   isVerified  Boolean   @default(false)
