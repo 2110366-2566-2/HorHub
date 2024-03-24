@@ -165,6 +165,7 @@ router.post("/:id/paymentMethods", authenticateToken, async (req, res) => {
 
   const countMethod = await db.paymentMethod.count({
     where: {
+      userId: id,
       type: data.type,
       info: data.info,
     },

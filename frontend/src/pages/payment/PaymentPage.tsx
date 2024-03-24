@@ -7,6 +7,7 @@ import { z } from "zod";
 import { LuCreditCard, LuSmartphone } from "react-icons/lu";
 import { BsQrCode } from "react-icons/bs";
 import CardPromptPayPayment from "../../components/Payment/CardPromptPayPayment";
+import BankingPayment from "../../components/Payment/BankingPayment";
 
 
 
@@ -27,6 +28,7 @@ const bookingSchema = z.object({
   endAt: z.coerce.date(),
   bookAt: z.coerce.date(),
   status: z.enum(["Pending", "PaymentPending", "Confirmed", "Completed", "Cancelled"]),
+  checkoutToken: z.string()
 });
 
 type Book = z.infer<typeof bookingSchema>;
@@ -154,6 +156,9 @@ export default function PaymentPage() {
                 </button> */}
                 {
                   (paymentMethod === "cardpromptpay") && <CardPromptPayPayment />
+                }
+                {
+                  (paymentMethod === "mobilebanking") && <BankingPayment />
                 }
             </div>
         </div>  
