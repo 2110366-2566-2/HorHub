@@ -44,6 +44,9 @@ import TopUpPage from "./pages/wallet/TopUpPage";
 import PaymentPage2 from "./pages/payment/PaymentPage2";
 
 function App() {
+
+  
+
   return (
     <>
       <BrowserRouter>

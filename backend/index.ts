@@ -10,6 +10,7 @@ import userRouter from "./routes/user.routes";
 import dormRouter from "./routes/dorm.routes";
 import chatRouter from "./routes/chat.routes";
 import bookingRouter from "./routes/booking.routes"
+import paymentRouter from "./routes/payment.routes"
 import cookieParser from "cookie-parser";
 import { Server } from 'socket.io';
 import { createServer } from "http";
@@ -50,6 +51,7 @@ app.use('/mails', mailRouter)
 app.use('/dorms', dormRouter)
 app.use('/bookings', bookingRouter)
 app.use('/chats', chatRouter)
+app.use('/payment', paymentRouter)
 
 
 

@@ -23,8 +23,8 @@ model User {
   imageURL    String    @default("https://utfs.io/f/4a65c7f9-7bb1-4498-99bb-4148be482108-t9vzc5.png")
   paymentMethods  PaymentMethod[]   @relation("ownPaymentMethod")
   dorms       Dorm[]   @relation("ownDorm")
-  payments    Payment[]   @relation("makePayment")
   bookings    Booking[]   @relation("makeReserve")
+  transactions  Transaction[]   @relation("makeTransaction")
   chatA       Chat[]      @relation("joinChatAsParticipantA")
   chatB       Chat[]      @relation("joinChatAsParticipantB")
   myMessages  Message[]   @relation("sendMessage")
@@ -79,16 +79,23 @@ model Booking {
   status      BookingStatus   @default(Pending)
   startAt     DateTime    
   endAt       DateTime
+  checkoutToken   String  @unique @default(uuid())
+  transaction Transaction? @relation("containTransaction")
   bookAt      DateTime  @default(now())
 }
 
-model Payment {
+model Transaction {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  user        User      @relation("makePayment", fields: [userId], references: [id], onDelete: Cascade)
+  type        TransactionType     
+  user        User      @relation("makeTransaction", fields: [userId], references: [id], onDelete: Cascade)
   userId      String    @db.ObjectId
-  cost        Float
-  payAt       DateTime  @default(now())
+  price       Float
+  description String
+  createAt    DateTime  @default(now())
+  booking     Booking?  @relation("containTransaction", fields: [bookingId], references: [id], onDelete: Cascade)
+  bookingId   String    @unique @db.ObjectId
 }
+
 
 model Chat {
   id              String    @id @default(auto()) @map("_id") @db.ObjectId
@@ -189,4 +196,10 @@ enum MessageType {
   Text
   Images
   Location
+}
+
+enum TransactionType {
+  BookingPayment
+  WalletDeposit
+  WalletWithdrawn
 }
