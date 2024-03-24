@@ -41,6 +41,8 @@ export default function PaymentPage() {
 
   const [paymentMethod, setPaymentMethod] = useState<string>("")
 
+  const [bankingOptions, setBankingOptions] = useState<{bank: string, number: string}[]>([])
+
   useAuthRedirect();
   useEffect(() => {
     const initData = async () => {

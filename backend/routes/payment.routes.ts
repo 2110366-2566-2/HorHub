@@ -70,7 +70,7 @@ router.post('/create-checkout-session/:bookingId', async (req, res) => {
 
         const price = await stripe.prices.create({
             product: product.id,
-            unit_amount: bookingRes.price * 100,
+            unit_amount: Math.max(bookingRes.price * 100, 1000),
             currency: 'thb',
         });
 
