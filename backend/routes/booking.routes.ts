@@ -305,6 +305,8 @@ router.post("/:bookingId/confirmpayment/:checkoutToken", async (req, res) => {
       }
     })
 
+    console.log(updateProviderBalance)
+
     return res.send(customerTransaction)
 
   } catch (err) {
