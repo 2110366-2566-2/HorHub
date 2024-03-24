@@ -230,4 +230,86 @@ router.delete("/:bookingId", authenticateToken, async (req, res) => {
   }
 });
 
+router.post("/:bookingId/confirmpayment/:checkoutToken", async (req, res) => {
+  const { bookingId, checkoutToken } = req.params;
+
+  try {
+
+    if (bookingId.length != 24 || /[0-9A-Fa-f]{24}/g.test(bookingId) === false) {
+      return res.status(404).send("No booking found");
+    }
+
+    const bookingRes = await db.booking.findUnique({
+      where: {
+        id: bookingId,
+        checkoutToken: checkoutToken,
+        status: "PaymentPending"
+      },
+      include: {
+        roomType: {
+          include: {
+            dorm: {
+              include: {
+                provider: {
+                  select: {
+                    id: true,
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    })
+
+    if (!bookingRes) {
+      return res.status(404).send("No booking found");
+    }
+
+    const customerTransaction = await db.transaction.create({
+      data: {
+        userId: bookingRes.customerId,
+        type: "BookingPayment",
+        price: bookingRes.price,
+        description: "Make a payment to " + bookingRes.roomType.name + " - " + bookingRes.roomType.dorm.name
+      }
+    })
+
+    const providerTransaction = await db.transaction.create({
+      data: {
+        userId: bookingRes.roomType.dorm.providerId,
+        type: "WalletDeposit",
+        price: Number((bookingRes.price * 0.95).toFixed(2)),
+        description: "Reservation in " + bookingRes.roomType.name + " - " + bookingRes.roomType.dorm.name
+      }
+    })
+
+    const updateBookingRes = await db.booking.update({
+      where: {
+        id: bookingId
+      },
+      data: {
+        status: "Confirmed",
+        transactionId: customerTransaction.id
+      }
+    })
+
+    const updateProviderBalance = await db.user.update({
+      where: {
+        id: bookingRes.roomType.dorm.providerId
+      },
+      data: {
+        balance: {
+          increment: Number((bookingRes.price * 0.95).toFixed(2))
+        }
+      }
+    })
+
+    return res.send(customerTransaction)
+
+  } catch (err) {
+    return res.status(400).send(err)
+  }
+})
+
 export default router;

@@ -80,7 +80,8 @@ model Booking {
   startAt     DateTime    
   endAt       DateTime
   checkoutToken   String  @unique @default(uuid())
-  transaction Transaction? @relation("containTransaction")
+  transaction Transaction? @relation("containTransaction", fields: [transactionId], references: [id], onDelete: Cascade)
+  transactionId   String? @db.ObjectId
   bookAt      DateTime  @default(now())
 }
 
@@ -92,8 +93,7 @@ model Transaction {
   price       Float
   description String
   createAt    DateTime  @default(now())
-  booking     Booking?  @relation("containTransaction", fields: [bookingId], references: [id], onDelete: Cascade)
-  bookingId   String    @unique @db.ObjectId
+  booking     Booking[]  @relation("containTransaction")
 }
 
 
