@@ -41,7 +41,11 @@ const ChatMessagePane = ({ myUser, anotherUser, messages }: ChatMessagePanelProp
                 return <>
                   {
                     (idx === 0 || (new Date(messages[idx].sentAt)).toDateString() !== (new Date(messages[idx-1].sentAt)).toDateString()) &&
-                    <div key={idx + "-breaker"} className="w-full text-center text-indigo-700 font-bold text-sm">{(new Date(message.sentAt)).toDateString()}</div>
+                    <div key={idx + "-breaker"} className="flex flex-row justify-between items-center">
+                      <div className="flex ms-2 me-2 border-t border-1 border-gray-400 flex-grow w-[40%]"></div>
+                      <div className="flex text-center text-indigo-700 font-bold text-sm">{(new Date(message.sentAt)).toDateString()}</div>
+                      <div className="flex ms-2 me-2 border-t border-1 border-gray-400 flex-grow w-[40%]"></div>
+                    </div>
                   }
                   <ChatMessage 
                     key={idx} 

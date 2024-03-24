@@ -37,6 +37,9 @@ import BookPage from "./pages/provider/dorm/reservation/BookPage";
 import DormList from "./pages/search/DormList";
 import ChatPage from "./pages/chat/ChatPage";
 import WithDrawnPage from "./pages/wallet/WithDrawnPage";
+import PaymentPage from "./pages/payment/PaymentPage";
+import MobileBankingPage from "./pages/payment/MobileBankingPage";
+import CreditCardPage from "./pages/payment/CreditCardPage";
 import TopUpPage from "./pages/wallet/TopUpPage";
 import PaymentPage from "./pages/payment/PaymentPage";
 
@@ -137,6 +140,11 @@ function App() {
             <Route path="chats" element={<ChatPage />} />
             <Route path="chats/:chatId" element={<ChatPage />} />
             <Route path="withdrawn" element={<WithDrawnPage />} />
+
+            <Route path="bookings/:bookingId/Payment" element={<PaymentPage />} />
+            <Route path="bookings/:bookingId/Payment/creditCard" element={<CreditCardPage />} />
+            <Route path="bookings/:bookingId/Payment/mobileBanking" element={<MobileBankingPage />} />
+
             <Route path="/*" element={<NotFoundPage />} />
           </Routes>
           <Footbar />
