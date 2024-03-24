@@ -67,7 +67,7 @@ const ReceiptPage = () => {
           <div className='w-full text-indigo-700 font-bold'>HorHub</div>
           <div className='w-full text-end font-bold'>Receipt</div>
         </div>
-        <div className='grid grid-cols-4 w-full grid-rows-6 items-center gap-2'>
+        <div className='grid grid-cols-4 w-full grid-rows-6 items-center gap-2 grid-flow-row break-words '>
           <div className='col-span-2 row-span-2 bg-indigo-200 p-2 h-full'>
             <div className='font-bold'>Email</div>
             <div className='text-indigo-700'>{bookData.customer.email}</div>
@@ -94,7 +94,7 @@ const ReceiptPage = () => {
           </div>
           <div className='col-span-1 row-span-2 bg-indigo-200 p-2 h-full'>
             <div className='font-bold'>INVOICE ID</div>
-            <div className='text-indigo-700'>{bookData.id}</div>
+            <div className='text-indigo-700  '>{bookData.id}</div>
           </div>
         </div>
         <div className='bg-indigo-200 w-full p-2 font-bold'>
