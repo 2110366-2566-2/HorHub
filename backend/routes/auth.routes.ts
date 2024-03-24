@@ -5,6 +5,8 @@ import { db } from "../lib/db";
 import bcrypt from "bcrypt";
 import { generateJWT } from "../lib/jwtGenerator";
 import { authenticateToken } from "../middlewares/authToken";
+import { authenticateProvider } from "../middlewares/authProvider";
+import { User } from "@prisma/client";
 
 const Schema_User = z.object({
   email: z.string().trim().email(),
@@ -250,5 +252,18 @@ router.put("/user", authenticateToken, update);
 router.post("/verify", verifyAccount);
 
 router.post("/verify/fail", authenticateToken, verifyAccountFail);
+
+router.get("/wallets",authenticateToken,authenticateProvider,async (req,res) => {
+  const user: User = req.body.user;
+  delete req.body.user;
+  try {
+    const result = await db.transaction.findMany({where : {userId : user.id}, orderBy : {createAt : 'desc'}});
+    return res.send({ "transaction" : result , "name" : user.displayName , "balance" : user.balance});
+
+  } catch(err) {
+    console.log(err);
+    return res.status(403);
+  }
+});
 
 export default router;

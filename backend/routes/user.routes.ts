@@ -47,9 +47,10 @@ const createPaymentMethodSchema = z
     return true;
   });
 
+
+
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
-
   const user = await db.user.findUnique({
     where: {
       id: id,
@@ -63,6 +64,8 @@ router.get("/:id", async (req, res) => {
 
   res.send(user);
 });
+
+
 
 router.delete("/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
@@ -546,5 +549,8 @@ router.put("/:id/email", async (req: Request, res: Response) => {
     return res.status(400).send(err);
   }
 });
+
+
+
 
 export default router;

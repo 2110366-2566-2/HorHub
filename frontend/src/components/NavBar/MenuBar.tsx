@@ -81,7 +81,7 @@ function MenuBar() {
                                 
                             }
                             else {
-                                return <></>
+                                return;
                             }
                         }
                         else if (data.allow === "Provider") {
@@ -99,7 +99,7 @@ function MenuBar() {
                                 
                             }
                             else {
-                                return <></>
+                                return;
                             }
                         }
                     })
