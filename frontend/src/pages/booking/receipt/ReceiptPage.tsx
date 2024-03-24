@@ -101,11 +101,11 @@ const ReceiptPage = () => {
           Dormitory Reservation
         </div>
         <div className='flex w-full gap-x-4'>
-          <div className="aspect-[672/494] rounded-md overflow-hidden shadow-[0_2px_8px_rgba(15,23,42,0.08)] bg-slate-200">
+          <div className="aspect-[672/494] rounded-md overflow-hidden shadow-[0_2px_8px_rgba(15,23,42,0.08)] bg-slate-200 ">
             <img
-            width="200"
-            height="200"
-            className=' inset-0  object-cover' 
+            width="672"
+            height="494"
+            className='w-[200px] h-[200px] inset-0  object-cover' 
             src = {(bookData.roomType.dorm.images.length === 0) ? "https://firebasestorage.googleapis.com/v0/b/horhub-7d1df.appspot.com/o/placeholders%2F681px-Placeholder_view_vector.png?alt=media&token=bc0c7178-b94a-4bf0-957b-42a75f708a79" : bookData.roomType.dorm.images[0]}/>
           </div>
           <div className='mx-6 w-full'>
