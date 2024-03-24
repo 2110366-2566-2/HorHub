@@ -2,23 +2,34 @@ import { LuSmartphone } from "react-icons/lu";
 import { LuCreditCard } from "react-icons/lu";
 import { Link, useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { useUser } from "../../lib/context/UserContext";
-import useAuthRedirect from "../../lib/authRedirect";
-import LoadingPage from "../etc/LoadingPage";
-import NotFoundPage from "../etc/NotFoundPage";
-import { BookingType } from "../../lib/type/Booking";
-
 
 function PaymentPage() {
 
     const location = useLocation();
 
-    const { currentUser, isLoading } = useUser();
+    const data = location.state.value;
+    console.log(data)
 
-    const [isFetching, setFetching] = useState<boolean>(true);
-    const [isInvalid, setInvalid] = useState<boolean>(false);
-  
-    const [bookingData, setBookingData] = useState<BookingType>(location.state.data);
+    const countDurationInDays = (startDate:Date, endDate:Date) => {
+        // Convert both dates to milliseconds
+        const startMilliseconds = startDate.getTime();
+        const endMilliseconds = endDate.getTime();
+    
+        // Calculate the difference in milliseconds
+        const durationMilliseconds = Math.abs(endMilliseconds - startMilliseconds);
+    
+        // Convert milliseconds to days
+        const days = Math.ceil(durationMilliseconds / (1000 * 60 * 60 * 24));
+    
+        return days + 1;
+    }
+    const reformat = (date:String) => {
+        const [dayOfWeek, month, day, year] = date.split(' ');
+        return `${month} ${day} ${year} (${dayOfWeek})`;
+    };
+    const startDate = reformat(new Date(data.startAt.toString()).toDateString());
+    const endDate = reformat(new Date(data.endAt.toString()).toDateString());
+    const duration = countDurationInDays(new Date(data.startAt), new Date(data.endAt));
 
     const [method, setMethod] = useState<'creditCard' | 'mobileBanking'>('creditCard');
 
@@ -26,54 +37,9 @@ function PaymentPage() {
         setMethod(method);
       };
 
-    async function initData() {
-    if (!currentUser) {
-        return;
-    }
-    setFetching(true);
-
-    try {
-        const res = await fetch(
-        process.env.REACT_APP_BACKEND_URL +
-            "/users/" +
-            currentUser.id +
-            "/bookings" +
-            "",
-        {
-            method: "GET",
-            credentials: "include",
-        }
-        );
-
-        if (!res.ok) {
-        setInvalid(true);
-        setFetching(false);
-        }
-
-        const data = await res.json();
-
-        setBookingData(data);
-        setFetching(false);
-    } catch (err) {
-        setInvalid(true);
-        setFetching(false);
-    }
-    }
-
-    useAuthRedirect();
-
     useEffect(() => {
-    window.document.title = "My Reservation | HorHub";
-    initData();
-    }, [isLoading]);
-
-    if (isLoading || isFetching) {
-    return <LoadingPage />;
-    }
-
-    if (!currentUser || currentUser.role != "Customer") {
-    return <NotFoundPage />;
-    }
+    window.document.title = "Payment | HorHub";
+    }, []);
 
     return (
         <div className="page">
@@ -87,34 +53,34 @@ function PaymentPage() {
                             </div>
                             <div className="flex flex-col">
                                 <div className="flex ms-8 mt-6 text-3xl font-bold text-indigo-600">Dorm Information</div>
-                                <div className="flex ms-8 mb-4 text-2xl">kkk</div>
+                                <div className="flex ms-8 mb-4 text-2xl">{data.roomType.dorm.name}</div>
                             </div>
                             <div className="flex flex-col">
                                 <div className="flex ms-8 mt-6 text-3xl font-bold text-indigo-600">Dorm Room</div>
-                                <div className="flex ms-8 mb-4 text-2xl">Very Small Room</div>
+                                <div className="flex ms-8 mb-4 text-2xl">{data.roomType.name}</div>
                             </div>
                         </div>
                         <div className="flex flex-row justify-between items-center gap-6">
                             <div className="flex flex-col items-center gap-2">
                                 <div className="ms-8 mt-4 text-3xl text-slate-50 font-bold">Capacity</div>
-                                <div className="ms-8 mb-4 text-2xl text-slate-50">2</div>
+                                <div className="ms-8 mb-4 text-2xl text-slate-50">{data.roomType.capacity}</div>
                             </div>
                             <div className="flex flex-col items-center gap-2">
                                 <div className="mt-4 text-3xl text-slate-50 font-bold">Start Date</div>
-                                <div className="mb-4 text-2xl text-slate-50">Mar 14 2024 (Thu)</div>
+                                <div className="mb-4 text-2xl text-slate-50">{startDate}</div>
                             </div>                    
                             <div className="flex flex-col items-center gap-2">
                                 <div className="me-8 mt-4 text-3xl text-slate-50 font-bold">End Date</div>
-                                <div className="me-8 mb-4 text-2xl text-slate-50">Mar 16 2024 (Sat)</div>
+                                <div className="me-8 mb-4 text-2xl text-slate-50">{endDate}</div>
                             </div>
                         </div>
                     </div>
                     <div className="flex flex-row items-center justify-between gap-2 mt-4">
                         <div className="flex items-center text-3xl text-indigo-600 font-bold">Total Date</div>
-                        <div className="flex items-center text-4xl font-bold">3</div>
+                        <div className="flex items-center text-4xl font-bold">{duration}</div>
                         <div className="flex items-center text-3xl text-indigo-600 font-bold">Total Price</div>
                         <div className="flex items-start flex-col">
-                            <div className="flex justify-center text-4xl font-bold">฿15,000.00</div>
+                            <div className="flex justify-center text-4xl font-bold">฿{data.price.toFixed(2)}</div>
                             <div className="flex justify-center text-xl">Including Vat 7%</div>
                         </div>  
                     </div> 

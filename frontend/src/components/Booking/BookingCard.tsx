@@ -34,7 +34,7 @@ const BookingCard = ({ data }: { data: BookingType }) => {
   const navigate = useNavigate();
 
   const handleToPayment = (data : BookingType) => {
-    navigate(`${data.id}/payment`,{state:{data:data}});
+    navigate(`${data.id}/payment`,{state:{value:data}});
   }
 
   return (
