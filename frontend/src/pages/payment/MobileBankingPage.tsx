@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { LuSmartphone } from "react-icons/lu";
 import React from 'react'
 import Select from 'react-select';
@@ -13,6 +13,7 @@ const options = [
 
 function MobileBankingPage() {
 
+    const location = useLocation();
     const navigate = useNavigate();
 
     return(
@@ -47,7 +48,7 @@ function MobileBankingPage() {
                     </div>
                     <div className="flex mt-[4rem] items-center text-3xl text-indigo-600 font-bold">Total Price</div>
                     <div className="flex mt-[2rem] items-end flex-col">
-                        <div className="flex justify-center text-4xl font-bold">฿15,000.00</div>
+                        <div className="flex justify-center text-4xl font-bold">฿{location.state.price}</div>
                         <div className="flex justify-center text-xl">Including Vat 7%</div>
                     </div> 
                     <button className="flex mt-[2rem] rounded-xl items-center text-xl bg-gray-300 text-white font-bold p-4">Proceed</button>

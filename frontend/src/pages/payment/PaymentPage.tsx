@@ -1,14 +1,18 @@
 import { LuSmartphone } from "react-icons/lu";
 import { LuCreditCard } from "react-icons/lu";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
 function PaymentPage() {
 
     const location = useLocation();
+    const navigate = useNavigate();
 
     const data = location.state.value;
-    console.log(data)
+
+    const handleSelectMethod = () => {
+        navigate(`${method}`,{state:{price:data.price.toFixed(2)}});
+    }
 
     const countDurationInDays = (startDate:Date, endDate:Date) => {
         // Convert both dates to milliseconds
@@ -97,12 +101,13 @@ function PaymentPage() {
                         <LuSmartphone className="text-6xl" />
                         <div className="text-2xl font-bold">Mobile Banking</div>    
                     </button>
-                    <Link 
-                        to={`${method}`}
+                    <button 
+                        type="submit"
+                        onClick={handleSelectMethod}
                         className="flex items-center justify-center rounded-2xl w-[70%] h-[10%] mt-4 hover:bg-indigo-600 bg-indigo-500"
                     >
                         <div className="text-3xl text-slate-50 font-bold">Next</div>
-                    </Link>
+                    </button>
                 </div>
             </div>  
             <div className="flex items-start justify-start ms-8 w-full">
