@@ -1,9 +1,40 @@
 import { Router } from "express";
 import { db } from "../lib/db";
+import { authenticateToken } from "../middlewares/authToken";
+import { authenticateCustomer } from "../middlewares/authCustomer";
+import { User } from "@prisma/client";
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const router = Router();
+
+router.get("/receipt/:bookingId",authenticateToken,authenticateCustomer,async (req,res) => {
+    const {bookingId} = req.params;
+
+    const user: User = req.body.user;
+    delete req.body.user;
+    try {
+        const result = await db.booking.findUnique({where : {id : bookingId,transaction : {type : "BookingPayment"}}, include : {
+            customer : {select : {email : true,firstName : true,lastName : true}},
+            transaction : true,
+            roomType : {select : {name : true,capacity : true ,dorm : {select : {name : true, images : true}}}}
+
+        }})
+        
+        console.log(result);
+        
+        if (!result) return res.status(404);
+        if (user.id !== result.customerId) return res.status(403);
+        if (!result.transaction) return res.status(404);
+
+        
+        
+        return res.send(result);
+    } catch(err) {
+        console.log(err);
+        return res.status(403);
+    }
+});
 
 router.post("/create-payment-intent", async (req, res) => {
     const { bookingId } = req.body;

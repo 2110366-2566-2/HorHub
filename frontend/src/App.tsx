@@ -43,6 +43,7 @@ import CreditCardPage from "./pages/payment/CreditCardPage";
 import TopUpPage from "./pages/wallet/TopUpPage";
 import PaymentPage2 from "./pages/payment/PaymentPage2";
 import SuccessPaymentTempPage from "./pages/payment/SuccessPaymentTempPage";
+import ReceiptPage from "./pages/booking/receipt/ReceiptPage";
 
 function App() {
 
@@ -148,7 +149,7 @@ function App() {
             <Route path="bookings/:bookingId/Payment2" element={<PaymentPage2 />} />
             <Route path="bookings/:bookingId/Payment/creditCard" element={<CreditCardPage />} />
             <Route path="bookings/:bookingId/Payment/mobileBanking" element={<MobileBankingPage />} />
-
+            <Route path="bookings/:bookingId/receipt" element = {<ReceiptPage />} />
 
             <Route path="bookings/:bookingId/payment/success/:checkoutToken" element={<SuccessPaymentTempPage />} />
 

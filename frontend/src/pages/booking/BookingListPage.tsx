@@ -54,7 +54,7 @@ const BookingListPage = () => {
       }
 
       const data = await res.json();
-
+      console.log(data);
       setBookingsData(data);
       setFetching(false);
     } catch (err) {

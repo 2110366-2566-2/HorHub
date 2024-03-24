@@ -71,6 +71,9 @@ const BookingCard = ({ data }: { data: BookingType }) => {
           </div>
           <div className="flex items-center gap-2 justify-end">
             {
+              (data.transactionId) && <Link to = {data.id + "/receipt"} className = "primary-button-xs w-fit"relative="path">Receipt</Link>
+            }
+            {
               (data.status === "PaymentPending") && (
                 <button className="primary-button-xs w-fit" onClick={() => {window.location.href = "/bookings/" + data.id + "/payment"}}>
                   Make Payment

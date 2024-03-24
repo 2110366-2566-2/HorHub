@@ -16,6 +16,7 @@ export type BookingType = {
   endAt: Date;
   price: number;
   status: string;
+  transactionId? : string;
 };
 
 export const BookingProviderSchema = z.object({
