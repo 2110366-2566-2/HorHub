@@ -45,6 +45,7 @@ import PaymentPage2 from "./pages/payment/PaymentPage2";
 import SuccessPaymentTempPage from "./pages/payment/SuccessPaymentTempPage";
 import ReceiptPage from "./pages/booking/receipt/ReceiptPage";
 import MyWallet from "./pages/wallet/MyWallet";
+import AllWalletPage from "./pages/wallet/AllWalletPage";
 
 function App() {
 
@@ -145,8 +146,9 @@ function App() {
 
             <Route path="chats" element={<ChatPage />} />
             <Route path="chats/:chatId" element={<ChatPage />} />
-            <Route path="withdrawn" element={<WithDrawnPage />} />
+            <Route path="my-wallet/withdrawn" element={<WithDrawnPage />} />
             <Route path="my-wallet" element = {<MyWallet />} />
+            <Route path="my-wallet/all" element = {<AllWalletPage />} />
             <Route path="bookings/:bookingId/Payment2" element={<PaymentPage2 />} />
             <Route path="bookings/:bookingId/Payment/creditCard" element={<CreditCardPage />} />
             <Route path="bookings/:bookingId/Payment/mobileBanking" element={<MobileBankingPage />} />

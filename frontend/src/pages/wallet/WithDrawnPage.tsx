@@ -76,7 +76,7 @@ function WithDrawnPage() {
       </div>
       <div className="flex-1 pt-20 ">
         <p className="text-center text-lg text-indigo-600">Usable Balance</p>
-        <p className="text-center text-6xl">฿ 13,456.78</p>
+        <p className="text-center text-6xl">฿ {(currentUser.balance) ? currentUser.balance : 0}</p>
         <p className="py-8 text-center text-lg text-indigo-600">
           ** Please note that Usable Balance calculated from refund period of
           customers.
@@ -94,7 +94,7 @@ function WithDrawnPage() {
         <div className="py-5 flex items-center justify-center">
           <button
             type="button"
-            className="hover:bg-slate-700 bg-clip-border px-8 py-5  bg-indigo-700 text-lg 2xl:text-2xl text-white rounded-3xl"
+            className={"hover:bg-slate-700 bg-clip-border px-8 py-5 text-lg 2xl:text-2xl text-white rounded-3xl bg-red-700 "}
           >
             {" "}
             💸 Confirm Withdrawn

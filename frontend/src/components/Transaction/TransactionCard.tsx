@@ -7,6 +7,7 @@ export default function TransactionCard({date, description, amount , type, fullm
                 <div className="font-normal">{new Date(date).toTimeString().split(" ")[0]}</div>
             </div >
             <div className="w-4/5">{description}</div>
+            {fullmode && (<div>{type}</div>)}
         </div>
         <div className="w-2/12 text-end">
            {(type === "WalletDeposit") ? "+" : "-"} ฿ {amount}
