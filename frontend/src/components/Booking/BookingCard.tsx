@@ -72,7 +72,7 @@ const BookingCard = ({ data }: { data: BookingType }) => {
           <div className="flex items-center gap-2 justify-end">
             {
               (data.status === "PaymentPending") && (
-                <button className="primary-button-xs w-fit" onClick={() => {window.location.href = "/bookings/" + data.id + "/payment"}}>
+                <button className="primary-button-xs w-fit" onClick={() => {window.location.href = "/bookings/" + data.id + "/payment2"}}>
                   Make Payment
                 </button>
               )
@@ -95,13 +95,13 @@ const BookingCard = ({ data }: { data: BookingType }) => {
                 >
                   Cancel
                 </button>
-                <button 
+                {/* <button 
                   type="submit"
                   onClick={() => handleToPayment(data)}
                   className="primary-button"
                 >
                   Pay
-                </button>
+                </button> */}
                 <dialog id={"delete_booking_" + data.id} className="modal">
                   <div className="modal-box bg-white gap-3 space-y-3">
                     <div className="font-bold text-lg text-center">

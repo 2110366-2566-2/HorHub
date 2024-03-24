@@ -41,7 +41,7 @@ import PaymentPage from "./pages/payment/PaymentPage";
 import MobileBankingPage from "./pages/payment/MobileBankingPage";
 import CreditCardPage from "./pages/payment/CreditCardPage";
 import TopUpPage from "./pages/wallet/TopUpPage";
-import PaymentPage from "./pages/payment/PaymentPage";
+import PaymentPage2 from "./pages/payment/PaymentPage2";
 
 function App() {
   return (
@@ -141,7 +141,7 @@ function App() {
             <Route path="chats/:chatId" element={<ChatPage />} />
             <Route path="withdrawn" element={<WithDrawnPage />} />
 
-            <Route path="bookings/:bookingId/Payment" element={<PaymentPage />} />
+            <Route path="bookings/:bookingId/Payment2" element={<PaymentPage2 />} />
             <Route path="bookings/:bookingId/Payment/creditCard" element={<CreditCardPage />} />
             <Route path="bookings/:bookingId/Payment/mobileBanking" element={<MobileBankingPage />} />
 
