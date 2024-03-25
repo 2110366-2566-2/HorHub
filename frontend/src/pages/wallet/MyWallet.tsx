@@ -29,7 +29,7 @@ export default function MyWallet(){
                 console.log(tmp);
                 setTransaction(tmp["transaction"]);
                 setName(tmp["name"]);
-                setBalance(tmp["balance"]);
+                setBalance(tmp["balance"].toFixed(2));
             }
             setLoading(false);
         };

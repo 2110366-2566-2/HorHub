@@ -266,4 +266,31 @@ router.get("/wallets",authenticateToken,authenticateProvider,async (req,res) => 
   }
 });
 
+router.post("/withdrawn",authenticateToken,authenticateProvider,async (req,res) => {
+  try {  
+    const {amount} = req.body;
+    const user: User = req.body.user;
+    delete req.body.user;
+    console.log(req.body)
+    if ((user.balance - amount) < 0) return res.status(403).send("Not allow");
+    
+        const transaction = await db.transaction.create({
+          data : {
+            type : "WalletWithdrawn",
+            userId : user.id,
+            price : amount as number,
+            description : `Withdrawn from provider ${user.firstName} ${user.lastName} for amount ฿ ${amount}`,
+          }
+        });
+
+        const result = await db.user.update({where : {id : user.id} , data : {balance : (user.balance - amount) }})
+
+        return res.send({transaction : transaction})
+    } catch (err) {
+      console.log(err);
+      return res.send(403);
+    }
+
+});
+
 export default router;

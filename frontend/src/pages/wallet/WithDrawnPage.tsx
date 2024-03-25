@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 function WithDrawnPage() {
   const { currentUser, isLoading, fetchUser } = useUser();
   const [bank, setbank] = useState([]);
+  const [amount,setAmount] = useState<number>(0);
+
   async function initData() {
     await fetchUser();
     if (!currentUser) {
@@ -39,6 +41,20 @@ function WithDrawnPage() {
     initData();
   }, [isLoading]);
   useAuthRedirect();
+
+  const withdrawn_handle = async () => {
+    const result = await fetch(process.env.REACT_APP_BACKEND_URL + "/auth/withdrawn",{
+      method : "POST",
+      credentials : "include",
+      headers : {
+        "Content-Type" : "application/json",
+      },
+      body : JSON.stringify({amount : amount}),
+    })
+    console.log(await result.json());
+    navigate(0);
+  };
+
   if (isLoading) return <LoadingPage />;
   if (!currentUser) return <LoadingPage />;
   console.log(bank);
@@ -76,7 +92,7 @@ function WithDrawnPage() {
       </div>
       <div className="flex-1 pt-20 ">
         <p className="text-center text-lg text-indigo-600">Usable Balance</p>
-        <p className="text-center text-6xl">฿ {(currentUser.balance) ? currentUser.balance : 0}</p>
+        <p className="text-center text-6xl">฿ {(currentUser.balance) ? currentUser.balance.toFixed(2) : 0}</p>
         <p className="py-8 text-center text-lg text-indigo-600">
           ** Please note that Usable Balance calculated from refund period of
           customers.
@@ -87,6 +103,8 @@ function WithDrawnPage() {
         <div className="flex items-center justify-center">
           <input
             type="number"
+            value={amount}
+            onChange={(e) => {setAmount(e.target.valueAsNumber)}}
             placeholder="1234"
             className="border-current border-2 rounded-2xl text-lg p-4 "
           ></input>
@@ -95,6 +113,7 @@ function WithDrawnPage() {
           <button
             type="button"
             className={"hover:bg-slate-700 bg-clip-border px-8 py-5 text-lg 2xl:text-2xl text-white rounded-3xl bg-red-700 "}
+            onClick={withdrawn_handle}
           >
             {" "}
             💸 Confirm Withdrawn

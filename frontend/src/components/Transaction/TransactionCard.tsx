@@ -10,7 +10,7 @@ export default function TransactionCard({date, description, amount , type, fullm
             {fullmode && (<div>{type}</div>)}
         </div>
         <div className="w-2/12 text-end">
-           {(type === "WalletDeposit") ? "+" : "-"} ฿ {amount}
+           {(type === "WalletDeposit") ? "+" : "-"} ฿ {amount.toFixed(2)}
         </div>
     </div>);
 }
