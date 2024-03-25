@@ -21,14 +21,40 @@ type Transaction = {
 export default function AllWalletPage(){
     const [transaction,setTransaction] = useState<null | Transaction[]>(null);
     const [isLoading,setLoading] = useState<boolean>(true);
-    const [mode,setMode] = useState("");
-    const [modeSort,setModeSort] = useState("");
+    const [sortby,setSortby] = useState("DESCENDING");
+    const [typeSort,setTypeSort] = useState("DATE");
 
     const handleChange = (event: SelectChangeEvent) => {
-        setMode(event.target.value as string);
+        setTypeSort(event.target.value as string);
+        sorting(sortby,event.target.value);
       };
+
+    const sorting = (sortby : string ,sortType : string) => {
+        if(!transaction){
+            return;
+        }
+        if (sortType === "DATE"){
+            setTransaction(transaction.slice().sort((a,b) => {
+            if (sortby === "DESCENDING")
+                return new Date(a.createAt).getMilliseconds() - new Date(b.createAt).getMilliseconds();
+             else 
+                return new Date(b.createAt).getMilliseconds() - new Date(a.createAt).getMilliseconds();
+            }
+            ));
+        }
+        else if (sortType === "AMOUNT"){
+            setTransaction(transaction.slice().sort((a,b) => {
+                if (sortby === "DESCENDING")
+                    return b.price - a.price;
+                else
+                    return a.price - b.price;
+            }));
+        }
+        
+    };
     const handleChange2 = (event: SelectChangeEvent) => {
-        setModeSort(event.target.value as string);
+        setSortby(event.target.value as string);
+        sorting(event.target.value,typeSort);
       };
     useEffect(() => {
         const initData = async() => {
@@ -60,40 +86,37 @@ export default function AllWalletPage(){
                 Transaction
             </div>
             <div className="w-full flex justify-end items-center gap-4">
-            {/* <Box sx={{ minWidth: 120 }}>
-                <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Sort by</InputLabel>
-                    <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={mode}
-                    label="Sort by"
-                    onChange={handleChange2}
-                    >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
-                </FormControl>
-            </Box>
+                <Box sx={{ minWidth: 120 }}>
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">Sort by</InputLabel>
+                        <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={sortby}
+                        label="Sort by"
+                        onChange={handleChange2}
+                        >
+                        <MenuItem value={"ASCENDING"}>ASCENDING</MenuItem>
+                        <MenuItem value={"DESCENDING"}>DESCENDING</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
 
-            <Box sx={{ minWidth: 120 }}>
-                <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Select Type</InputLabel>
-                    <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={mode}
-                    label="Select Type"
-                    onChange={handleChange}
-                    >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
-                </FormControl>
-            </Box> */}
-            Controller
+                <Box sx={{ minWidth: 120 }}>
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">Select Type</InputLabel>
+                        <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={typeSort}
+                        label="Select Type"
+                        onChange={handleChange}
+                        >
+                        <MenuItem value={"DATE"}>DATE</MenuItem>
+                        <MenuItem value={"AMOUNT"}>AMOUNT</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
             </div>
             
         </div>

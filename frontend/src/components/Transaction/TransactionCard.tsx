@@ -1,6 +1,6 @@
 export default function TransactionCard({date, description, amount , type, fullmode} : {date : Date, description : string, amount : number, type : string, fullmode : boolean}){
     return (
-    <div className="bg-white rounded-lg p-4 flex w-full font-bold justify-between">
+    <div className="bg-white rounded-lg p-4 flex w-full font-bold justify-between" >
         <div className="flex w-10/12 gap-x-2">
             <div className="w-1/5">
                 <div>{new Date(date).toDateString()}</div>
