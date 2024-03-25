@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useUser } from '../../lib/context/UserContext'
+import { Link } from 'react-router-dom'
 
 type PaymentMethod = {id: string, type: string, info: string}
 
@@ -39,18 +40,23 @@ const BankingPayment = ({checkoutMobileBanking} : { checkoutMobileBanking: () =>
 
   return (
     <div className="flex flex-col items-center gap-3">
-      <select className="select select-bordered w-48" value={currentOption} onChange={(e) => {setCurrentOptions(e.target.value)}}>
-        <option value="">Select bank account</option>
-        {
-          options.map((option) => {
-            return (
-              <option value={option.id}>
-                {option.info.split("-")[0] + " - " + option.info.split("-")[1].substring(0,3) + "*******"}
-              </option>
-            )
-          })
-        }
-      </select>
+      <div className="flex items-center gap-3">
+        <select className="select select-bordered w-48" value={currentOption} onChange={(e) => {setCurrentOptions(e.target.value)}}>
+          <option value="">Select bank account</option>
+          {
+            options.map((option) => {
+              return (
+                <option value={option.id}>
+                  {option.info.split("-")[0] + " - " + option.info.split("-")[1].substring(0,3) + "*******"}
+                </option>
+              )
+            })
+          }
+        </select>
+        <Link to="/settings/payment_information">
+          Create
+        </Link>
+      </div>
       {
         (currentOption !== "") ? (
           <button className="primary-button" onClick={checkoutMobileBanking}>
