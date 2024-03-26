@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import LoginButton from "./LoginButton";
 import { Link, useLocation } from "react-router-dom";
 import { useUser } from "../../lib/context/UserContext";
 import { Avatar, Tooltip } from "@mui/material";
 import MenuBar from "./MenuBar";
 import { AiFillMessage } from "react-icons/ai";
+import addNotification from "react-push-notification";
+import { socket } from "../../lib/socket";
+import { Notification } from "../../lib/type/Notification";
 
 const NavigationBar = () => {
   const { currentUser, isLoading, fetchUser } = useUser();
@@ -19,6 +22,28 @@ const NavigationBar = () => {
   //     console.log(result);
   //     await fetchUser();
   // };
+
+  function sendNotification(notification: Notification) {
+    addNotification({
+      title: notification.title,
+      message: notification.message,
+      icon: notification.icon,
+      native: true
+  });
+  }
+
+  useEffect(() => {
+    if (!currentUser) return
+
+    socket.on(`users:${currentUser.id}:notifications`, (notification: Notification) => {
+      sendNotification(notification)
+    })
+
+    return function cleanup() {
+      socket.off(`users:${currentUser.id}:notifications`)
+    };
+  }, [isLoading])
+
 
   return (
     <nav className="sticky top-0 h-16 backdrop-blur-md flex items-center justify-between px-4 bg-base-100/50 z-20 border-b-2 border-slate-900/10">
