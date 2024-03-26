@@ -94,7 +94,7 @@ export default function PaymentPage() {
 
   return (
     <div className="page">
-        <div className="flex flex-row mt-20 mb-20 gap-20 w-[90%] h-[90%] justify-center">
+        <div className="flex flex-col md:flex-row mt-5 mb-5 md:mt-20 md:mb-20 gap-20 w-full h-full md:w-[90%] md:h-[90%] justify-center items-center md:items-start">
             <div className="flex flex-col min-w-[50%] max-w-[75%]">
                 <div className="flex flex-col rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-600">
                     <div className="flex flex-col rounded-2xl bg-indigo-100 w-full gap-2 pb-5">
@@ -117,6 +117,12 @@ export default function PaymentPage() {
                             <div className='text-indigo-500'>{new Date(bookData.startAt).toDateString()} - {new Date(bookData.endAt).toDateString()}</div>
                           </div>
                         </div>
+                        {/* <div className="flex items-center gap-2 w-full">
+                          <div className="ms-8 mt-6 w-full text-lg font-bold">Duration</div>
+                          <div className="">
+
+                          </div>
+                        </div> */}
                         
                         {/* <div className="flex flex-col">
                             <div className="flex ms-8 mt-6 text-xl font-bold text-indigo-600">Dorm Information</div>
@@ -127,8 +133,8 @@ export default function PaymentPage() {
                             <div className="flex ms-8 mb-4 text-lg">{bookData.roomType.name}</div>
                         </div> */}
                     </div>
-                    <div className="flex flex-row justify-between items-center gap-6">
-                        <div className="flex flex-col items-center gap-2">
+                    <div className="flex flex-row justify-end items-center gap-6 px-5 py-4">
+                        {/* <div className="flex flex-col items-center gap-2">
                             <div className="ms-8 mt-4 text-xl text-slate-50 font-bold">Capacity</div>
                             <div className="ms-8 mb-4 text-lg text-slate-50">{bookData.roomType.capacity}</div>
                         </div>
@@ -139,10 +145,15 @@ export default function PaymentPage() {
                         <div className="flex flex-col items-center gap-2">
                             <div className="me-8 mt-4 text-xl text-slate-50 font-bold">End Date</div>
                             <div className="me-8 mb-4 text-lg text-slate-50">{(new Date(bookData.endAt)).toDateString()}</div>
-                        </div>
+                        </div> */}
+                        <div className="flex items-center text-xl text-white font-bold">Total Price</div>
+                        <div className="flex items-start flex-col">
+                        <div className="flex justify-center text-2xl font-bold text-white">฿{bookData.price.toFixed(2)}</div>
+                        <div className="flex justify-center text-base text-white">Including Vat 7%</div>
+                    </div>  
                     </div>
                 </div>
-                <div className="flex flex-row items-center justify-between gap-2 mt-4">
+                {/* <div className="flex flex-row items-center justify-between gap-2 mt-4">
                     <div className="flex items-center text-xl text-indigo-600 font-bold">Total Date</div>
                     <div className="flex items-center text-2xl font-bold">{total_days}</div>
                     <div className="flex items-center text-xl text-indigo-600 font-bold">Total Price</div>
@@ -150,7 +161,7 @@ export default function PaymentPage() {
                         <div className="flex justify-center text-2xl font-bold">฿{bookData.price.toFixed(2)}</div>
                         <div className="flex justify-center text-base">Including Vat 7%</div>
                     </div>  
-                </div> 
+                </div>  */}
             </div>
             <div className="flex flex-col min-w-[25%] max-w-[50%] items-center gap-3">
                 <div className="">
