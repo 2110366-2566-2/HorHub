@@ -8,7 +8,7 @@ import {
   MapCameraChangedEvent,
   MapCameraProps,
 } from "@vis.gl/react-google-maps";
-export default function DormMap({ lat, lng }: { lat: number; lng: number }) {
+export default function DormMap({ lat, lng}: { lat: number; lng: number}) {
   const position = { lat: lat, lng: lng};
   const [cameraProps, setCameraProps] = useState<MapCameraProps>({
     center: { lat: lat, lng: lng},
@@ -27,14 +27,16 @@ export default function DormMap({ lat, lng }: { lat: number; lng: number }) {
   const [isOpen, setOpen] = useState<boolean>(false);
   return (
     <APIProvider apiKey={process.env.REACT_APP_MAP_API_KEY as string}>
-      <div className="w-full aspect-video">
+      <div className="w-full h-full aspect-video">
         <Map
           {...cameraProps}
+          
           mapId={process.env.REACT_APP_MAP_ID as string}
           onCameraChanged={handleCameraChange}
           disableDefaultUI={true}
         >
           <AdvancedMarker
+            
             position={position}
             onClick={() => {
               setOpen(true);

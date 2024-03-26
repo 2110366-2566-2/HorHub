@@ -272,7 +272,7 @@ router.post("/withdrawn",authenticateToken,authenticateProvider,async (req,res) 
     const user: User = req.body.user;
     delete req.body.user;
     console.log(req.body)
-    if (amount <= 0 || !amount) return res.status(403).send("Not allow");
+    if (amount < 0.01 || !amount) return res.status(403).send("Not allow");
     if ((user.balance - amount) < 0) return res.status(403).send("Not allow");
     
         const transaction = await db.transaction.create({

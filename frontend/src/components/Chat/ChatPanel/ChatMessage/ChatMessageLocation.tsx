@@ -4,7 +4,7 @@ import { Box, Modal } from '@mui/material'
 
 const ChatMessageLocation = ({ latitude, longitude }: { latitude: number, longitude: number }) => {
   const [open, setOpen] = useState<boolean>(false)
-
+  
   return (
     <>
       <div onClick={() => setOpen(true)} className="w-72 aspect-video">
