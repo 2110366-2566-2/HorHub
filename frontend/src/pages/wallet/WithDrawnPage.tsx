@@ -68,29 +68,29 @@ function WithDrawnPage() {
   return (
     <div className="w-full h-[calc(100vh-7rem)] flex flex-row px-20">
       <div className="mt-10 flex-1 container flex flex-col items-center xl:gap-6 min-h-3/6 w-8/12">
-        <div className="text-base text-center md:text-2xl lg:text-3xl font-bold 2xl:text-5xl flex-col items-start">
+        <div className="text-base text-center md:text-xl lg:text-2xl font-bold 2xl:text-3xl flex-col items-start">
           Account Information
         </div>
         <div className="overflow-clip bg-contain space-y-4 px-6 py-6 2xl:space-y-8 2xl:px-12 2xl:py-12  inline content-center box-content min-h-2/3 w-2/3 bg-indigo-100 rounded-3xl ">
-          <p className="md:text-2xl font-bold 2xl:text-4xl text-indigo-700 ">
+          <p className="md:text-lg font-bold 2xl:text-2xl text-indigo-700 ">
             Name
           </p>
-          <p className="md:text-2xl font-bold 2xl:text-4xl">
+          <p className="md:text-lg font-bold 2xl:text-2xl">
             {currentUser.firstName + " " + currentUser.lastName}
           </p>
-          <p className="md:text-2xl font-bold 2xl:text-4xl text-indigo-700">
+          <p className="md:text-lg font-bold 2xl:text-2xl text-indigo-700">
             Bank Name
           </p>
-          <p className="md:text-2xl font-bold 2xl:text-4xl">{bank[0]}</p>
-          <p className="md:text-2xl font-bold 2xl:text-4xl text-indigo-700">
+          <p className="md:text-lg font-bold 2xl:text-2xl">{bank[0]}</p>
+          <p className="md:text-lg font-bold 2xl:text-2xl text-indigo-700">
             Account No.{" "}
           </p>
-          <p className="md:text-2xl font-bold 2xl:text-4xl">{bank[1]}</p>
+          <p className="md:text-lg font-bold 2xl:text-2xl">{bank[1]}</p>
           <div className="flex justify-end">
             <button
               type="button"
               onClick={routeChange}
-              className="hover:bg-slate-700 bg-clip-border px-8 py-5 bg-indigo-700 text-lg 2xl:text-2xl text-white rounded-3xl"
+              className="hover:bg-slate-700 bg-clip-border px-8 py-5 bg-indigo-700 text-lg 2xl:text-xl text-white rounded-3xl"
             >
               Edit Bank Account
             </button>
@@ -130,7 +130,7 @@ function WithDrawnPage() {
           Account information should be provided before withdrawing
         </p>
         {isFail && <p className="text-center text-lg text-red-700">
-          Withdrawn amount should not below or equal 0
+          Withdrawn amount should not less than or equal 0 <br/> and not more than your balance 
         </p>}
       </div>
     </div>
