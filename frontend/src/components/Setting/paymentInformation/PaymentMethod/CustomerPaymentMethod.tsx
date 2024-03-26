@@ -99,7 +99,7 @@ const CustomerPaymentMethod = () => {
                                 <tr key={data.id} className="hover:bg-slate-100 transition-colors">
                                     <th>{idx+1}</th>
                                     <td>{data.info.split('-')[0]}</td>
-                                    <td>{data.info.split('-')[1]}</td>
+                                    <td>{"XXXXX" + data.info.split('-')[1].substring(5, 9) + "X"}</td>
                                     <td className="flex justify-end"><DeletePaymentMethodModal id={data.id} deleteFunction={() => deleteMethod(data.id)}/></td>
                                 </tr>
                             )
@@ -114,7 +114,7 @@ const CustomerPaymentMethod = () => {
             
         </div>
 
-        <div className="w-full flex-col gap-3">
+        {/* <div className="w-full flex-col gap-3">
             <div className="text-base w-full font-bold text-left pb-4 pt-4">Credit or Debit Cards</div>
             <table className="table">
                 <thead>
@@ -141,7 +141,7 @@ const CustomerPaymentMethod = () => {
             <div className="w-full flex justify-center pt-4">
                 <AddPaymentMethodCardModal addFunction={addCardMethod} />
             </div>
-        </div>
+        </div> */}
 
     </div>
   )

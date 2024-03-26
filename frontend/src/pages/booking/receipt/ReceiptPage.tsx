@@ -123,8 +123,8 @@ const ReceiptPage = () => {
           <div className='bg-indigo-200 w-1/4 p-2'>฿ {bookData.transaction.price}</div>
         </div>
         <div>Need help? Visit <span className='font-bold'>horhub.com/support</span></div>
-        <div>Or scan</div>
-        <div>Img here</div>
+        {/* <div>Or scan</div>
+        <div>Img here</div> */}
         <div className='flex justify-between w-full'>
           <div>
             <div>Facebook Page : horhub</div>
