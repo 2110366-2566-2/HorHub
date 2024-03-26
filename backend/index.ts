@@ -165,7 +165,7 @@ io.on('connection', (socket) => {
 
       io.emit(`users:${(sendTo)}:notifications`, {
         title: `Chat from ${(senderUser.displayName)} | HorHub`,
-        message: (message.type === "Text") ? message.text : (message.type === "Images") ? `${message.pictures.length} ${(message.pictures.length > 1) ? "are" : "is"} sent` : "The location is sent",
+        message: (message.type === "Text") ? message.text : (message.type === "Images") ? `${message.pictures.length} picture(s) ${(message.pictures.length > 1) ? "are" : "is"} sent` : "The location is sent",
         icon: senderUser.imageURL
       })
 
