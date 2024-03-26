@@ -78,6 +78,13 @@ export default function PaymentPage() {
     };
     initData();
   }, []);
+
+  function checkoutMobileBanking() {
+    if (!bookData) return
+    window.location.href = `/bookings/${bookingId}/payment/success/${bookData.checkoutToken}`
+  }
+
+
   if (isLoading) return <LoadingPage />;
   if (isNotFound || !bookData) return <NotFoundPage />;
   const diffTime = bookData.endAt.getTime() - bookData.startAt.getTime();
@@ -158,7 +165,7 @@ export default function PaymentPage() {
                   (paymentMethod === "cardpromptpay") && <CardPromptPayPayment />
                 }
                 {
-                  (paymentMethod === "mobilebanking") && <BankingPayment />
+                  (paymentMethod === "mobilebanking") && <BankingPayment checkoutMobileBanking={checkoutMobileBanking} />
                 }
             </div>
         </div>  
