@@ -25,14 +25,16 @@ export default function DormMap({ lat, lng}: { lat: number; lng: number}) {
   }, [lat, lng]);
 
   const [isOpen, setOpen] = useState<boolean>(false);
+
   return (
     <APIProvider apiKey={process.env.REACT_APP_MAP_API_KEY as string}>
-      <div className="w-full aspect-video">
+      <div className="w-full aspect-video relative">
         <Map
           {...cameraProps}
-          
+          style={{ width: '100%', height: '100%' }}
           mapId={process.env.REACT_APP_MAP_ID as string}
           onCameraChanged={handleCameraChange}
+          defaultCenter={{lat: lat, lng: lng}}
           disableDefaultUI={true}
         >
           <AdvancedMarker
