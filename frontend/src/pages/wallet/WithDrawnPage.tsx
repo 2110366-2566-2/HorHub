@@ -132,7 +132,7 @@ function WithDrawnPage() {
           Account information should be provided before withdrawing
         </p>
         {isFail && <p className="text-center text-lg text-red-700">
-          Withdrawn amount should not less than or equal 0 <br/> and not more than your balance 
+          Withdrawn amount should not less than or equal 0, <br/> not more than your balance, <br/> and at most 2 decimal places
         </p>}
       </div>
     </div>
