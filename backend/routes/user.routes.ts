@@ -329,6 +329,7 @@ router.get(
               name: true,
               numberOfAvailableRoom: true,
               numberOfRoom: true,
+              images: true,
               dorm: { select: { name: true } },
             },
           },

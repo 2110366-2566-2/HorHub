@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useUser } from '../../lib/context/UserContext'
 import { Link } from 'react-router-dom'
+import { IoIosAddCircle } from 'react-icons/io'
+import { Tooltip } from '@mui/material'
 
 type PaymentMethod = {id: string, type: string, info: string}
 
@@ -47,15 +49,18 @@ const BankingPayment = ({checkoutMobileBanking} : { checkoutMobileBanking: () =>
             options.map((option) => {
               return (
                 <option value={option.id}>
-                  {option.info.split("-")[0] + " - " + option.info.split("-")[1].substring(0,3) + "*******"}
+                  {option.info.split("-")[0] + " - " + "XXXXX" + option.info.split("-")[1].substring(5,9) + "X"}
                 </option>
               )
             })
           }
         </select>
-        <Link to="/settings/payment_information">
-          Create
-        </Link>
+        <Tooltip title="Add New Bank Account">
+          <Link to="/settings/payment_information" className="hover:bg-indigo-100 rounded-full transition-colors">
+            <IoIosAddCircle className="w-10 h-10 rounded-full"/>
+          </Link>
+        </Tooltip>
+        
       </div>
       {
         (currentOption !== "") ? (

@@ -18,6 +18,7 @@ const bookingSchema = z.object({
     name: z.string(),
     numberOfAvailableRoom: z.number(),
     numberOfRoom: z.number(),
+    images: z.string().array(),
     dorm: z.object({
       name: z.string(),
     }),
@@ -98,40 +99,40 @@ export default function PaymentPage() {
                 <div className="flex flex-col rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-600">
                     <div className="flex flex-col rounded-2xl bg-indigo-100 w-full gap-2">
                         <div className="flex flex-col">
-                            <div className="flex ms-8 mt-8 text-3xl font-bold">Payment Summary</div>
+                            <div className="flex ms-8 mt-8 text-xl font-bold">Payment Summary</div>
                             <div className="flex ms-6 me-6 mt-6 border-t border-1 border-gray-400 flex-grow"></div>   
                         </div>
                         <div className="flex flex-col">
-                            <div className="flex ms-8 mt-6 text-2xl font-bold text-indigo-600">Dorm Information</div>
-                            <div className="flex ms-8 mb-4 text-1xl">{bookData.roomType.dorm.name}</div>
+                            <div className="flex ms-8 mt-6 text-xl font-bold text-indigo-600">Dorm Information</div>
+                            <div className="flex ms-8 mb-4 text-lg">{bookData.roomType.dorm.name}</div>
                         </div>
                         <div className="flex flex-col">
-                            <div className="flex ms-8 mt-6 text-2xl font-bold text-indigo-600">Dorm Room</div>
-                            <div className="flex ms-8 mb-4 text-1xl">{bookData.roomType.name}</div>
+                            <div className="flex ms-8 mt-6 text-xl font-bold text-indigo-600">Dorm Room</div>
+                            <div className="flex ms-8 mb-4 text-lg">{bookData.roomType.name}</div>
                         </div>
                     </div>
                     <div className="flex flex-row justify-between items-center gap-6">
                         <div className="flex flex-col items-center gap-2">
-                            <div className="ms-8 mt-4 text-2xl text-slate-50 font-bold">Capacity</div>
-                            <div className="ms-8 mb-4 text-1xl text-slate-50">{bookData.roomType.capacity}</div>
+                            <div className="ms-8 mt-4 text-xl text-slate-50 font-bold">Capacity</div>
+                            <div className="ms-8 mb-4 text-lg text-slate-50">{bookData.roomType.capacity}</div>
                         </div>
                         <div className="flex flex-col items-center gap-2">
-                            <div className="mt-4 text-2xl text-slate-50 font-bold">Start Date</div>
-                            <div className="mb-4 text-1xl text-slate-50">{(new Date(bookData.startAt)).toDateString()}</div>
+                            <div className="mt-4 text-xl text-slate-50 font-bold">Start Date</div>
+                            <div className="mb-4 text-lg text-slate-50">{(new Date(bookData.startAt)).toDateString()}</div>
                         </div>                    
                         <div className="flex flex-col items-center gap-2">
-                            <div className="me-8 mt-4 text-2xl text-slate-50 font-bold">End Date</div>
-                            <div className="me-8 mb-4 text-1xl text-slate-50">{(new Date(bookData.endAt)).toDateString()}</div>
+                            <div className="me-8 mt-4 text-xl text-slate-50 font-bold">End Date</div>
+                            <div className="me-8 mb-4 text-lg text-slate-50">{(new Date(bookData.endAt)).toDateString()}</div>
                         </div>
                     </div>
                 </div>
                 <div className="flex flex-row items-center justify-between gap-2 mt-4">
-                    <div className="flex items-center text-2xl text-indigo-600 font-bold">Total Date</div>
-                    <div className="flex items-center text-3xl font-bold">{total_days}</div>
-                    <div className="flex items-center text-2xl text-indigo-600 font-bold">Total Price</div>
+                    <div className="flex items-center text-xl text-indigo-600 font-bold">Total Date</div>
+                    <div className="flex items-center text-2xl font-bold">{total_days}</div>
+                    <div className="flex items-center text-xl text-indigo-600 font-bold">Total Price</div>
                     <div className="flex items-start flex-col">
-                        <div className="flex justify-center text-3xl font-bold">฿{bookData.price.toFixed(2)}</div>
-                        <div className="flex justify-center text-lg">Including Vat 7%</div>
+                        <div className="flex justify-center text-2xl font-bold">฿{bookData.price.toFixed(2)}</div>
+                        <div className="flex justify-center text-base">Including Vat 7%</div>
                     </div>  
                 </div> 
             </div>
