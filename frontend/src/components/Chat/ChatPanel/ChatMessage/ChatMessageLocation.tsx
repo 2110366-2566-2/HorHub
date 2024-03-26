@@ -13,9 +13,9 @@ const ChatMessageLocation = ({ latitude, longitude }: { latitude: number, longit
       <Modal
         open={open}
         onClose={() => setOpen(false)}
-        className="flex justify-center items-center"
+        className="flex justify-center items-center w-full h-full"
       >
-        <Box className="flex justify-center items-center w-3/4 h-3/4">
+        <Box className="flex justify-center items-center w-3/4 aspect-video">
           <DormMap lat={latitude} lng={longitude} />
         </Box>
       </Modal>
