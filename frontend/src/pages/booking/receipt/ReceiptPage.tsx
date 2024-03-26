@@ -2,6 +2,8 @@ import React, { useEffect,useState } from 'react'
 import { useParams } from 'react-router-dom';
 import LoadingPage from '../../etc/LoadingPage';
 import NotFoundPage from '../../etc/NotFoundPage';
+import generatePDF, { Resolution, Margin } from 'react-to-pdf';
+import html2canvas from 'html2canvas';
 
 type Transaction = {
   id: string;
@@ -33,13 +35,58 @@ type Transaction = {
   status: string;
 };
 
-const ReceiptPage = () => {
+const ops = {
+  filename: "invoice.pdf",
+  method: "save" as const,
+  resolution: Resolution.MEDIUM,
+  page: {
+     margin: Margin.SMALL,
+     format: 'letter',
+     orientation: 'landscape' as const,
+  },
+  canvas: {
+     mimeType: 'image/png' as const,
+     qualityRatio: 1
+  },
+  overrides: {
+     pdf: {
+        compress: true
+     },
+     canvas: {
+        useCORS: true
+     }
+  },
+};
 
+const getTargetElement = () => document.getElementById('content-id');
+
+const downloadPdf = () => generatePDF(getTargetElement, ops);
+
+const convertHtmlToJpg = () => {
+  const contentElement = document.getElementById('content-id');
+
+  if (contentElement) {
+    html2canvas(contentElement, {
+      useCORS: true
+    }).then(canvas => {
+      const imgData = canvas.toDataURL('image/jpeg');
+      const link = document.createElement('a');
+      link.href = imgData;
+      link.download = 'invoice.jpg';
+      link.click();
+    });
+  } else {
+    console.error('Content element not found');
+  }
+};
+
+const ReceiptPage = () => {
+  
   const {bookingId} = useParams();
   const [bookData,setBookData] = useState<Transaction | null>(null);
 
   const [isLoading,setLoading] = useState<boolean>(true);
-  
+
   useEffect(() => {
     const initData = async() => {
         const res = await fetch(process.env.REACT_APP_BACKEND_URL + `/payment/receipt/${bookingId}`, {
@@ -52,8 +99,9 @@ const ReceiptPage = () => {
         }
         
         setLoading(false);
-    };
+      };
     
+
     initData();
   },[])
  
@@ -62,7 +110,8 @@ const ReceiptPage = () => {
   console.log(bookData);
 
   return (
-    <div className='page gap-y-4 '>
+    <div className='p-2'>
+      <div id="content-id" className='page gap-y-4'>
         <div className='flex w-full text-2xl'>
           <div className='w-full text-indigo-700 font-bold'>HorHub</div>
           <div className='w-full text-end font-bold'>Receipt</div>
@@ -106,7 +155,8 @@ const ReceiptPage = () => {
             width="672"
             height="494"
             className='w-[200px] h-[200px] inset-0  object-cover' 
-            src = {(bookData.roomType.dorm.images.length === 0) ? "https://firebasestorage.googleapis.com/v0/b/horhub-7d1df.appspot.com/o/placeholders%2F681px-Placeholder_view_vector.png?alt=media&token=bc0c7178-b94a-4bf0-957b-42a75f708a79" : bookData.roomType.dorm.images[0]}/>
+            src = { bookData.roomType.dorm.images.length > 0 ? bookData.roomType.dorm.images[0] : "https://firebasestorage.googleapis.com/v0/b/horhub-7d1df.appspot.com/o/placeholders%2F681px-Placeholder_view_vector.png?alt=media&token=bc0c7178-b94a-4bf0-957b-42a75f708a79" }
+            />
           </div>
           <div className='mx-6 w-full'>
             <div className='w-full flex justify-between font-bold my-6'>
@@ -134,13 +184,14 @@ const ReceiptPage = () => {
           </div>
           <div>
             <div className='font-bold text-indigo-600'>HorHub</div>
-            <div>Copyright 2024 HorHub.Co.Ltd</div>
+            <div>Copyleft @2024 HorHub.Co.Ltd</div>
           </div>
         </div>
-        <div className='w-full flex justify-end gap-2'>
-          <button className='primary-button'>Print PDF</button>
-          <button className='primary-button'>Print JPG</button>
-        </div>
+      </div>
+      <div className='w-full flex justify-end gap-2 p-2'>
+        <button onClick={downloadPdf} className='primary-button'>Print PDF</button>
+        <button onClick={convertHtmlToJpg} className='primary-button'>Print JPG</button>
+      </div>
     </div>
   )
 }
