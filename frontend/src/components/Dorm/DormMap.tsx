@@ -8,7 +8,7 @@ import {
   MapCameraChangedEvent,
   MapCameraProps,
 } from "@vis.gl/react-google-maps";
-export default function DormMap({ lat, lng }: { lat: number; lng: number }) {
+export default function DormMap({ lat, lng}: { lat: number; lng: number}) {
   const position = { lat: lat, lng: lng};
   const [cameraProps, setCameraProps] = useState<MapCameraProps>({
     center: { lat: lat, lng: lng},
@@ -22,7 +22,7 @@ export default function DormMap({ lat, lng }: { lat: number; lng: number }) {
       center: {lat: lat, lng: lng},
       zoom: 9
     })
-  }, [lat, lng])
+  }, [lat, lng]);
 
   const [isOpen, setOpen] = useState<boolean>(false);
 
@@ -38,6 +38,7 @@ export default function DormMap({ lat, lng }: { lat: number; lng: number }) {
           disableDefaultUI={true}
         >
           <AdvancedMarker
+            
             position={position}
             onClick={() => {
               setOpen(true);

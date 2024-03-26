@@ -52,6 +52,11 @@ npm install
 npm install -g nodemon
 ```
 
+- Generateting prisma client
+```
+npx prisma generate
+```
+
 - Start the backend server (for developing)
 ```
 nodemon index.ts

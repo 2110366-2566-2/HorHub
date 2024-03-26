@@ -5,6 +5,7 @@ import { Box, Modal } from '@mui/material'
 const ChatMessageLocation = ({ latitude, longitude }: { latitude: number, longitude: number }) => {
   const [open, setOpen] = useState<boolean>(false)
 
+
   // const [tempLat, setTempLat] = useState<number>(0)
   // const [tempLng, setTempLng] = useState<number>(0)
 
@@ -16,7 +17,6 @@ const ChatMessageLocation = ({ latitude, longitude }: { latitude: number, longit
       setTempState(true)
     }, 80)
   }, [])
-
 
   return (
     <>
