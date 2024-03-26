@@ -6,6 +6,8 @@ import { Avatar, Tooltip } from "@mui/material";
 import MenuBar from "./MenuBar";
 import { AiFillMessage } from "react-icons/ai";
 import addNotification from "react-push-notification";
+import { socket } from "../../lib/socket";
+import { Notification } from "../../lib/type/Notification";
 
 const NavigationBar = () => {
   const { currentUser, isLoading, fetchUser } = useUser();
@@ -21,18 +23,26 @@ const NavigationBar = () => {
   //     await fetchUser();
   // };
 
-  function sendNotification() {
+  function sendNotification(notification: Notification) {
     addNotification({
-      title: "Chat | HorHub",
-      message: "วันพระวันเจ้าไม่เว้นกันเลยจริงๆ",
-      icon: "https://www.japantimes.co.jp/japantimes/uploads/images/2023/09/06/250061.jpg",
+      title: notification.title,
+      message: notification.message,
+      icon: notification.icon,
       native: true
   });
   }
 
   useEffect(() => {
-    sendNotification()
-  }, [])
+    if (!currentUser) return
+
+    socket.on(`users:${currentUser.id}:notifications`, (notification: Notification) => {
+      sendNotification(notification)
+    })
+
+    return function cleanup() {
+      socket.off(`users:${currentUser.id}:notifications`)
+    };
+  }, [isLoading])
 
 
   return (
