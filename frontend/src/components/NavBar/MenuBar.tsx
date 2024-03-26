@@ -4,6 +4,7 @@ import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { FiBookOpen } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../lib/context/UserContext";
+import { IoWalletOutline } from "react-icons/io5";
 
 function MenuBar() {
 
@@ -15,6 +16,12 @@ function MenuBar() {
             name: "My Profile",
             icon: <LuUser2 className={iconClassName} />,
             onClick: () => {navigate('/profile')}
+        },
+        {
+            name: "My Wallet",
+            icon: <IoWalletOutline className={iconClassName} />,
+            onClick: () => {navigate('/my-wallet')},
+            allow: "Provider"
         },
         {
             name: "My Reservation",
