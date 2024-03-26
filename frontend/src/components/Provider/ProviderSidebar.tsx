@@ -20,12 +20,6 @@ export default function ProviderSidebar() {
             <div>My Dorms</div>
           </ListSettingItem>
         </Link>
-        <Link to="../my-wallet" relative="path">
-          <ListSettingItem active={currentPath === "wallet"}>
-            <IoWalletOutline />
-            <div>My Wallet</div>
-          </ListSettingItem>
-        </Link>
         {/* <Link to = "account">
                 <ListSettingItem active = {currentPath === "account"}>
                     <GoGear />

@@ -253,70 +253,47 @@ router.post("/verify", verifyAccount);
 
 router.post("/verify/fail", authenticateToken, verifyAccountFail);
 
-router.get(
-  "/wallets",
-  authenticateToken,
-  authenticateProvider,
-  async (req, res) => {
+router.get("/wallets",authenticateToken,authenticateProvider,async (req,res) => {
+  const user: User = req.body.user;
+  delete req.body.user;
+  try {
+    const result = await db.transaction.findMany({where : {userId : user.id}, orderBy : {createAt : 'desc'}});
+    return res.send({ "transaction" : result , "name" : user.displayName , "balance" : user.balance});
+
+  } catch(err) {
+    console.log(err);
+    return res.status(403);
+  }
+});
+
+router.post("/withdrawn",authenticateToken,authenticateProvider,async (req,res) => {
+  try {  
+    let {amount}  = req.body;
+    amount = Number(parseFloat(amount).toFixed(2));
     const user: User = req.body.user;
     delete req.body.user;
-    try {
-      const result = await db.transaction.findMany({
-        where: { userId: user.id },
-        orderBy: { createAt: "desc" },
-      });
-      return res.send({
-        transaction: result,
-        name: user.displayName,
-        balance: user.balance,
-      });
-    } catch (err) {
-      console.log(err);
-      return res.status(403);
-    }
-  }
-);
+    console.log(req.body)
+    const u = await db.user.findUnique({where : {id : user.id}, include : {paymentMethods : true}})
+    if (amount < 0.01 || !amount) return res.status(403).send("Not allow");
+    if ((user.balance - amount) < 0) return res.status(403).send("Not allow");
+    if (u && !u.paymentMethods) return res.send(400).send("No account!");
+        const transaction = await db.transaction.create({
+          data : {
+            type : "WalletWithdrawn",
+            userId : user.id,
+            price : amount as number,
+            description : `Withdrawn from provider ${user.firstName} ${user.lastName} for amount ฿ ${amount.toFixed(2)}`,
+          }
+        });
 
-router.post(
-  "/withdrawn",
-  authenticateToken,
-  authenticateProvider,
-  async (req, res) => {
-    try {
-      let { amount } = req.body;
-      amount = Number(parseFloat(amount).toFixed(2));
-      const user: User = req.body.user;
-      delete req.body.user;
-      console.log(req.body);
-      const u = await db.user.findUnique({
-        where: { id: user.id },
-        include: { paymentMethods: true },
-      });
-      console.log(u?.paymentMethods);
-      if (amount < 0.01 || !amount) return res.status(403).send("Not allow");
-      if (user.balance - amount < 0) return res.status(403).send("Not allow");
-      if (u && u.paymentMethods.length === 0)
-        return res.status(400).send("No account!");
-      const transaction = await db.transaction.create({
-        data: {
-          type: "WalletWithdrawn",
-          userId: user.id,
-          price: amount as number,
-          description: `Withdrawn from provider ${user.firstName} ${user.lastName} for amount ฿ ${amount}`,
-        },
-      });
+        const result = await db.user.update({where : {id : user.id} , data : {balance : (user.balance - amount) }})
 
-      const result = await db.user.update({
-        where: { id: user.id },
-        data: { balance: user.balance - amount },
-      });
-
-      return res.send({ transaction: transaction });
+        return res.send({transaction : transaction})
     } catch (err) {
       console.log(err);
       return res.send(403);
     }
-  }
-);
+
+});
 
 export default router;
