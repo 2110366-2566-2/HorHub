@@ -43,7 +43,7 @@ const LoginButton = () => {
     <div className="dropdown dropdown-end">
         <div tabIndex={0} role="button" className="primary-button">Sign In</div>
         <div tabIndex={0} className="dropdown-content z-[20] menu py-4 px-4 shadow bg-white rounded-box w-80 -bottom-2 translate-y-full border border-slate-100">
-            <div className="w-full flex flex-col items-center gap-3">
+            <form className="w-full flex flex-col items-center gap-3" onSubmit={(e) => {e.preventDefault(); onClick();}}>
                 <span className="font-semibold text-base">Sign In</span>
                 {
                     isError && <div className="flex w-full justify-center text-red-700">Email or password is wrong!</div>
@@ -69,10 +69,10 @@ const LoginButton = () => {
                 <span>Don't have an account? <Link to="/register">Sign up</Link> now!</span>
                 {
                     (email && password) 
-                    ? <button className="primary-button" onClick = {onClick}>Sign In</button>
+                    ? <button type="submit" className="primary-button">Sign In</button>
                     : <button className="disabled-button" disabled>Sign In</button>
                 }
-            </div>
+            </form>
         </div>
     </div>
   )
