@@ -23,7 +23,34 @@ const NavigationBar = () => {
   //     await fetchUser();
   // };
 
+  function checkAllowSendChatNotification(notification: Notification) {
+    if (!currentUser) return false
+
+      try {
+          const disabledChatNotificationStr = localStorage.getItem('disabledChatNotification')
+          if (!disabledChatNotificationStr) return true
+  
+          const disabledChatNotificationJSON: {userId: string, disabledChatId: string[]}[] = JSON.parse(disabledChatNotificationStr)
+          if (!disabledChatNotificationJSON) return true
+
+          const myDisabledChat = disabledChatNotificationJSON.find((value) => value.userId === currentUser.id)
+          if (!myDisabledChat) return true
+
+          if (myDisabledChat.disabledChatId.includes(notification.context)) {
+              return false
+          }
+          return true
+      }
+      catch (err) {
+          return true
+      }
+  }
+
   function sendNotification(notification: Notification) {
+    if (notification.type === "Chat") {
+      if (!checkAllowSendChatNotification(notification)) return
+    }
+
     addNotification({
       title: notification.title,
       message: notification.message,
