@@ -31,19 +31,20 @@ const bookUpdateSchema = z.object({
   status: z.enum(["Cancelled", "PaymentPending", "Confirmed"]),
 });
 
-
-
 router.get("/:bookingId", authenticateToken, async (req, res) => {
   const { bookingId } = req.params;
-  const user: User = req.body.user
-  
+  const user: User = req.body.user;
+
   try {
-    if (bookingId.length != 24 || /[0-9A-Fa-f]{24}/g.test(bookingId) === false) {
+    if (
+      bookingId.length != 24 ||
+      /[0-9A-Fa-f]{24}/g.test(bookingId) === false
+    ) {
       return res.status(404).send("No booking found");
     }
 
     // Update outdated bookings
-    await refreshBookings()
+    await refreshBookings();
 
     const bookingRes = await db.booking.findUnique({
       include: {
@@ -52,39 +53,38 @@ router.get("/:bookingId", authenticateToken, async (req, res) => {
             dorm: {
               select: {
                 id: true,
-                name: true
-              }
-            }
-          }
-        }
+                name: true,
+              },
+            },
+          },
+        },
       },
       where: {
         id: bookingId,
         OR: [
           {
-            customerId: user.id
+            customerId: user.id,
           },
           {
             roomType: {
               dorm: {
-                providerId: user.id
-              }
-            }
-          }
-        ]
-      }
-    })
+                providerId: user.id,
+              },
+            },
+          },
+        ],
+      },
+    });
 
     if (!bookingRes) {
-      return res.status(403).send("You cannot view this booking")
+      return res.status(403).send("You cannot view this booking");
     }
 
-    return res.send(bookingRes)
-
+    return res.send(bookingRes);
   } catch (err) {
-    return res.status(400).send(err)
+    return res.status(400).send(err);
   }
-})
+});
 
 router.post("/", authenticateToken, authenticateCustomer, async (req, res) => {
   const user: User = req.body.user;
@@ -131,7 +131,8 @@ router.post("/", authenticateToken, authenticateCustomer, async (req, res) => {
   }
 });
 
-router.put("/:bookingId",
+router.put(
+  "/:bookingId",
   authenticateToken,
   authenticateProvider,
   async (req, res) => {
@@ -234,8 +235,10 @@ router.post("/:bookingId/confirmpayment/:checkoutToken", async (req, res) => {
   const { bookingId, checkoutToken } = req.params;
 
   try {
-
-    if (bookingId.length != 24 || /[0-9A-Fa-f]{24}/g.test(bookingId) === false) {
+    if (
+      bookingId.length != 24 ||
+      /[0-9A-Fa-f]{24}/g.test(bookingId) === false
+    ) {
       return res.status(404).send("No booking found");
     }
 
@@ -243,7 +246,7 @@ router.post("/:bookingId/confirmpayment/:checkoutToken", async (req, res) => {
       where: {
         id: bookingId,
         checkoutToken: checkoutToken,
-        status: "PaymentPending"
+        status: "PaymentPending",
       },
       include: {
         roomType: {
@@ -253,14 +256,14 @@ router.post("/:bookingId/confirmpayment/:checkoutToken", async (req, res) => {
                 provider: {
                   select: {
                     id: true,
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    })
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
 
     if (!bookingRes) {
       return res.status(404).send("No booking found");
@@ -271,47 +274,54 @@ router.post("/:bookingId/confirmpayment/:checkoutToken", async (req, res) => {
         userId: bookingRes.customerId,
         type: "BookingPayment",
         price: bookingRes.price,
-        description: "Make a payment to " + bookingRes.roomType.name + " - " + bookingRes.roomType.dorm.name
-      }
-    })
+        description:
+          "Make a payment to " +
+          bookingRes.roomType.name +
+          " - " +
+          bookingRes.roomType.dorm.name,
+      },
+    });
 
     const providerTransaction = await db.transaction.create({
       data: {
         userId: bookingRes.roomType.dorm.providerId,
         type: "WalletDeposit",
         price: Number((bookingRes.price * 0.95).toFixed(2)),
-        description: "Reservation in " + bookingRes.roomType.name + " - " + bookingRes.roomType.dorm.name
-      }
-    })
+        description:
+          "Reservation in " +
+          bookingRes.roomType.name +
+          " - " +
+          bookingRes.roomType.dorm.name,
+      },
+    });
 
     const updateBookingRes = await db.booking.update({
       where: {
-        id: bookingId
+        id: bookingId,
       },
       data: {
         status: "Confirmed",
-        transactionId: customerTransaction.id
-      }
-    })
+        transactionId: customerTransaction.id,
+      },
+    });
 
     const updateProviderBalance = await db.user.update({
       where: {
-        id: bookingRes.roomType.dorm.providerId
+        id: bookingRes.roomType.dorm.providerId,
       },
       data: {
         balance: {
-          increment: Number((bookingRes.price * 0.95).toFixed(2))
-        }
-      }
-    })
+          increment: Number((bookingRes.price * 0.95).toFixed(2)),
+        },
+      },
+    });
 
-    console.log(updateProviderBalance)
+    console.log(updateProviderBalance);
 
-    return res.send(customerTransaction)
-
+    return res.send(customerTransaction);
   } catch (err) {
-    return res.status(400).send(err)
+    return res.status(400).send(err);
   }
-})
+});
 
 export default router;
