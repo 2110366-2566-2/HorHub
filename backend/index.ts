@@ -144,11 +144,32 @@ io.on('connection', (socket) => {
         },
         data: updateData
       })
+
+      const senderUser = await db.user.findUnique({
+        where: {
+          id: sendTo
+        },
+        select: {
+          id: true,
+          displayName: true,
+          imageURL: true
+        }
+      })
+
+      if (!senderUser) return
   
       io.emit(`chats:${message.chatId}:addMessage`, message)
 
       io.emit(`users:${message.senderId}:chatsUpdate`)
       io.emit(`users:${sendTo}:chatsUpdate`)
+
+      io.emit(`users:${(sendTo)}:notifications`, {
+        type: "Chat",
+        context: message.chatId,
+        title: `Chat from ${(senderUser.displayName)} | HorHub`,
+        message: (message.type === "Text") ? message.text : (message.type === "Images") ? `${message.pictures.length} picture(s) ${(message.pictures.length > 1) ? "are" : "is"} sent` : "The location is sent",
+        icon: senderUser.imageURL
+      })
 
     } catch (err) {
       console.log(err)
