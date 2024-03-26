@@ -10,6 +10,7 @@ function WithDrawnPage() {
   const [bank, setbank] = useState([]);
   const [amount,setAmount] = useState<number | undefined>(undefined);
   const [isFail,setFail] = useState<boolean>(false);
+  const [noAccount,setNoAccount] = useState<boolean>(false);
   async function initData() {
     await fetchUser();
     if (!currentUser) {
@@ -57,7 +58,10 @@ function WithDrawnPage() {
       console.log(result);
       console.log(await result.json());
       navigate(0);
-    } else {
+    } else if (result.status === 400) {
+      setNoAccount(true);
+    }
+    else {
       setFail(true);
     }
 
@@ -133,6 +137,10 @@ function WithDrawnPage() {
         </p>
         {isFail && <p className="text-center text-lg text-red-700">
           Withdrawn amount should not less than or equal 0, <br/> not more than your balance, <br/> and at most 2 decimal places
+        </p>}
+
+        {noAccount && <p className="text-center text-lg text-red-700">
+          You need bank account to withdrawn
         </p>}
       </div>
     </div>

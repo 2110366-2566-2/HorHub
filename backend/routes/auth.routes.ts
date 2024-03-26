@@ -273,9 +273,10 @@ router.post("/withdrawn",authenticateToken,authenticateProvider,async (req,res) 
     const user: User = req.body.user;
     delete req.body.user;
     console.log(req.body)
+    const u = await db.user.findUnique({where : {id : user.id}, include : {paymentMethods : true}})
     if (amount < 0.01 || !amount) return res.status(403).send("Not allow");
     if ((user.balance - amount) < 0) return res.status(403).send("Not allow");
-    
+    if (u && !u.paymentMethods) return res.send(400).send("No account!");
         const transaction = await db.transaction.create({
           data : {
             type : "WalletWithdrawn",
