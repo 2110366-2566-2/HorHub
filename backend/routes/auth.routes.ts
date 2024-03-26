@@ -282,7 +282,7 @@ router.post("/withdrawn",authenticateToken,authenticateProvider,async (req,res) 
             type : "WalletWithdrawn",
             userId : user.id,
             price : amount as number,
-            description : `Withdrawn from provider ${user.firstName} ${user.lastName} for amount ฿ ${amount}`,
+            description : `Withdrawn from provider ${user.firstName} ${user.lastName} for amount ฿ ${amount.toFixed(2)}`,
           }
         });
 

@@ -31,7 +31,7 @@ export default function SettingSidebar() {
             <div>Payment Information</div>
           </ListSettingItem>
         </Link>
-        <Link to="withdrawn">
+        {/* <Link to="withdrawn">
           <ListSettingItem active={currentPath === "withdrawn"}>
             <MdMoneyOffCsred />
             <div>Withdrawn</div>
@@ -42,7 +42,7 @@ export default function SettingSidebar() {
             <MdOutlineAttachMoney />
             <div>Top Up</div>
           </ListSettingItem>
-        </Link>
+        </Link> */}
         {/* <Link to = "password">
                 <ListSettingItem active = {currentPath === "password"}>
                     <RiLockPasswordFill />
