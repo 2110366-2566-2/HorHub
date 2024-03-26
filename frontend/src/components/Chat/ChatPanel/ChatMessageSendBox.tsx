@@ -82,7 +82,7 @@ const ChatMessageSendBox = ({ chat, chatId, sendTo }: { chat: Chat, chatId: stri
             className="block w-full p-2 ps-5 text-sm text-gray-900 border border-gray-300 rounded-2xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500" 
             placeholder="Aa"
             value={text}
-            onChange={(e) => setText(e.target.value)}
+            onChange={(e) => setText(e.target.value.substring(0, 512))}
           />
           <button type="submit"><IoIosSend className="text-xl fond-bold text-indigo-600" /></button>
         </form>

@@ -22,8 +22,8 @@ const ChatListElement = ({ chat, setChatRooms }: { chat: Chat, setChatRooms: Rea
                 <div className="font-bold text-sm truncate">{anotherParticipantDisplayName}</div>
                 {(chat.latestMessage) && (
                   (chat.latestMessage.type === "Text") ? <p className="truncate">{(currentUser.id === chat.latestMessage.senderId) ? "You" : anotherParticipantDisplayName}: {chat.latestMessage.text}</p>
-                  : (chat.latestMessage.type === "Images") ? <div>{(currentUser.id === chat.latestMessage.senderId) ? "You" : anotherParticipantDisplayName} sent {chat.latestMessage.pictures?.length || 1} image{((chat.latestMessage.pictures?.length || 1) > 1) && "s"}</div>
-                  : <div>{(currentUser.id === chat.latestMessage.senderId) ? "You" : anotherParticipantDisplayName} sent a location</div>
+                  : (chat.latestMessage.type === "Images") ? <p className="truncate">{(currentUser.id === chat.latestMessage.senderId) ? "You" : anotherParticipantDisplayName} sent {chat.latestMessage.pictures?.length || 1} image{((chat.latestMessage.pictures?.length || 1) > 1) && "s"}</p>
+                  : <p className="truncate">{(currentUser.id === chat.latestMessage.senderId) ? "You" : anotherParticipantDisplayName} sent a location</p>
                 )}
             </div>
             <div className="flex flex-col items-end">
