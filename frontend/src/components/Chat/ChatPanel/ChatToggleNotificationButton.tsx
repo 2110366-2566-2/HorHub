@@ -16,6 +16,7 @@ const ChatToggleNotificationButton = ({ chatId }: {chatId: string}) => {
             setAllowNotification(false)
             
             const disabledChatNotificationStr = localStorage.getItem('disabledChatNotification')
+
             if (!disabledChatNotificationStr) {
                 localStorage.setItem('disabledChatNotification', JSON.stringify([{
                     userId: currentUser.id,
@@ -65,20 +66,15 @@ const ChatToggleNotificationButton = ({ chatId }: {chatId: string}) => {
             setAllowNotification(true)
 
             const disabledChatNotificationStr = localStorage.getItem('disabledChatNotification')
-            if (!disabledChatNotificationStr) {
-                return
-            }
+            if (!disabledChatNotificationStr) return
 
             const disabledChatNotificationJSON: {userId: string, disabledChatId: string[]}[] = JSON.parse(disabledChatNotificationStr)
-            if (!disabledChatNotificationJSON) {
-                return
-            }
+            if (!disabledChatNotificationJSON) return
+            
 
             const myDisabledChat = disabledChatNotificationJSON.find((value) => value.userId === currentUser.id)
 
-            if (!myDisabledChat) {
-                return
-            }
+            if (!myDisabledChat) return
 
             if (myDisabledChat.disabledChatId.includes(chatId)) {
                 localStorage.setItem('disabledChatNotification', JSON.stringify([
@@ -88,9 +84,6 @@ const ChatToggleNotificationButton = ({ chatId }: {chatId: string}) => {
                         disabledChatId: myDisabledChat.disabledChatId.filter((value) => value !== chatId)
                     }
                 ]))
-            }
-            else {
-                return
             }
         }
     }
