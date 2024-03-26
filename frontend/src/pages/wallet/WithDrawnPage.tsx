@@ -8,8 +8,8 @@ import { useEffect, useState } from "react";
 function WithDrawnPage() {
   const { currentUser, isLoading, fetchUser } = useUser();
   const [bank, setbank] = useState([]);
-  const [amount,setAmount] = useState<number>(0);
-
+  const [amount,setAmount] = useState<number | undefined>(undefined);
+  const [isFail,setFail] = useState<boolean>(false);
   async function initData() {
     await fetchUser();
     if (!currentUser) {
@@ -49,12 +49,19 @@ function WithDrawnPage() {
       headers : {
         "Content-Type" : "application/json",
       },
-      body : JSON.stringify({amount : amount}),
+      body : JSON.stringify({amount : (!amount) ? 0 : amount}),
     })
-    console.log(await result.json());
-    navigate(0);
-  };
+    if (result.ok) {
+      setFail(false);
+      console.log(result);
+      console.log(await result.json());
+      navigate(0);
+    } else {
+      setFail(true);
+    }
 
+  };
+  console.log();
   if (isLoading) return <LoadingPage />;
   if (!currentUser) return <LoadingPage />;
   console.log(bank);
@@ -122,6 +129,9 @@ function WithDrawnPage() {
         <p className="text-center text-lg text-red-700">
           Account information should be provided before withdrawing
         </p>
+        {isFail && <p className="text-center text-lg text-red-700">
+          Withdrawn amount should not below or equal 0
+        </p>}
       </div>
     </div>
   );
