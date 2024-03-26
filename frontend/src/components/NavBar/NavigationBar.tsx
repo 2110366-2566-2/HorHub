@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import LoginButton from "./LoginButton";
 import { Link, useLocation } from "react-router-dom";
 import { useUser } from "../../lib/context/UserContext";
 import { Avatar, Tooltip } from "@mui/material";
 import MenuBar from "./MenuBar";
 import { AiFillMessage } from "react-icons/ai";
+import addNotification from "react-push-notification";
 
 const NavigationBar = () => {
   const { currentUser, isLoading, fetchUser } = useUser();
@@ -19,6 +20,20 @@ const NavigationBar = () => {
   //     console.log(result);
   //     await fetchUser();
   // };
+
+  function sendNotification() {
+    addNotification({
+      title: "Chat | HorHub",
+      message: "วันพระวันเจ้าไม่เว้นกันเลยจริงๆ",
+      icon: "https://www.japantimes.co.jp/japantimes/uploads/images/2023/09/06/250061.jpg",
+      native: true
+  });
+  }
+
+  useEffect(() => {
+    sendNotification()
+  }, [])
+
 
   return (
     <nav className="sticky top-0 h-16 backdrop-blur-md flex items-center justify-between px-4 bg-base-100/50 z-20 border-b-2 border-slate-900/10">
