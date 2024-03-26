@@ -1,14 +1,20 @@
-import React, { useState } from 'react'
-import DormMap from '../../../Dorm/DormMap'
-import { Box, Modal } from '@mui/material'
+import React, { useState } from "react";
+import DormMap from "../../../Dorm/DormMap";
+import { Box, Modal } from "@mui/material";
 
-const ChatMessageLocation = ({ latitude, longitude }: { latitude: number, longitude: number }) => {
-  const [open, setOpen] = useState<boolean>(false)
-  
+const ChatMessageLocation = ({
+  latitude,
+  longitude,
+}: {
+  latitude: number;
+  longitude: number;
+}) => {
+  const [open, setOpen] = useState<boolean>(false);
+
   return (
     <>
       <div onClick={() => setOpen(true)} className="w-72 aspect-video">
-          <DormMap lat={latitude} lng={longitude} />
+        <DormMap lat={latitude} lng={longitude} />
       </div>
       <Modal
         open={open}
@@ -20,8 +26,7 @@ const ChatMessageLocation = ({ latitude, longitude }: { latitude: number, longit
         </Box>
       </Modal>
     </>
-    
-  )
-}
+  );
+};
 
-export default ChatMessageLocation
+export default ChatMessageLocation;

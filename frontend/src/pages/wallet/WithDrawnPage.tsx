@@ -8,9 +8,9 @@ import { useEffect, useState } from "react";
 function WithDrawnPage() {
   const { currentUser, isLoading, fetchUser } = useUser();
   const [bank, setbank] = useState([]);
-  const [amount,setAmount] = useState<number | undefined>(undefined);
-  const [isFail,setFail] = useState<boolean>(false);
-  const [noAccount,setNoAccount] = useState<boolean>(false);
+  const [amount, setAmount] = useState<number | undefined>(undefined);
+  const [isFail, setFail] = useState<boolean>(false);
+  const [noAccount, setNoAccount] = useState<boolean>(false);
   async function initData() {
     await fetchUser();
     if (!currentUser) {
@@ -44,27 +44,29 @@ function WithDrawnPage() {
   useAuthRedirect();
 
   const withdrawn_handle = async () => {
-    
-    const result = await fetch(process.env.REACT_APP_BACKEND_URL + "/auth/withdrawn",{
-      method : "POST",
-      credentials : "include",
-      headers : {
-        "Content-Type" : "application/json",
-      },
-      body : JSON.stringify({amount : (!amount) ? 0 : amount.toFixed(2)}),
-    })
+    const result = await fetch(
+      process.env.REACT_APP_BACKEND_URL + "/auth/withdrawn",
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ amount: !amount ? 0 : amount.toFixed(2) }),
+      }
+    );
     if (result.ok) {
+      setNoAccount(false);
       setFail(false);
       console.log(result);
       console.log(await result.json());
       navigate(0);
     } else if (result.status === 400) {
       setNoAccount(true);
-    }
-    else {
+    } else {
       setFail(true);
+      setNoAccount(false);
     }
-
   };
   console.log();
   if (isLoading) return <LoadingPage />;
@@ -104,7 +106,9 @@ function WithDrawnPage() {
       </div>
       <div className="flex-1 pt-20 ">
         <p className="text-center text-lg text-indigo-600">Usable Balance</p>
-        <p className="text-center text-6xl">฿ {(currentUser.balance) ? currentUser.balance.toFixed(2) : 0}</p>
+        <p className="text-center text-6xl">
+          ฿ {currentUser.balance ? currentUser.balance.toFixed(2) : 0}
+        </p>
         <p className="py-8 text-center text-lg text-indigo-600">
           ** Please note that Usable Balance calculated from refund period of
           customers.
@@ -116,8 +120,10 @@ function WithDrawnPage() {
           <input
             type="number"
             value={amount}
-            step = {0.01}
-            onChange={(e) => {setAmount((Number(e.target.valueAsNumber.toFixed(2))))}}
+            step={0.01}
+            onChange={(e) => {
+              setAmount(Number(e.target.valueAsNumber.toFixed(2)));
+            }}
             placeholder="1234"
             className="border-current border-2 rounded-2xl text-lg p-4 "
           ></input>
@@ -125,7 +131,9 @@ function WithDrawnPage() {
         <div className="py-5 flex items-center justify-center">
           <button
             type="button"
-            className={"hover:bg-slate-700 bg-clip-border px-8 py-5 text-lg 2xl:text-2xl text-white rounded-3xl bg-red-700 "}
+            className={
+              "hover:bg-slate-700 bg-clip-border px-8 py-5 text-lg 2xl:text-2xl text-white rounded-3xl bg-red-700 "
+            }
             onClick={withdrawn_handle}
           >
             {" "}
@@ -135,13 +143,18 @@ function WithDrawnPage() {
         <p className="text-center text-lg text-red-700">
           Account information should be provided before withdrawing
         </p>
-        {isFail && <p className="text-center text-lg text-red-700">
-          Withdrawn amount should not less than or equal 0, <br/> not more than your balance, <br/> and at most 2 decimal places
-        </p>}
+        {isFail && (
+          <p className="text-center text-lg text-red-700">
+            Withdrawn amount should not less than or equal 0, <br /> not more
+            than your balance, <br /> and at most 2 decimal places
+          </p>
+        )}
 
-        {noAccount && <p className="text-center text-lg text-red-700">
-          You need bank account to withdrawn
-        </p>}
+        {noAccount && (
+          <p className="text-center text-lg text-red-700">
+            You need bank account to withdrawn
+          </p>
+        )}
       </div>
     </div>
   );
