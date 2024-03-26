@@ -43,13 +43,14 @@ function WithDrawnPage() {
   useAuthRedirect();
 
   const withdrawn_handle = async () => {
+    
     const result = await fetch(process.env.REACT_APP_BACKEND_URL + "/auth/withdrawn",{
       method : "POST",
       credentials : "include",
       headers : {
         "Content-Type" : "application/json",
       },
-      body : JSON.stringify({amount : (!amount) ? 0 : amount}),
+      body : JSON.stringify({amount : (!amount) ? 0 : amount.toFixed(2)}),
     })
     if (result.ok) {
       setFail(false);
@@ -111,7 +112,8 @@ function WithDrawnPage() {
           <input
             type="number"
             value={amount}
-            onChange={(e) => {setAmount(e.target.valueAsNumber)}}
+            step = {0.01}
+            onChange={(e) => {setAmount((Number(e.target.valueAsNumber.toFixed(2))))}}
             placeholder="1234"
             className="border-current border-2 rounded-2xl text-lg p-4 "
           ></input>

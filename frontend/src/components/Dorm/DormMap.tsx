@@ -22,12 +22,12 @@ export default function DormMap({ lat, lng}: { lat: number; lng: number}) {
       center: {lat: lat, lng: lng},
       zoom: 9
     })
-  }, [lat, lng])
+  }, [lat, lng]);
 
   const [isOpen, setOpen] = useState<boolean>(false);
   return (
     <APIProvider apiKey={process.env.REACT_APP_MAP_API_KEY as string}>
-      <div className="w-full h-full aspect-video">
+      <div className="w-full aspect-video">
         <Map
           {...cameraProps}
           

@@ -268,7 +268,8 @@ router.get("/wallets",authenticateToken,authenticateProvider,async (req,res) => 
 
 router.post("/withdrawn",authenticateToken,authenticateProvider,async (req,res) => {
   try {  
-    const {amount} = req.body;
+    let {amount}  = req.body;
+    amount = Number(parseFloat(amount).toFixed(2));
     const user: User = req.body.user;
     delete req.body.user;
     console.log(req.body)
