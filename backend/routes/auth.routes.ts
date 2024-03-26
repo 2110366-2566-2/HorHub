@@ -292,9 +292,11 @@ router.post(
         where: { id: user.id },
         include: { paymentMethods: true },
       });
+      console.log(u?.paymentMethods);
       if (amount < 0.01 || !amount) return res.status(403).send("Not allow");
       if (user.balance - amount < 0) return res.status(403).send("Not allow");
-      if (u && !u.paymentMethods) return res.send(400).send("No account!");
+      if (u && u.paymentMethods.length === 0)
+        return res.status(400).send("No account!");
       const transaction = await db.transaction.create({
         data: {
           type: "WalletWithdrawn",
