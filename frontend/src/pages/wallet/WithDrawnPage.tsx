@@ -136,7 +136,7 @@ function WithDrawnPage() {
               "enabled:hover:bg-slate-700 bg-clip-border px-8 py-5 text-lg 2xl:text-2xl text-white rounded-3xl bg-red-700 disabled:opacity-25"
             }
             onClick={withdrawn_handle}
-            disabled={amount||noAccount ? false:true}
+            disabled={amount&&!noAccount ? false:true}
           >
             {" "}
             💸 Confirm Withdrawn
