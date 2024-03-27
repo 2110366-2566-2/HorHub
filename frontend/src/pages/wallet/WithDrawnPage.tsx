@@ -109,11 +109,11 @@ function WithDrawnPage() {
         <p className="text-center text-6xl">
           ฿ {currentUser.balance ? currentUser.balance.toFixed(2) : 0}
         </p>
-        <p className="py-8 text-center text-lg text-indigo-600">
+        {/* <p className="py-8 text-center text-lg text-indigo-600">
           ** Please note that Usable Balance calculated from refund period of
           customers.
-        </p>
-        <p className="pb-2 text-center text-lg text-indigo-600">
+        </p> */}
+        <p className="pt-8 pb-2 text-center text-lg text-indigo-600">
           Fill Amount of Money.
         </p>
         <div className="flex items-center justify-center">
@@ -136,7 +136,7 @@ function WithDrawnPage() {
               "enabled:hover:bg-slate-700 bg-clip-border px-8 py-5 text-lg 2xl:text-2xl text-white rounded-3xl bg-red-700 disabled:opacity-25"
             }
             onClick={withdrawn_handle}
-            disabled={amount&&!noAccount ? false:true}
+            disabled={(amount && !noAccount && (Number(amount) > 0)) ? false:true}
           >
             {" "}
             💸 Confirm Withdrawn
@@ -147,7 +147,7 @@ function WithDrawnPage() {
         </p>)}
         {amount ? false:true && (
           <p className="text-center text-base text-red-700">
-            Withdrawn amount should more then 0 and at most 2 decimal places
+            Withdraw amount should be more than 0 and at most 2 decimal places
           </p>
         )}
 

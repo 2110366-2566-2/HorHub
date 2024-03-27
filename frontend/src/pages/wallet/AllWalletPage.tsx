@@ -36,9 +36,9 @@ export default function AllWalletPage(){
         if (sortType === "DATE"){
             setTransaction(transaction.slice().sort((a,b) => {
             if (sortby === "DESCENDING")
-                return new Date(a.createAt).getMilliseconds() - new Date(b.createAt).getMilliseconds();
+                return new Date(b.createAt).getTime() - new Date(a.createAt).getTime();
              else 
-                return new Date(b.createAt).getMilliseconds() - new Date(a.createAt).getMilliseconds();
+                return new Date(a.createAt).getTime() - new Date(b.createAt).getTime();
             }
             ));
         }
@@ -125,7 +125,7 @@ export default function AllWalletPage(){
                 <div className="flex w-10/12">
                     <div className="w-1/5">Date</div>
                     <div className="w-[70%]">Description</div>
-                    <div className="w-[10%]">Type</div>
+                    <div className="w-[10%] text-right pr-6">Type</div>
                 </div>
                 <div className="w-2/12 text-end">
                     <div>Amount</div>
