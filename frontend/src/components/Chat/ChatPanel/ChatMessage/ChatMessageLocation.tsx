@@ -20,7 +20,7 @@ const ChatMessageLocation = ({
     setTempState(false);
     setTimeout(() => {
       setTempState(true);
-    }, 80);
+    }, 200);
   }, []);
 
   return (
