@@ -122,31 +122,32 @@ function WithDrawnPage() {
             value={amount}
             step={0.01}
             onChange={(e) => {
-              setAmount(Number(e.target.valueAsNumber.toFixed(2)));
+              setAmount(Math.min(Number(e.target.valueAsNumber.toFixed(2)),Number(currentUser.balance ? currentUser.balance.toFixed(2) : 0.01)));
             }}
             placeholder="1234"
             className="border-current border-2 rounded-2xl text-lg p-4 "
+            min="0.01"
           ></input>
         </div>
         <div className="py-5 flex items-center justify-center">
           <button
             type="button"
             className={
-              "hover:bg-slate-700 bg-clip-border px-8 py-5 text-lg 2xl:text-2xl text-white rounded-3xl bg-red-700 "
+              "enabled:hover:bg-slate-700 bg-clip-border px-8 py-5 text-lg 2xl:text-2xl text-white rounded-3xl bg-red-700 disabled:opacity-25"
             }
             onClick={withdrawn_handle}
+            disabled={amount||noAccount ? false:true}
           >
             {" "}
             💸 Confirm Withdrawn
           </button>
         </div>
-        <p className="text-center text-lg text-red-700">
+        {noAccount && (<p className="text-center text-base text-red-700">
           Account information should be provided before withdrawing
-        </p>
-        {isFail && (
-          <p className="text-center text-lg text-red-700">
-            Withdrawn amount should not less than or equal 0, <br /> not more
-            than your balance, <br /> and at most 2 decimal places
+        </p>)}
+        {amount ? false:true && (
+          <p className="text-center text-base text-red-700">
+            Withdrawn amount should more then 0 and at most 2 decimal places
           </p>
         )}
 
