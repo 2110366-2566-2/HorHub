@@ -25,6 +25,7 @@ const ChatPanel = ({ chatId }: { chatId: string }) => {
     
     if (!currentUser) return
     setFetching(true)
+    setInvalid(false)
     try {
       const res = await fetch(process.env.REACT_APP_BACKEND_URL + "/chats/" + chatId, {
         method: "GET",
