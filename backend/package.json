@@ -35,6 +35,8 @@
     "nodemailer": "^6.9.8",
     "socket.io": "^4.7.5",
     "stripe": "^14.22.0",
+    "swagger-jsdoc": "^6.0.0",
+    "swagger-ui-express": "^5.0.0",
     "uploadthing": "^6.3.3",
     "zod": "^3.22.4"
   }

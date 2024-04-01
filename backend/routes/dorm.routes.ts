@@ -255,6 +255,26 @@ router.get("/", async (req, res) => {
   return res.send(result);
 });
 
+/**
+* @swagger
+* /dorms/{id}:
+*   get:
+*     summary: Get the dorm information by the dorm id
+*     tags: [Dorm]
+*     parameters:
+*       - in: path
+*         name: id
+*         schema:
+*           type: string
+*         required: true
+*         description: The dorm id
+*     responses:
+*       200:
+*         description: The requested dorm information
+*       404:
+*         description: The dorm was not found
+*/
+
 router.get("/:dormId", async (req, res) => {
   const { dormId } = req.params;
 
