@@ -16,6 +16,8 @@ import { Server } from 'socket.io';
 import { createServer } from "http";
 import { Message } from "@prisma/client";
 import { db } from "./lib/db";
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUI = require("swagger-ui-express");
 
 // dotenv.config();
 
@@ -179,6 +181,28 @@ io.on('connection', (socket) => {
 
 
 })
+
+// -----Swagger----------------------------------------------------
+
+const swaggerOptions={
+  swaggerDefinition:{
+    openapi: '3.0.0',
+    info: {
+    title: 'Horhub API',
+    version: '1.0.0',
+    },
+    servers: [
+      {
+        url: `http://localhost:${port}/`
+      }
+    ],
+  },
+  apis:['./routes/*.ts'],
+};
+const swaggerDocs=swaggerJsDoc(swaggerOptions);
+app.use('/api-docs',swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+
+// ----------------------------------------------------------------
 
 server.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
