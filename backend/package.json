@@ -19,12 +19,12 @@
     "@types/node": "^20.11.7",
     "@types/nodemailer": "^6.4.14",
     "nodemon": "^3.0.3",
-    "prisma": "^5.8.1",
+    "prisma": "^5.11.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@prisma/client": "^5.8.1",
+    "@prisma/client": "^5.11.0",
     "@types/bcrypt": "^5.0.2",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
