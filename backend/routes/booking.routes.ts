@@ -12,28 +12,7 @@ const {getBooking , createBooking , updateBooking , deleteBooking , createChecko
 
 const router = Router();
 
-const bookingSchema = z
-  .object({
-    roomTypeId: z.string(),
-    startAt: z.coerce.date().refine((data) => data > new Date(), {
-      message: "This should not be before tomorrow",
-    }),
-    endAt: z.coerce.date(),
-    price: z.coerce
-      .number()
-      .min(0.01, { message: "Please fill valid price of this booking" })
-      .multipleOf(0.01, { message: "Please fill valid price of this booking" }),
-  })
-  .refine((data) => data.startAt <= data.endAt, {
-    path: ["endAt"],
-    message: "This should be after or at starting date",
-  });
-
-const bookUpdateSchema = z.object({
-  status: z.enum(["Cancelled", "PaymentPending", "Confirmed"]),
-});
-
-router.get("/:bookingId", authenticateToken, getBooking);
+router.get("/:bookingId", authenticateToken, getBooking);  
 router.post("/", authenticateToken, authenticateCustomer, createBooking);
 router.put("/:bookingId",authenticateToken,authenticateProvider,updateBooking);
 router.delete("/:bookingId", authenticateToken, deleteBooking);

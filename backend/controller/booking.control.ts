@@ -33,7 +33,7 @@ const bookUpdateSchema = z.object({
 
 //@desc     Get a booking
 //@route    GET /bookings/:bookingId
-//@access   Await P nick (Choice: Private , Public)
+//@access   Await P nick (Choice: Private , Public)  
 //@access   Public <= example 
 
 exports.getBooking = async (req: Request, res: Response) => {
