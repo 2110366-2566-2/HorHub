@@ -14,25 +14,25 @@ const router = Router();
 
 router.get("/", getDorms);
 
-/**
-* @swagger
-* /dorms/{id}:
-*   get:
-*     summary: Get the dorm information by the dorm id
-*     tags: [Dorm]
-*     parameters:
-*       - in: path
-*         name: id
-*         schema:
-*           type: string
-*         required: true
-*         description: The dorm id
-*     responses:
-*       200:
-*         description: The requested dorm information
-*       404:
-*         description: The dorm was not found
-*/
+// /**
+// * @swagger
+// * /dorms/{id}:
+// *   get:
+// *     summary: Get the dorm information by the dorm id
+// *     tags: [Dorm]
+// *     parameters:
+// *       - in: path
+// *         name: id
+// *         schema:
+// *           type: string
+// *         required: true
+// *         description: The dorm id
+// *     responses:
+// *       200:
+// *         description: The requested dorm information
+// *       404:
+// *         description: The dorm was not found
+// */
 
 router.get("/:dormId", getDorm);
 
@@ -58,7 +58,7 @@ router.delete("/:dormId/roomtypes/:roomtypeId",authenticateToken,authenticatePro
 * @swagger
 * /dorms/{id}/reviews:
 *   post:
-*     summary: Create review for this dorm
+*     summary: "Create review for this dorm [Roles: Customer]"
 *     tags: [Dorm]
 *     security:
 *       - cookieAuth: []
@@ -68,7 +68,7 @@ router.delete("/:dormId/roomtypes/:roomtypeId",authenticateToken,authenticatePro
 *         schema:
 *           type: string
 *         required: true
-*         description: The dorm id
+*         description: ID of the dorm
 *     requestBody:
 *       required: true
 *       content:
@@ -91,7 +91,7 @@ router.delete("/:dormId/roomtypes/:roomtypeId",authenticateToken,authenticatePro
 *                           optional: true
 *                           example: ["https://utfs.io/f/4a65c7f9-7bb1-4498-99bb-4148be482108-t9vzc5.png", "https://utfs.io/f/4a65c7f9-7bb1-4498-99bb-4148be482108-abcdefg.png"]
 *     responses:
-*       200:
+*       201:
 *         description: The created review information    
 *         content:
 *           application/json:
@@ -109,6 +109,33 @@ router.delete("/:dormId/roomtypes/:roomtypeId",authenticateToken,authenticatePro
 */
 
 router.post("/:dormId/reviews", authenticateToken, authenticateCustomer, createReview);
+
+/**
+* @swagger
+* /dorms/{id}/reviews:
+*   get:
+*     summary: Get all reviews in this dorm
+*     tags: [Dorm]
+*     parameters:
+*       - in: path
+*         name: id
+*         schema:
+*           type: string
+*         required: true
+*         description: ID of the dorm
+*     responses:
+*       200:
+*         description: The list of reviews that customers have reviewed this dorm   
+*         content:
+*           application/json:
+*               schema:
+*                   type: array
+*                   items:
+*                       $ref: '#/components/schemas/Review'
+*       404:
+*         description: The dorm is invalid
+*     
+*/
 
 router.get("/:dormId/reviews", getReviewsByDorm);
 

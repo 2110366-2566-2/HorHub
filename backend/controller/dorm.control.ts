@@ -1,14 +1,9 @@
-import { Request, Response, Router } from "express";
-import { authenticateToken } from "../middlewares/authToken";
-import { authenticateProvider } from "../middlewares/authProvider";
+import { Request, Response } from "express";
 import { z } from "zod";
 import { dormFacilities, roomFacilities } from "../lib/constant";
 import { db } from "../lib/db";
 import { Dorm, User } from "@prisma/client";
 import { refreshBookings } from "../lib/bookingRefresher";
-import exp from "constants";
-
-const router = Router();
 
 const dormSchema = z.object({
   name: z
@@ -787,7 +782,7 @@ export const createReview = async (req: Request, res: Response) => {
       }
     })
 
-    return res.send(createReview)
+    return res.status(201).send(createReview)
 
   } catch (err) {
     return res.status(400).send(err)

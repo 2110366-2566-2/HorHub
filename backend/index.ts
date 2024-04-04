@@ -11,13 +11,14 @@ import dormRouter from "./routes/dorm.routes";
 import chatRouter from "./routes/chat.routes";
 import bookingRouter from "./routes/booking.routes"
 import paymentRouter from "./routes/payment.routes"
+import reviewRouter from "./routes/review.routes"
 import cookieParser from "cookie-parser";
 import { Server } from 'socket.io';
 import { createServer } from "http";
 import { Message } from "@prisma/client";
 import { db } from "./lib/db";
-const swaggerJsDoc = require("swagger-jsdoc");
-const swaggerUI = require("swagger-ui-express");
+import swaggerJsDoc from "swagger-jsdoc";
+import swaggerUI from "swagger-ui-express";
 
 // dotenv.config();
 
@@ -54,12 +55,7 @@ app.use('/dorms', dormRouter)
 app.use('/bookings', bookingRouter)
 app.use('/chats', chatRouter)
 app.use('/payment', paymentRouter)
-
-
-
-
-
-
+app.use('/reviews', reviewRouter)
 
 
 
@@ -67,13 +63,6 @@ app.use('/payment', paymentRouter)
 app.use("/api/uploadthing", createRouteHandler({
   router: uploadRouter,
 }));
-
-
-
-
-
-
-
 
 
 

@@ -29,6 +29,8 @@ model User {
   chatB       Chat[]      @relation("joinChatAsParticipantB")
   myMessages  Message[]   @relation("sendMessage")
   reviews     Review[]    @relation("reviewDorm")
+  issues      Issue[]     @relation("reportIssue")
+  resolvedIssues  Issue[] @relation("resolveIssue")
 }
 
 model PaymentMethod {
@@ -139,6 +141,21 @@ model Review {
   @@unique([customerId, dormId])
 }
 
+model Issue {
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  user            User          @relation("reportIssue", fields: [userId], references: [id], onDelete: Cascade)
+  userId          String        @db.ObjectId
+  issueType       IssueType
+  title           String
+  description     String
+  images          String[]
+  reportAt        DateTime      @default(now())
+  resolver        User?         @relation("resolveIssue", fields: [resolverId], references: [id], onDelete: Cascade)
+  resolverId      String?        @db.ObjectId
+  resolveMessage  String?
+  resolveAt       DateTime?
+}
+
 
 
 enum PaymentMethodType {
@@ -155,6 +172,7 @@ enum Gender {
 enum Role {
   Customer
   Provider
+  Admin
 }
 
 enum DormFacilities {
@@ -216,4 +234,14 @@ enum TransactionType {
   BookingPayment
   WalletDeposit
   WalletWithdrawn
+}
+
+enum IssueType {
+  Technical
+  Account
+  Content
+  Payment
+  Security
+  Suggestion
+  Other
 }

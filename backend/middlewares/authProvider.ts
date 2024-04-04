@@ -10,7 +10,7 @@ export function authenticateProvider(
     return res.status(403).send("This account is not provider");
   }
 
-  if (!(req.body.user.role === "Provider" || req.body.user.role === "Admin")) {
+  if (!(req.body.user.role === "Provider")) {
     return res.status(403).send("This account is not provider");
   }
 

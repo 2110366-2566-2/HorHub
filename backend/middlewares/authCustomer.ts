@@ -6,7 +6,7 @@ export function authenticateCustomer(req: Request, res: Response, next: NextFunc
         return res.status(403).send('This account is not customer')
     }
 
-    if (!(req.body.user.role === "Customer" || req.body.user.role === "Admin")) {
+    if (!(req.body.user.role === "Customer")) {
         return res.status(403).send('This account is not customer')
     }
 
