@@ -790,6 +790,45 @@ export const createReview = async (req: Request, res: Response) => {
     return res.send(createReview)
 
   } catch (err) {
-    res.status(400).send(err)
+    return res.status(400).send(err)
+  }
+}
+
+//@desc     Get reviews in the dorm
+//@route    GET /dorms/:dormId/reviews
+//@access   Private
+
+export const getReviewsByDorm = async (req: Request, res: Response) => {
+  const { dormId } = req.params;
+
+  try {
+
+    if (dormId.length != 24 || /[0-9A-Fa-f]{24}/g.test(dormId) === false) {
+      return res.status(404).send("No dorm found");
+    }
+
+    const findDormRes = await db.dorm.findUnique({
+      where: {
+        id: dormId,
+      },
+    });
+
+    if (!findDormRes) {
+      return res.status(404).send("No dorm found");
+    }
+
+    const reviewsRes = await db.review.findMany({
+      where: {
+        dormId: dormId
+      },
+      orderBy: {
+        reviewAt: "desc"
+      }
+    })
+
+    return res.send(reviewsRes)
+
+  } catch (err) {
+    return res.status(400).send(err)
   }
 }

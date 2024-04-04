@@ -7,7 +7,7 @@ import { db } from "../lib/db";
 import { Dorm, User } from "@prisma/client";
 import { refreshBookings } from "../lib/bookingRefresher";
 
-import {getDorms , getDorm ,createDorm,updateDorm , deleteDorm , getBookingByRoomType , getRoomTypes , getRoomType , createRoomType , updateRoomType, deleteRoomType, createReview } from '../controller/dorm.control'
+import {getDorms , getDorm ,createDorm,updateDorm , deleteDorm , getBookingByRoomType , getRoomTypes , getRoomType , createRoomType , updateRoomType, deleteRoomType, createReview, getReviewsByDorm } from '../controller/dorm.control'
 import { authenticateCustomer } from "../middlewares/authCustomer";
 
 const router = Router();
@@ -109,5 +109,7 @@ router.delete("/:dormId/roomtypes/:roomtypeId",authenticateToken,authenticatePro
 */
 
 router.post("/:dormId/reviews", authenticateToken, authenticateCustomer, createReview);
+
+router.get("/:dormId/reviews", getReviewsByDorm);
 
 export default router;
