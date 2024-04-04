@@ -98,7 +98,7 @@ router.post("/verify", verifyAccount);
 
 router.post("/verify/fail", authenticateToken, verifyAccountFail);
 
-router.get("/wallets", authenticateToken,authenticateProvider,getWallet);
+router.get("/wallet", authenticateToken,authenticateProvider,getWallet);
 
 router.post("/withdrawn",authenticateToken,authenticateProvider,withdrawnMoney);
 

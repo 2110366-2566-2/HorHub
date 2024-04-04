@@ -267,7 +267,7 @@ export const verifyAccountFail = async (req: Request, res: Response) => {
 };
 
 //@desc     Get Wallet
-//@route    GET /auth/wallets
+//@route    GET /auth/wallet
 //@access   Await P nick (Choice: Private , Public)
 
 export const getWallet = async (req: Request, res: Response) => {
@@ -290,7 +290,7 @@ export const getWallet = async (req: Request, res: Response) => {
 };
 
 //@desc     Withdrawn Money (why?)
-//@route    POST /auth/wallets
+//@route    POST /auth/wallet
 //@access   Await P nick (Choice: Private , Public)
 
 export const withdrawnMoney = async (req: Request, res: Response) => {
