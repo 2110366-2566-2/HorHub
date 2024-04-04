@@ -1,5 +1,5 @@
 # Build stage
-FROM node:20.11.0-alpine as build
+FROM node:20.11.0-alpine as prod
 
 WORKDIR /app
 
@@ -14,17 +14,19 @@ COPY . .
 RUN npm run build
 
 # Production stage
-FROM node:20.11.0-alpine as prod
+FROM nginx:alpine
 
-COPY --from=build /app/package.json /app/
+WORKDIR /usr/local/bin
 
-COPY --from=build /app/build /app/build/
+COPY --from=prod /app/build /usr/share/nginx/html
 
-WORKDIR /app
+COPY generate-config.sh .
 
-RUN npm install -g serve 
+COPY custom-nginx.template /etc/nginx/conf.d/
 
-EXPOSE 3000:3000
+RUN chmod +x generate-config.sh
 
-CMD ["npm", "run", "start:prod"]
+EXPOSE 80
+
+ENTRYPOINT [ "/bin/sh", "generate-config.sh"]
 

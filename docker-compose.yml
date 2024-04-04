@@ -1,13 +1,11 @@
-version: '3.8'
+version: "3.8"
 services:
   frontend:
     image: horhub-frontend
     build: ./frontend
     container_name: frontend
-    expose:
-      - "3000"
     ports:
-      - "3000:3000"
+      - "3000:80"
   backend:
     image: horhub-backend
     build: ./backend
