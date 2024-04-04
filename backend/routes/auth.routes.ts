@@ -19,6 +19,16 @@ const max_age = 3 * 24 * 60 * 60;
 /**
 * @swagger
 * components:
+*   securitySchemes:
+*       cookieAuth:
+*           type: apiKey
+*           in: cookie
+*           name: auth
+*/
+
+/**
+* @swagger
+* components:
 *   schemas:
 *     User:
 *       type: object

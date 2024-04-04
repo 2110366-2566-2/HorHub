@@ -28,6 +28,7 @@ model User {
   chatA       Chat[]      @relation("joinChatAsParticipantA")
   chatB       Chat[]      @relation("joinChatAsParticipantB")
   myMessages  Message[]   @relation("sendMessage")
+  reviews     Review[]    @relation("reviewDorm")
 }
 
 model PaymentMethod {
@@ -51,6 +52,7 @@ model Dorm {
   contractNumber String
   images      String[]
   roomTypes       RoomType[]    @relation("roomInDorm")
+  reviews     Review[]  @relation("hasReviews")
 }
 
 model RoomType {
@@ -123,7 +125,19 @@ model Message {
   sentAt          DateTime      @default(now())
 }
 
+model Review {
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  customer        User          @relation("reviewDorm", fields: [customerId], references: [id], onDelete: Cascade)
+  customerId      String        @db.ObjectId
+  dorm            Dorm          @relation("hasReviews", fields: [dormId], references: [id], onDelete: Cascade)
+  dormId          String        @db.ObjectId
+  rating          Int
+  description     String
+  images          String[]
+  reviewAt        DateTime      @default(now())
 
+  @@unique([customerId, dormId])
+}
 
 
 

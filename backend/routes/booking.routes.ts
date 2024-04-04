@@ -13,9 +13,13 @@ import {getBooking , createBooking , updateBooking , deleteBooking , createCheck
 const router = Router();
 
 router.get("/:bookingId", authenticateToken, getBooking);  
+
 router.post("/", authenticateToken, authenticateCustomer, createBooking);
+
 router.put("/:bookingId",authenticateToken,authenticateProvider,updateBooking);
+
 router.delete("/:bookingId", authenticateToken, deleteBooking);
+
 router.post("/:bookingId/confirmpayment/:checkoutToken", createCheckoutToken);
 
 export default router;

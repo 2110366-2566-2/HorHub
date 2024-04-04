@@ -5,8 +5,6 @@ import { authenticateCustomer } from "../middlewares/authCustomer";
 import { User } from "@prisma/client";
 import {getReceipt , createCheckoutSession , createPaymentIntent}  from '../controller/payment.control'
 
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-
 const router = Router();
 
 router.get("/receipt/:bookingId",authenticateToken,authenticateCustomer,getReceipt);

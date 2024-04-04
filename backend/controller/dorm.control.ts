@@ -169,6 +169,24 @@ const UpdateRoomTypeSchema = z.object({
 
 type UpdateDormType = z.infer<typeof optionalDormSchema>;
 
+
+const createReviewSchema = z.object({
+  rating: z
+    .number()
+    .min(1, { message: "Rating should be between 1 to 5" })
+    .max(5, { message: "Rating should be between 1 to 5" }),
+  description: z
+    .string()
+    .trim()
+    .min(1, { message: "Please fill description for the review" })
+    .max(512, { message: "Your description is too long" }),
+  images: z
+    .string()
+    .array()
+    .max(5, { message: "The images must not exceed 5 files" })
+    .optional(),
+})
+
 //===============================================================
 
 //@desc     Get all dorms 
@@ -696,3 +714,82 @@ export const deleteRoomType = async (req: Request, res: Response) => {
     res.status(404).send(err);
   }
 };
+
+//@desc     Create review
+//@route    POST /dorms/:dormId/reviews
+//@access   Private
+
+export const createReview = async (req: Request, res: Response) => {
+  const { dormId } = req.params;
+
+  const user: User = req.body.user;
+  const body = req.body
+
+  try {
+    const parseStatus = createReviewSchema.safeParse(body);
+    if (!parseStatus.success) console.log(parseStatus.error.issues);
+    if (!parseStatus.success) return res.status(400).send(parseStatus.error.message);
+
+    const parsedBody = parseStatus.data;
+
+    // Check if dorm is valid
+
+    if (dormId.length != 24 || /[0-9A-Fa-f]{24}/g.test(dormId) === false) {
+      return res.status(404).send("No dorm found");
+    }
+
+    const findDormRes = await db.dorm.findUnique({
+      where: {
+        id: dormId,
+      },
+    });
+
+    if (!findDormRes) {
+      return res.status(404).send("No dorm found");
+    }
+
+    // Check if user has done one booking in this dorm
+
+    await refreshBookings()
+
+    const findBooking = await db.booking.findFirst({
+      where: {
+        customerId: user.id,
+        roomType: {
+          dormId: dormId
+        },
+        status: "Completed"
+      }
+    })
+
+    if (!findBooking) {
+      return res.status(403).send("You haven't book this dorm or there is no booking that is in completed status")
+    }
+
+    // Check if there is review already
+
+    const findOldReview = await db.review.findFirst({
+      where: {
+        customerId: user.id,
+        dormId: dormId,
+      }
+    })
+
+    if (findOldReview) {
+      return res.status(403).send("You have reviewed this dorm already")
+    }
+
+    const createReview = await db.review.create({
+      data: {
+        customerId: user.id,
+        dormId: dormId,
+        ...parsedBody
+      }
+    })
+
+    return res.send(createReview)
+
+  } catch (err) {
+    res.status(400).send(err)
+  }
+}
