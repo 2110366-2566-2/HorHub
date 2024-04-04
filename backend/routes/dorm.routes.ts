@@ -11,8 +11,27 @@ import {getDorms , getDorm ,createDorm,updateDorm , deleteDorm , getBookingByRoo
 
 const router = Router();
 
-// Without pagination and filtering/sorting
 router.get("/", getDorms);
+
+/**
+* @swagger
+* /dorms/{id}:
+*   get:
+*     summary: Get the dorm information by the dorm id
+*     tags: [Dorm]
+*     parameters:
+*       - in: path
+*         name: id
+*         schema:
+*           type: string
+*         required: true
+*         description: The dorm id
+*     responses:
+*       200:
+*         description: The requested dorm information
+*       404:
+*         description: The dorm was not found
+*/
 
 router.get("/:dormId",getDorm);
 
