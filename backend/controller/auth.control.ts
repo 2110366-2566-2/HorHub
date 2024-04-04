@@ -9,63 +9,63 @@ import { authenticateProvider } from "../middlewares/authProvider";
 import { User } from "@prisma/client";
 
 const Schema_User = z.object({
-    email: z.string().trim().email(),
-    password: z
-      .string()
-      .trim()
-      .min(8, { message: "Password must be at least 8 characters" }),
-    firstName: z.string().trim().min(1, { message: "Fill your first name" }),
-    lastName: z.string().trim().min(1, { message: "Fill your last name" }),
-    displayName: z.string().trim().min(1, { message: "Fill display name" }),
-    phoneNumber: z
-      .string()
-      .trim()
-      .length(10, { message: "Please fill valid phone number" })
-      .refine((value) => /[0-9]{10}/.test(value), {
-        message: "Please fill valid phone number",
-      }),
-    birthDate: z.coerce.date().refine((data) => data < new Date(), {
-      message: "Future date is not accepted",
+  email: z.string().trim().email(),
+  password: z
+    .string()
+    .trim()
+    .min(8, { message: "Password must be at least 8 characters" }),
+  firstName: z.string().trim().min(1, { message: "Fill your first name" }),
+  lastName: z.string().trim().min(1, { message: "Fill your last name" }),
+  displayName: z.string().trim().min(1, { message: "Fill display name" }),
+  phoneNumber: z
+    .string()
+    .trim()
+    .length(10, { message: "Please fill valid phone number" })
+    .refine((value) => /[0-9]{10}/.test(value), {
+      message: "Please fill valid phone number",
     }),
-    gender: z.enum(["Male", "Female", "Other"], {
-      invalid_type_error:
-        'Gender is not valid, gender must be "Male", "Female", or "Other"',
+  birthDate: z.coerce.date().refine((data) => data < new Date(), {
+    message: "Future date is not accepted",
+  }),
+  gender: z.enum(["Male", "Female", "Other"], {
+    invalid_type_error:
+      'Gender is not valid, gender must be "Male", "Female", or "Other"',
+  }),
+  role: z.enum(["Customer", "Provider"], {
+    invalid_type_error:
+      'Role is not valid, role must be "Customer" or "Provider"',
+  }),
+});
+
+const Schema_Update_User = z.object({
+  firstName: z.string().trim().min(1, { message: "Fill your first name" }),
+  lastName: z.string().trim().min(1, { message: "Fill your last name" }),
+  displayName: z.string().trim().min(1, { message: "Fill display name" }),
+  phoneNumber: z
+    .string()
+    .trim()
+    .length(10, { message: "Please fill valid phone number" })
+    .refine((value) => /[0-9]{10}/.test(value), {
+      message: "Please fill valid phone number",
     }),
-    role: z.enum(["Customer", "Provider"], {
-      invalid_type_error:
-        'Role is not valid, role must be "Customer" or "Provider"',
-    }),
-  });
-  
-  const Schema_Update_User = z.object({
-    firstName: z.string().trim().min(1, { message: "Fill your first name" }),
-    lastName: z.string().trim().min(1, { message: "Fill your last name" }),
-    displayName: z.string().trim().min(1, { message: "Fill display name" }),
-    phoneNumber: z
-      .string()
-      .trim()
-      .length(10, { message: "Please fill valid phone number" })
-      .refine((value) => /[0-9]{10}/.test(value), {
-        message: "Please fill valid phone number",
-      }),
-    gender: z.enum(["Male", "Female", "Other"], {
-      invalid_type_error:
-        'Gender is not valid, gender must be "Male", "Female", or "Other"',
-    }),
-    birthdate: z.coerce.date().refine((data) => data < new Date(), {
-      message: "Future date is not accepted",
-    }),
-    imageURL: z.string().optional(),
-  });
+  gender: z.enum(["Male", "Female", "Other"], {
+    invalid_type_error:
+      'Gender is not valid, gender must be "Male", "Female", or "Other"',
+  }),
+  birthdate: z.coerce.date().refine((data) => data < new Date(), {
+    message: "Future date is not accepted",
+  }),
+  imageURL: z.string().optional(),
+});
 
 //===============================================================================
 
 const max_age = 3 * 24 * 60 * 60;
 
-//@desc     Login User 
+//@desc     Login User
 //@route    POST /auth/login
 //@access   Await P nick (Choice: Private , Public)
-//@access   Public <= example 
+//@access   Public <= example
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -84,7 +84,11 @@ export const login = async (req: Request, res: Response) => {
   }
 
   const token = generateJWT(user.id, user.displayName, user.firstName);
-  res.cookie("auth", token, { httpOnly: true, maxAge: max_age * 1000 });
+  res.cookie("auth", token, {
+    httpOnly: true,
+    maxAge: max_age * 1000,
+    sameSite: "none",
+  });
 
   return res.status(200).send({
     ...user,
@@ -92,7 +96,7 @@ export const login = async (req: Request, res: Response) => {
   });
 };
 
-//@desc     Update User 
+//@desc     Update User
 //@route    PUT /auth/user
 //@access   Await P nick (Choice: Private , Public)
 
@@ -117,14 +121,18 @@ export const update = async (req: Request, res: Response) => {
     data: update_data.data,
   });
   const token = generateJWT(result.id, result.displayName, result.firstName);
-  res.cookie("auth", token, { httpOnly: true, maxAge: max_age * 1000 });
+  res.cookie("auth", token, {
+    httpOnly: true,
+    maxAge: max_age * 1000,
+    sameSite: "none",
+  });
   res.status(201).send({
     ...result,
     token: token,
   });
 };
 
-//@desc     Update User 
+//@desc     Update User
 //@route    PUT /auth/user
 //@access   Await P nick (Choice: Private , Public)
 
@@ -180,7 +188,11 @@ export const register = async (req: Request, res: Response) => {
     });
 
     const token = generateJWT(result.id, displayName, firstName);
-    res.cookie("auth", token, { httpOnly: true, maxAge: max_age * 1000 });
+    res.cookie("auth", token, {
+      httpOnly: true,
+      maxAge: max_age * 1000,
+      sameSite: "none",
+    });
     res.status(201).send({
       ...result,
       token: token,
@@ -190,7 +202,7 @@ export const register = async (req: Request, res: Response) => {
   }
 };
 
-//@desc     Logout User 
+//@desc     Logout User
 //@route    POST /auth/logout
 //@access   Await P nick (Choice: Private , Public)
 
@@ -271,22 +283,22 @@ export const verifyAccountFail = async (req: Request, res: Response) => {
 //@access   Await P nick (Choice: Private , Public)
 
 export const getWallet = async (req: Request, res: Response) => {
-    const user: User = req.body.user;
-    delete req.body.user;
-    try {
-      const result = await db.transaction.findMany({
-        where: { userId: user.id },
-        orderBy: { createAt: "desc" },
-      });
-      return res.send({
-        transaction: result,
-        name: user.displayName,
-        balance: user.balance,
-      });
-    } catch (err) {
-      console.log(err);
-      return res.status(403);
-    }
+  const user: User = req.body.user;
+  delete req.body.user;
+  try {
+    const result = await db.transaction.findMany({
+      where: { userId: user.id },
+      orderBy: { createAt: "desc" },
+    });
+    return res.send({
+      transaction: result,
+      name: user.displayName,
+      balance: user.balance,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(403);
+  }
 };
 
 //@desc     Withdrawn Money (why?)
@@ -294,40 +306,40 @@ export const getWallet = async (req: Request, res: Response) => {
 //@access   Await P nick (Choice: Private , Public)
 
 export const withdrawnMoney = async (req: Request, res: Response) => {
-    try {
-      let { amount } = req.body;
-      amount = Number(parseFloat(amount).toFixed(2));
-      const user: User = req.body.user;
-      delete req.body.user;
-      console.log(req.body);
-      const u = await db.user.findUnique({
-        where: { id: user.id },
-        include: { paymentMethods: true },
-      });
-      if (amount < 0.01 || !amount) return res.status(403).send("Not allow");
-      if (user.balance - amount < 0) return res.status(403).send("Not allow");
-      if (u && !u.paymentMethods) return res.send(400).send("No account!");
-      const transaction = await db.transaction.create({
-        data: {
-          type: "WalletWithdrawn",
-          userId: user.id,
-          price: amount as number,
-          description: `Withdrawn from provider ${user.firstName} ${
-            user.lastName
-          } for amount ฿ ${amount.toFixed(2)} to ${
-            u?.paymentMethods[0].type
-          } - ${u?.paymentMethods[0].info}`,
-        },
-      });
+  try {
+    let { amount } = req.body;
+    amount = Number(parseFloat(amount).toFixed(2));
+    const user: User = req.body.user;
+    delete req.body.user;
+    console.log(req.body);
+    const u = await db.user.findUnique({
+      where: { id: user.id },
+      include: { paymentMethods: true },
+    });
+    if (amount < 0.01 || !amount) return res.status(403).send("Not allow");
+    if (user.balance - amount < 0) return res.status(403).send("Not allow");
+    if (u && !u.paymentMethods) return res.send(400).send("No account!");
+    const transaction = await db.transaction.create({
+      data: {
+        type: "WalletWithdrawn",
+        userId: user.id,
+        price: amount as number,
+        description: `Withdrawn from provider ${user.firstName} ${
+          user.lastName
+        } for amount ฿ ${amount.toFixed(2)} to ${u?.paymentMethods[0].type} - ${
+          u?.paymentMethods[0].info
+        }`,
+      },
+    });
 
-      const result = await db.user.update({
-        where: { id: user.id },
-        data: { balance: user.balance - amount },
-      });
+    const result = await db.user.update({
+      where: { id: user.id },
+      data: { balance: user.balance - amount },
+    });
 
-      return res.send({ transaction: transaction });
-    } catch (err) {
-      console.log(err);
-      return res.send(403);
-    }
-  };
+    return res.send({ transaction: transaction });
+  } catch (err) {
+    console.log(err);
+    return res.send(403);
+  }
+};

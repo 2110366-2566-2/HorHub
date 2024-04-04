@@ -14,19 +14,12 @@ COPY . .
 RUN npm run build
 
 # Production stage
-FROM nginx:alpine
-
-WORKDIR /usr/local/bin
+FROM --platform=linux/arm64 nginx:alpine
 
 COPY --from=prod /app/build /usr/share/nginx/html
 
-COPY generate-config.sh .
-
-COPY custom-nginx.template /etc/nginx/conf.d/
-
-RUN chmod +x generate-config.sh
+COPY default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
-ENTRYPOINT [ "/bin/sh", "generate-config.sh"]
 
