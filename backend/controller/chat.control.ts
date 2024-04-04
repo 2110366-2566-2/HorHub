@@ -17,7 +17,7 @@ const createRoomBodySchema = z.object({
 //@access   Await P nick (Choice: Private , Public)
 //@access   Public <= example 
 
-exports.getChat = async (req: Request, res: Response) => {
+export const getChat = async (req: Request, res: Response) => {
     const { id } = req.params;
   
     const user = req.body.user;
@@ -76,7 +76,7 @@ exports.getChat = async (req: Request, res: Response) => {
 //@route    GET chats/
 //@access   Await P nick (Choice: Private , Public)
 
-exports.createChat = async (req: Request, res: Response) => {
+export const createChat = async (req: Request, res: Response) => {
     const body = req.body;
   
     const parseStatus = createRoomBodySchema.safeParse(body);
@@ -146,7 +146,7 @@ exports.createChat = async (req: Request, res: Response) => {
 //@route    PUT chats/:id/read
 //@access   Await P nick (Choice: Private , Public)
 
-exports.updateChat = async (req: Request, res: Response) => {
+export const updateChat = async (req: Request, res: Response) => {
     const { id } = req.params;
   
     const user = req.body.user;

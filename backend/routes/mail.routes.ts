@@ -4,7 +4,7 @@ import { DataSender, Schema_DataSender, sender } from "../lib/mail_sender";
 import { authenticateToken } from "../middlewares/authToken";
 import { User } from "@prisma/client";
 
-const {sendEmail , sendVerificationEmail} = require('../controller/mail.control')
+import {sendEmail , sendVerificationEmail} from '../controller/mail.control'
 
 const router = Router();
 

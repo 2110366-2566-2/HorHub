@@ -9,7 +9,7 @@ import { User } from "@prisma/client";
 //@access   Await P nick (Choice: Private , Public)
 //@access   Public <= example 
 
-exports.sendVerificationEmail = async (req: Request, res: Response) => {
+export const sendVerificationEmail = async (req: Request, res: Response) => {
     const user: User = req.body.user;
 
     // console.log(user)
@@ -39,7 +39,7 @@ exports.sendVerificationEmail = async (req: Request, res: Response) => {
 //@route    POST /mails/send
 //@access   Await P nick (Choice: Private , Public)
 
-exports.sendEmail = async (req: Request, res: Response) => {
+export const sendEmail = async (req: Request, res: Response) => {
     const { to, subject, html } = req.body;
   
     const data = {

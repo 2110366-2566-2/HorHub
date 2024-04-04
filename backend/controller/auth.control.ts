@@ -67,7 +67,7 @@ const max_age = 3 * 24 * 60 * 60;
 //@access   Await P nick (Choice: Private , Public)
 //@access   Public <= example 
 
-const login = async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const user = await db.user.findUnique({
     where: {
@@ -96,7 +96,7 @@ const login = async (req: Request, res: Response) => {
 //@route    PUT /auth/user
 //@access   Await P nick (Choice: Private , Public)
 
-const update = async (req: Request, res: Response) => {
+export const update = async (req: Request, res: Response) => {
   const { user, ...data } = req.body;
   const query = await db.user.findUnique({
     where: {
@@ -128,7 +128,7 @@ const update = async (req: Request, res: Response) => {
 //@route    PUT /auth/user
 //@access   Await P nick (Choice: Private , Public)
 
-const register = async (req: Request, res: Response) => {
+export const register = async (req: Request, res: Response) => {
   const data = req.body;
   const user = Schema_User.safeParse(data);
   if (!user.success) {
@@ -194,7 +194,7 @@ const register = async (req: Request, res: Response) => {
 //@route    POST /auth/logout
 //@access   Await P nick (Choice: Private , Public)
 
-const logout = async (req: Request, res: Response) => {
+export const logout = async (req: Request, res: Response) => {
   return res.status(200).clearCookie("auth").send("logout");
 };
 
@@ -202,7 +202,7 @@ const logout = async (req: Request, res: Response) => {
 //@route    GET /auth/user
 //@access   Await P nick (Choice: Private , Public)
 
-const getUser = async (req: Request, res: Response) => {
+export const getUser = async (req: Request, res: Response) => {
   const user = req.body.user;
   const query = await db.user.findUnique({
     where: {
@@ -222,7 +222,7 @@ const getUser = async (req: Request, res: Response) => {
 //@route    POST /auth/verify
 //@access   Await P nick (Choice: Private , Public)
 
-const verifyAccount = async (req: Request, res: Response) => {
+export const verifyAccount = async (req: Request, res: Response) => {
   const body = req.body;
   const userQuery = await db.user.findUnique({
     where: {
@@ -250,7 +250,7 @@ const verifyAccount = async (req: Request, res: Response) => {
 //@route    POST /auth/verify/fail
 //@access   Await P nick (Choice: Private , Public)
 
-const verifyAccountFail = async (req: Request, res: Response) => {
+export const verifyAccountFail = async (req: Request, res: Response) => {
   const user = req.body.user;
 
   if (user.isVerified) {
@@ -270,7 +270,7 @@ const verifyAccountFail = async (req: Request, res: Response) => {
 //@route    GET /auth/wallets
 //@access   Await P nick (Choice: Private , Public)
 
-exports.getWallet = async (req: Request, res: Response) => {
+export const getWallet = async (req: Request, res: Response) => {
     const user: User = req.body.user;
     delete req.body.user;
     try {
@@ -293,7 +293,7 @@ exports.getWallet = async (req: Request, res: Response) => {
 //@route    POST /auth/wallets
 //@access   Await P nick (Choice: Private , Public)
 
-exports.withdrawnMoney = async (req: Request, res: Response) => {
+export const withdrawnMoney = async (req: Request, res: Response) => {
     try {
       let { amount } = req.body;
       amount = Number(parseFloat(amount).toFixed(2));

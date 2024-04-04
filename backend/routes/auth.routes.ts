@@ -7,10 +7,8 @@ import { generateJWT } from "../lib/jwtGenerator";
 import { authenticateToken } from "../middlewares/authToken";
 import { authenticateProvider } from "../middlewares/authProvider";
 import { User } from "@prisma/client";
+import  { register , login , getUser, logout , update , verifyAccount , verifyAccountFail, getWallet, withdrawnMoney } from "../controller/auth.control"
 
-const {register , login , getUser, logout , update , verifyAccount , verifyAccountFail} = require('../controller/auth.control')
-
-const {getWallet , withdrawnMoney} = require('../controller/auth.control') 
  
 const router = Router();
 

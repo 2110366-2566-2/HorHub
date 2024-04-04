@@ -176,7 +176,7 @@ type UpdateDormType = z.infer<typeof optionalDormSchema>;
 //@access   Await P nick (Choice: Private , Public)
 //@access   Public <= example 
 
-exports.getDorms = async (req: Request, res: Response) => {
+export const getDorms = async (req: Request, res: Response) => {
   const filters = req.query;
 
   let query = {};
@@ -266,7 +266,7 @@ exports.getDorms = async (req: Request, res: Response) => {
 //@route    GET /dorms/:dormId
 //@access   Await P nick (Choice: Private , Public)
 
-exports.getDorm = async (req: Request, res: Response) => {
+export const getDorm = async (req: Request, res: Response) => {
   const { dormId } = req.params;
 
   if (dormId.length != 24 || /[0-9A-Fa-f]{24}/g.test(dormId) === false) {
@@ -294,7 +294,7 @@ exports.getDorm = async (req: Request, res: Response) => {
 //@route    POST /dorms
 //@access   Private
 
-exports.createDorm = async  (req: Request, res: Response) => {
+export const createDorm = async  (req: Request, res: Response) => {
   const body = req.body;
 
   const parseStatus = dormSchema.safeParse(body);
@@ -327,7 +327,7 @@ exports.createDorm = async  (req: Request, res: Response) => {
 //@route    PUT /dorms/:dormId
 //@access   Private
 
-exports.updateDorm = async  (req: Request, res: Response) => {
+export const updateDorm = async  (req: Request, res: Response) => {
   const { dormId } = req.params;
 
   const user: User = req.body.user;
@@ -378,7 +378,7 @@ exports.updateDorm = async  (req: Request, res: Response) => {
 //@route    POST /dorms/:dormId
 //@access   Private
 
-exports.deleteDorm = async (req: Request, res: Response) => {
+export const deleteDorm = async (req: Request, res: Response) => {
   const { dormId } = req.params;
 
   const user: User = req.body.user;
@@ -422,7 +422,7 @@ exports.deleteDorm = async (req: Request, res: Response) => {
 //@route    GET /dorms/:dormId/roomtypes/:roomtypeId/booking
 //@access   Private
 
-exports.getBookingByRoomType = async (req: Request, res: Response) => {
+export const getBookingByRoomType = async (req: Request, res: Response) => {
   const { dormId, roomtypeId } = req.params;
   const user: User = req.body.user;
   if (dormId.length != 24 || /[0-9A-Fa-f]{24}/g.test(dormId) === false) {
@@ -473,7 +473,7 @@ exports.getBookingByRoomType = async (req: Request, res: Response) => {
 //@route    GET /dorms/:dormId/roomtypes
 //@access   Await P nick (Choice: Private , Public)
 
-exports.getRoomTypes = async  (req: Request, res: Response) => {
+export const getRoomTypes = async  (req: Request, res: Response) => {
   const { dormId } = req.params;
 
   if (dormId.length != 24 || /[0-9A-Fa-f]{24}/g.test(dormId) === false) {
@@ -501,7 +501,7 @@ exports.getRoomTypes = async  (req: Request, res: Response) => {
 //@route    GET /dorms/:dormId/roomtypes/:roomtypeId
 //@access   Private
 
-exports.getRoomType = async (req: Request, res: Response) => {
+export const getRoomType = async (req: Request, res: Response) => {
   const { dormId, roomtypeId } = req.params;
 
   if (dormId.length != 24 || /[0-9A-Fa-f]{24}/g.test(dormId) === false) {
@@ -547,7 +547,7 @@ exports.getRoomType = async (req: Request, res: Response) => {
 //@route    POST /dorms/:dormId/roomtypes
 //@access   Private
 
-exports.createRoomType = async (req: Request, res: Response) => {
+export const createRoomType = async (req: Request, res: Response) => {
   const { dormId } = req.params;
 
   const user: User = req.body.user;
@@ -594,7 +594,7 @@ exports.createRoomType = async (req: Request, res: Response) => {
 //@route    POST /dorms/:dormId/roomtypes/:roomtypeId
 //@access   Private
 
-exports.updateRoomType = async (req: Request, res: Response) => {
+export const updateRoomType = async (req: Request, res: Response) => {
   const { dormId, roomtypeId } = req.params;
 
   const user: User = req.body.user;
@@ -653,7 +653,7 @@ exports.updateRoomType = async (req: Request, res: Response) => {
 //@route    DELETE /dorms/:dormId/roomtypes/:roomtypeId
 //@access   Private
 
-exports.deleteRoomType = async (req: Request, res: Response) => {
+export const deleteRoomType = async (req: Request, res: Response) => {
   const { dormId, roomtypeId } = req.params;
 
   const user: User = req.body.user;

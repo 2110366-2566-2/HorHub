@@ -35,8 +35,7 @@ const bookUpdateSchema = z.object({
 //@route    GET /bookings/:bookingId
 //@access   Await P nick (Choice: Private , Public)  
 //@access   Public <= example 
-
-exports.getBooking = async (req: Request, res: Response) => {
+export const getBooking = async (req: Request, res: Response) => {
     const { bookingId } = req.params;
     const user: User = req.body.user;
   
@@ -94,8 +93,7 @@ exports.getBooking = async (req: Request, res: Response) => {
 //@desc     Crate a booking
 //@route    POST /bookings/
 //@access   Await P nick (Choice: Private , Public)
-
-exports.createBooking = async (req: Request, res: Response) => {
+export const createBooking = async (req: Request, res: Response) => {
     const user: User = req.body.user;
     delete req.body.user;
     const body = req.body;
@@ -144,7 +142,7 @@ exports.createBooking = async (req: Request, res: Response) => {
 //@route    PUT /bookings/:bookingId
 //@access   Await P nick (Choice: Private , Public)
 
-  exports.updateBooking = async (req: Request, res: Response) => {
+export const updateBooking = async (req: Request, res: Response) => {
     const { bookingId } = req.params;
     console.log("body");
     console.log(req.body);
@@ -186,8 +184,7 @@ exports.createBooking = async (req: Request, res: Response) => {
 //@desc     Delete a booking
 //@route    DELETE /bookings/:bookingId
 //@access   Await P nick (Choice: Private , Public)
-
-exports.deleteBooking =  async (req: Request, res: Response) => {
+export const deleteBooking =  async (req: Request, res: Response) => {
   const { bookingId } = req.params;
 
   const user: User = req.body.user;
@@ -246,8 +243,7 @@ exports.deleteBooking =  async (req: Request, res: Response) => {
 //@desc     Create checkoutToken
 //@route    POST /bookings/:bookingId/confirmpayment/:checkoutToken
 //@access   Await P nick (Choice: Private , Public)
-
-exports.createCheckoutToken = async (req:Request, res:Response) => {
+export const createCheckoutToken = async (req:Request, res:Response) => {
     const { bookingId, checkoutToken } = req.params;
   
     try {

@@ -10,7 +10,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 //@access   Await P nick (Choice: Private , Public)
 //@access   Public <= example 
 
-exports.getReceipt = async (req : Request,res : Response) => {
+export const getReceipt = async (req : Request,res : Response) => {
     const {bookingId} = req.params;
 
     const user: User = req.body.user;
@@ -42,7 +42,7 @@ exports.getReceipt = async (req : Request,res : Response) => {
 //@route    POST /payment/create-payment-intent
 //@access   Await P nick (Choice: Private , Public)
 
-exports.createPaymentIntent = async (req : Request,res : Response) => {
+export const createPaymentIntent = async (req : Request,res : Response) => {
     const { bookingId } = req.body;
 
     try {
@@ -79,7 +79,7 @@ exports.createPaymentIntent = async (req : Request,res : Response) => {
 //@route    POST /payment/create-checkout-session/:bookingId
 //@access   Await P nick (Choice: Private , Public)
 
-exports.createCheckoutSession = async (req : Request,res : Response) => {
+export const createCheckoutSession = async (req : Request,res : Response) => {
 
     const { bookingId } = req.params;
 

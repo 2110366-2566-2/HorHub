@@ -6,7 +6,7 @@ import { io } from "..";
 
 const router = Router();
 
-const {getChat , createChat , updateChat} = require('../controller/chat.control')
+import {getChat , createChat , updateChat} from '../controller/chat.control'
 
 router.get("/:id", authenticateToken, getChat);
 

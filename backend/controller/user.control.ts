@@ -51,7 +51,7 @@ const userChangePasswordSchema = z.object({
 //@access   Await P nick (Choice: Private , Public)
 //@access   Public <= example 
 
-exports.getUser = async (req: Request, res : Response) => {
+export const getUser = async (req: Request, res : Response) => {
     const { id } = req.params;
     const user = await db.user.findUnique({
       where: {
@@ -71,7 +71,7 @@ exports.getUser = async (req: Request, res : Response) => {
 //@route    DELETE /users/:id
 //@access   Await P nick (Choice: Private , Public)
 
-exports.deleteUser = async (req : Request, res : Response) => {
+export const deleteUser = async (req : Request, res : Response) => {
     const { id } = req.params;
   
     const body = req.body;
@@ -103,7 +103,7 @@ exports.deleteUser = async (req : Request, res : Response) => {
 //@route    PUT /users/:id/password
 //@access   Await P nick (Choice: Private , Public)
 
-exports.updatePassword = async (req : Request, res : Response) => {
+export const updatePassword = async (req : Request, res : Response) => {
     const { id } = req.params;
   
     const body = req.body;
@@ -141,7 +141,7 @@ exports.updatePassword = async (req : Request, res : Response) => {
 //@route    GET /users/:id/paymentMethods
 //@access   Await P nick (Choice: Private , Public)
 
-exports.getPaymentMethod = async (req : Request, res : Response) => {
+export const getPaymentMethod = async (req : Request, res : Response) => {
     const { id } = req.params;
   
     const results = await db.paymentMethod.findMany({
@@ -157,7 +157,7 @@ exports.getPaymentMethod = async (req : Request, res : Response) => {
 //@route    POST /users/:id/paymentMethods
 //@access   Await P nick (Choice: Private , Public)
 
-exports.createNewPaymentMethod = async (req : Request, res : Response) => {
+export const createNewPaymentMethod = async (req : Request, res : Response) => {
     const { id } = req.params;
   
     const body = req.body;
@@ -211,7 +211,7 @@ exports.createNewPaymentMethod = async (req : Request, res : Response) => {
 //@route    PUT /users/:id/paymentMethods/:methodId
 //@access   Await P nick (Choice: Private , Public)
 
-exports.updatePaymentMethod = async (req : Request, res : Response) => {
+export const updatePaymentMethod = async (req : Request, res : Response) => {
     const { id, methodId } = req.params;
 
     const body = req.body;
@@ -262,7 +262,7 @@ exports.updatePaymentMethod = async (req : Request, res : Response) => {
 //@route    DELETE /users/:id/paymentMethods/:methodId
 //@access   Await P nick (Choice: Private , Public)
 
-exports.deletePaymentMethod = async (req : Request, res : Response) => {
+export const deletePaymentMethod = async (req : Request, res : Response) => {
     const { id, methodId } = req.params;
     const body = req.body;
 
@@ -302,7 +302,7 @@ exports.deletePaymentMethod = async (req : Request, res : Response) => {
 //@route    GET /users/:id
 //@access   Await P nick (Choice: Private , Public)
 
-exports.getProvidedDorm = async (req : Request, res : Response) => {
+export const getProvidedDorm = async (req : Request, res : Response) => {
     const { id } = req.params;
 
     if (id.length != 24 || /[0-9A-Fa-f]{24}/g.test(id) === false) {
@@ -325,7 +325,7 @@ exports.getProvidedDorm = async (req : Request, res : Response) => {
 //@route    GET /users/:bookingId/payment/bookings/
 //@access   Await P nick (Choice: Private , Public)
 
-exports.getInfoBeforePaying = async (req : Request, res : Response) => {
+export const getInfoBeforePaying = async (req : Request, res : Response) => {
     const user: User = req.body.user;
     delete req.body.user;
     const { bookingId } = req.params;
@@ -367,7 +367,7 @@ exports.getInfoBeforePaying = async (req : Request, res : Response) => {
 //@route    GET /users/:id/bookings
 //@access   Await P nick (Choice: Private , Public)
 
-exports.getBookings = async (req : Request, res : Response) => {
+export const getBookings = async (req : Request, res : Response) => {
     const { id } = req.params;
 
     if (id.length != 24 || /[0-9A-Fa-f]{24}/g.test(id) === false) {
@@ -408,7 +408,7 @@ exports.getBookings = async (req : Request, res : Response) => {
 //@route    GET /users/:id/chats
 //@access   Await P nick (Choice: Private , Public)
 
-exports.getChats = async (req : Request, res : Response) => {
+export const getChats = async (req : Request, res : Response) => {
     const { id } = req.params;
   
     if (id.length != 24 || /[0-9A-Fa-f]{24}/g.test(id) === false) {
@@ -499,7 +499,7 @@ exports.getChats = async (req : Request, res : Response) => {
 //@route    PUT /users/:id/email
 //@access   Await P nick (Choice: Private , Public)
 
-exports.sendChangingEmailConfirmation = async (req: Request, res: Response) => {
+export const sendChangingEmailConfirmation = async (req: Request, res: Response) => {
     const { id } = req.params;
   
     const body = req.body;

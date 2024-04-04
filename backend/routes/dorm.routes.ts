@@ -7,7 +7,7 @@ import { db } from "../lib/db";
 import { Dorm, User } from "@prisma/client";
 import { refreshBookings } from "../lib/bookingRefresher";
 
-const {getDorms , getDorm ,createDorm,updateDorm , deleteDorm , getBookingByRoomType , getRoomTypes , getRoomType , createRoomType , updateRoomType, deleteRoomType } = require('../controller/dorm.control')
+import {getDorms , getDorm ,createDorm,updateDorm , deleteDorm , getBookingByRoomType , getRoomTypes , getRoomType , createRoomType , updateRoomType, deleteRoomType } from '../controller/dorm.control'
 
 const router = Router();
 

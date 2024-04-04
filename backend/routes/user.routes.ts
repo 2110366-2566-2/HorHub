@@ -12,7 +12,7 @@ import { authenticateCustomer } from "../middlewares/authCustomer";
 import { refreshBookings } from "../lib/bookingRefresher";
 import { User } from "@prisma/client";
 
-const {getUser , deleteUser, updatePassword , getPaymentMethod , createNewPaymentMethod , updatePaymentMethod , deletePaymentMethod , getProvidedDorm , getInfoBeforePaying , getBookings , getChats , sendChangingEmailConfirmation} = require('../controller/user.control')
+import {getUser , deleteUser, updatePassword , getPaymentMethod , createNewPaymentMethod , updatePaymentMethod , deletePaymentMethod , getProvidedDorm , getInfoBeforePaying , getBookings , getChats , sendChangingEmailConfirmation} from '../controller/user.control'
 
 const router = Router();
 

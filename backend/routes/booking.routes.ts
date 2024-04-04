@@ -8,7 +8,7 @@ import { authenticateProvider } from "../middlewares/authProvider";
 import { bookStatus } from "../lib/constant";
 import { refreshBookings } from "../lib/bookingRefresher";
 
-const {getBooking , createBooking , updateBooking , deleteBooking , createCheckoutToken} = require('../controller/booking.control')
+import {getBooking , createBooking , updateBooking , deleteBooking , createCheckoutToken} from '../controller/booking.control'
 
 const router = Router();
 
