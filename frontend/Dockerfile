@@ -1,5 +1,5 @@
 # Build stage
-FROM node:20.11.0-alpine as prod
+FROM --platform=linux/arm64 node:20.11.0-alpine as prod
 
 WORKDIR /app
 
