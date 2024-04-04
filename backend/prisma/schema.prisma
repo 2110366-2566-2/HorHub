@@ -145,7 +145,8 @@ model Issue {
   id              String        @id @default(auto()) @map("_id") @db.ObjectId
   user            User          @relation("reportIssue", fields: [userId], references: [id], onDelete: Cascade)
   userId          String        @db.ObjectId
-  issueType       IssueType
+  type            IssueType
+  status          IssueStatus   @default(Waiting)
   title           String
   description     String
   images          String[]
@@ -244,4 +245,10 @@ enum IssueType {
   Security
   Suggestion
   Other
+}
+
+enum IssueStatus {
+  Waiting
+  Resolved
+  Rejected
 }
