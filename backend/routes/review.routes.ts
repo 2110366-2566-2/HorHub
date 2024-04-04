@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { deleteReview, getReview, updateReview } from "../controller/review.control";
 import { authenticateToken } from "../middlewares/authToken";
-import { authenticateCustomer } from "../middlewares/authCustomer";
+import { authorizeCustomer } from "../middlewares/authCustomer";
 
 const router = Router()
 
@@ -138,7 +138,7 @@ router.get("/:reviewId", getReview)
 *     
 */
 
-router.put("/:reviewId", authenticateToken, authenticateCustomer, updateReview)
+router.put("/:reviewId", authenticateToken, authorizeCustomer, updateReview)
 
 /**
 * @swagger
@@ -171,7 +171,7 @@ router.put("/:reviewId", authenticateToken, authenticateCustomer, updateReview)
 *     
 */
 
-router.delete("/:reviewId", authenticateToken, authenticateCustomer, deleteReview)
+router.delete("/:reviewId", authenticateToken, authorizeCustomer, deleteReview)
 
 
 export default router

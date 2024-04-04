@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authenticateToken } from "../middlewares/authToken";
-import { authenticateProvider } from "../middlewares/authProvider";
+import { authorizeProvider } from "../middlewares/authProvider";
 import { z } from "zod";
 import { dormFacilities, roomFacilities } from "../lib/constant";
 import { db } from "../lib/db";
@@ -8,7 +8,7 @@ import { Dorm, User } from "@prisma/client";
 import { refreshBookings } from "../lib/bookingRefresher";
 
 import {getDorms , getDorm ,createDorm,updateDorm , deleteDorm , getBookingByRoomType , getRoomTypes , getRoomType , createRoomType , updateRoomType, deleteRoomType, createReview, getReviewsByDorm } from '../controller/dorm.control'
-import { authenticateCustomer } from "../middlewares/authCustomer";
+import { authorizeCustomer } from "../middlewares/authCustomer";
 
 const router = Router();
 
@@ -36,23 +36,23 @@ router.get("/", getDorms);
 
 router.get("/:dormId", getDorm);
 
-router.post("/", authenticateToken, authenticateProvider,createDorm);
+router.post("/", authenticateToken, authorizeProvider,createDorm);
 
-router.put("/:dormId",authenticateToken,authenticateProvider,updateDorm);
+router.put("/:dormId",authenticateToken,authorizeProvider,updateDorm);
 
-router.delete("/:dormId",authenticateToken,authenticateProvider,deleteDorm);
+router.delete("/:dormId",authenticateToken,authorizeProvider,deleteDorm);
 
-router.get("/:dormId/roomtypes/:roomtypeId/booking",authenticateToken,authenticateProvider,getBookingByRoomType);
+router.get("/:dormId/roomtypes/:roomtypeId/booking",authenticateToken,authorizeProvider,getBookingByRoomType);
 
 router.get("/:dormId/roomtypes", getRoomTypes);
 
 router.get("/:dormId/roomtypes/:roomtypeId", getRoomType);
 
-router.post("/:dormId/roomtypes",authenticateToken,authenticateProvider,createRoomType);
+router.post("/:dormId/roomtypes",authenticateToken,authorizeProvider,createRoomType);
 
-router.put("/:dormId/roomtypes/:roomtypeId",authenticateToken,authenticateProvider,updateRoomType);
+router.put("/:dormId/roomtypes/:roomtypeId",authenticateToken,authorizeProvider,updateRoomType);
 
-router.delete("/:dormId/roomtypes/:roomtypeId",authenticateToken,authenticateProvider,deleteRoomType);
+router.delete("/:dormId/roomtypes/:roomtypeId",authenticateToken,authorizeProvider,deleteRoomType);
 
 /**
 * @swagger
@@ -108,7 +108,7 @@ router.delete("/:dormId/roomtypes/:roomtypeId",authenticateToken,authenticatePro
 *     
 */
 
-router.post("/:dormId/reviews", authenticateToken, authenticateCustomer, createReview);
+router.post("/:dormId/reviews", authenticateToken, authorizeCustomer, createReview);
 
 /**
 * @swagger

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 
 /** For checking if user has "Provider" permission, user after authenticateToken*/
-export function authenticateProvider(
+export function authorizeProvider(
   req: Request,
   res: Response,
   next: NextFunction

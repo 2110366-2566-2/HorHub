@@ -7,8 +7,8 @@ import bcrypt from "bcrypt";
 import { supportBankName } from "../lib/constant";
 
 import { DataSender, Schema_DataSender, sender } from "../lib/mail_sender";
-import { authenticateProvider } from "../middlewares/authProvider";
-import { authenticateCustomer } from "../middlewares/authCustomer";
+import { authorizeProvider } from "../middlewares/authProvider";
+import { authorizeCustomer } from "../middlewares/authCustomer";
 import { refreshBookings } from "../lib/bookingRefresher";
 import { User } from "@prisma/client";
 
@@ -30,11 +30,11 @@ router.put("/:id/paymentMethods/:methodId",authenticateToken,updatePaymentMethod
 
 router.delete("/:id/paymentMethods/:methodId",authenticateToken,deletePaymentMethod);
 
-router.get("/:id/dorms",authenticateToken,authenticateProvider,getProvidedDorm);
+router.get("/:id/dorms",authenticateToken,authorizeProvider,getProvidedDorm);
 
-router.get("/:bookingId/payment/bookings/",authenticateToken,authenticateCustomer,getInfoBeforePaying);
+router.get("/:bookingId/payment/bookings/",authenticateToken,authorizeCustomer,getInfoBeforePaying);
 
-router.get("/:id/bookings",authenticateToken,authenticateCustomer,getBookings);
+router.get("/:id/bookings",authenticateToken,authorizeCustomer,getBookings);
 
 router.get("/:id/chats", authenticateToken,getChats);
 

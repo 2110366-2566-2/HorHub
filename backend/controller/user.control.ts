@@ -7,8 +7,8 @@ import bcrypt from "bcrypt";
 import { supportBankName } from "../lib/constant";
 
 import { DataSender, Schema_DataSender, sender } from "../lib/mail_sender";
-import { authenticateProvider } from "../middlewares/authProvider";
-import { authenticateCustomer } from "../middlewares/authCustomer";
+import { authorizeProvider } from "../middlewares/authProvider";
+import { authorizeCustomer } from "../middlewares/authCustomer";
 import { refreshBookings } from "../lib/bookingRefresher";
 import { User } from "@prisma/client";
 

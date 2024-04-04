@@ -5,7 +5,7 @@ import { db } from "../lib/db";
 import bcrypt from "bcrypt";
 import { generateJWT } from "../lib/jwtGenerator";
 import { authenticateToken } from "../middlewares/authToken";
-import { authenticateProvider } from "../middlewares/authProvider";
+import { authorizeProvider } from "../middlewares/authProvider";
 import { User } from "@prisma/client";
 
 const Schema_User = z.object({

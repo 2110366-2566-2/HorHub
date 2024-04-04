@@ -5,7 +5,7 @@ import { db } from "../lib/db";
 import bcrypt from "bcrypt";
 import { generateJWT } from "../lib/jwtGenerator";
 import { authenticateToken } from "../middlewares/authToken";
-import { authenticateProvider } from "../middlewares/authProvider";
+import { authorizeProvider } from "../middlewares/authProvider";
 import { User } from "@prisma/client";
 import  { register , login , getUser, logout , update , verifyAccount , verifyAccountFail, getWallet, withdrawnMoney } from "../controller/auth.control"
 
@@ -160,8 +160,8 @@ router.post("/verify", verifyAccount);
 
 router.post("/verify/fail", authenticateToken, verifyAccountFail);
 
-router.get("/wallet", authenticateToken,authenticateProvider,getWallet);
+router.get("/wallet", authenticateToken,authorizeProvider,getWallet);
 
-router.post("/withdrawn",authenticateToken,authenticateProvider,withdrawnMoney);
+router.post("/withdrawn",authenticateToken,authorizeProvider,withdrawnMoney);
 
 export default router;
