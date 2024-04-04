@@ -12,6 +12,7 @@ import chatRouter from "./routes/chat.routes";
 import bookingRouter from "./routes/booking.routes"
 import paymentRouter from "./routes/payment.routes"
 import reviewRouter from "./routes/review.routes"
+import issueRouter from "./routes/issue.routes"
 import cookieParser from "cookie-parser";
 import { Server } from 'socket.io';
 import { createServer } from "http";
@@ -56,7 +57,7 @@ app.use('/bookings', bookingRouter)
 app.use('/chats', chatRouter)
 app.use('/payment', paymentRouter)
 app.use('/reviews', reviewRouter)
-
+app.use('/issues', issueRouter)
 
 
 
