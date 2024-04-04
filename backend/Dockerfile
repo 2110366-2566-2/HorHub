@@ -1,4 +1,4 @@
-FROM node:20.11.0-alpine
+FROM --platform=linux/arm64 node:20.11.0-alpine
 
 WORKDIR /app
 
@@ -15,3 +15,5 @@ RUN npx prisma generate
 RUN npm run build
 
 CMD ["npm", "run", "start"]
+
+EXPOSE 3001
