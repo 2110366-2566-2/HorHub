@@ -87,7 +87,6 @@ export const login = async (req: Request, res: Response) => {
   res.cookie("auth", token, {
     httpOnly: true,
     maxAge: max_age * 1000,
-    sameSite: "none",
   });
 
   return res.status(200).send({
@@ -124,7 +123,6 @@ export const update = async (req: Request, res: Response) => {
   res.cookie("auth", token, {
     httpOnly: true,
     maxAge: max_age * 1000,
-    sameSite: "none",
   });
   res.status(201).send({
     ...result,
@@ -191,7 +189,6 @@ export const register = async (req: Request, res: Response) => {
     res.cookie("auth", token, {
       httpOnly: true,
       maxAge: max_age * 1000,
-      sameSite: "none",
     });
     res.status(201).send({
       ...result,
