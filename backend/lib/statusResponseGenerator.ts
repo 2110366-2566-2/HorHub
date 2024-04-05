@@ -1,7 +1,5 @@
 export default function generateStatusResponse(status: number, error?: any) {
 
-    console.log(error)
-
     let message = ""
     
     if (status === 200) {

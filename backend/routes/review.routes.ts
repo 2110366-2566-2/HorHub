@@ -77,7 +77,20 @@ const router = Router()
 *                 $ref: '#/components/schemas/Review'
 *       404:
 *         description: The review is invalid
-*     
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 404
+*                       message:
+*                           type: string
+*                           example: "Not Found"
+*                       error:
+*                           type: string
+*                           example: "No review found"
 */
 
 router.get("/:reviewId", getReview)
@@ -157,11 +170,18 @@ router.put("/:reviewId", authenticateToken, authorizeCustomer, updateReview)
 *         description: ID of the review
 *     responses:
 *       200:
-*         description: The review information   
+*         description: Message shown successful delete operation  
 *         content:
 *           application/json:
 *               schema:
-*                 $ref: '#/components/schemas/Review'
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 200
+*                       message:
+*                           type: string
+*                           example: "OK"
 *       401:
 *         description: Unauthorized
 *       403:

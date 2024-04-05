@@ -38,7 +38,6 @@ router.get("/:id/bookings",authenticateToken,authorizeCustomer,getBookings);
 
 router.get("/:id/chats", authenticateToken,getChats);
 
-// ===================================== NINE will try his best
 router.put("/:id/email", sendChangingEmailConfirmation);
 
 export default router;

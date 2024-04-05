@@ -11,6 +11,7 @@ import { authorizeProvider } from "../middlewares/authProvider";
 import { authorizeCustomer } from "../middlewares/authCustomer";
 import { refreshBookings } from "../lib/bookingRefresher";
 import { User } from "@prisma/client";
+import generateStatusResponse from "../lib/statusResponseGenerator";
 
 const userChangePasswordSchema = z.object({
     oldPassword: z.string().trim().min(1, { message: "Please fill this field" }),
@@ -365,7 +366,7 @@ export const getInfoBeforePaying = async (req : Request, res : Response) => {
 
 //@desc     Get All Bookings
 //@route    GET /users/:id/bookings
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const getBookings = async (req : Request, res : Response) => {
     const { id } = req.params;
@@ -406,7 +407,7 @@ export const getBookings = async (req : Request, res : Response) => {
 
 //@desc     Get All Chats
 //@route    GET /users/:id/chats
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const getChats = async (req : Request, res : Response) => {
     const { id } = req.params;
@@ -497,7 +498,7 @@ export const getChats = async (req : Request, res : Response) => {
 
 //@desc     Change email to confirm that user'email has been changed
 //@route    PUT /users/:id/email
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const sendChangingEmailConfirmation = async (req: Request, res: Response) => {
     const { id } = req.params;
