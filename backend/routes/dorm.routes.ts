@@ -98,13 +98,72 @@ router.delete("/:dormId/roomtypes/:roomtypeId",authenticateToken,authorizeProvid
 *               schema:
 *                 $ref: '#/components/schemas/Review'
 *       400:
-*         description: The body is invalid
+*         description: The review is in an invalid format
+*         content:
+*           application/json:
+*               schema:
+*                   type: array
+*                   items:
+*                       type: object
+*                       properties:
+*                           code:
+*                               type: string
+*                               example: too_big
+*                           maximum:
+*                               type: number
+*                               example: 5
+*                           type:
+*                               type: string
+*                               example: number
+*                           inclusive:
+*                               type: boolean
+*                               example: true
+*                           exact:
+*                               type: boolean
+*                               example: false
+*                           message:
+*                               type: string
+*                               example: Rating should be between 1 to 5
+*                           path:
+*                               type: array
+*                               items:
+*                                   type: string
+*                                   example: rating
+*                                   description: Path to the property causing the error
 *       401:
-*         description: Unauthorized
+*         description: You have not logged in
 *       403:
-*         description: There is no permission to access this path
+*         description: You haven't completely book this dorm or You have already reviewed this dorm
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 403
+*                       message:
+*                           type: string
+*                           example: "Forbidden"
+*                       error:
+*                           type: string
+*                           example: "You have reviewed this dorm already"
 *       404:
-*         description: The dorm is invalid
+*         description: The dorm with the provided dorm ID is not in the database
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 404
+*                       message:
+*                           type: string
+*                           example: "Not Found"
+*                       error:
+*                           type: string
+*                           example: "No dorm found"
 *     
 */
 
@@ -133,7 +192,21 @@ router.post("/:dormId/reviews", authenticateToken, authorizeCustomer, createRevi
 *                   items:
 *                       $ref: '#/components/schemas/Review'
 *       404:
-*         description: The dorm is invalid
+*         description: The dorm with the provided dorm ID is not in the database
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 404
+*                       message:
+*                           type: string
+*                           example: "Not Found"
+*                       error:
+*                           type: string
+*                           example: "No dorm found"
 *     
 */
 

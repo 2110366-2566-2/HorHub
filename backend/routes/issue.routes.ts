@@ -216,10 +216,7 @@ const router = Router()
 *                 items:
 *                   $ref: '#/components/schemas/Issue'
 *       401:
-*         description: Unauthorized
-*       403:
-*         description: There is no permission to view issues
-*     
+*         description: You have not logged in
 */
 
 router.get("/", authenticateToken, getIssues)
@@ -247,11 +244,39 @@ router.get("/", authenticateToken, getIssues)
 *               schema:
 *                   $ref: '#/components/schemas/Issue'
 *       401:
-*         description: Unauthorized
+*         description: You have not logged in
 *       403:
-*         description: There is no permission to view issues
+*         description: You don't have permission to view this issue
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 403
+*                       message:
+*                           type: string
+*                           example: "Forbidden"
+*                       error:
+*                           type: string
+*                           example: "You don't have permission to view this issue"
 *       404:
-*         description: The issue is invalid
+*         description: The issue with the provided issue ID is not in the database
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 404
+*                       message:
+*                           type: string
+*                           example: "Not Found"
+*                       error:
+*                           type: string
+*                           example: "No issue found"
 */
 
 router.get("/:issueId", authenticateToken, getIssue)
@@ -296,10 +321,38 @@ router.get("/:issueId", authenticateToken, getIssue)
 *                 $ref: '#/components/schemas/Issue'
 *       400:
 *         description: The request body is invalid
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 400
+*                       message:
+*                           type: string
+*                           example: "Bad Request"
+*                       error:
+*                           type: string
+*                           example: "[\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"array\",\n    \"received\": \"string\",\n    \"path\": [\n      \"images\"\n    ],\n    \"message\": \"Expected array, received string\"\n  }\n]"
 *       401:
-*         description: Unauthorized
+*         description: You have not logged in
 *       403:
-*         description: There is no permission to create issue
+*         description: You don't have permission to report an issue
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 403
+*                       message:
+*                           type: string
+*                           example: "Forbidden"
+*                       error:
+*                           type: string
+*                           example: "Admin cannot report the issue"
 *     
 */
 
@@ -355,12 +408,54 @@ router.post("/", authenticateToken, createIssue)
 *                 $ref: '#/components/schemas/Issue'
 *       400:
 *         description: The request body is invalid
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 400
+*                       message:
+*                           type: string
+*                           example: "Bad Request"
+*                       error:
+*                           type: string
+*                           example: "[\n  {\n    \"expected\": \"'Technical' | 'Account' | 'Content' | 'Payment' | 'Security' | 'Suggestion' | 'Other'\",\n    \"received\": \"number\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"type\"\n    ],\n    \"message\": \"Expected 'Technical' | 'Account' | 'Content' | 'Payment' | 'Security' | 'Suggestion' | 'Other', received number\"\n  }\n]"
 *       401:
-*         description: Unauthorized
+*         description: You have not logged in
 *       403:
-*         description: There is no permission to edit this issue
+*         description: You don't have permission to edit this issue
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 403
+*                       message:
+*                           type: string
+*                           example: "Forbidden"
+*                       error:
+*                           type: string
+*                           example: "You don't have permission to edit this issue"
 *       404:
-*         description: The issue is invalid
+*         description: The issue with the provided issue ID is not in the database
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 404
+*                       message:
+*                           type: string
+*                           example: "Not Found"
+*                       error:
+*                           type: string
+*                           example: "No issue found"
 *     
 */
 
@@ -396,11 +491,39 @@ router.put("/:issueId", authenticateToken, updateIssue)
 *                           type: string
 *                           example: "OK"
 *       401:
-*         description: Unauthorized
+*         description: You have not logged in
 *       403:
-*         description: There is no permission to delete this issue
+*         description: You don't have permission to delete this issue
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 403
+*                       message:
+*                           type: string
+*                           example: "Forbidden"
+*                       error:
+*                           type: string
+*                           example: "You don't have permission to delete this issue"
 *       404:
-*         description: The issue is invalid
+*         description: The issue with the provided issue ID is not in the database
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 404
+*                       message:
+*                           type: string
+*                           example: "Not Found"
+*                       error:
+*                           type: string
+*                           example: "No issue found"
 *     
 */
 
@@ -440,12 +563,54 @@ router.delete("/:issueId", authenticateToken, deleteIssue)
 *                 $ref: '#/components/schemas/ResolvedIssue'
 *       400:
 *         description: The request body is invalid
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 400
+*                       message:
+*                           type: string
+*                           example: "Bad Request"
+*                       error:
+*                           type: string
+*                           example: "[\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"string\",\n    \"received\": \"undefined\",\n    \"path\": [\n      \"resolveMessage\"\n    ],\n    \"message\": \"Required\"\n  }\n]"
 *       401:
-*         description: Unauthorized
+*         description: You have not logged in
 *       403:
-*         description: There is no permission to resolve this issue
+*         description: This issue have already been resolved or rejected
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 403
+*                       message:
+*                           type: string
+*                           example: "Forbidden"
+*                       error:
+*                           type: string
+*                           example: "This issue had already been resolved or rejected"
 *       404:
-*         description: The issue is invalid
+*         description: The issue with the provided issue ID is not in the database
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 404
+*                       message:
+*                           type: string
+*                           example: "Not Found"
+*                       error:
+*                           type: string
+*                           example: "No issue found"
 *     
 */
 
@@ -485,12 +650,54 @@ router.put("/:issueId/resolve", authenticateToken, authorizeAdmin, resolveIssue)
 *                 $ref: '#/components/schemas/RejectedIssue'
 *       400:
 *         description: The request body is invalid
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 400
+*                       message:
+*                           type: string
+*                           example: "Bad Request"
+*                       error:
+*                           type: string
+*                           example: "[\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"string\",\n    \"received\": \"undefined\",\n    \"path\": [\n      \"resolveMessage\"\n    ],\n    \"message\": \"Required\"\n  }\n]"
 *       401:
-*         description: Unauthorized
+*         description: You have not logged in
 *       403:
-*         description: There is no permission to reject this issue
+*         description: This issue have already been resolved or rejected
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 403
+*                       message:
+*                           type: string
+*                           example: "Forbidden"
+*                       error:
+*                           type: string
+*                           example: "This issue had already been resolved or rejected"
 *       404:
-*         description: The issue is invalid
+*         description: The issue with the provided issue ID is not in the database
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 404
+*                       message:
+*                           type: string
+*                           example: "Not Found"
+*                       error:
+*                           type: string
+*                           example: "No issue found"
 *     
 */
 

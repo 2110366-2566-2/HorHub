@@ -76,7 +76,7 @@ const router = Router()
 *               schema:
 *                 $ref: '#/components/schemas/Review'
 *       404:
-*         description: The review is invalid
+*         description: The review with the provided review ID is not in the database
 *         content:
 *           application/json:
 *               schema:
@@ -141,13 +141,74 @@ router.get("/:reviewId", getReview)
 *               schema:
 *                 $ref: '#/components/schemas/Review'
 *       400:
-*         description: The request body is invalid
+*         description: The review is in an invalid format
+*         content:
+*           application/json:
+*               schema:
+*                   type: array
+*                   items:
+*                       type: object
+*                       properties:
+*                           code:
+*                               type: string
+*                               example: too_small
+*                           minimum:
+*                               type: number
+*                               example: 
+*                           type:
+*                               type: string
+*                               example: number
+*                           inclusive:
+*                               type: boolean
+*                               example: true
+*                           exact:
+*                               type: boolean
+*                               example: false
+*                           message:
+*                               type: string
+*                               example: Rating should be between 1 to 5
+*                           path:
+*                               type: array
+*                               items:
+*                                   type: string
+*                                   example: rating
 *       401:
-*         description: Unauthorized
+*         description: You have not logged in
 *       403:
-*         description: There is no access to manage this review
+*         description: You don't have permission to modify this review
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 statusCode:
+*                   type: integer
+*                   example: 403
+*                   description: HTTP status code
+*                 message:
+*                   type: string
+*                   example: Forbidden
+*                   description: Error message
+*                 error:
+*                   type: string
+*                   example: You don't have access to manage this review
+*                   description: Error details
 *       404:
-*         description: The review is invalid
+*         description: The review with the provided review ID is not in the database
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 404
+*                       message:
+*                           type: string
+*                           example: "Not Found"
+*                       error:
+*                           type: string
+*                           example: "No review found"
 *     
 */
 
@@ -183,11 +244,39 @@ router.put("/:reviewId", authenticateToken, authorizeCustomer, updateReview)
 *                           type: string
 *                           example: "OK"
 *       401:
-*         description: Unauthorized
+*         description: You have not logged in
 *       403:
-*         description: There is no access to manage this review
+*         description: You don't have permission to delete this review
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 403
+*                       message:
+*                           type: string
+*                           example: "Forbidden"
+*                       error:
+*                           type: string
+*                           example: "You don't have access to manage this review"
 *       404:
-*         description: The review is invalid
+*         description: The review with the provided review ID is not in the database
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 404
+*                       message:
+*                           type: string
+*                           example: "Not Found"
+*                       error:
+*                           type: string
+*                           example: "No review found"
 *     
 */
 
