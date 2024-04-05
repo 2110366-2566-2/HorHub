@@ -164,7 +164,6 @@ const UpdateRoomTypeSchema = z.object({
 
 type UpdateDormType = z.infer<typeof optionalDormSchema>;
 
-
 const createReviewSchema = z.object({
   rating: z
     .number()
@@ -180,14 +179,14 @@ const createReviewSchema = z.object({
     .array()
     .max(5, { message: "The images must not exceed 5 files" })
     .optional(),
-})
+});
 
 //===============================================================
 
-//@desc     Get all dorms 
+//@desc     Get all dorms
 //@route    GET /dorms
 //@access   Await P nick (Choice: Private , Public)
-//@access   Public <= example 
+//@access   Public <= example
 
 export const getDorms = async (req: Request, res: Response) => {
   const filters = req.query;
@@ -275,7 +274,7 @@ export const getDorms = async (req: Request, res: Response) => {
   return res.send(result);
 };
 
-//@desc     Get a dorms 
+//@desc     Get a dorms
 //@route    GET /dorms/:dormId
 //@access   Await P nick (Choice: Private , Public)
 
@@ -303,11 +302,11 @@ export const getDorm = async (req: Request, res: Response) => {
   return res.send(findDormRes);
 };
 
-//@desc     Create a dorm 
+//@desc     Create a dorm
 //@route    POST /dorms
 //@access   Private
 
-export const createDorm = async  (req: Request, res: Response) => {
+export const createDorm = async (req: Request, res: Response) => {
   const body = req.body;
 
   const parseStatus = dormSchema.safeParse(body);
@@ -336,11 +335,11 @@ export const createDorm = async  (req: Request, res: Response) => {
   }
 };
 
-//@desc     Update a dorm 
+//@desc     Update a dorm
 //@route    PUT /dorms/:dormId
 //@access   Private
 
-export const updateDorm = async  (req: Request, res: Response) => {
+export const updateDorm = async (req: Request, res: Response) => {
   const { dormId } = req.params;
 
   const user: User = req.body.user;
@@ -387,7 +386,7 @@ export const updateDorm = async  (req: Request, res: Response) => {
   }
 };
 
-//@desc     Delete a dorm 
+//@desc     Delete a dorm
 //@route    POST /dorms/:dormId
 //@access   Private
 
@@ -449,7 +448,7 @@ export const getBookingByRoomType = async (req: Request, res: Response) => {
     }
 
     // Update outdated status
-    await refreshBookings()
+    await refreshBookings();
 
     const bookRes = await db.roomType.findUnique({
       where: { id: roomtypeId },
@@ -468,8 +467,8 @@ export const getBookingByRoomType = async (req: Request, res: Response) => {
             },
           },
           orderBy: {
-            bookAt: "desc"
-          }
+            bookAt: "desc",
+          },
         },
       },
     });
@@ -482,11 +481,11 @@ export const getBookingByRoomType = async (req: Request, res: Response) => {
   }
 };
 
-//@desc     Get all room type of a dorm 
+//@desc     Get all room type of a dorm
 //@route    GET /dorms/:dormId/roomtypes
 //@access   Await P nick (Choice: Private , Public)
 
-export const getRoomTypes = async  (req: Request, res: Response) => {
+export const getRoomTypes = async (req: Request, res: Response) => {
   const { dormId } = req.params;
 
   if (dormId.length != 24 || /[0-9A-Fa-f]{24}/g.test(dormId) === false) {
@@ -585,9 +584,7 @@ export const createRoomType = async (req: Request, res: Response) => {
     }
 
     if (findDormRes.providerId != user.id) {
-      return res
-        .status(403)
-        .send("You don't have access to manage this dorm");
+      return res.status(403).send("You don't have access to manage this dorm");
     }
 
     const createRes = await db.roomType.create({
@@ -632,9 +629,7 @@ export const updateRoomType = async (req: Request, res: Response) => {
     }
 
     if (findDormRes.providerId != user.id) {
-      return res
-        .status(403)
-        .send("You don't have access to manage this dorm");
+      return res.status(403).send("You don't have access to manage this dorm");
     }
 
     const findRoomRes = await db.roomType.findUnique({
@@ -683,9 +678,7 @@ export const deleteRoomType = async (req: Request, res: Response) => {
     }
 
     if (findDormRes.providerId != user.id) {
-      return res
-        .status(403)
-        .send("You don't have access to manage this dorm");
+      return res.status(403).send("You don't have access to manage this dorm");
     }
 
     const findRoomRes = await db.roomType.findUnique({
@@ -710,85 +703,6 @@ export const deleteRoomType = async (req: Request, res: Response) => {
   }
 };
 
-//@desc     Create review
-//@route    POST /dorms/:dormId/reviews
-//@access   Private
-
-export const createReview = async (req: Request, res: Response) => {
-  const { dormId } = req.params;
-
-  const user: User = req.body.user;
-  const body = req.body
-
-  try {
-    const parseStatus = createReviewSchema.safeParse(body);
-    if (!parseStatus.success) console.log(parseStatus.error.issues);
-    if (!parseStatus.success) return res.status(400).send(parseStatus.error.message);
-
-    const parsedBody = parseStatus.data;
-
-    // Check if dorm is valid
-
-    if (dormId.length != 24 || /[0-9A-Fa-f]{24}/g.test(dormId) === false) {
-      return res.status(404).send("No dorm found");
-    }
-
-    const findDormRes = await db.dorm.findUnique({
-      where: {
-        id: dormId,
-      },
-    });
-
-    if (!findDormRes) {
-      return res.status(404).send("No dorm found");
-    }
-
-    // Check if user has done one booking in this dorm
-
-    await refreshBookings()
-
-    const findBooking = await db.booking.findFirst({
-      where: {
-        customerId: user.id,
-        roomType: {
-          dormId: dormId
-        },
-        status: "Completed"
-      }
-    })
-
-    if (!findBooking) {
-      return res.status(403).send("You haven't book this dorm or there is no booking that is in completed status")
-    }
-
-    // Check if there is review already
-
-    const findOldReview = await db.review.findFirst({
-      where: {
-        customerId: user.id,
-        dormId: dormId,
-      }
-    })
-
-    if (findOldReview) {
-      return res.status(403).send("You have reviewed this dorm already")
-    }
-
-    const createReview = await db.review.create({
-      data: {
-        customerId: user.id,
-        dormId: dormId,
-        ...parsedBody
-      }
-    })
-
-    return res.status(201).send(createReview)
-
-  } catch (err) {
-    return res.status(400).send(err)
-  }
-}
-
 //@desc     Get reviews in the dorm
 //@route    GET /dorms/:dormId/reviews
 //@access   Private
@@ -797,7 +711,6 @@ export const getReviewsByDorm = async (req: Request, res: Response) => {
   const { dormId } = req.params;
 
   try {
-
     if (dormId.length != 24 || /[0-9A-Fa-f]{24}/g.test(dormId) === false) {
       return res.status(404).send("No dorm found");
     }
@@ -814,16 +727,15 @@ export const getReviewsByDorm = async (req: Request, res: Response) => {
 
     const reviewsRes = await db.review.findMany({
       where: {
-        dormId: dormId
+        dormId: dormId,
       },
       orderBy: {
-        reviewAt: "desc"
-      }
-    })
+        reviewAt: "desc",
+      },
+    });
 
-    return res.send(reviewsRes)
-
+    return res.send(reviewsRes);
   } catch (err) {
-    return res.status(400).send(err)
+    return res.status(400).send(err);
   }
-}
+};
