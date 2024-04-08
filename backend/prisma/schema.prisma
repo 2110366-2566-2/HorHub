@@ -28,6 +28,9 @@ model User {
   chatA       Chat[]      @relation("joinChatAsParticipantA")
   chatB       Chat[]      @relation("joinChatAsParticipantB")
   myMessages  Message[]   @relation("sendMessage")
+  reviews     Review[]    @relation("reviewDorm")
+  issues      Issue[]     @relation("reportIssue")
+  resolvedIssues  Issue[] @relation("resolveIssue")
 }
 
 model PaymentMethod {
@@ -51,6 +54,7 @@ model Dorm {
   contractNumber String
   images      String[]
   roomTypes       RoomType[]    @relation("roomInDorm")
+  reviews     Review[]  @relation("hasReviews")
 }
 
 model RoomType {
@@ -123,7 +127,35 @@ model Message {
   sentAt          DateTime      @default(now())
 }
 
+model Review {
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  customer        User          @relation("reviewDorm", fields: [customerId], references: [id], onDelete: Cascade)
+  customerId      String        @db.ObjectId
+  dorm            Dorm          @relation("hasReviews", fields: [dormId], references: [id], onDelete: Cascade)
+  dormId          String        @db.ObjectId
+  rating          Int
+  description     String
+  images          String[]
+  reviewAt        DateTime      @default(now())
 
+  @@unique([customerId, dormId])
+}
+
+model Issue {
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  user            User          @relation("reportIssue", fields: [userId], references: [id], onDelete: Cascade)
+  userId          String        @db.ObjectId
+  type            IssueType
+  status          IssueStatus   @default(Waiting)
+  title           String
+  description     String
+  images          String[]
+  reportAt        DateTime      @default(now())
+  resolver        User?         @relation("resolveIssue", fields: [resolverId], references: [id], onDelete: Cascade)
+  resolverId      String?        @db.ObjectId
+  resolveMessage  String?
+  resolveAt       DateTime?
+}
 
 
 
@@ -141,6 +173,7 @@ enum Gender {
 enum Role {
   Customer
   Provider
+  Admin
 }
 
 enum DormFacilities {
@@ -202,4 +235,20 @@ enum TransactionType {
   BookingPayment
   WalletDeposit
   WalletWithdrawn
+}
+
+enum IssueType {
+  Technical
+  Account
+  Content
+  Payment
+  Security
+  Suggestion
+  Other
+}
+
+enum IssueStatus {
+  Waiting
+  Resolved
+  Rejected
 }

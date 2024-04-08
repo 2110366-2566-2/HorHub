@@ -7,10 +7,11 @@ import bcrypt from "bcrypt";
 import { supportBankName } from "../lib/constant";
 
 import { DataSender, Schema_DataSender, sender } from "../lib/mail_sender";
-import { authenticateProvider } from "../middlewares/authProvider";
-import { authenticateCustomer } from "../middlewares/authCustomer";
+import { authorizeProvider } from "../middlewares/authProvider";
+import { authorizeCustomer } from "../middlewares/authCustomer";
 import { refreshBookings } from "../lib/bookingRefresher";
 import { User } from "@prisma/client";
+import generateStatusResponse from "../lib/statusResponseGenerator";
 
 const userChangePasswordSchema = z.object({
     oldPassword: z.string().trim().min(1, { message: "Please fill this field" }),
@@ -48,8 +49,7 @@ const userChangePasswordSchema = z.object({
 
 //@desc     Get a User 
 //@route    GET /users/:id
-//@access   Await P nick (Choice: Private , Public)
-//@access   Public <= example 
+//@access   Private
 
 export const getUser = async (req: Request, res : Response) => {
     const { id } = req.params;
@@ -69,7 +69,7 @@ export const getUser = async (req: Request, res : Response) => {
 
 //@desc     Delete a User 
 //@route    DELETE /users/:id
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const deleteUser = async (req : Request, res : Response) => {
     const { id } = req.params;
@@ -101,7 +101,7 @@ export const deleteUser = async (req : Request, res : Response) => {
 
 //@desc     Update a User's Password 
 //@route    PUT /users/:id/password
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const updatePassword = async (req : Request, res : Response) => {
     const { id } = req.params;
@@ -139,7 +139,7 @@ export const updatePassword = async (req : Request, res : Response) => {
 
 //@desc     Get a User's payment method
 //@route    GET /users/:id/paymentMethods
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const getPaymentMethod = async (req : Request, res : Response) => {
     const { id } = req.params;
@@ -155,7 +155,7 @@ export const getPaymentMethod = async (req : Request, res : Response) => {
 
 //@desc     Create a new payment method
 //@route    POST /users/:id/paymentMethods
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const createNewPaymentMethod = async (req : Request, res : Response) => {
     const { id } = req.params;
@@ -209,7 +209,7 @@ export const createNewPaymentMethod = async (req : Request, res : Response) => {
 
 //@desc     Update a payment method
 //@route    PUT /users/:id/paymentMethods/:methodId
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const updatePaymentMethod = async (req : Request, res : Response) => {
     const { id, methodId } = req.params;
@@ -260,7 +260,7 @@ export const updatePaymentMethod = async (req : Request, res : Response) => {
 
 //@desc     Delete a payment method
 //@route    DELETE /users/:id/paymentMethods/:methodId
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const deletePaymentMethod = async (req : Request, res : Response) => {
     const { id, methodId } = req.params;
@@ -298,9 +298,9 @@ export const deletePaymentMethod = async (req : Request, res : Response) => {
     return res.send(deleteRes);
 };
 
-//@desc     Get list of Dorm provided by User
+//@desc     Get list of dorm provided by User
 //@route    GET /users/:id
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const getProvidedDorm = async (req : Request, res : Response) => {
     const { id } = req.params;
@@ -321,9 +321,9 @@ export const getProvidedDorm = async (req : Request, res : Response) => {
     return res.send(findDormsRes);
   };
 
-//@desc     Get Booking when paying (why ?)
+//@desc     Get booking for paying
 //@route    GET /users/:bookingId/payment/bookings/
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const getInfoBeforePaying = async (req : Request, res : Response) => {
     const user: User = req.body.user;
@@ -365,7 +365,7 @@ export const getInfoBeforePaying = async (req : Request, res : Response) => {
 
 //@desc     Get All Bookings
 //@route    GET /users/:id/bookings
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const getBookings = async (req : Request, res : Response) => {
     const { id } = req.params;
@@ -406,7 +406,7 @@ export const getBookings = async (req : Request, res : Response) => {
 
 //@desc     Get All Chats
 //@route    GET /users/:id/chats
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const getChats = async (req : Request, res : Response) => {
     const { id } = req.params;
@@ -497,7 +497,7 @@ export const getChats = async (req : Request, res : Response) => {
 
 //@desc     Change email to confirm that user'email has been changed
 //@route    PUT /users/:id/email
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const sendChangingEmailConfirmation = async (req: Request, res: Response) => {
     const { id } = req.params;

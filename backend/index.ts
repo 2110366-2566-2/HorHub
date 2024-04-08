@@ -11,13 +11,15 @@ import dormRouter from "./routes/dorm.routes";
 import chatRouter from "./routes/chat.routes";
 import bookingRouter from "./routes/booking.routes"
 import paymentRouter from "./routes/payment.routes"
+import reviewRouter from "./routes/review.routes"
+import issueRouter from "./routes/issue.routes"
 import cookieParser from "cookie-parser";
 import { Server } from 'socket.io';
 import { createServer } from "http";
 import { Message } from "@prisma/client";
 import { db } from "./lib/db";
-const swaggerJsDoc = require("swagger-jsdoc");
-const swaggerUI = require("swagger-ui-express");
+import swaggerJsDoc from "swagger-jsdoc";
+import swaggerUI from "swagger-ui-express";
 
 // dotenv.config();
 
@@ -46,34 +48,22 @@ const io = new Server(server, {
     },
 });
 
-app.use('/', testRouter)
-app.use('/auth', authRouter)
-app.use('/users', userRouter)
-app.use('/mails', mailRouter)
-app.use('/dorms', dormRouter)
-app.use('/bookings', bookingRouter)
-app.use('/chats', chatRouter)
-app.use('/payment', paymentRouter)
-
-
-
-
-
-
-
+app.use('/api/v1', testRouter)
+app.use('/api/v1/auth', authRouter)
+app.use('/api/v1/users', userRouter)
+app.use('/api/v1/mails', mailRouter)
+app.use('/api/v1/dorms', dormRouter)
+app.use('/api/v1/bookings', bookingRouter)
+app.use('/api/v1/chats', chatRouter)
+app.use('/api/v1/payment', paymentRouter)
+app.use('/api/v1/reviews', reviewRouter)
+app.use('/api/v1/issues', issueRouter)
 
 
 
 app.use("/api/uploadthing", createRouteHandler({
   router: uploadRouter,
 }));
-
-
-
-
-
-
-
 
 
 
@@ -188,14 +178,15 @@ const swaggerOptions={
   swaggerDefinition:{
     openapi: '3.0.0',
     info: {
-    title: 'Horhub API',
-    version: '1.0.0',
+      title: 'HorHub API',
+      version: '1.0.0',
     },
     servers: [
       {
-        url: `http://localhost:${port}/`
+        url: `http://localhost:${port}/api/v1`
       }
     ],
+
   },
   apis:['./routes/*.ts'],
 };

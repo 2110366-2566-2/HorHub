@@ -1,10 +1,10 @@
 import { z } from "zod";
 import { Request, Response, Router } from "express";
 import { authenticateToken } from "../middlewares/authToken";
-import { authenticateCustomer } from "../middlewares/authCustomer";
+import { authorizeCustomer } from "../middlewares/authCustomer";
 import { User } from "@prisma/client";
 import { db } from "../lib/db";
-import { authenticateProvider } from "../middlewares/authProvider";
+import { authorizeProvider } from "../middlewares/authProvider";
 import { bookStatus } from "../lib/constant";
 import { refreshBookings } from "../lib/bookingRefresher";
 
@@ -33,8 +33,7 @@ const bookUpdateSchema = z.object({
 
 //@desc     Get a booking
 //@route    GET /bookings/:bookingId
-//@access   Await P nick (Choice: Private , Public)  
-//@access   Public <= example 
+//@access   Private
 export const getBooking = async (req: Request, res: Response) => {
     const { bookingId } = req.params;
     const user: User = req.body.user;
@@ -92,7 +91,8 @@ export const getBooking = async (req: Request, res: Response) => {
 
 //@desc     Crate a booking
 //@route    POST /bookings/
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
+
 export const createBooking = async (req: Request, res: Response) => {
     const user: User = req.body.user;
     delete req.body.user;
@@ -140,7 +140,7 @@ export const createBooking = async (req: Request, res: Response) => {
 
 //@desc     Update a booking
 //@route    PUT /bookings/:bookingId
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const updateBooking = async (req: Request, res: Response) => {
     const { bookingId } = req.params;
@@ -183,7 +183,8 @@ export const updateBooking = async (req: Request, res: Response) => {
 
 //@desc     Delete a booking
 //@route    DELETE /bookings/:bookingId
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
+
 export const deleteBooking =  async (req: Request, res: Response) => {
   const { bookingId } = req.params;
 
@@ -242,7 +243,8 @@ export const deleteBooking =  async (req: Request, res: Response) => {
 
 //@desc     Create checkoutToken
 //@route    POST /bookings/:bookingId/confirmpayment/:checkoutToken
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
+
 export const createCheckoutToken = async (req:Request, res:Response) => {
     const { bookingId, checkoutToken } = req.params;
   

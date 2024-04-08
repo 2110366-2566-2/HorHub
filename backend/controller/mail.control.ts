@@ -6,8 +6,7 @@ import { User } from "@prisma/client";
 
 //@desc     Create and send a verification mail 
 //@route    POST /mails/verification
-//@access   Await P nick (Choice: Private , Public)
-//@access   Public <= example 
+//@access   Private
 
 export const sendVerificationEmail = async (req: Request, res: Response) => {
     const user: User = req.body.user;
@@ -37,7 +36,7 @@ export const sendVerificationEmail = async (req: Request, res: Response) => {
 
 //@desc     Create and send a mail 
 //@route    POST /mails/send
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const sendEmail = async (req: Request, res: Response) => {
     const { to, subject, html } = req.body;

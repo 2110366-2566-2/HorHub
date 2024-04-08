@@ -20,7 +20,7 @@ export default function MyWallet(){
 
     useEffect(() => {
         const initData = async() => {
-            const data = await fetch(process.env.REACT_APP_BACKEND_URL + "/auth/wallets",{
+            const data = await fetch(process.env.REACT_APP_BACKEND_URL + "/auth/wallet",{
                 method : "GET",
                 credentials : "include"
             });

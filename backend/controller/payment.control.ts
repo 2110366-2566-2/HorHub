@@ -1,14 +1,14 @@
 import { Request, Response, Router } from "express";
 import { db } from "../lib/db";
 import { authenticateToken } from "../middlewares/authToken";
-import { authenticateCustomer } from "../middlewares/authCustomer";
+import { authorizeCustomer } from "../middlewares/authCustomer";
 import { User } from "@prisma/client";
+
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 //@desc     get Receipt 
 //@route    GET /payment/receipt/:bookingId
-//@access   Await P nick (Choice: Private , Public)
-//@access   Public <= example 
+//@access   Private
 
 export const getReceipt = async (req : Request,res : Response) => {
     const {bookingId} = req.params;
@@ -40,7 +40,7 @@ export const getReceipt = async (req : Request,res : Response) => {
 
 //@desc     Create Payment Intent
 //@route    POST /payment/create-payment-intent
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const createPaymentIntent = async (req : Request,res : Response) => {
     const { bookingId } = req.body;
@@ -77,7 +77,7 @@ export const createPaymentIntent = async (req : Request,res : Response) => {
 
 //@desc     Create Checkout Session
 //@route    POST /payment/create-checkout-session/:bookingId
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const createCheckoutSession = async (req : Request,res : Response) => {
 

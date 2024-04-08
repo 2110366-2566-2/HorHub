@@ -46,3 +46,13 @@ export const roomFacilities = [
   "microwave",
   "toilet",
 ] as const;
+
+export const issueTypes = [
+  "Technical",
+  "Account",
+  "Content",
+  "Payment",
+  "Security",
+  "Suggestion",
+  "Other"
+] as const;
