@@ -174,6 +174,17 @@ router.get("/:reviewId", getReview)
 *                                   example: rating
 *       401:
 *         description: You have not logged in
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 401
+*                       message:
+*                           type: string
+*                           example: "Unauthorized"
 *       403:
 *         description: You don't have permission to modify this review
 *         content:
@@ -218,7 +229,7 @@ router.put("/:reviewId", authenticateToken, authorizeCustomer, updateReview)
 * @swagger
 * /reviews/{id}:
 *   delete:
-*     summary: "Delete review from review ID [Roles: Customer]"
+*     summary: "Delete review from review ID [Roles: Customer, Admin]"
 *     tags: [Review]
 *     security:
 *       - cookieAuth: []
@@ -245,6 +256,17 @@ router.put("/:reviewId", authenticateToken, authorizeCustomer, updateReview)
 *                           example: "OK"
 *       401:
 *         description: You have not logged in
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 401
+*                       message:
+*                           type: string
+*                           example: "Unauthorized"
 *       403:
 *         description: You don't have permission to delete this review
 *         content:
@@ -280,7 +302,7 @@ router.put("/:reviewId", authenticateToken, authorizeCustomer, updateReview)
 *     
 */
 
-router.delete("/:reviewId", authenticateToken, authorizeCustomer, deleteReview)
+router.delete("/:reviewId", authenticateToken, deleteReview)
 
 
 export default router

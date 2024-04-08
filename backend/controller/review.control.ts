@@ -132,7 +132,7 @@ export const deleteReview = async (req: Request, res: Response) => {
             return res.status(404).send(generateStatusResponse(404, "No review found"));
         }
     
-        if (findReviewRes.customerId !== user.id) {
+        if (findReviewRes.customerId !== user.id && user.role !== "Admin") {
             return res.status(403).send(generateStatusResponse(403, "You don't have access to manage this review"));
         }
 

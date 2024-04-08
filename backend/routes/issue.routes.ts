@@ -217,6 +217,17 @@ const router = Router()
 *                   $ref: '#/components/schemas/Issue'
 *       401:
 *         description: You have not logged in
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 401
+*                       message:
+*                           type: string
+*                           example: "Unauthorized"
 */
 
 router.get("/", authenticateToken, getIssues)
@@ -245,6 +256,17 @@ router.get("/", authenticateToken, getIssues)
 *                   $ref: '#/components/schemas/Issue'
 *       401:
 *         description: You have not logged in
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 401
+*                       message:
+*                           type: string
+*                           example: "Unauthorized"
 *       403:
 *         description: You don't have permission to view this issue
 *         content:
@@ -337,6 +359,17 @@ router.get("/:issueId", authenticateToken, getIssue)
 *                           example: "[\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"array\",\n    \"received\": \"string\",\n    \"path\": [\n      \"images\"\n    ],\n    \"message\": \"Expected array, received string\"\n  }\n]"
 *       401:
 *         description: You have not logged in
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 401
+*                       message:
+*                           type: string
+*                           example: "Unauthorized"
 *       403:
 *         description: You don't have permission to report an issue
 *         content:
@@ -424,6 +457,17 @@ router.post("/", authenticateToken, createIssue)
 *                           example: "[\n  {\n    \"expected\": \"'Technical' | 'Account' | 'Content' | 'Payment' | 'Security' | 'Suggestion' | 'Other'\",\n    \"received\": \"number\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"type\"\n    ],\n    \"message\": \"Expected 'Technical' | 'Account' | 'Content' | 'Payment' | 'Security' | 'Suggestion' | 'Other', received number\"\n  }\n]"
 *       401:
 *         description: You have not logged in
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 401
+*                       message:
+*                           type: string
+*                           example: "Unauthorized"
 *       403:
 *         description: You don't have permission to edit this issue
 *         content:
@@ -492,6 +536,17 @@ router.put("/:issueId", authenticateToken, updateIssue)
 *                           example: "OK"
 *       401:
 *         description: You have not logged in
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 401
+*                       message:
+*                           type: string
+*                           example: "Unauthorized"
 *       403:
 *         description: You don't have permission to delete this issue
 *         content:
@@ -579,6 +634,17 @@ router.delete("/:issueId", authenticateToken, deleteIssue)
 *                           example: "[\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"string\",\n    \"received\": \"undefined\",\n    \"path\": [\n      \"resolveMessage\"\n    ],\n    \"message\": \"Required\"\n  }\n]"
 *       401:
 *         description: You have not logged in
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 401
+*                       message:
+*                           type: string
+*                           example: "Unauthorized"
 *       403:
 *         description: This issue have already been resolved or rejected
 *         content:
@@ -666,6 +732,17 @@ router.put("/:issueId/resolve", authenticateToken, authorizeAdmin, resolveIssue)
 *                           example: "[\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"string\",\n    \"received\": \"undefined\",\n    \"path\": [\n      \"resolveMessage\"\n    ],\n    \"message\": \"Required\"\n  }\n]"
 *       401:
 *         description: You have not logged in
+*         content:
+*           application/json:
+*               schema:
+*                   type: object
+*                   properties:
+*                       statusCode:
+*                           type: integer
+*                           example: 401
+*                       message:
+*                           type: string
+*                           example: "Unauthorized"
 *       403:
 *         description: This issue have already been resolved or rejected
 *         content:
