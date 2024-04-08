@@ -14,8 +14,7 @@ const createRoomBodySchema = z.object({
 
 //@desc     Get a chat
 //@route    GET chats/:id
-//@access   Await P nick (Choice: Private , Public)
-//@access   Public <= example 
+//@access   Private
 
 export const getChat = async (req: Request, res: Response) => {
     const { id } = req.params;
@@ -74,7 +73,7 @@ export const getChat = async (req: Request, res: Response) => {
 
 //@desc     Create a chat
 //@route    GET chats/
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const createChat = async (req: Request, res: Response) => {
     const body = req.body;
@@ -144,7 +143,7 @@ export const createChat = async (req: Request, res: Response) => {
 
 //@desc     Update a chat
 //@route    PUT chats/:id/read
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const updateChat = async (req: Request, res: Response) => {
     const { id } = req.params;

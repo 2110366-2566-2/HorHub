@@ -186,8 +186,7 @@ const createReviewSchema = z.object({
 
 //@desc     Get all dorms 
 //@route    GET /dorms
-//@access   Await P nick (Choice: Private , Public)
-//@access   Public <= example 
+//@access   Public
 
 export const getDorms = async (req: Request, res: Response) => {
   const filters = req.query;
@@ -277,7 +276,7 @@ export const getDorms = async (req: Request, res: Response) => {
 
 //@desc     Get a dorms 
 //@route    GET /dorms/:dormId
-//@access   Await P nick (Choice: Private , Public)
+//@access   Public
 
 export const getDorm = async (req: Request, res: Response) => {
   const { dormId } = req.params;

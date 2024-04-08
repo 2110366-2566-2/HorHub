@@ -64,8 +64,7 @@ const max_age = 3 * 24 * 60 * 60;
 
 //@desc     Login User 
 //@route    POST /auth/login
-//@access   Await P nick (Choice: Private , Public)
-//@access   Public <= example 
+//@access   Public
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -94,7 +93,7 @@ export const login = async (req: Request, res: Response) => {
 
 //@desc     Update User 
 //@route    PUT /auth/user
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const update = async (req: Request, res: Response) => {
   const { user, ...data } = req.body;
@@ -124,9 +123,9 @@ export const update = async (req: Request, res: Response) => {
   });
 };
 
-//@desc     Update User 
+//@desc     Register
 //@route    PUT /auth/user
-//@access   Await P nick (Choice: Private , Public)
+//@access   Public
 
 export const register = async (req: Request, res: Response) => {
   const data = req.body;
@@ -192,7 +191,7 @@ export const register = async (req: Request, res: Response) => {
 
 //@desc     Logout User 
 //@route    POST /auth/logout
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const logout = async (req: Request, res: Response) => {
   return res.status(200).clearCookie("auth").send("logout");
@@ -200,7 +199,7 @@ export const logout = async (req: Request, res: Response) => {
 
 //@desc     Get User Info
 //@route    GET /auth/user
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const getUser = async (req: Request, res: Response) => {
   const user = req.body.user;
@@ -220,7 +219,7 @@ export const getUser = async (req: Request, res: Response) => {
 
 //@desc     Verify Account
 //@route    POST /auth/verify
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const verifyAccount = async (req: Request, res: Response) => {
   const body = req.body;
@@ -248,7 +247,7 @@ export const verifyAccount = async (req: Request, res: Response) => {
 
 //@desc     Verify Account Fail
 //@route    POST /auth/verify/fail
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const verifyAccountFail = async (req: Request, res: Response) => {
   const user = req.body.user;
@@ -268,7 +267,7 @@ export const verifyAccountFail = async (req: Request, res: Response) => {
 
 //@desc     Get Wallet
 //@route    GET /auth/wallet
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const getWallet = async (req: Request, res: Response) => {
     const user: User = req.body.user;
@@ -289,9 +288,9 @@ export const getWallet = async (req: Request, res: Response) => {
     }
 };
 
-//@desc     Withdrawn Money (why?)
+//@desc     Withdrawn Money
 //@route    POST /auth/wallet
-//@access   Await P nick (Choice: Private , Public)
+//@access   Private
 
 export const withdrawnMoney = async (req: Request, res: Response) => {
     try {

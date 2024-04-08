@@ -48,16 +48,16 @@ const io = new Server(server, {
     },
 });
 
-app.use('/', testRouter)
-app.use('/auth', authRouter)
-app.use('/users', userRouter)
-app.use('/mails', mailRouter)
-app.use('/dorms', dormRouter)
-app.use('/bookings', bookingRouter)
-app.use('/chats', chatRouter)
-app.use('/payment', paymentRouter)
-app.use('/reviews', reviewRouter)
-app.use('/issues', issueRouter)
+app.use('/api/v1', testRouter)
+app.use('/api/v1/auth', authRouter)
+app.use('/api/v1/users', userRouter)
+app.use('/api/v1/mails', mailRouter)
+app.use('/api/v1/dorms', dormRouter)
+app.use('/api/v1/bookings', bookingRouter)
+app.use('/api/v1/chats', chatRouter)
+app.use('/api/v1/payment', paymentRouter)
+app.use('/api/v1/reviews', reviewRouter)
+app.use('/api/v1/issues', issueRouter)
 
 
 
@@ -178,14 +178,15 @@ const swaggerOptions={
   swaggerDefinition:{
     openapi: '3.0.0',
     info: {
-    title: 'Horhub API',
-    version: '1.0.0',
+      title: 'HorHub API',
+      version: '1.0.0',
     },
     servers: [
       {
-        url: `http://localhost:${port}/`
+        url: `http://localhost:${port}/api/v1`
       }
     ],
+
   },
   apis:['./routes/*.ts'],
 };
