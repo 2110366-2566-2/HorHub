@@ -46,11 +46,10 @@ import SuccessPaymentTempPage from "./pages/payment/SuccessPaymentTempPage";
 import ReceiptPage from "./pages/booking/receipt/ReceiptPage";
 import MyWallet from "./pages/wallet/MyWallet";
 import AllWalletPage from "./pages/wallet/AllWalletPage";
+import SupportDashboard from "./pages/support/SupportDashboard";
+import CreateIssue from "./pages/support/CreateIssue";
 
 function App() {
-
-  
-
   return (
     <>
       <BrowserRouter>
@@ -140,21 +139,40 @@ function App() {
             <Route path="verify" element={<MailVerifyPage />} />
             <Route path="verify/success" element={<SuccessVerifyPage />} />
             <Route path="verify/:id" element={<AccVerifyTempPage />} />
-
+            <Route path="support" element={<SupportDashboard />} />
+            <Route path="support/create" element={<CreateIssue />} />
             <Route path="bookings" element={<BookingListPage />} />
-            <Route path="bookings/:bookingId/payment" element={<PaymentPage />} />
+            <Route
+              path="bookings/:bookingId/payment"
+              element={<PaymentPage />}
+            />
 
             <Route path="chats" element={<ChatPage />} />
             <Route path="chats/:chatId" element={<ChatPage />} />
             <Route path="my-wallet/withdrawn" element={<WithDrawnPage />} />
-            <Route path="my-wallet" element = {<MyWallet />} />
-            <Route path="my-wallet/all" element = {<AllWalletPage />} />
-            <Route path="bookings/:bookingId/Payment2" element={<PaymentPage2 />} />
-            <Route path="bookings/:bookingId/Payment/creditCard" element={<CreditCardPage />} />
-            <Route path="bookings/:bookingId/Payment/mobileBanking" element={<MobileBankingPage />} />
-            <Route path="bookings/:bookingId/receipt" element = {<ReceiptPage />} />
+            <Route path="my-wallet" element={<MyWallet />} />
+            <Route path="my-wallet/all" element={<AllWalletPage />} />
+            <Route
+              path="bookings/:bookingId/Payment2"
+              element={<PaymentPage2 />}
+            />
+            <Route
+              path="bookings/:bookingId/Payment/creditCard"
+              element={<CreditCardPage />}
+            />
+            <Route
+              path="bookings/:bookingId/Payment/mobileBanking"
+              element={<MobileBankingPage />}
+            />
+            <Route
+              path="bookings/:bookingId/receipt"
+              element={<ReceiptPage />}
+            />
 
-            <Route path="bookings/:bookingId/payment/success/:checkoutToken" element={<SuccessPaymentTempPage />} />
+            <Route
+              path="bookings/:bookingId/payment/success/:checkoutToken"
+              element={<SuccessPaymentTempPage />}
+            />
 
             <Route path="/*" element={<NotFoundPage />} />
           </Routes>

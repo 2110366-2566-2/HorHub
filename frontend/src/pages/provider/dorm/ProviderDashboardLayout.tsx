@@ -29,14 +29,15 @@ const style = {
 
 export default function ProviderDashboardLayout() {
   const { id } = useParams();
-  const [open, setOpen] = useState<boolean>(false);
+
   const location = useLocation();
   const currentPath = location.pathname.split("dorms/")[1].split("/")[1];
   const [isLoading, setLoading] = useState<boolean>(true);
   const [notFound, setNotFound] = useState<boolean>(false);
-  const [name,setName] = useState<string>("");
+  const [name, setName] = useState<string>("");
   const { currentUser } = useUser();
   const navigate = useNavigate();
+  const [open, setOpen] = useState<boolean>(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const deleteDorm = async () => {
@@ -86,7 +87,7 @@ export default function ProviderDashboardLayout() {
         if (!currentUser || currentUser.id !== data.data.provider.id) {
           setNotFound(true);
         }
-        setName(data.data.name)
+        setName(data.data.name);
         setLoading(false);
       }
     };
@@ -99,8 +100,12 @@ export default function ProviderDashboardLayout() {
       <div className="flex w-full justify-between">
         <div className="px-3 my-2 font-bold text-left text-xl">{name}</div>
         <div className="w-fit h-fit flex gap-3">
-          <Link to="edit" className="bordered-button">Edit</Link>
-          <button onClick={handleOpen} className="danger-button">Delete</button>
+          <Link to="edit" className="bordered-button">
+            Edit
+          </Link>
+          <button onClick={handleOpen} className="danger-button">
+            Delete
+          </button>
           <Modal
             open={open}
             onClose={handleClose}
@@ -115,10 +120,8 @@ export default function ProviderDashboardLayout() {
                 <div className="font-bold text-lg text-center">
                   Deleting Dorm
                 </div>
-                
-                <div className="text-sm">
-                  Are you sure to delete this dorm?
-                </div>
+
+                <div className="text-sm">Are you sure to delete this dorm?</div>
                 <div className="flex gap-5">
                   <button
                     className="bordered-button w-full"
@@ -135,7 +138,7 @@ export default function ProviderDashboardLayout() {
           </Modal>
         </div>
       </div>
-      
+
       <ul className="flex place-content-between items-center text-center">
         <li className="w-full ">
           <Link
