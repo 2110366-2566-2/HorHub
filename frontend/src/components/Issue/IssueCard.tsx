@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useState } from "react";
 import ModalDeleteButton from "../Form/Button/ModalButton";
-import { FaRegClock } from "react-icons/fa";
+import { FaRegClock, FaUser, FaUserCheck } from "react-icons/fa";
 import { FaReply } from "react-icons/fa";
 import { FcLock } from "react-icons/fc";
 export const state_mapper = (status: string) => {
@@ -41,6 +41,8 @@ export default function IssueCard({
   resolveMessage,
   description,
   status,
+  user,
+  resolver,
   title,
   type,
   role,
@@ -77,19 +79,36 @@ export default function IssueCard({
         </div>
         <p>{description}</p>
         <div className="flex items-center gap-2">
+          <FaUser />
+          <div>
+            Report By :{" "}
+            {`${user.firstName} ${user.lastName} (${user.displayName})`}
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
           <FaRegClock />
           <div>Report At : {new Date(reportAt).toDateString()}</div>
         </div>
+
+        {resolveMessage && (
+          <div className="flex items-center gap-2">
+            <FaReply />
+            <div>Replied Message : {resolveMessage}</div>
+          </div>
+        )}
+        {resolver && (
+          <div className="flex items-center gap-2">
+            <FaUserCheck />
+            <div>
+              Resolve By :{" "}
+              {`${resolver.firstName} ${resolver.lastName} (${resolver.displayName})`}
+            </div>
+          </div>
+        )}
         {resolveAt && (
           <div className="flex items-center gap-2">
             <FcLock />
             <div>Resolve At : {new Date(resolveAt).toDateString()}</div>
-          </div>
-        )}
-        {resolveMessage && (
-          <div className="flex items-center gap-2">
-            <FaReply />
-            <div>Message : {resolveMessage}</div>
           </div>
         )}
         <div className="flex justify-between items-center">

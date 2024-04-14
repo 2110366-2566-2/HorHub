@@ -10,6 +10,16 @@ import AddIssueCard from "../../components/Issue/AddIssueCard";
 export type Issue = {
   id: string;
   images: string[];
+  user: {
+    displayName: string;
+    lastName: string;
+    firstName: string;
+  };
+  resolver?: {
+    displayName: string;
+    lastName: string;
+    firstName: string;
+  };
   description: string;
   reportAt: Date;
   resolveAt?: Date;
@@ -34,6 +44,7 @@ export default function SupportDashboard() {
       );
       if (result.ok) {
         const data = await result.json();
+
         setIssues(data);
         console.log(data);
       }

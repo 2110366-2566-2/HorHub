@@ -13,6 +13,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ModalButton from "../../components/Form/Button/ModalButton";
 import { Bounce, toast } from "react-toastify";
+import { FaUserCheck } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 const noImagePlaceholder =
   "https://firebasestorage.googleapis.com/v0/b/horhub-7d1df.appspot.com/o/placeholders%2F681px-Placeholder_view_vector.png?alt=media&token=bc0c7178-b94a-4bf0-957b-42a75f708a79";
 
@@ -177,19 +179,36 @@ export default function IssuePage() {
           </div>
           <div>Description : {data.description}</div>
           <div className="flex items-center gap-2">
+            <FaUser />
+            <div>
+              Report By :{" "}
+              {`${data.user.firstName} ${data.user.lastName} (${data.user.displayName})`}
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
             <FaRegClock />
             <div>Report At : {new Date(data.reportAt).toDateString()}</div>
           </div>
+
+          {data.resolveMessage && (
+            <div className="flex items-center gap-2">
+              <FaReply />
+              <div>Replied Message : {data.resolveMessage}</div>
+            </div>
+          )}
+          {data.resolver && (
+            <div className="flex items-center gap-2">
+              <FaUserCheck />
+              <div>
+                Resolve By :{" "}
+                {`${data.resolver.firstName} ${data.resolver.lastName} (${data.resolver.displayName})`}
+              </div>
+            </div>
+          )}
           {data.resolveAt && (
             <div className="flex items-center gap-2">
               <FcLock />
               <div>Resolve At : {new Date(data.resolveAt).toDateString()}</div>
-            </div>
-          )}
-          {data.resolveMessage && (
-            <div className="flex items-center gap-2">
-              <FaReply />
-              <div>Message : {data.resolveMessage}</div>
             </div>
           )}
           {data.status === "Waiting" ? (
