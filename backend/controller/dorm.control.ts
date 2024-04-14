@@ -815,6 +815,14 @@ export const getReviewsByDorm = async (req: Request, res: Response) => {
       where: {
         dormId: dormId
       },
+      include: {
+        customer: {
+          select: {
+            displayName: true,
+            imageURL: true
+          }
+        }
+      },
       orderBy: {
         reviewAt: "desc"
       }

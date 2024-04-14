@@ -10,6 +10,7 @@ import { isCompositeComponent } from "react-dom/test-utils";
 import DormMap from "../../../components/Dorm/DormMap";
 import { availableDormFacilities } from "../../../lib/constants/dormFacilities";
 import AddRoomCard from "../../../components/Dorm/AddRoomCard";
+import ReviewPane from "../../../components/Dorm/Review/ReviewPane";
 
 export default function DormPage({ isEdit }: { isEdit: boolean }) {
   const { id } = useParams();
@@ -125,7 +126,10 @@ export default function DormPage({ isEdit }: { isEdit: boolean }) {
         </div>
       </div>
       {/*TODO : ADD MAP*/}
-      <div></div>
+      <div className="flex flex-col p-4 md:w-4/5 w-full text-base gap-5 mb-5">
+        <div className="font-bold">Reviews</div>
+        <ReviewPane dormId={id || ""}/>
+      </div>
     </div>
   );
 }
