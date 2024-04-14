@@ -48,6 +48,8 @@ import MyWallet from "./pages/wallet/MyWallet";
 import AllWalletPage from "./pages/wallet/AllWalletPage";
 import SupportDashboard from "./pages/support/SupportDashboard";
 import CreateIssue from "./pages/support/CreateIssue";
+import EditIssuePage from "./pages/support/EditIssuePage";
+import IssuePage from "./pages/support/IssuePage";
 
 function App() {
   return (
@@ -139,8 +141,12 @@ function App() {
             <Route path="verify" element={<MailVerifyPage />} />
             <Route path="verify/success" element={<SuccessVerifyPage />} />
             <Route path="verify/:id" element={<AccVerifyTempPage />} />
+
             <Route path="support" element={<SupportDashboard />} />
             <Route path="support/create" element={<CreateIssue />} />
+            <Route path="support/:issueId/edit" element={<EditIssuePage />} />
+            <Route path="support/:issueId/view" element={<IssuePage />} />
+
             <Route path="bookings" element={<BookingListPage />} />
             <Route
               path="bookings/:bookingId/payment"

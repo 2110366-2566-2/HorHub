@@ -20,18 +20,27 @@ export default function ModalDeleteButton({
   title,
   description,
   onClick,
+  type,
+  customClass,
 }: {
   buttonText: string;
   title: string;
   description: string;
+  type?: "button" | "submit";
+  customClass?: string;
   onClick: () => void;
 }) {
   const [open, setOpen] = useState<boolean>(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const selected_btn_class = customClass ? customClass : "danger-button";
   return (
     <>
-      <button onClick={handleOpen} className="danger-button">
+      <button
+        onClick={handleOpen}
+        className={selected_btn_class}
+        type={"button"}
+      >
         {buttonText}
       </button>
       <Modal
@@ -49,10 +58,18 @@ export default function ModalDeleteButton({
 
             <div className="text-sm">{description}</div>
             <div className="flex gap-5">
-              <button className="bordered-button w-full" onClick={handleClose}>
+              <button
+                className="bordered-button w-full"
+                type="button"
+                onClick={handleClose}
+              >
                 No
               </button>
-              <button className="danger-button w-full" onClick={onClick}>
+              <button
+                className={`${selected_btn_class} w-full`}
+                type={type ? type : "button"}
+                onClick={onClick}
+              >
                 Yes
               </button>
             </div>

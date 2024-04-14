@@ -2,24 +2,18 @@ import useAuthRedirect from "../../lib/authRedirect";
 import { useUser } from "../../lib/context/UserContext";
 import LoadingPage from "../etc/LoadingPage";
 import NotFoundPage from "../etc/NotFoundPage";
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { useState } from "react";
-import { Button, OutlinedInput, TextField } from "@mui/material";
+import { useEffect, useState } from "react";
 import { ImageType } from "react-images-uploading";
 import { uploadImages } from "../../lib/firebase";
 import ImagesInput from "../../components/Form/ImagesInput";
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import SelectInput from "@mui/material/Select/SelectInput";
 import SelectionInput from "../../components/Form/SelectionInput";
 import TextAreaInput from "../../components/Form/TextAreaInput";
 import TextInput from "../../components/Form/TextInput";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { relative } from "path";
 import { Bounce, toast } from "react-toastify";
 
 const IssueType = [
@@ -76,12 +70,14 @@ const createIssueSchema = z.object({
 
 type CreateIssueSchemaType = z.infer<typeof createIssueSchema>;
 
-export default function CreateIssue() {
+export default function EditIssuePage() {
   const { currentUser, isLoading } = useUser();
+  const { issueId } = useParams();
   const [images, setImages] = useState<ImageType[]>([]);
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<CreateIssueSchemaType>({
     resolver: zodResolver(createIssueSchema),
@@ -94,22 +90,20 @@ export default function CreateIssue() {
     }
     const imagesURL = await uploadImages(images, "issues/images");
     try {
-      const newData = { ...data, images: imagesURL };
       const result = await fetch(
-        process.env.REACT_APP_BACKEND_URL + "/issues",
+        process.env.REACT_APP_BACKEND_URL + "/issues/" + issueId,
         {
-          method: "POST",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(newData),
+          body: JSON.stringify({ ...data, images: imagesURL }),
           credentials: "include",
         }
       );
 
       if (result.ok) {
-        const data = await result.json();
-        toast.success("Create Issue successfully!", {
+        toast.success("Editing Issue successfully!", {
           position: "top-center",
           autoClose: 2000,
           hideProgressBar: true,
@@ -120,14 +114,38 @@ export default function CreateIssue() {
           theme: "light",
           transition: Bounce,
         });
+        const data = await result.json();
         setTimeout(() => {
-          navigate("../", { relative: "path" });
+          navigate("../../", { relative: "path" });
         }, 1000);
       }
     } catch (err) {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    const initData = async () => {
+      const result = await fetch(
+        process.env.REACT_APP_BACKEND_URL + "/issues/" + issueId,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+      if (result.ok) {
+        const data = await result.json();
+        reset(data);
+        const imagesURL = data.images;
+        const imagesMockFiles: ImageType[] = imagesURL.map((url: string) => {
+          return { dataURL: url };
+        });
+        setImages(imagesMockFiles);
+        console.log(data);
+      }
+    };
+    initData();
+  }, []);
 
   useAuthRedirect();
   if (isLoading) return <LoadingPage />;
@@ -169,9 +187,19 @@ export default function CreateIssue() {
           images={images}
           setImages={setImages}
         />
-        <div className="flex justify-center">
+        <div className="flex justify-center gap-2">
           <button className="primary-button" type="submit">
-            Send
+            Update
+          </button>
+
+          <button
+            className="danger-button"
+            type="button"
+            onClick={() => {
+              navigate("../../", { relative: "path" });
+            }}
+          >
+            Cancel
           </button>
         </div>
       </form>

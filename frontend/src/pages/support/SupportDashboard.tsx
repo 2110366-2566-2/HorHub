@@ -3,10 +3,9 @@ import useAuthRedirect from "../../lib/authRedirect";
 import { useUser } from "../../lib/context/UserContext";
 import LoadingPage from "../etc/LoadingPage";
 import NotFoundPage from "../etc/NotFoundPage";
-import AdminDashboard from "./AdminDashboard";
-import UserDashboard from "./UserDashboard";
 import IssueCard from "../../components/Issue/IssueCard";
 import { z } from "zod";
+import AddIssueCard from "../../components/Issue/AddIssueCard";
 
 export type Issue = {
   id: string;
@@ -47,8 +46,9 @@ export default function SupportDashboard() {
     <div className="page">
       <div className="flex flex-col gap-y-4 w-full">
         {issues.map((issue) => (
-          <IssueCard {...issue} role={currentUser.role} status="Waiting" />
+          <IssueCard {...issue} role={currentUser.role} key={issue.id} />
         ))}
+        {currentUser.role !== "Admin" && <AddIssueCard />}
       </div>
     </div>
   );
