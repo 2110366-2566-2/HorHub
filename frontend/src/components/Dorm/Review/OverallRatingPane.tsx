@@ -18,7 +18,7 @@ const OverallRatingPane = ({ratingList} : {ratingList: number[]}) => {
         <div className="flex flex-col md:flex-row w-full gap-3 md:gap-0">
             <div className="w-full md:w-2/5 flex items-center justify-center gap-3">
                 <Rating max={1} value={1} readOnly />
-                <div className="font-bold text-xl">{average.toFixed(2)}</div>
+                <div className="font-bold text-xl">{(ratingList.length === 0) ? "0.00" : average.toFixed(2)}</div>
             </div>
             <div className="w-full md:w-3/5 flex flex-col-reverse text-xs gap-1">
                 {

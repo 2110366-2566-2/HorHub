@@ -1,6 +1,7 @@
 import React from 'react'
 import { Review } from '../../../lib/type/Review'
 import { Avatar, Rating } from '@mui/material'
+import ImageModal from '../../Image/ImageModal'
 
 const ReviewCell = ({data}: {data: Review}) => {
   return (
@@ -17,8 +18,17 @@ const ReviewCell = ({data}: {data: Review}) => {
                 <Rating name="read-only" value={data.rating} readOnly />
             </div>
         </div>
-        <div className="text-sm">
+        <div className="text-sm whitespace-pre-line">
             {data.description}
+        </div>
+        <div className="flex gap-3">
+            {
+                data.images.map((img, idx) => {
+                    return (
+                        <ImageModal key={idx} image={img} />
+                    )
+                })
+            }
         </div>
     </div>
   )
