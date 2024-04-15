@@ -15,7 +15,7 @@ const updateReviewSchema = z.object({
       .string()
       .trim()
       .min(1, { message: "Please fill description for the review" })
-      .max(512, { message: "Your description is too long" })
+      .max(2048, { message: "Your description is too long" })
       .optional(),
     images: z
       .string()

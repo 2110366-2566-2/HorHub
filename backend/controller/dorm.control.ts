@@ -174,7 +174,7 @@ const createReviewSchema = z.object({
     .string()
     .trim()
     .min(1, { message: "Please fill description for the review" })
-    .max(512, { message: "Your description is too long" }),
+    .max(2048, { message: "Your description is too long" }),
   images: z
     .string()
     .array()
@@ -814,6 +814,14 @@ export const getReviewsByDorm = async (req: Request, res: Response) => {
     const reviewsRes = await db.review.findMany({
       where: {
         dormId: dormId
+      },
+      include: {
+        customer: {
+          select: {
+            displayName: true,
+            imageURL: true
+          }
+        }
       },
       orderBy: {
         reviewAt: "desc"
