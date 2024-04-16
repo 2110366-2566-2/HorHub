@@ -34,9 +34,9 @@ const BookingCard = ({ data }: { data: BookingType }) => {
 
   const navigate = useNavigate();
 
-  const handleToPayment = (data : BookingType) => {
-    navigate(`${data.id}/payment`,{state:{value:data}});
-  }
+  const handleToPayment = (data: BookingType) => {
+    navigate(`${data.id}/payment`, { state: { value: data } });
+  };
 
   return (
     <div className="card w-full md:w-3/4 bg-base-200 shadow-lg border border-slate-300">
@@ -70,17 +70,27 @@ const BookingCard = ({ data }: { data: BookingType }) => {
             ฿{Number(data.price).toFixed(2)}
           </div>
           <div className="flex items-center gap-2 justify-end">
-            {
-              (data.transactionId) && <Link to = {data.id + "/receipt"} className = "primary-button-xs w-fit"relative="path">Receipt</Link>
-            }
-            {
-              (data.status === "PaymentPending") && (
-                <button className="primary-button-xs w-fit" onClick={() => {window.location.href = "/bookings/" + data.id + "/payment"}}>
-                  Make Payment
-                </button>
-              )
-            }
-            {(data.status === "Pending" || data.status === "PaymentPending") && (
+            {data.transactionId && (
+              <Link
+                to={data.id + "/receipt"}
+                className="primary-button-xs w-fit"
+                relative="path"
+              >
+                Receipt
+              </Link>
+            )}
+            {data.status === "PaymentPending" && (
+              <button
+                className="primary-button-xs w-fit"
+                onClick={() => {
+                  window.location.href = "/bookings/" + data.id + "/payment";
+                }}
+              >
+                Make Payment
+              </button>
+            )}
+            {(data.status === "Pending" ||
+              data.status === "PaymentPending") && (
               // <div className="w-full flex justify-start">
               <>
                 <button
@@ -136,7 +146,7 @@ const BookingCard = ({ data }: { data: BookingType }) => {
                     <button>close</button>
                   </form>
                 </dialog>
-              {/* </div> */}
+                {/* </div> */}
               </>
             )}
           </div>
