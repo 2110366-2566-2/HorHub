@@ -4,6 +4,7 @@ import { useUser } from "../../lib/context/UserContext";
 import LoadingPage from "../etc/LoadingPage";
 import useAuthRedirect from "../../lib/authRedirect";
 import { useEffect, useState } from "react";
+import Button from '@mui/material/Button';
 
 function WithDrawnPage() {
   const { currentUser, isLoading, fetchUser } = useUser();
@@ -97,7 +98,7 @@ function WithDrawnPage() {
             <button
               type="button"
               onClick={routeChange}
-              className="hover:bg-slate-700 bg-clip-border px-8 py-5 bg-indigo-700 text-lg 2xl:text-xl text-white rounded-3xl"
+              className="hover:bg-indigo-600 bg-clip-border px-8 py-5 bg-indigo-500 text-lg 2xl:text-xl text-white rounded-3xl transition-colors"
             >
               Edit Bank Account
             </button>
@@ -133,7 +134,7 @@ function WithDrawnPage() {
           <button
             type="button"
             className={
-              "enabled:hover:bg-slate-700 bg-clip-border px-8 py-5 text-lg 2xl:text-2xl text-white rounded-3xl bg-red-700 disabled:opacity-25"
+              "enabled:hover:bg-bg-red-600 bg-clip-border px-8 py-5 text-lg 2xl:text-2xl text-white rounded-3xl bg-red-500 disabled:opacity-25 transition-colors"
             }
             onClick={withdrawn_handle}
             disabled={(amount && !noAccount && (Number(amount) > 0)) ? false:true}
