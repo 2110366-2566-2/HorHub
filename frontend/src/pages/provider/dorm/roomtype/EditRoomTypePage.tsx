@@ -35,7 +35,7 @@ const schema = z.object({
     .number()
     .min(0.01, { message: "Fill valid cost in 2 decimal places" })
     .multipleOf(0.01, { message: "Fill valid cost in 2 decimal places" })
-    .max(5000000, { message: "Too expensive!" }),
+    .max(200000, { message: "The cost should not exceed 200000 baht per month" }),
   capacity: z.coerce
     .number()
     .min(1, { message: "Fill valid room capacity" })
