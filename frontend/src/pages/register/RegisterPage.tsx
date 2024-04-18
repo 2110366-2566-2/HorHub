@@ -14,11 +14,11 @@ import { useEffect, useState } from "react";
 
 const schema = z.object({
   email: z.string().trim().email(),
-  password: z.string().trim().min(8, {message: 'Password must be at least 8 characters'}),
-  confirmPassword: z.string().trim().min(8, {message: 'Password must be at least 8 characters'}),
-  firstName: z.string().trim().min(1, {message: 'Fill your first name'}),
-  lastName: z.string().trim().min(1, {message: 'Fill your last name'}),
-  displayName: z.string().trim().min(1, {message: 'Fill display name'}),
+  password: z.string().trim().min(8, {message: 'Password must be at least 8 characters'}).max(64, {message: "Your password should not exceed 64 characters" }),
+  confirmPassword: z.string().trim().min(8, {message: 'Password must be at least 8 characters'}).max(64, {message: "Your password should not exceed 64 characters" }),
+  firstName: z.string().trim().min(1, {message: 'Fill your first name'}).max(32, {message: "Your first name should not exceed 32 characters" }),
+  lastName: z.string().trim().min(1, {message: 'Fill your last name'}).max(32, {message: "Your last name should not exceed 32 characters" }),
+  displayName: z.string().trim().min(1, {message: 'Fill display name'}).max(32, {message: "Your display name should not exceed 32 characters" }),
   phoneNumber: z.string().trim().length(10, {message: 'Please fill valid phone number'})
                 .refine((value) => /[0-9]{10}/.test(value), {message: 'Please fill valid phone number'}),
   birthDate: z.coerce.date().refine((data) => data < new Date(), { message: "Future date is not accepted" }),
