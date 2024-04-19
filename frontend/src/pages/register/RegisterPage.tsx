@@ -106,6 +106,7 @@ export default function RegisterPage() {
             <div className="relative flex flex-row lg:col-span-2">
               <IoIosMail className='h-6 w-6 place-self-center text-blue-500' />
               <input 
+              id="register_email"
               type="text"
               placeholder="Email address" 
               className={`ml-2 border-0 border-b outline-0 w-full ${errors.email ? "border-red-700" : "border-black"}`}
@@ -119,6 +120,7 @@ export default function RegisterPage() {
             <div className="relative flex flex-row">
               <MdLock className='h-6 w-6 place-self-center text-blue-500' />
               <input 
+              id="register_password"
               type="password"
               placeholder="Password" 
               className={`ml-2 border-0 border-b outline-0 w-full ${errors.password ? "border-red-700" : "border-black"}`}
@@ -131,6 +133,7 @@ export default function RegisterPage() {
             <div className="relative flex flex-row">
               <MdLock className='h-6 w-6 place-self-center text-blue-500' />
               <input 
+              id="register_confirm_password"
               type="password"
               placeholder="Confirm Password" 
               className={`ml-2 border-0 border-b outline-0 w-full ${errors.confirmPassword ? "border-red-700" : "border-black"}`}
@@ -147,11 +150,13 @@ export default function RegisterPage() {
             <div className="relative flex flex-row lg:col-span-2">
               <VscAccount className='h-6 w-6 place-self-center text-blue-500' />
               <input 
+              id="register_first_name"
               type="text"
               placeholder="First Name" 
               className={`ml-2 border-0 border-b outline-0 w-1/2 ${(errors.firstName || errors.lastName) ? "border-red-700" : "border-black"}`}
               {...register('firstName')} />
               <input 
+              id="register_last_name"
               type="text"
               placeholder="Last Name" 
               className={`ml-2 border-0 border-b outline-0 w-1/2 ${(errors.firstName || errors.lastName) ? "border-red-700" : "border-black"}`}
@@ -164,6 +169,7 @@ export default function RegisterPage() {
             <div className="relative flex flex-row">
               <MdOutlineSupervisorAccount className='h-6 w-6 place-self-center text-blue-500' />
               <input 
+              id="register_display_name"
               type="text"
               placeholder="Display Name" 
               className={`ml-2 border-0 border-b outline-0 w-full ${errors.displayName ? "border-red-700" : "border-black"}`}
@@ -176,6 +182,7 @@ export default function RegisterPage() {
             <div className="relative flex flex-row">
               <IoPhonePortraitSharp className='h-6 w-6 place-self-center text-blue-500' />
               <input 
+              id="register_phone"
               type="tel"
               placeholder="Phone Number" 
               className={`ml-2 border-0 border-b outline-0 w-full ${errors.phoneNumber ? "border-red-700" : "border-black"}`}
@@ -188,6 +195,7 @@ export default function RegisterPage() {
             <div className="relative flex flex-row">
               <RiCake2Line className='h-6 w-6 place-self-center text-blue-500' />
               <input 
+              id="register_birthdate"
               type="date"
               placeholder="Birthdate"
               className={`ml-2 border-0 border-b outline-0 w-full ${errors.birthDate ? "border-red-700" : "border-black"}`}
@@ -262,7 +270,7 @@ export default function RegisterPage() {
             
           </div>
           {
-            enableButton ? <button type="submit" className="primary-button">Register</button> : <button type="submit" className="disabled-button" disabled>Register</button>
+            enableButton ? <button id="register_submit" type="submit" className="primary-button">Register</button> : <button type="submit" className="disabled-button" disabled>Register</button>
           }
         </form>
       </div>

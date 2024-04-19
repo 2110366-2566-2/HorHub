@@ -96,20 +96,20 @@ const ImagesInput = ({
                     <div className="image-item__btn-wrapper gap-2">
                       {/* <button onClick={() => onImageUpdate(index)}>Update</button> */}
                       {
-                        (index !== 0) ? <button type="button" onClick={() => swapImage(index, index-1)} className="p-1 rounded-md transition-colors hover:bg-indigo-200">
+                        (index !== 0) ? <button id={`image_input_idx_${index}_shiftleft`} type="button" onClick={() => swapImage(index, index-1)} className="p-1 rounded-md transition-colors hover:bg-indigo-200">
                           <IoCaretBackOutline  className="w-4 h-4" />
                         </button> :
-                        <button type="button" className="p-1 rounded-md transition-colors text-gray-300" disabled>
+                        <button id={`image_input_idx_${index}_shiftleft`} type="button" className="p-1 rounded-md transition-colors text-gray-300" disabled>
                           <IoCaretBackOutline  className="w-4 h-4" />
                         </button>
                       }
                       
-                      <DeleteButton onClick={() => onImageRemove(index)} />
+                      <DeleteButton id={`image_input_idx_${index}_delete`} onClick={() => onImageRemove(index)} />
                       {
-                        (index !== images.length - 1) ? <button type="button" onClick={() => swapImage(index, index+1)} className="p-1 rounded-md transition-colors hover:bg-indigo-200">
+                        (index !== images.length - 1) ? <button id={`image_input_idx_${index}_shiftright`} type="button" onClick={() => swapImage(index, index+1)} className="p-1 rounded-md transition-colors hover:bg-indigo-200">
                           <IoCaretForwardOutline  className="w-4 h-4" />
                         </button> :
-                        <button type="button" className="p-1 rounded-md transition-colors text-gray-300" disabled>
+                        <button id={`image_input_idx_${index}_shiftright`} type="button" className="p-1 rounded-md transition-colors text-gray-300" disabled>
                           <IoCaretForwardOutline  className="w-4 h-4" />
                         </button>
                       }
@@ -122,6 +122,7 @@ const ImagesInput = ({
             <div className={`py-3 flex ${(isButtonsLeft) ? "justify-start" : "justify-center"} gap-5`}>
               
               <button
+                id="image_input_add"
                 type="button"
                 className="primary-button"
                 onClick={onImageUpload}
@@ -129,6 +130,7 @@ const ImagesInput = ({
                 Add image
               </button>
               <button
+                id="image_input_remove_all"
                 type="button"
                 className="danger-button"
                 onClick={onImageRemoveAll}

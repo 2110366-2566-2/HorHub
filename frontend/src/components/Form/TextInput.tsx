@@ -18,6 +18,7 @@ function TextInput({type, fieldName, placeholder, name, register, error, valueAs
                 <span className="label-text font-semibold">{fieldName}</span>
             </div>
             <input 
+                id={name}
                 type={type}
                 placeholder={placeholder}
                 className={"input input-bordered input-sm w-full max-w-xs bg-white " + (error && "border-red-700")}

@@ -15,6 +15,7 @@ const TextAreaInput = ({fieldName, placeholder, name, register, error}: FormFiel
                 <span className="label-text font-semibold">{fieldName}</span>
             </div>
             <textarea 
+                id={name}
                 placeholder={placeholder}
                 className={"input input-bordered input-sm w-full h-40 bg-white " + (error && "border-red-700")}
                 {...register(name)}/>
