@@ -39,6 +39,7 @@ export default function IssuePage() {
     handleSubmit,
     reset,
     register,
+    watch,
     formState: { errors },
   } = useForm<AdminSchema>({
     resolver: zodResolver(adminUpdateIssueSchema),
@@ -104,7 +105,7 @@ export default function IssuePage() {
       }, 1000);
     }
   };
-
+  const mesg = watch("resolveMessage");
   useEffect(() => {
     const initData = async () => {
       const result = await fetch(
@@ -200,7 +201,7 @@ export default function IssuePage() {
             <div className="flex items-center gap-2">
               <FaUserCheck />
               <div>
-                Resolve By :{" "}
+                {data.status == "Resolved" ? "Resolved " : "Rejected "} By :{" "}
                 {`${data.resolver.firstName} ${data.resolver.lastName} (${data.resolver.displayName})`}
               </div>
             </div>
@@ -208,7 +209,10 @@ export default function IssuePage() {
           {data.resolveAt && (
             <div className="flex items-center gap-2">
               <FcLock />
-              <div>Resolve At : {new Date(data.resolveAt).toDateString()}</div>
+              <div>
+                {data.status == "Resolved" ? "Resolved " : "Rejected "} At :{" "}
+                {new Date(data.resolveAt).toDateString()}
+              </div>
             </div>
           )}
           {data.status === "Waiting" ? (
@@ -223,6 +227,7 @@ export default function IssuePage() {
               <div className="flex justify-around">
                 <ModalButton
                   buttonText="Resolve"
+                  disable={mesg === ""}
                   title={"Resolve this issue"}
                   description={"Are you sure to resolve this issue?"}
                   customClass="primary-button"
@@ -233,6 +238,7 @@ export default function IssuePage() {
                 />
                 <ModalButton
                   buttonText="Reject"
+                  disable={mesg === ""}
                   title={"Reject this issue"}
                   description={"Are you sure to reject this issue?"}
                   onClick={() => {

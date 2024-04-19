@@ -21,6 +21,7 @@ export default function ModalDeleteButton({
   description,
   onClick,
   type,
+  disable,
   customClass,
 }: {
   buttonText: string;
@@ -28,6 +29,7 @@ export default function ModalDeleteButton({
   description: string;
   type?: "button" | "submit";
   customClass?: string;
+  disable?: boolean;
   onClick: () => void;
 }) {
   const [open, setOpen] = useState<boolean>(false);
@@ -39,6 +41,7 @@ export default function ModalDeleteButton({
       <button
         onClick={handleOpen}
         className={selected_btn_class}
+        disabled={disable}
         type={"button"}
       >
         {buttonText}

@@ -8,6 +8,7 @@ import ModalDeleteButton from "../Form/Button/ModalButton";
 import { FaRegClock, FaUser, FaUserCheck } from "react-icons/fa";
 import { FaReply } from "react-icons/fa";
 import { FcLock } from "react-icons/fc";
+import ImageModal from "../Image/ImageModal";
 export const state_mapper = (status: string) => {
   switch (status) {
     case "Waiting":
@@ -100,7 +101,7 @@ export default function IssueCard({
           <div className="flex items-center gap-2">
             <FaUserCheck />
             <div>
-              Resolve By :{" "}
+              {status == "Resolved" ? "Resolved " : "Rejected "} By :{" "}
               {`${resolver.firstName} ${resolver.lastName} (${resolver.displayName})`}
             </div>
           </div>
@@ -108,11 +109,18 @@ export default function IssueCard({
         {resolveAt && (
           <div className="flex items-center gap-2">
             <FcLock />
-            <div>Resolve At : {new Date(resolveAt).toDateString()}</div>
+            <div>
+              {status == "Resolved" ? "Resolved " : "Rejected "} At :{" "}
+              {new Date(resolveAt).toDateString()}
+            </div>
           </div>
         )}
         <div className="flex justify-between items-center">
-          <div className="card-actions justify-start"></div>
+          <div className="card-actions justify-start flex">
+            {images.map((url) => {
+              return <ImageModal image={url} />;
+            })}
+          </div>
           <div className="flex gap-x-2">
             {role !== "Admin" ? (
               status === "Waiting" ? (
