@@ -51,6 +51,7 @@ const LoginButton = () => {
                 <div className="w-full flex flex-col gap-2">
                     <label className="text-base">Email</label>
                     <input 
+                        id="login_email"
                         type="text" 
                         placeholder="Email..." 
                         className="input input-bordered input-sm w-full max-w-xs" 
@@ -60,6 +61,7 @@ const LoginButton = () => {
                 <div className="w-full flex flex-col gap-2">
                     <label className="text-base">Password</label>
                     <input 
+                        id="login_password"
                         type="password" 
                         placeholder="Password..." 
                         className="input input-bordered input-sm w-full max-w-xs" 
@@ -69,7 +71,7 @@ const LoginButton = () => {
                 <span>Don't have an account? <Link to="/register">Sign up</Link> now!</span>
                 {
                     (email && password) 
-                    ? <button type="submit" className="primary-button">Sign In</button>
+                    ? <button id="login_submit" type="submit" className="primary-button">Sign In</button>
                     : <button className="disabled-button" disabled>Sign In</button>
                 }
             </form>

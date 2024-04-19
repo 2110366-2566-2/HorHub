@@ -107,7 +107,7 @@ export const createCheckoutSession = async (req : Request,res : Response) => {
 
         const price = await stripe.prices.create({
             product: product.id,
-            unit_amount: Math.max(bookingRes.price * 100, 1000),
+            unit_amount: Math.min(Math.max(bookingRes.price * 100, 1000), 99999900),
             currency: 'thb',
         });
 
