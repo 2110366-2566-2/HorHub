@@ -5,7 +5,7 @@ const ImageModal = ({image}: {image: string}) => {
     const [open, setOpen] = useState<boolean>(false);
     return (
         <>
-            <div onClick={() => setOpen(true)} className="w-40 h-40 aspect-square">
+            <div onClick={() => setOpen(true)} className="w-24 h-24 md:w-40 md:h-40 aspect-square">
                 <img src={image} className="w-24 h-24 md:w-40 md:h-40 aspect-square object-cover" />
             </div>
             <Modal

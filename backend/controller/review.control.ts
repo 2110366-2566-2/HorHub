@@ -20,7 +20,7 @@ const updateReviewSchema = z.object({
     images: z
       .string()
       .array()
-      .max(10, { message: "The images must not exceed 5 files" })
+      .max(10, { message: "The images must not exceed 10 files" })
       .optional(),
   })
 
