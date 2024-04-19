@@ -207,7 +207,7 @@ const CreateDormPage = () => {
 
             <div className="w-full flex justify-start pt-5">
                 {
-                    allowSubmit ? <button type="submit" className="primary-button" >Create Dorm</button>
+                    allowSubmit ? <button id="create_dorm_submit" type="submit" className="primary-button" >Create Dorm</button>
                     : <button className="disabled-button" disabled >Create Dorm</button>
                     
                 }

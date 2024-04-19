@@ -111,13 +111,14 @@ const roomTypeSchema = z.object({
     .max(5, { message: "The images must not exceed 5 files" }),
   size: z.coerce
     .number()
-    .min(1, { message: "Fill valid size in unit of square meter" }),
+    .min(1, { message: "Fill valid size in unit of square meter" })
+    .max(10000000, { message: "Too big?" }),
   cost: z.coerce
     .number()
     .multipleOf(0.01, { message: "Fill valid cost in 2 decimal places" })
-    .min(0.01, { message: "Fill valid cost in 2 decimal places" })
+    .min(300, { message: "The cost should be more than 300 baht per month" })
     .max(200000, { message: "The cost should not exceed 200000 baht per month" }),
-  capacity: z.coerce.number().min(1, { message: "Fill valid room capacity" }),
+  capacity: z.coerce.number().min(1, { message: "Fill valid room capacity" }).max(10000000, { message: "Too large?" }),
   roomFacilities: z.enum(roomFacilities).array(),
 });
 
@@ -142,16 +143,18 @@ const UpdateRoomTypeSchema = z.object({
   size: z.coerce
     .number()
     .min(1, { message: "Fill valid size in unit of square meter" })
+    .max(10000000, { message: "Too big?" })
     .optional(),
   cost: z.coerce
     .number()
     .multipleOf(0.01, { message: "Fill valid cost in 2 decimal places" })
-    .min(0.01, { message: "Fill valid cost in 2 decimal places" })
+    .min(300, { message: "The cost should be more than 300 baht per month" })
     .max(200000, { message: "The cost should not exceed 200000 baht per month" })
     .optional(),
   capacity: z.coerce
     .number()
     .min(1, { message: "Fill valid room capacity" })
+    .max(10000000, { message: "Too large?" })
     .optional(),
   roomFacilities: z.enum(roomFacilities).array().optional(),
   numberOfRoom: z.coerce

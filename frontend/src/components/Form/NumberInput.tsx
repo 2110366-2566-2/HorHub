@@ -17,6 +17,7 @@ const NumberInput = ({fieldName, placeholder, name, step=1, register, error}: Fo
                 <span className="label-text font-semibold">{fieldName}</span>
             </div>
             <input 
+                id={name}
                 type="number"
                 placeholder={placeholder}
                 step={step}
