@@ -115,7 +115,8 @@ const roomTypeSchema = z.object({
   cost: z.coerce
     .number()
     .multipleOf(0.01, { message: "Fill valid cost in 2 decimal places" })
-    .min(0.01, { message: "Fill valid cost in 2 decimal places" }),
+    .min(0.01, { message: "Fill valid cost in 2 decimal places" })
+    .max(200000, { message: "The cost should not exceed 200000 baht per month" }),
   capacity: z.coerce.number().min(1, { message: "Fill valid room capacity" }),
   roomFacilities: z.enum(roomFacilities).array(),
 });
@@ -146,6 +147,7 @@ const UpdateRoomTypeSchema = z.object({
     .number()
     .multipleOf(0.01, { message: "Fill valid cost in 2 decimal places" })
     .min(0.01, { message: "Fill valid cost in 2 decimal places" })
+    .max(200000, { message: "The cost should not exceed 200000 baht per month" })
     .optional(),
   capacity: z.coerce
     .number()
@@ -174,11 +176,11 @@ const createReviewSchema = z.object({
     .string()
     .trim()
     .min(1, { message: "Please fill description for the review" })
-    .max(512, { message: "Your description is too long" }),
+    .max(2048, { message: "Your description is too long" }),
   images: z
     .string()
     .array()
-    .max(5, { message: "The images must not exceed 5 files" })
+    .max(10, { message: "The images must not exceed 10 files" })
     .optional(),
 })
 
@@ -814,6 +816,14 @@ export const getReviewsByDorm = async (req: Request, res: Response) => {
     const reviewsRes = await db.review.findMany({
       where: {
         dormId: dormId
+      },
+      include: {
+        customer: {
+          select: {
+            displayName: true,
+            imageURL: true
+          }
+        }
       },
       orderBy: {
         reviewAt: "desc"

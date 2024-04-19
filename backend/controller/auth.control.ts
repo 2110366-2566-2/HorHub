@@ -13,10 +13,11 @@ const Schema_User = z.object({
     password: z
       .string()
       .trim()
-      .min(8, { message: "Password must be at least 8 characters" }),
-    firstName: z.string().trim().min(1, { message: "Fill your first name" }),
-    lastName: z.string().trim().min(1, { message: "Fill your last name" }),
-    displayName: z.string().trim().min(1, { message: "Fill display name" }),
+      .min(8, { message: "Password must be at least 8 characters" })
+      .max(64, { message: "Your password should not exceed 64 characters" }),
+    firstName: z.string().trim().min(1, { message: "Fill your first name" }).max(32, {message: "Your first name should not exceed 32 characters" }),
+    lastName: z.string().trim().min(1, { message: "Fill your last name" }).max(32, {message: "Your last name should not exceed 32 characters" }),
+    displayName: z.string().trim().min(1, { message: "Fill display name" }).max(32, {message: "Your display name should not exceed 32 characters" }),
     phoneNumber: z
       .string()
       .trim()
@@ -38,9 +39,9 @@ const Schema_User = z.object({
   });
   
   const Schema_Update_User = z.object({
-    firstName: z.string().trim().min(1, { message: "Fill your first name" }),
-    lastName: z.string().trim().min(1, { message: "Fill your last name" }),
-    displayName: z.string().trim().min(1, { message: "Fill display name" }),
+    firstName: z.string().trim().min(1, { message: "Fill your first name" }).max(32, {message: "Your first name should not exceed 32 characters" }),
+    lastName: z.string().trim().min(1, { message: "Fill your last name" }).max(32, {message: "Your last name should not exceed 32 characters" }),
+    displayName: z.string().trim().min(1, { message: "Fill display name" }).max(32, {message: "Your display name should not exceed 32 characters" }),
     phoneNumber: z
       .string()
       .trim()
