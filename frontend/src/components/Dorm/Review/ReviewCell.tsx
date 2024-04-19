@@ -21,14 +21,16 @@ const ReviewCell = ({data}: {data: Review}) => {
         <div className="text-sm whitespace-pre-line">
             {data.description}
         </div>
-        <div className="flex gap-3">
-            {
-                data.images.map((img, idx) => {
-                    return (
-                        <ImageModal key={idx} image={img} />
-                    )
-                })
-            }
+        <div className="flex overflow-x-auto items-center w-full">
+            <div className="flex gap-3">
+                {
+                    data.images.map((img, idx) => {
+                        return (
+                            <ImageModal key={idx} image={img} />
+                        )
+                    })
+                }
+            </div>
         </div>
     </div>
   )
