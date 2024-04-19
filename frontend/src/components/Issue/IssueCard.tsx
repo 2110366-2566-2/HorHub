@@ -115,11 +115,13 @@ export default function IssueCard({
             </div>
           </div>
         )}
-        <div className="flex justify-between items-center">
-          <div className="card-actions justify-start flex">
-            {images.map((url) => {
-              return <ImageModal image={url} />;
-            })}
+        <div className="flex justify-between items-center ">
+          <div className="card-actions justify-start flex overflow-x-auto w-full">
+            <div className="flex gap-3">
+              {images.map((url) => {
+                return <ImageModal image={url} />;
+              })}
+            </div>
           </div>
           <div className="flex gap-x-2">
             {role !== "Admin" ? (
