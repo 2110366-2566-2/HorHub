@@ -9,6 +9,7 @@ import { FaRegClock, FaUser, FaUserCheck } from "react-icons/fa";
 import { FaReply } from "react-icons/fa";
 import { FcLock } from "react-icons/fc";
 import ImageModal from "../Image/ImageModal";
+import IssueTag from "./IssueTag";
 export const state_mapper = (status: string) => {
   switch (status) {
     case "Waiting":
@@ -69,14 +70,15 @@ export default function IssueCard({
   return (
     <div className="card w-full bg-base-200 shadow-xl">
       <div className="card-body">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center gap-2">
           <h2 className="card-title flex items-center text-lg">
             {title + " "}
-            <div className="badge badge-primary badge-outline">{type}</div>
+            <div className="badge badge-primary badge-outline text-xs">{type}</div>
           </h2>
-          <div className={"badge badge-outline " + state_mapper(status)}>
+          {/* <div className={"badge badge-outline " + state_mapper(status)}>
             {status}
-          </div>
+          </div> */}
+          <IssueTag status={status} />
         </div>
         <div className="flex items-center gap-2 text-sm">
           <FaUser />

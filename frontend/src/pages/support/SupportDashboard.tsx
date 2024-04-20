@@ -44,9 +44,9 @@ export default function SupportDashboard() {
         }
       );
       if (result.ok) {
-        const data = await result.json();
+        const data: Issue[] = await result.json();
 
-        setIssues(data);
+        setIssues(data.sort((a, b) => +new Date(b.reportAt) - +new Date(a.reportAt)));
         console.log(data);
       }
     };

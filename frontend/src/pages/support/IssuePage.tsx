@@ -15,6 +15,7 @@ import ModalButton from "../../components/Form/Button/ModalButton";
 import { Bounce, toast } from "react-toastify";
 import { FaUserCheck } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
+import IssueTag from "../../components/Issue/IssueTag";
 const noImagePlaceholder =
   "https://firebasestorage.googleapis.com/v0/b/horhub-7d1df.appspot.com/o/placeholders%2F681px-Placeholder_view_vector.png?alt=media&token=bc0c7178-b94a-4bf0-957b-42a75f708a79";
 
@@ -174,48 +175,51 @@ export default function IssuePage() {
           </div>
         </div>
         <div className="w-1/2 p-2 flex flex-col gap-y-2">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center text-lg">
             <div>
               Title : <span className="font-bold">{data.title}</span>
             </div>
-            <div className={"badge badge-outline " + state_mapper(data.status)}>
-              {data.status}
-            </div>
+            <IssueTag status={data.status} />
           </div>
-          <div>Description : {data.description}</div>
-          <div className="flex items-center gap-2">
+          <div className="badge badge-primary badge-outline text-xs">{data.type}</div>
+          <div className="flex items-center gap-2 text-sm">
             <FaUser />
             <div>
-              Report By :{" "}
+              <span className="font-bold">Report By :</span>{" "}
               {`${data.user.firstName} ${data.user.lastName} (${data.user.displayName})`}
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 text-sm">
             <FaRegClock />
-            <div>Report At : {new Date(data.reportAt).toDateString()}</div>
+            <div><span className="font-bold">Report At :</span> {new Date(data.reportAt).toLocaleString()}</div>
           </div>
-
-          {data.resolveMessage && (
-            <div className="flex items-center gap-2">
-              <FaReply />
-              <div>Replied Message : {data.resolveMessage}</div>
-            </div>
-          )}
           {data.resolver && (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 text-sm">
               <FaUserCheck />
               <div>
-                Resolve By :{" "}
+              <span className="font-bold">{(data.status === "Resolved") ? "Resolve" : "Reject"} By :</span>{" "}
                 {`${data.resolver.firstName} ${data.resolver.lastName} (${data.resolver.displayName})`}
               </div>
             </div>
           )}
           {data.resolveAt && (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 text-sm">
               <FcLock />
-              <div>Resolve At : {new Date(data.resolveAt).toDateString()}</div>
+              <div><span className="font-bold">{(data.status === "Resolved") ? "Resolve" : "Reject"} At :</span> {new Date(data.resolveAt).toLocaleString()}</div>
             </div>
           )}
+          <div className="w-full mt-3">
+            <p className="text-sm whitespace-pre-line">{data.description}</p>
+          </div>
+          {data.resolveMessage && (
+          <div className="flex flex-col gap-2 text-sm mt-3">
+            <div className="flex items-center gap-2">
+              <FaReply />
+              <div className="font-bold">Replied Message From Admin:</div>
+            </div>
+            <p className="whitespace-pre-line">{data.resolveMessage}</p>
+          </div>
+        )}
           {data.status === "Waiting" ? (
             <form>
               <TextAreaInput
