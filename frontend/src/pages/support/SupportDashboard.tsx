@@ -34,6 +34,7 @@ export default function SupportDashboard() {
   const [issues, setIssues] = useState<Issue[]>([]);
   useAuthRedirect();
   useEffect(() => {
+    window.document.title = "Support | HorHub"
     const initData = async () => {
       const result = await fetch(
         process.env.REACT_APP_BACKEND_URL + "/issues",

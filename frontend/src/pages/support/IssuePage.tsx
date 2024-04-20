@@ -106,6 +106,8 @@ export default function IssuePage() {
   };
 
   useEffect(() => {
+    window.document.title = "Support | HorHub"
+
     const initData = async () => {
       const result = await fetch(
         process.env.REACT_APP_BACKEND_URL + "/issues/" + issueId,
