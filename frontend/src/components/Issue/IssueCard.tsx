@@ -141,10 +141,10 @@ export default function IssueCard({
               status === "Waiting" ? (
                 <>
                   <Link className="primary-button" to={id + "/edit"}>
-                    View & Edit Issue
+                    Edit
                   </Link>
                   <ModalDeleteButton
-                    buttonText={"Delete Issue"}
+                    buttonText={"Delete"}
                     title={"Deleting Issue"}
                     description="Are you sure to delete this issue?"
                     onClick={deleteIssue}
