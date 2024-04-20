@@ -48,6 +48,7 @@ export default function PaymentPage() {
 
   useAuthRedirect();
   useEffect(() => {
+    window.document.title = "Payment | HorHub"
     const initData = async () => {
       const result = await fetch(
         process.env.REACT_APP_BACKEND_URL +
