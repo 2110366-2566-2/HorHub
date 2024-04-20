@@ -39,10 +39,13 @@ export default function IssuePage() {
     handleSubmit,
     reset,
     register,
+    watch,
     formState: { errors },
   } = useForm<AdminSchema>({
     resolver: zodResolver(adminUpdateIssueSchema),
   });
+
+  const watchResolveMessage = watch("resolveMessage")
 
   const onSubmit_Resolve: SubmitHandler<AdminSchema> = async (data) => {
     const result = await fetch(
@@ -223,25 +226,37 @@ export default function IssuePage() {
                 error={errors.resolveMessage}
               ></TextAreaInput>
               <div className="flex justify-around">
-                <ModalButton
-                  buttonText="Resolve"
-                  title={"Resolve this issue"}
-                  description={"Are you sure to resolve this issue?"}
-                  customClass="primary-button"
-                  onClick={() => {
-                    handleSubmit(onSubmit_Resolve)();
-                  }}
-                  type="submit"
-                />
-                <ModalButton
-                  buttonText="Reject"
-                  title={"Reject this issue"}
-                  description={"Are you sure to reject this issue?"}
-                  onClick={() => {
-                    handleSubmit(onSubmit_Reject)();
-                  }}
-                  type="submit"
-                />
+                {
+                  (!watchResolveMessage || watchResolveMessage.trim() === "") ? <button type="button" className="disabled-button" disabled>Resolve</button>
+                  : (
+                    <ModalButton
+                      buttonText="Resolve"
+                      title={"Resolve this issue"}
+                      description={"Are you sure to resolve this issue?"}
+                      customClass="primary-button"
+                      onClick={() => {
+                        handleSubmit(onSubmit_Resolve)();
+                      }}
+                      type="submit"
+                    />
+                  )
+                }
+                
+                {
+                  (!watchResolveMessage || watchResolveMessage.trim() === "") ? <button type="button" className="disabled-button" disabled>Reject</button>
+                  : (
+                    <ModalButton
+                      buttonText="Reject"
+                      title={"Reject this issue"}
+                      description={"Are you sure to reject this issue?"}
+                      onClick={() => {
+                        handleSubmit(onSubmit_Reject)();
+                      }}
+                      type="submit"
+                    />
+                  )
+                }
+                
               </div>
             </form>
           ) : (
