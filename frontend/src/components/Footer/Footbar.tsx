@@ -7,7 +7,7 @@ export default function Footbar() {
     <footer className="sticky bottom-0 bg-blue-400 h-12 flex px-4">
       <ul className="flex gap-5 items-center w-[70%] h-full">
         <li>
-          <a href="https://www.youtube.com/watch?v=dUFzP0zZHB0" target="_blank" className="text-black white-button">About us</a>
+          <a href="https://github.com/2110366-2566-2/HorHub" target="_blank" className="text-black white-button">About Us</a>
         </li>
         <li>
           <a href="https://facebook.com/sukiteenoithailand" target="_blank" className="text-black" >

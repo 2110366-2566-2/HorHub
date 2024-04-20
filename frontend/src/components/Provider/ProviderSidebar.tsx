@@ -12,7 +12,7 @@ export default function ProviderSidebar() {
     currentPath = currentPath.split("/")[0];
   }
   return (
-    <nav className="w-2/4 md:w-1/4 h-full text-sm">
+    <nav className="w-40 h-full text-sm">
       <ul className="grid grid-cols-1">
         <Link to="dorms">
           <ListSettingItem active={currentPath === "dorms"}>
