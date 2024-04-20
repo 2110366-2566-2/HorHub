@@ -39,6 +39,11 @@ function WithDrawnPage() {
     let path = `/settings/payment_information`;
     navigate(path);
   };
+
+  useEffect(() => {
+    window.document.title = "Withdraw | HorHub"
+  }, [])
+
   useEffect(() => {
     initData();
   }, [isLoading]);

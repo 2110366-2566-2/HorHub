@@ -19,6 +19,7 @@ export default function MyWallet(){
     const [transaction,setTransaction] = useState<null | Transaction[]>(null);
 
     useEffect(() => {
+        window.document.title = "Wallet | HorHub"
         const initData = async() => {
             const data = await fetch(process.env.REACT_APP_BACKEND_URL + "/auth/wallet",{
                 method : "GET",
