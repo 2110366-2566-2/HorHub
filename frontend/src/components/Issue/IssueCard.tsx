@@ -8,6 +8,8 @@ import ModalDeleteButton from "../Form/Button/ModalButton";
 import { FaRegClock, FaUser, FaUserCheck } from "react-icons/fa";
 import { FaReply } from "react-icons/fa";
 import { FcLock } from "react-icons/fc";
+import ImageModal from "../Image/ImageModal";
+import IssueTag from "./IssueTag";
 export const state_mapper = (status: string) => {
   switch (status) {
     case "Waiting":
@@ -68,47 +70,68 @@ export default function IssueCard({
   return (
     <div className="card w-full bg-base-200 shadow-xl">
       <div className="card-body">
-        <div className="flex justify-between items-center">
-          <h2 className="card-title flex items-center">
+        <div className="flex justify-between items-center gap-2">
+          <h2 className="card-title flex items-center text-lg">
             {title + " "}
-            <div className="badge badge-primary badge-outline">{type}</div>
+            <div className="badge badge-primary badge-outline text-xs">{type}</div>
           </h2>
-          <div className={"badge badge-outline " + state_mapper(status)}>
+          {/* <div className={"badge badge-outline " + state_mapper(status)}>
             {status}
-          </div>
+          </div> */}
+          <IssueTag status={status} />
         </div>
-        <p>{description}</p>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 text-sm">
           <FaUser />
-          <div>
-            Report By :{" "}
+          <div >
+            <span className="font-bold">Report By :</span>{" "}
             {`${user.firstName} ${user.lastName} (${user.displayName})`}
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 text-sm">
           <FaRegClock />
-          <div>Report At : {new Date(reportAt).toDateString()}</div>
+          <div><span className="font-bold">Report At :</span> {new Date(reportAt).toLocaleString()}</div>
         </div>
-
-        {resolveMessage && (
-          <div className="flex items-center gap-2">
-            <FaReply />
-            <div>Replied Message : {resolveMessage}</div>
-          </div>
-        )}
         {resolver && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 text-sm">
             <FaUserCheck />
             <div>
-              Resolve By :{" "}
+              <span className="font-bold">{(status === "Resolved") ? "Resolve" : "Reject"} By :</span>{" "}
               {`${resolver.firstName} ${resolver.lastName} (${resolver.displayName})`}
             </div>
           </div>
         )}
         {resolveAt && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 text-sm">
             <FcLock />
-            <div>Resolve At : {new Date(resolveAt).toDateString()}</div>
+            <div><span className="font-bold">{(status === "Resolved") ? "Resolve" : "Reject"} At :</span> {new Date(resolveAt).toLocaleString()}</div>
+          </div>
+        )}
+        <div className="w-full mt-3">
+          <p className="text-sm whitespace-pre-line">{description}</p>
+        </div>
+        
+        {
+          (images.length > 0) && (
+            <div className="flex overflow-x-auto items-center w-full mt-3">
+                <div className="flex gap-3">
+                    {
+                        images.map((img, idx) => {
+                            return (
+                                <ImageModal key={idx} image={img} />
+                            )
+                        })
+                    }
+                </div>
+            </div>
+          )
+        }
+        {resolveMessage && (
+          <div className="flex flex-col gap-2 text-sm mt-3">
+            <div className="flex items-center gap-2">
+              <FaReply />
+              <div className="font-bold">Replied Message From Admin:</div>
+            </div>
+            <p className="whitespace-pre-line">{resolveMessage}</p>
           </div>
         )}
         <div className="flex justify-between items-center">
@@ -118,10 +141,10 @@ export default function IssueCard({
               status === "Waiting" ? (
                 <>
                   <Link className="primary-button" to={id + "/edit"}>
-                    View & Edit Issue
+                    Edit
                   </Link>
                   <ModalDeleteButton
-                    buttonText={"Delete Issue"}
+                    buttonText={"Delete"}
                     title={"Deleting Issue"}
                     description="Are you sure to delete this issue?"
                     onClick={deleteIssue}

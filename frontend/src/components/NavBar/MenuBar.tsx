@@ -4,7 +4,7 @@ import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { FiBookOpen } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../lib/context/UserContext";
-import { IoWalletOutline } from "react-icons/io5";
+import { IoTicketOutline, IoWalletOutline } from "react-icons/io5";
 import { Avatar } from "@mui/material";
 
 function MenuBar() {
@@ -35,6 +35,12 @@ function MenuBar() {
             icon: <MdOutlineSpaceDashboard className={iconClassName} />,
             onClick: () => {navigate('/provider/dorms')},
             allow: "Provider"
+        },
+        {
+            name: "Issues Dashboard",
+            icon: <IoTicketOutline className={iconClassName} />,
+            onClick: () => {navigate('/support')},
+            allow: "Admin"
         },
         {
             name: "Settings",
@@ -133,6 +139,24 @@ function MenuBar() {
                         }
                         else if (data.allow === "Provider") {
                             if (currentUser.role === "Provider") {
+                                return (
+                                    <li key={data.name}>
+                                        <button 
+                                            className="w-full flex items-center hover:bg-slate-100"
+                                            onClick={data.onClick}>
+                                            {data.icon}
+                                            <span className="text-sm">{data.name}</span>
+                                        </button>
+                                    </li>
+                                )
+                                
+                            }
+                            else {
+                                return;
+                            }
+                        }
+                        else if (data.allow === "Admin") {
+                            if (currentUser.role === "Admin") {
                                 return (
                                     <li key={data.name}>
                                         <button 

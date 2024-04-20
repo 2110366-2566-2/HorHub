@@ -7,13 +7,18 @@ export default function Footbar() {
     <footer className="sticky bottom-0 bg-blue-400 h-12 flex px-4">
       <ul className="flex gap-5 items-center w-[70%] h-full">
         <li>
-          <button className="white-button">About us</button>
+          <a href="https://github.com/2110366-2566-2/HorHub" target="_blank" className="text-black white-button">About Us</a>
         </li>
         <li>
-          <BsFacebook className="h-6 w-6" />
+          <a href="https://facebook.com/sukiteenoithailand" target="_blank" className="text-black" >
+            <BsFacebook className="h-6 w-6" />
+          </a>
+          
         </li>
         <li>
-          <SlSocialInstagram className="h-6 w-6" />
+          <a href="https://www.instagram.com/p_rahus_but_algo_so_easy/" target="_blank" className="text-black" >
+            <SlSocialInstagram className="h-6 w-6" />
+          </a>
         </li>
         <li></li>
       </ul>
@@ -21,7 +26,7 @@ export default function Footbar() {
       <ul className="w-[30%] h-full flex items-center gap-5 justify-end">
         <li>
           <Link to="support" className="white-button">
-            Contact us
+            Report Issue
           </Link>
         </li>
         <li className="md:block hidden">HorHub Co.Ltd.</li>

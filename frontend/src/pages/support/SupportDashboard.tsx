@@ -34,6 +34,7 @@ export default function SupportDashboard() {
   const [issues, setIssues] = useState<Issue[]>([]);
   useAuthRedirect();
   useEffect(() => {
+    window.document.title = "Support | HorHub"
     const initData = async () => {
       const result = await fetch(
         process.env.REACT_APP_BACKEND_URL + "/issues",
@@ -43,9 +44,9 @@ export default function SupportDashboard() {
         }
       );
       if (result.ok) {
-        const data = await result.json();
+        const data: Issue[] = await result.json();
 
-        setIssues(data);
+        setIssues(data.sort((a, b) => +new Date(b.reportAt) - +new Date(a.reportAt)));
         console.log(data);
       }
     };

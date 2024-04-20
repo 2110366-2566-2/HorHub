@@ -88,6 +88,7 @@ const ReceiptPage = () => {
   const [isLoading,setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    window.document.title = "Receipt | HorHub"
     const initData = async() => {
         const res = await fetch(process.env.REACT_APP_BACKEND_URL + `/payment/receipt/${bookingId}`, {
                   method: "GET",

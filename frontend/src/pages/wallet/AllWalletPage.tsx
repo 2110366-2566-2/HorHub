@@ -57,6 +57,7 @@ export default function AllWalletPage(){
         sorting(event.target.value,typeSort);
       };
     useEffect(() => {
+        window.document.title = "Transactions | HorHub"
         const initData = async() => {
             const data = await fetch(process.env.REACT_APP_BACKEND_URL + "/auth/wallet",{
                 method : "GET",

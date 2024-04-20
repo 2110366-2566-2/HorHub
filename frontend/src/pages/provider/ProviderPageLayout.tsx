@@ -26,7 +26,7 @@ const ProviderPageLayout = () => {
       {/* <Header currentUser={currentUser}/> */}
       <div className="flex-row flex w-full gap-2 h-full">
         <ProviderSidebar></ProviderSidebar>
-        <div className="text-center text-lg w-full h-full border-l">
+        <div className="text-center text-lg w-[calc(100%-160px)] h-full border-l">
           <Outlet context={{ currentUser, isLoading, fetchUser }} />
         </div>
       </div>
