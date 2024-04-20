@@ -107,7 +107,7 @@ export default function IssueCard({
           </div>
         )}
         <div className="w-full mt-3">
-          <p className="text-sm whitespace-pre-line">{description}</p>
+          <p className="text-sm whitespace-pre-line break-words">{description}</p>
         </div>
         
         {
@@ -131,7 +131,7 @@ export default function IssueCard({
               <FaReply />
               <div className="font-bold">Replied Message From Admin:</div>
             </div>
-            <p className="whitespace-pre-line">{resolveMessage}</p>
+            <p className="whitespace-pre-line break-words">{resolveMessage}</p>
           </div>
         )}
         <div className="flex justify-between items-center">

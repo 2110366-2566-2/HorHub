@@ -209,7 +209,7 @@ export default function IssuePage() {
             </div>
           )}
           <div className="w-full mt-3">
-            <p className="text-sm whitespace-pre-line">{data.description}</p>
+            <p className="text-sm whitespace-pre-line break-words">{data.description}</p>
           </div>
           {data.resolveMessage && (
           <div className="flex flex-col gap-2 text-sm mt-3">
@@ -217,7 +217,7 @@ export default function IssuePage() {
               <FaReply />
               <div className="font-bold">Replied Message From Admin:</div>
             </div>
-            <p className="whitespace-pre-line">{data.resolveMessage}</p>
+            <p className="whitespace-pre-line break-words">{data.resolveMessage}</p>
           </div>
         )}
           {data.status === "Waiting" ? (

@@ -18,7 +18,7 @@ const ReviewCell = ({data}: {data: Review}) => {
                 <Rating name="read-only" value={data.rating} readOnly />
             </div>
         </div>
-        <div className="text-sm whitespace-pre-line">
+        <div className="text-sm whitespace-pre-line break-words">
             {data.description}
         </div>
         <div className="flex overflow-x-auto items-center w-full">
