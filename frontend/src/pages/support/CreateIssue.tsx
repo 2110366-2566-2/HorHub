@@ -65,8 +65,8 @@ const option = [
 
 const createIssueSchema = z.object({
   type: z.enum(IssueType),
-  title: z.string().trim().min(1, { message: "Please fill title" }),
-  description: z.string().trim().min(1, { message: "Please fill description" }),
+  title: z.string().trim().min(1, { message: "Please fill title" }).max(128, { message: "Title should not exceed 128 characters" }),
+  description: z.string().trim().min(1, { message: "Please fill description" }).max(5000, { message: "Description should not exceed 5000 characters" }),
   images: z
     .string()
     .array()
