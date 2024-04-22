@@ -37,6 +37,20 @@ describe('test login', () => {
     cy.get('[id="login_submit"]').click()
     
     cy.get('a[href="/chats"]').should('exist');
-    cy.wait(10000)
+    cy.wait(5000)
+  })
+  it('S1: logout', () => {
+    cy.get('[id="login_email"]').type('provider@test.gg')
+    cy.get('[id="login_password"]').type('12345678')
+    cy.get('[id="login_submit"]').click()
+    
+    cy.wait(5000)
+
+    cy.get('[class="MuiAvatar-root MuiAvatar-circular css-1wlk0hk-MuiAvatar-root"]').click()
+    cy.contains('Log Out').click()
+
+    cy.get('[class="secondary-button"]').contains('Sign Up').should('exist')
+    cy.get('[class="primary-button"]').contains('Sign In').should('exist')
+    cy.wait(5000)
   })
 })
