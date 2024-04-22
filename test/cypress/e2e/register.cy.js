@@ -17,7 +17,7 @@ describe('test register', () => {
     cy.url().should('eq', 'http://localhost:3000/register')
     cy.wait(5000)
   })
-  it('TC1-2:', () => {
+  it('TC1-2: all invalid', () => {
     cy.get('[name="email"]').type('012345678901234567890123456789012345678901234567890123456789@gmail.com')
     cy.get('[name="password"]').type('abcdefghijklmnopqrstuvwxyz0123456789')
     cy.get('[name="confirmPassword"]').type('abcdefghijklmnopqrstuvwxyz0123456789')
@@ -37,7 +37,7 @@ describe('test register', () => {
     cy.url().should('eq', 'http://localhost:3000/register')
     cy.wait(5000)
   })
-  it('TC1-3:', () => {
+  it('TC1-3: password and confirmPassword do not match', () => {
     cy.get('[name="email"]').type('provider@test.gg')
     cy.get('[name="password"]').type('123456789')
     cy.get('[name="confirmPassword"]').type('987654321')
