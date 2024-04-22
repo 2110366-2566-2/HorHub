@@ -65,8 +65,16 @@ const option = [
 
 const createIssueSchema = z.object({
   type: z.enum(IssueType),
-  title: z.string().trim().min(1, { message: "Please fill title" }).max(128, { message: "Title should not exceed 128 characters" }),
-  description: z.string().trim().min(1, { message: "Please fill description" }).max(5000, { message: "Description should not exceed 5000 characters" }),
+  title: z
+    .string()
+    .trim()
+    .min(1, { message: "Please fill title" })
+    .max(128, { message: "Title should not exceed 128 characters" }),
+  description: z
+    .string()
+    .trim()
+    .min(1, { message: "Please fill description" })
+    .max(5000, { message: "Description should not exceed 5000 characters" }),
   images: z
     .string()
     .array()
@@ -88,10 +96,13 @@ export default function CreateIssue() {
   });
   const navigate = useNavigate();
 
+  const [disabled, setDisabled] = useState<boolean>(false);
+
   const onSubmit: SubmitHandler<CreateIssueSchemaType> = async (data) => {
     if (!currentUser) {
       return false;
     }
+    setDisabled(true);
     const imagesURL = await uploadImages(images, "issues/images");
     try {
       const newData = { ...data, images: imagesURL };
@@ -123,8 +134,11 @@ export default function CreateIssue() {
         setTimeout(() => {
           navigate("../", { relative: "path" });
         }, 1000);
+      } else {
+        setDisabled(false);
       }
     } catch (err) {
+      setDisabled(false);
       console.log(err);
     }
   };
@@ -170,7 +184,11 @@ export default function CreateIssue() {
           setImages={setImages}
         />
         <div className="flex justify-center">
-          <button className="primary-button" type="submit">
+          <button
+            className={disabled ? "disabled-button" : "primary-button"}
+            type="submit"
+            disabled={disabled}
+          >
             Send
           </button>
         </div>

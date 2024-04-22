@@ -4,7 +4,7 @@ import { useUser } from "../../lib/context/UserContext";
 import LoadingPage from "../etc/LoadingPage";
 import useAuthRedirect from "../../lib/authRedirect";
 import { useEffect, useState } from "react";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 
 function WithDrawnPage() {
   const { currentUser, isLoading, fetchUser } = useUser();
@@ -12,6 +12,7 @@ function WithDrawnPage() {
   const [amount, setAmount] = useState<number | undefined>(undefined);
   const [isFail, setFail] = useState<boolean>(false);
   const [noAccount, setNoAccount] = useState<boolean>(false);
+  const [allowClick, setAllowClick] = useState<boolean>(true);
   async function initData() {
     await fetchUser();
     if (!currentUser) {
@@ -41,8 +42,8 @@ function WithDrawnPage() {
   };
 
   useEffect(() => {
-    window.document.title = "Withdraw | HorHub"
-  }, [])
+    window.document.title = "Withdraw | HorHub";
+  }, []);
 
   useEffect(() => {
     initData();
@@ -50,6 +51,7 @@ function WithDrawnPage() {
   useAuthRedirect();
 
   const withdrawn_handle = async () => {
+    setAllowClick(false);
     const result = await fetch(
       process.env.REACT_APP_BACKEND_URL + "/auth/withdrawn",
       {
@@ -64,14 +66,14 @@ function WithDrawnPage() {
     if (result.ok) {
       setNoAccount(false);
       setFail(false);
-      console.log(result);
-      console.log(await result.json());
       navigate(0);
     } else if (result.status === 400) {
       setNoAccount(true);
+      setAllowClick(true);
     } else {
       setFail(true);
       setNoAccount(false);
+      setAllowClick(true);
     }
   };
   console.log();
@@ -128,7 +130,14 @@ function WithDrawnPage() {
             value={amount}
             step={0.01}
             onChange={(e) => {
-              setAmount(Math.min(Number(e.target.valueAsNumber.toFixed(2)),Number(currentUser.balance ? currentUser.balance.toFixed(2) : 0.01)));
+              setAmount(
+                Math.min(
+                  Number(e.target.valueAsNumber.toFixed(2)),
+                  Number(
+                    currentUser.balance ? currentUser.balance.toFixed(2) : 0.01
+                  )
+                )
+              );
             }}
             placeholder="1234"
             className="border-current border-2 rounded-2xl text-lg p-4 "
@@ -142,20 +151,28 @@ function WithDrawnPage() {
               "enabled:hover:bg-bg-red-600 bg-clip-border px-8 py-5 text-lg 2xl:text-2xl text-white rounded-3xl bg-red-500 disabled:opacity-25 transition-colors"
             }
             onClick={withdrawn_handle}
-            disabled={(amount && !noAccount && (Number(amount) > 0)) ? false:true}
+            disabled={
+              !allowClick ||
+              (amount && !noAccount && Number(amount) > 0 ? false : true)
+            }
           >
             {" "}
             💸 Confirm Withdrawn
           </button>
         </div>
-        {noAccount && (<p className="text-center text-base text-red-700">
-          Account information should be provided before withdrawing
-        </p>)}
-        {amount ? false:true && (
+        {noAccount && (
           <p className="text-center text-base text-red-700">
-            Withdraw amount should be more than 0 and at most 2 decimal places
+            Account information should be provided before withdrawing
           </p>
         )}
+        {amount
+          ? false
+          : true && (
+              <p className="text-center text-base text-red-700">
+                Withdraw amount should be more than 0 and at most 2 decimal
+                places
+              </p>
+            )}
 
         {noAccount && (
           <p className="text-center text-lg text-red-700">

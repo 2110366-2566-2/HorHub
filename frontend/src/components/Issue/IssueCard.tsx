@@ -50,7 +50,9 @@ export default function IssueCard({
   role,
 }: Issue & { role: string }) {
   const navigate = useNavigate();
+  const [disabled, setDisabled] = useState<boolean>(false);
   const deleteIssue = async () => {
+    setDisabled(true);
     const result = await fetch(
       process.env.REACT_APP_BACKEND_URL + "/issues/" + id,
       {
@@ -64,8 +66,9 @@ export default function IssueCard({
     console.log(result);
     if (result.ok) {
       navigate(0);
+    } else {
+      setDisabled(false);
     }
-    console.log(await result.json());
   };
   return (
     <div className="card w-full bg-base-200 shadow-xl">
@@ -73,7 +76,9 @@ export default function IssueCard({
         <div className="flex justify-between items-center gap-2">
           <h2 className="card-title flex items-center text-lg">
             {title + " "}
-            <div className="badge badge-primary badge-outline text-xs">{type}</div>
+            <div className="badge badge-primary badge-outline text-xs">
+              {type}
+            </div>
           </h2>
           {/* <div className={"badge badge-outline " + state_mapper(status)}>
             {status}
@@ -82,20 +87,25 @@ export default function IssueCard({
         </div>
         <div className="flex items-center gap-2 text-sm">
           <FaUser />
-          <div >
+          <div>
             <span className="font-bold">Report By :</span>{" "}
             {`${user.firstName} ${user.lastName} (${user.displayName})`}
           </div>
         </div>
         <div className="flex items-center gap-2 text-sm">
           <FaRegClock />
-          <div><span className="font-bold">Report At :</span> {new Date(reportAt).toLocaleString()}</div>
+          <div>
+            <span className="font-bold">Report At :</span>{" "}
+            {new Date(reportAt).toLocaleString()}
+          </div>
         </div>
         {resolver && (
           <div className="flex items-center gap-2 text-sm">
             <FaUserCheck />
             <div>
-              <span className="font-bold">{(status === "Resolved") ? "Resolve" : "Reject"} By :</span>{" "}
+              <span className="font-bold">
+                {status === "Resolved" ? "Resolve" : "Reject"} By :
+              </span>{" "}
               {`${resolver.firstName} ${resolver.lastName} (${resolver.displayName})`}
             </div>
           </div>
@@ -103,28 +113,29 @@ export default function IssueCard({
         {resolveAt && (
           <div className="flex items-center gap-2 text-sm">
             <FcLock />
-            <div><span className="font-bold">{(status === "Resolved") ? "Resolve" : "Reject"} At :</span> {new Date(resolveAt).toLocaleString()}</div>
+            <div>
+              <span className="font-bold">
+                {status === "Resolved" ? "Resolve" : "Reject"} At :
+              </span>{" "}
+              {new Date(resolveAt).toLocaleString()}
+            </div>
           </div>
         )}
         <div className="w-full mt-3">
-          <p className="text-sm whitespace-pre-line break-words">{description}</p>
+          <p className="text-sm whitespace-pre-line break-words">
+            {description}
+          </p>
         </div>
-        
-        {
-          (images.length > 0) && (
-            <div className="flex overflow-x-auto items-center w-full mt-3">
-                <div className="flex gap-3">
-                    {
-                        images.map((img, idx) => {
-                            return (
-                                <ImageModal key={idx} image={img} />
-                            )
-                        })
-                    }
-                </div>
+
+        {images.length > 0 && (
+          <div className="flex overflow-x-auto items-center w-full mt-3">
+            <div className="flex gap-3">
+              {images.map((img, idx) => {
+                return <ImageModal key={idx} image={img} />;
+              })}
             </div>
-          )
-        }
+          </div>
+        )}
         {resolveMessage && (
           <div className="flex flex-col gap-2 text-sm mt-3">
             <div className="flex items-center gap-2">
@@ -144,6 +155,7 @@ export default function IssueCard({
                     Edit
                   </Link>
                   <ModalDeleteButton
+                    disabled={disabled}
                     buttonText={"Delete"}
                     title={"Deleting Issue"}
                     description="Are you sure to delete this issue?"

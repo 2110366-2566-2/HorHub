@@ -22,7 +22,9 @@ export default function ModalDeleteButton({
   onClick,
   type,
   customClass,
+  disabled,
 }: {
+  disabled: boolean;
   buttonText: string;
   title: string;
   description: string;
@@ -66,7 +68,10 @@ export default function ModalDeleteButton({
                 No
               </button>
               <button
-                className={`${selected_btn_class} w-full`}
+                className={
+                  (disabled ? "disabled-button" : selected_btn_class) +
+                  " w-full"
+                }
                 type={type ? type : "button"}
                 onClick={onClick}
               >

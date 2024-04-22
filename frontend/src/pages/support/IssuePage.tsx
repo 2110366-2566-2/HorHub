@@ -46,9 +46,11 @@ export default function IssuePage() {
     resolver: zodResolver(adminUpdateIssueSchema),
   });
 
-  const watchResolveMessage = watch("resolveMessage")
+  const watchResolveMessage = watch("resolveMessage");
+  const [disabled, setDisabled] = useState<boolean>(false);
 
   const onSubmit_Resolve: SubmitHandler<AdminSchema> = async (data) => {
+    setDisabled(true);
     const result = await fetch(
       process.env.REACT_APP_BACKEND_URL + "/issues/" + issueId + "/resolve",
       {
@@ -76,9 +78,12 @@ export default function IssuePage() {
       setTimeout(() => {
         navigate("../../", { relative: "path" });
       }, 1000);
+    } else {
+      setDisabled(false);
     }
   };
   const onSubmit_Reject: SubmitHandler<AdminSchema> = async (data) => {
+    setDisabled(true);
     const result = await fetch(
       process.env.REACT_APP_BACKEND_URL + "/issues/" + issueId + "/reject",
       {
@@ -106,11 +111,13 @@ export default function IssuePage() {
       setTimeout(() => {
         navigate("../../", { relative: "path" });
       }, 1000);
+    } else {
+      setDisabled(false);
     }
   };
 
   useEffect(() => {
-    window.document.title = "Support | HorHub"
+    window.document.title = "Support | HorHub";
 
     const initData = async () => {
       const result = await fetch(
@@ -181,7 +188,9 @@ export default function IssuePage() {
             </div>
             <IssueTag status={data.status} />
           </div>
-          <div className="badge badge-primary badge-outline text-xs">{data.type}</div>
+          <div className="badge badge-primary badge-outline text-xs">
+            {data.type}
+          </div>
           <div className="flex items-center gap-2 text-sm">
             <FaUser />
             <div>
@@ -191,13 +200,18 @@ export default function IssuePage() {
           </div>
           <div className="flex items-center gap-2 text-sm">
             <FaRegClock />
-            <div><span className="font-bold">Report At :</span> {new Date(data.reportAt).toLocaleString()}</div>
+            <div>
+              <span className="font-bold">Report At :</span>{" "}
+              {new Date(data.reportAt).toLocaleString()}
+            </div>
           </div>
           {data.resolver && (
             <div className="flex items-center gap-2 text-sm">
               <FaUserCheck />
               <div>
-              <span className="font-bold">{(data.status === "Resolved") ? "Resolve" : "Reject"} By :</span>{" "}
+                <span className="font-bold">
+                  {data.status === "Resolved" ? "Resolve" : "Reject"} By :
+                </span>{" "}
                 {`${data.resolver.firstName} ${data.resolver.lastName} (${data.resolver.displayName})`}
               </div>
             </div>
@@ -205,21 +219,30 @@ export default function IssuePage() {
           {data.resolveAt && (
             <div className="flex items-center gap-2 text-sm">
               <FcLock />
-              <div><span className="font-bold">{(data.status === "Resolved") ? "Resolve" : "Reject"} At :</span> {new Date(data.resolveAt).toLocaleString()}</div>
+              <div>
+                <span className="font-bold">
+                  {data.status === "Resolved" ? "Resolve" : "Reject"} At :
+                </span>{" "}
+                {new Date(data.resolveAt).toLocaleString()}
+              </div>
             </div>
           )}
           <div className="w-full mt-3">
-            <p className="text-sm whitespace-pre-line break-words">{data.description}</p>
+            <p className="text-sm whitespace-pre-line break-words">
+              {data.description}
+            </p>
           </div>
           {data.resolveMessage && (
-          <div className="flex flex-col gap-2 text-sm mt-3">
-            <div className="flex items-center gap-2">
-              <FaReply />
-              <div className="font-bold">Replied Message From Admin:</div>
+            <div className="flex flex-col gap-2 text-sm mt-3">
+              <div className="flex items-center gap-2">
+                <FaReply />
+                <div className="font-bold">Replied Message From Admin:</div>
+              </div>
+              <p className="whitespace-pre-line break-words">
+                {data.resolveMessage}
+              </p>
             </div>
-            <p className="whitespace-pre-line break-words">{data.resolveMessage}</p>
-          </div>
-        )}
+          )}
           {data.status === "Waiting" ? (
             <form>
               <TextAreaInput
@@ -230,37 +253,40 @@ export default function IssuePage() {
                 error={errors.resolveMessage}
               ></TextAreaInput>
               <div className="flex justify-around">
-                {
-                  (!watchResolveMessage || watchResolveMessage.trim() === "") ? <button type="button" className="disabled-button" disabled>Resolve</button>
-                  : (
-                    <ModalButton
-                      buttonText="Resolve"
-                      title={"Resolve this issue"}
-                      description={"Are you sure to resolve this issue?"}
-                      customClass="primary-button"
-                      onClick={() => {
-                        handleSubmit(onSubmit_Resolve)();
-                      }}
-                      type="submit"
-                    />
-                  )
-                }
-                
-                {
-                  (!watchResolveMessage || watchResolveMessage.trim() === "") ? <button type="button" className="disabled-button" disabled>Reject</button>
-                  : (
-                    <ModalButton
-                      buttonText="Reject"
-                      title={"Reject this issue"}
-                      description={"Are you sure to reject this issue?"}
-                      onClick={() => {
-                        handleSubmit(onSubmit_Reject)();
-                      }}
-                      type="submit"
-                    />
-                  )
-                }
-                
+                {!watchResolveMessage || watchResolveMessage.trim() === "" ? (
+                  <button type="button" className="disabled-button" disabled>
+                    Resolve
+                  </button>
+                ) : (
+                  <ModalButton
+                    disabled={disabled}
+                    buttonText="Resolve"
+                    title={"Resolve this issue"}
+                    description={"Are you sure to resolve this issue?"}
+                    customClass="primary-button"
+                    onClick={() => {
+                      handleSubmit(onSubmit_Resolve)();
+                    }}
+                    type="submit"
+                  />
+                )}
+
+                {!watchResolveMessage || watchResolveMessage.trim() === "" ? (
+                  <button type="button" className="disabled-button" disabled>
+                    Reject
+                  </button>
+                ) : (
+                  <ModalButton
+                    disabled={disabled}
+                    buttonText="Reject"
+                    title={"Reject this issue"}
+                    description={"Are you sure to reject this issue?"}
+                    onClick={() => {
+                      handleSubmit(onSubmit_Reject)();
+                    }}
+                    type="submit"
+                  />
+                )}
               </div>
             </form>
           ) : (
