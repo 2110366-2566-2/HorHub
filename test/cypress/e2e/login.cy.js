@@ -1,4 +1,4 @@
-describe('template spec', () => {
+describe('test login', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/')
     cy.get('[class="primary-button"]').contains('Sign In').click()
