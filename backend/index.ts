@@ -36,14 +36,14 @@ app.use(cors({
 
 
 app.use(cookieParser());
-app.use(cors({credentials: true, origin: 'http://localhost:3000'}))
+app.use(cors({credentials: true, origin: process.env.FRONTEND_URL}))
 app.use(express.json({ limit: '50mb'}))
 //app.use(express.urlencoded());
 
 const server = createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: process.env.FRONTEND_URL,
         credentials: true
     },
 });
